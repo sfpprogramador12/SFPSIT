@@ -1,0 +1,89 @@
+﻿@{
+
+}
+<div id="popup1" style="display: none; width: 700px; height: 200px; overflow: auto">
+    <div rel="title"> Modificar solicitud</div>
+    <div rel="body">
+        <table border="0" style="border-spacing: 10px;  margin-top: 3px;">
+            <tr>
+                <td><p>Folio de la solicitud :</p></td>
+                <td><div id="divFolio" name="divFolio"></div> </td>
+            </tr>
+
+            <tr id="trTipoSolicitud">
+                <td><p> Tipo de solicitud :</p></td>
+                <td>
+                    <select id="tipoSolicitud" name="tipoSolicitud" style="width:480px">
+                        <option value="1">Solicitud de información</option>
+                        <option value="2">Datos personales - ( Acceso, Rectificación, Cancelación, Oposición ) </option>
+                        @*<option value="2">Datos personales: Acceso</option>
+                        <option value="3">Datos personales: Rectificación</option>
+                        <option value="4">Datos personales: Cancelación</option>
+                        <option value="5">Datos personales: Oposición</option>*@
+                    </select>
+                </td>
+            </tr>
+
+            <tr id="trEstadoSol">
+                <td><p>Medio de entrada :</p></td>
+                <td>
+                    <select id="medioEnt" name="medioEnt" style="width:300px">
+                        <option value="0">Electrónico</option>
+                        <option value="1">Manual</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div rel="buttons">
+        <button class="btn" onclick="editarSolPost();">Aceptar</button>
+        <button class="btn" onclick="w2popup.close();">Cerrar</button>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        function EventoResp(datos) {
+            if (datos.responseText = "OK") {
+                w2ui['gridSolBuscar'].set(_GridIdx, { CARAC1: parseInt($("#tipoSolicitud").val()), metclave: parseInt($("#medioEnt").val()) });
+            }
+            else {
+                w2alert('Error en la actualización');
+            }
+            w2popup.close();
+        }
+
+        function editarSolPost() {
+            var datosEnviar = JSON.stringify({ solclave: _solclave, sotclave: $("#tipoSolicitud").val(), metclave: $("#medioEnt").val() });
+            AjaxPostJson('SolicitudEditar', "json", 'application/json; charset=utf-8', EventoResp, _UrlInicio, datosEnviar );
+        }
+
+        //function editarSolPost() {
+        //    $.ajax({
+        //        url: 'SolicitudEditar',
+        //        dataType: "json",
+        //        type: "POST",
+        //        contentType: 'application/json; charset=utf-8',
+        //        data: JSON.stringify({ solclave: _solclave, sotclave: $("#tipoSolicitud").val(), metclave: $("#medioEnt").val() }),
+        //        async: true,
+        //        processData: false,
+        //        cache: false,
+        //        success: function (data) {
+        //            EventoResp(data);
+        //        },
+        //        error: function (xhr, ajaxOptions, thrownError) {
+        //            if (xhr.status === 401) {
+        //                w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+        //                window.open(_UrlInicio, "_self");
+        //            }
+        //            else {
+        //                w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+        //            }            
+        //        }
+        //    });
+        //};
+    </script>
+}

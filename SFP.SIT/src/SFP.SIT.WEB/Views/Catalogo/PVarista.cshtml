@@ -1,0 +1,109 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo arista";
+    Layout = null;
+}
+
+<div id="formArista" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVarista" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Arista ID :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:60px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:120px" /></td>
+            </tr>
+            <tr>
+                <td><p>Usuario :</p></td>
+                <td><select id="usrclave" name="usrclave" style="width:300px"></select> </td>
+            </tr>
+            <tr>
+                <td><p>Nodo origen :</p></td>
+                <td><input id="nodorigen" name="nodorigen" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo destino:</p></td>
+                <td><input id="noddestino" name="noddestino" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha inicio :</p></td>
+                <td><input id="nre_fecini" name="nre_fecini" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha fin :</p></td>
+                <td><input id="nre_fecfin" name="nre_fecfin" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de lectura :</p></td>
+                <td><input id="nre_feclectura" name="nre_feclectura" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Relectura usuario:</p></td>
+                <td><input id="nre_feclecusu" name="nre_feclecusu" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Días naturales :</p></td>
+                <td><input id="aridiasnat" name="aridiasnat" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Días laborales :</p></td>
+                <td><input id="aridiaslab" name="aridiaslab" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Hito :</p></td>
+                <td><input id="arihito" name="arihito" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Modo de entrega :</p></td>
+                <td><select id="us_monent" name="us_monent" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Observación :</p></td>
+                <td><textarea id="arimensaje" name="arimensaje" rows="3" cols="110"> </textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<script>
+    var _lstUsuario = @Html.Raw(Model.lstUsuario);
+    var _lstModoEntrega = @Html.Raw(Model.lstModoEntrega);
+
+    function GuardarArista()
+    {
+        var fecIni = fechaValidar("#NRE_FECINI");
+        var fecFin = fechaValidar("#NRE_FECFIN");
+        var fecLec = fechaValidar("#nre_feclectura");
+
+        datos = {
+            ariclave: parseInt($("#ariclave").val()),
+            solclave:  parseInt($("#solclave").val()),
+            usrclave:  parseInt($("#usrclave").val()),
+            nodorigen: parseInt($("#nodorigen").val()),
+            noddestino: parseInt($("#noddestino").val()), 
+            nre_fecini: fecIni.toISOString(),
+            nre_fecfin: fecFin.toISOString(),   
+            nre_feclectura: fecLec.toISOString(),
+            nre_feclecusu:  parseInt($("#nre_feclecusu").val()),
+            aridiasnat: parseInt($("#aridiasnat").val()),
+            aridiaslab: parseInt($("#aridiaslab").val()),
+            arihito:  parseInt($("#arihito").val()),
+            megclave:  parseInt($("#us_monent").val()),
+            arimensaje: $("#arimensaje").val(),            
+            rtpclave:  parseInt($("#rtpclave").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+    $(document).ready(
+        function () {
+            SelectAddElemClear('usrclave', _lstUsuario.records, false);
+            SelectAddElemClear('us_monent', _lstModoEntrega.records, false);
+        }
+    );
+</script>

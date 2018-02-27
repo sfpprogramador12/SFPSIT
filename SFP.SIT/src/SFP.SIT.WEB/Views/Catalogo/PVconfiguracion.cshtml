@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Configuración";
+    Layout = null;
+}
+
+<div id="formConfig" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Configuración ID :</p></td>
+                <td><input id="cfgclave" name="cfgclave" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Clave :</p></td>
+                <td><input id="cfgsubclave" name="cfgsubclave" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Valor :</p></td>
+                <td><input id="cfgvalor" name="cfgvalor" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja</p></td>
+                <td><input id="cfgfecbaja" name="cfgfecbaja" type="date" style="width:150px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarConfig() {
+        var fecha = fechaValidar("#cfgfecbaja");
+
+        var url = '@Url.Action("PVconfiguracion", "Catalogo")';
+        datos = {
+            cfgclave: parseInt($("#cfgclave").val()),
+            cfgsubclave: $("#cfgsubclave").val(),
+            cfgvalor: $("#cfgvalor").val(),
+            cfgfecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+

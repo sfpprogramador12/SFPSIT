@@ -1,0 +1,16 @@
+            
+			
+			List<ComboMdl> lstIndTipo = tableroSer._dbRDBM.operEjecutar<TCP_Tab_IndTipoDao>(nameof(TCP_Tab_IndTipoDao.dmlSelectComboFecha), new DateTime(oFrmInd.Periodo, 12, 31)) as List<ComboMdl>;
+            var rtn = lstIndTipo.Select(x => new { Id = x.ID, Value = x.DESCRIP });
+            ViewBag.ListaIndTipo = new SelectList(rtn, "Id", "Value");
+
+>
+
+		<select asp-for="@Model.IndClasif" asp-items="@ViewBag.ListaIndTipo" class="form-control" multiple="multiple"></select>
+
+
+		function load_home() {
+     document.getElementById("content").innerHTML='<object type="text/html" data="home.html" ></object>';
+	     <object type="text/html" data="http://validator.w3.org/" width="800px" height="600px" style="overflow:auto;border:5px ridge blue">
+    </object>
+}

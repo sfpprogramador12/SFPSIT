@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "exports": {
+    "SFP.SIT.SERV/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.2",
+      "compile": {
+        "bin/Debug/SFP.SIT.SERV.dll": {}
+      },
+      "runtime": {
+        "../packages/SharePoint.Client.15.0.0/lib/Microsoft.SharePoint.Client/Microsoft.SharePoint.Client.dll": {},
+        "bin/Debug/SFP.SIT.SERV.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SFP.SIT.SERV.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "SFP.Persistencia/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.2",
+      "compile": {
+        "bin/Debug/SFP.Persistencia.dll": {}
+      },
+      "runtime": {
+        "../../SFP.SIT/packages/Oracle.ManagedDataAccess.12.1.24160719/lib/net40/Oracle.ManagedDataAccess.dll": {},
+        "bin/Debug/SFP.Persistencia.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/SFP.Persistencia.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

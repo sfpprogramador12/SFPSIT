@@ -1,0 +1,82 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo área";
+    Layout = null;
+}
+
+<div id="formArea" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVarea" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <colgroup>
+                <col width="130">
+                <col width="80">
+            </colgroup>
+
+            <tr>
+                <td><p>Área ID :</p></td>
+                <td><input id="araclave" name="araclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Sigla :</p></td>
+                <td><input id="ka_sigla" name="ka_sigla" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Orden:</p></td>
+                <td><input id="ka_orden" name="ka_orden" type="text" style="width:40px" /></td>
+            </tr>
+
+            <tr>
+                <td><p> Descripción:</p></td>
+                <td><input id="ka_descripcion" name="ka_descripcion" type="text" style="width:350px" /></td>
+            </tr>
+
+            <tr>
+                <td><p> Reporta a:</p></td>
+                <td><input id="ka_reporta" name="ka_reporta" type="text" style="width:40px" /></td>
+            </tr>
+
+            <tr>
+                <td><p> Tipo de área:</p></td>
+                <td><select id="kta_clatipo_area" name="kta_clatipo_area" style="width:350px"></select> </td>
+            </tr>
+            <tr>
+                <td><p> Tipo de perfil:</p></td>
+                <td><select id="PERCLAVE" name="PERCLAVE" style="width:200px"></select></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<script>
+    var _lstTipoArea = @Html.Raw(Model.lstTipoArea);
+    var _lstTipoPerfil = @Html.Raw(Model.lstTipoPerfil);
+
+    function GuardarArea()
+    {
+        if ($("#araclave").val() === "")
+            $("#araclave").val(0);
+
+        var url = '@Url.Action("PVarea", "Catalogo")';
+        datos = {
+            araclave: parseInt($("#araclave").val()),
+            ka_sigla: $("#ka_sigla").val(),
+            ka_orden: parseInt($("#ka_orden").val()),
+            ka_descripcion:  $("#ka_descripcion").val(),
+            ka_reporta:  parseInt($("#ka_reporta").val()),
+            kta_clatipo_area:  parseInt($("#kta_clatipo_area").val()),
+            PERCLAVE:  parseInt($("#PERCLAVE").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('kta_clatipo_area', _lstTipoArea.records, false);
+            SelectAddElemClear('PERCLAVE', _lstTipoPerfil.records, false);
+        }
+    );
+</script>

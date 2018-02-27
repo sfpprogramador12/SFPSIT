@@ -1,0 +1,182 @@
+﻿
+0) CODIGO EN CONTROLADORES
+	--> UTILIZAR TASK
+	--> AL MANDAR PARAMETRSO EN LA FOMRA UTILIZAR NAME ADEMÁS DE ID
+
+1) CREAR LAS AREAS A MODO DE ARBOL
+	
+2) EFICIENTAR EL LOG PARA GRABAR MENOS INFORMACIÓN..
+
+3) Subir Documentos
+	http://172.29.50.135:13882/
+
+	https://msdn.microsoft.com/en-us/library/office/dn769086.aspx
+	https://msdn.microsoft.com/en-us/library/office/jj901637.aspx
+	https://msdn.microsoft.com/en-us/library/dd490727(v=office.12).aspx
+	https://msdn.microsoft.com/en-us/library/gg309548.aspx
+
+4) EN LA BUSQUEDA DE DOCUMENTOS AGREAGR UN INDICE CONSTRAINT
+
+5) BLOQUEAR LA MEMROIA PARA EVIATAR ERROR 
+	lock (_memCache)
+                {
+                    _memCache.AgregarDato(Constantes.CacheWeb.DIC_CATALOGOS_CLASE,
+                        _sitDmlDbSer.operEjecutar(typeof(SIT_ADM_CONFIGURACIONDao), SIT_ADM_CONFIGURACIONDao.OPE_SELECT_DICCIONARIO, null) as Dictionary<int, string>);
+                }
+
+6) IMPORTAR
+	-> SI LA VISTA PREVIA MARCA ERROR NO PASAR
+	-> TERMINAR LA RUTINA DEL MD5 HASH
+	-> TRABAJAR PAR AOBTENER DE FOMRA EXACTA LOS ERRORES DE LA APLICACION..
+
+7) CATÁLOGO ÁREA
+	-> area.araclave > 0
+
+8) ENVÍO DE DATOS
+	--> [FromBody]
+
+9) AJAX
+	--> REVISAR CUANDO SE ACABA LA SESSION Y ES UN GET OR POST (Unauthorized)
+				$( document ).ajaxError(function( event, jqxhr, settings, exception ) {
+				if ( jqxhr.status== 401 ) {
+					$( "div.log" ).text( "Triggered ajaxError handler." );
+				}
+			});
+	--> OMITIR DEFINIR EL CONTENTTYPE  ya que solo se asgina null //contentType: 'application/json;',
+
+10) BANDEJA DE ENTRADA
+	OK --> SIN  DELIMITAR EL TOTAL DE BUSQUEDA
+	--> Mensaje al EDITAR no confirma
+	--> Verificar porque aparecen como terinadas cuando se envia la notificiaonc de ampliaicon de plazo en UTN
+
+11) CKEDITOR
+	--> IMPRIMIR LO ESCRITO
+
+12) CONTROLADOR - NODO ACTUAL 
+	--> Colocar los titulos de forma automática
+
+13) LAYOOUT MAIN --> antes TOP
+	--> Verificar el cmapo de observaciones
+
+14 ) TIEMPO DE SESSION
+	OK --> LLAMADAS AJAX REGRESAR A LA PAGINA PRINCIPAL
+
+15) SEGURIDAD
+	--> TOKEN ANTIFORE
+
+16) MENU
+	--> Deshabilitar BOTONES DE MENÚ
+
+17) AMPLIACIÓN
+	--> Se concendio volver a procesar los tiempos de respuesta..
+
+18) RESPUESTAS
+	--> en los DIV autoajustar la altura dependiendo de quien lo contenga...
+
+19) Catalogos
+	--> Uuarios corregir los errores en los correos.
+
+20) FlujoController2
+	--> Optimizar la sigueinte funcion desde la base de datos: public IActionResult NodoBase (String DatosMdl)
+		Si solo tiene una repuesta colcoar la foram de respeusta inmediata y agregarla en la variable de ACCION.
+
+21) Turnar
+	--> NO duplicar áreas para turnar...
+
+22) Menu
+	--> Subir el tipo de perifl al Menu
+
+23) AFD
+	OK --> pasar en el contructor el catalogo de dias laborales debido que siempre se calcula _calcularPlazoNeg = new CalcularPlazoNeg(_afdEdoDataMdl.dicDiaNoLaboral);
+		NO SE PUEDE PORQUE LA OPERACION SOLO LO DEJE CON LSO PARAMETROS DE CONEXION
+		SERA CUESTION DE AGREGAR ALGO A LA CLASE
+24) CORREO
+	http://asp.net-tutorials.com/misc/sending-mails/
+	http://dotnetthoughts.net/how-to-send-emails-from-aspnet-core/
+	https://www.stevejgordon.co.uk/how-to-send-emails-in-asp-net-core-1-0
+
+25) SOLICITUD
+	Sera necesario evalaur si se busca por ARISTA, en vez de nodo....
+
+26) ACLARACION
+	Solo coloca la primera la seugnda se debe de trabajar
+
+27) RECURSO TRABAJAR EN PARES
+	Solo se coloca un recurso trabajar en los meas recursos..
+
+28) USUARIO
+	--> Evitar correos duplicados
+	--> Forma para cambiar la contraseña
+	--> Forma para olvido de corre
+
+29) Proceso Calculo de procesos
+	--> Thread que se ejecuta cada 24 horas..
+
+30) CATALOGOS
+	--> return RedirectToAction("Catalogo", "Catalogo", new { arg =   });
+	--> Restriccioes
+		--> Tamaño de los String
+		--> Valores Númericos etc.
+
+	--> AREA HISTORICO
+	
+31) CAMBIO DE CONTRASEÑA
+	OK --> CUANDO NO CONINCIDE MARCA ERROR
+
+32) MULTIPLES DOCUMENTOS 
+	--> CUAL MUESTRA EN LA UT o CT
+
+33) CAMIBAR LAS SECUENCIAS Y LAS RUTINAS DE IMPROTACION
+	****Usuario
+	****Area
+	RespTipo	-> 0
+	Medio Entrada
+	****ModoEntrega
+	****Ocupacion
+	tipoinfo ->0
+	SIT_SNT_SOLICITANTETIPO-->0
+	SIT_SOL_MODOENTREGA->0
+	SIT_DOC_EXTENSION->0
+	corclave->0
+
+
+
+TERMINAR...
+	URGE  HTML DE ERROR
+	CALCULO DE TIMER EL PROCESO..
+	REPORTE.
+
+
+
+
+regular expression to nfa c++ code
+http://hackingoff.com/
+http://www.cs.may.ie/staff/jpower/Courses/Previous/parsing/node5.html
+http://jflap.org/tutorial/regular/index.html
+http://en.sharejs.com/cpp/6843
+https://github.com/swapagarwal/automata-from-regex
+http://cplusplus.happycodings.com/algorithms/code21.html
+http://pugarpetti.blogspot.mx/2013/09/c-program-to-convert-regular-expression.html
+http://stackoverflow.com/questions/17246696/regex-nfa-for-undefined-order-of-tokens
+http://stackoverflow.com/questions/29980297/converting-from-regex-postfix-to-epsilon-nfa-simple-code-or-pseudo-code
+https://swtch.com/~rsc/regexp/nfa.c.txt
+http://www.ultrapico.com/Expresso.htm
+https://www.codeproject.com/articles/5412/writing-own-regular-expression-parser#Three
+
+-->
+https://www.datacamp.com/users/sign_up
+
+/C:/Users/mlaudino/Documents/Visual%20Studio%202015/Projects/SFP.SIT/src/SFP.SIT.WEB/bin/Release/PublishOutput
+
+
+
+
+Aclaracion 			-> tiene un limite
+Ampliacion de plazo		-> tiene un limite
+Incompetencia total		-> tiene un limite
+Inexistenica de info		-> tiene un limite
+Informacion confidencial
+Infomracion reservada	
+Parcialmente reservada	
+Publica
+Pública a la vista

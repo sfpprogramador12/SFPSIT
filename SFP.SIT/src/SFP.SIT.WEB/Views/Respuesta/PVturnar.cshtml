@@ -1,0 +1,89 @@
+﻿@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+@* --------------------------------------------
+    FORMA PARA TURNAR
+    --------------------------------------------
+*@
+<div id="divResponder" >
+    <form asp-controller="Respuesta" asp-action="PVturnar" method="post" id="TurnarForm" name="TurnarForm" enctype="multipart/form-data">
+        <input type="hidden" id="turnarFolio" name="turnarFolio" />
+        <input type="hidden" id="turnarAreas" name="turnarAreas" />
+        <input type="hidden" id="turnarClaNodo" name="turnarClaNodo" />
+        <input type="hidden" id="turnarTipoArista" name="turnarTipoArista" />
+
+
+        <input type="hidden" id="avanzar" name="avanzar" />
+
+        <div class="w2ui-field w2ui-span6" style="clear: both; margin-left:10px; ">
+            <label>Agregar archivo:</label>
+            <div>
+                <input type="file" id="ArchivoTurnar" name="ArchivoTurnar"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 500px; float:left;" />
+                <a href="#" class="btn btn-primary btn-sm" style="float:left; width:120px; margin-left:70px; height:32px" id="btnPara">Agregar áreas</a>
+                <a href="#" class="btn btn-primary btn-sm" style="float:left; width:120px; margin-left:10px; height:32px" id="btnBorrarArea">Borrar</a>
+            </div>
+        </div>
+
+    </form>
+
+    <div id="divGridTurnar" style="float:left; margin: 5px 5px 0px 5px; width: 100%; height: 50vh;"></div>
+</div>
+
+
+    <script>
+        var _instruccion;
+
+        function Inicializar() {
+            InicializarTurnar("55vh", "960px", "410px");            
+        }
+
+        function submit() {
+            _Inicio = true;
+            $("#btnAccion").hide();
+            $("#solclave").val(_solclave);
+            $("#proclave").val(_proclave);
+            $("#nodclave").val(_nodclave);
+            $("#araclave").val(_araclave);
+            $("#solfecsolticks").val(_solfecsolticks);
+
+
+            $('#turnarFolio').val(_solclave);
+            $('#turnarAreas').val(JSON.stringify(w2ui.gridTurnar.records));
+            $('#turnarClaNodo').val(_nodclave);
+            $('#turnarTipoArista').val($('#lstAccion').val());
+
+            document.TurnarForm.submit();
+        }
+
+        function Grabar() {
+            if (Validar() === true) {
+                $('#avanzar').val(1);
+                submit();
+            }
+        }
+
+        function GrabarIFrame() {
+            if (Validar() === true) {
+                $('#avanzar').val(0);
+                var formaActual = document.PublicaForm;
+                formaActual.target = "iframeAux";
+                submit();
+            }
+        }
+
+        function Validar()
+        { 
+            if (w2ui.gridTurnar.total === 0) 
+            { 
+                w2alert("¡Es necesario que seleccione una área a turnar!");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>

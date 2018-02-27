@@ -1,0 +1,178 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Solicitante";
+    Layout = null;
+}
+
+<div id="formSolicitante" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Solicitante ID :</p></td>
+                <td><input id="sntclave" type="text" style="width:120px" /></td>
+            </tr>
+            <tr>
+                <td><p>RFC :</p></td>
+                <td><input id="sntrfc" type="text" style="width:130px" /></td>
+            </tr>
+            <tr>
+                <td><p>CURP:</p></td>
+                <td><input id="sntcurp" type="text" style="width:160px" /></td>
+            </tr>
+            <tr>
+                <td><p>Paterno :</p></td>
+                <td><input id="sntapepat" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Materno :</p></td>
+                <td><input id="sntapemat" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nombre :</p></td>
+                <td><input id="sntnombre" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Calle:</p></td>
+                <td><input id="sntcalle" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Número exterior:</p></td>
+                <td><input id="us_nuimext" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Número Interior:</p></td>
+                <td><input id="sntnumint" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Colonia</p></td>
+                <td><input id="sntcol" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Código Postal</p></td>
+                <td><input id="sntcodpos" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Telefono</p></td>
+                <td><input id="snttel" type="text" style="width:200px" /></td>
+            </tr>
+            <tr>
+                <td><p>Correo electrónico :</p></td>
+                <td><input id="sntcorele" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Sexo :</p></td>
+                <td><input id="sntsexo" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de nacimiento :</p></td>
+                <td><input id="sntfecnac" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Usuario</p></td>
+                <td><input id="us_usaurio" type="text" style="width:180px" /></td>
+            </tr>
+            <tr>
+                <td><p>País</p></td>
+                <td><select id="paiclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Estado</p></td>
+                <td><select id="edoclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Municipio</p></td>
+                <td><select id="munclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Estado extranjero :</p></td>
+                <td><input id="sntedoext" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Ciudad extranjera :</p></td>
+                <td><input id="sntciudadext" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Representante legal</p></td>
+                <td><input id="sntrepleg" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Ocupación</p></td>
+                <td><select id="ocuclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Otra ocupación</p></td>
+                <td><select id="sntotraocup" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Nivel educativo</p></td>
+                <td><input id="sntniveduc" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Otro nivel educativo</p></td>
+                <td><input id="sntotroniveledu" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo solicitante</p></td>
+                <td><select id="tslclave" style="width:200px"></select></td>
+            </tr>
+        </table>
+    </form>
+</div>
+                    
+<script>
+    var _lstPais = @Html.Raw(Model.lstPais);
+    var _lstEstado = @Html.Raw(Model.lstEstado);
+    var _lstMunicipio = @Html.Raw(Model.lstMunicipio);
+    var _lstOcupacion = @Html.Raw(Model.lstOcupacion);
+    var _lstTipoSnte = @Html.Raw(Model.lstTipoSolicitante);
+
+    function GuardarSolicitante()
+    {
+        var url = '@Url.Action("PVsolicitante", "Catalogo")';
+
+        datos = {
+            sntclave: parseInt($("#sntclave").val()),
+            sntrfc: $("#sntrfc").val(),
+            sntapepat: $("#sntapepat").val(),
+            sntapemat:  $("#sntapemat").val(),
+            sntnombre:  $("#sntnombre").val(),
+            sntcurp:  $("#sntcurp").val(),
+            sntcalle:  $("#sntcalle").val(),
+            us_nuimext:  $("#us_nuimext").val(),
+            sntnumint:  $("#sntnumint").val(),
+            sntcol:  $("#sntcol").val(),
+            sntcodpos:  $("#sntcodpos").val(),
+            snttel:  $("#snttel").val(),
+            sntcorele:  $("#sntcorele").val(),
+            sntedoext:  $("#sntedoext").val(),
+            sntciudadext:  $("#sntciudadext").val(),
+            sntsexo:  $("#sntsexo").val(),
+            sntfecnac:  $("#sntfecnac").val(),
+            us_usaurio:  $("#us_usaurio").val(),
+            paiclave:  parseInt($("#paiclave").val()),
+            edoclave:  parseInt($("#edoclave").val()),
+            munclave:  parseInt($("#munclave").val()),
+            sntrepleg:  $("#sntrepleg").val(),
+            sntniveduc:  $("#sntniveduc").val(),
+            ocuclave:  parseInt($("#ocuclave").val()),
+            sntotraocup:  parseInt($("#sntotraocup").val()),
+            sntotroniveledu:  $("#sntotroniveledu").val(),            
+            tslclave:   parseInt($("#tslclave").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('paiclave', _lstPais.records, false);
+            SelectAddElemClear('edoclave', _lstEstado.records, false);
+            SelectAddElemClear('munclave', _lstMunicipio.records, false);
+            SelectAddElemClear('ocuclave', _lstOcupacion.records, false);
+            SelectAddElemClear('sntotraocup', _lstOcupacion.records, false);
+            SelectAddElemClear('tslclave', _lstTipoSnte.records, false);            
+        }
+    );
+</script>

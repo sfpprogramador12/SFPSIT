@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Ocupación";
+    Layout = null;
+}
+
+<div id="formOcupacion" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVocupacion" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Ocupación :</p></td>
+                <td><input id="ocuclave" name="ocuclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="ocudescripcion" name="ocudescripcion" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="ocufecbaja" name="ocufecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarOcupacion()
+    {
+        var url = '@Url.Action("PVocupacion", "Catalogo")';
+        var fecha = fechaValidar("#ocufecbaja");
+
+        datos = {
+            ocuclave: parseInt($("#ocuclave").val()),
+            ocudescripcion: $("#ocudescripcion").val(),
+            ocufecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

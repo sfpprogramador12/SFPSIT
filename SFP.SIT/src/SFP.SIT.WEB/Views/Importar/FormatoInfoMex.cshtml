@@ -1,0 +1,272 @@
+﻿<div class="form-group">
+    <div class="encabezado">
+        <div class="titulo">IMPORTAR ARCHIVO INFOMEX</div>
+        <div class="titulo" style="float:right; text-align: right; padding-right: 20px; font-weight: bold" id="divTipoArchivo"></div>
+    </div>
+</div>
+      
+<div class="form-group">
+    <form id="formImportar" enctype="multipart/form-data" class="form-inline">
+        <input id="ArchivoInfoMex" type="file" name="ArchivoInfoMex" accept="application/zip" class="col-sm-8" style="margin:5px 0px 0px 5px;"/>
+        <button id="btnVerContenido" class="btn-primary col-md-1" style="margin:8px 0px 0px 5px; display:inline; float:left; width:200px; height:28px">Ver contenido</button>
+        <button id="btnImportar" class="btn-success col-md-1" style="margin:8px 0px 0px 5px; display:inline; float:left; width:200px; height:28px">Importar contenido</button>
+    </form>
+</div>
+    
+    <div id="gridArchivo" style="width: 95%; height: 100px; margin: 0% 2% 0% 2%; float: left;"></div>
+    <div id="gridSolicitud" style="width: 95%; height: 495px; margin: 0% 2% 0% 2%; float: left;"></div>
+    <div id="grsolrespclave" style="width: 95%; height: 495px; margin: 0% 2% 0% 2%; float: left;"></div>
+
+    @section Scripts
+    {
+        <script type="text/javascript">
+
+            var iTipo = 0;
+            var objetos = {
+                gridSolicitud: {
+                    name: 'gridSolicitud',
+                    show: {
+                        lineNumbers: true,
+                        columnHeaders: true
+                    },
+                    columns: [
+                        {
+                            field: 'Error', caption: 'Estado', size: '55px',
+                            render: function (registro) {
+                                var datosHTML = '';                               
+                                if (registro.Error == 1) {
+                                    datosHTML = '<div class="importar_error" style="align:center;" />';
+                                } else
+                                    datosHTML = '<div class="importar_correcto" style="align:center;" />';
+                                return datosHTML;
+                            }
+                        },
+                        { field: 'Mensaje', caption: 'Mensaje de estado', size: '300px' },
+                        { field: 'solclave', caption: 'Folio', size: '100px' },
+                        //{ field: 'kue_claenl', caption: 'Clave unidad Enlace', size: '140px' },
+                        { field: 'UnidadEnlace', caption: 'Unidad de Enlace', size: '140px' },
+                        //{ field: 'idtipo', caption: 'Clave Usu.', size: '80px' },
+                        { field: 'TipoUsuario', caption: 'Tipo de usuario', size: '100px' },
+                        { field: 'solfecsol', caption: 'Fecha de solicitud', size: '130px' },
+                        { field: 'solfecrec', caption: 'Fecha de recepción', size: '130px' },
+                        { field: 'sntrepleg', caption: 'Representante legal', size: '150px' },
+                        { field: 'sntrfc', caption: 'RFC', size: '120px' },
+                        { field: 'sntapepat', caption: 'Paterno', size: '120px' },
+                        { field: 'sntapemat', caption: 'Materno', size: '120px' },
+                        { field: 'sntnombre', caption: 'Nombre', size: '120px' },
+                        { field: 'sntcurp', caption: 'CURP', size: '120px' },
+                        { field: 'sntcalle', caption: 'Calle', size: '120px' },
+                        { field: 'sntnumext', caption: 'Núm. Ext', size: '90px' },
+                        { field: 'sntnumint', caption: 'Núm. Int', size: '90px' },
+                        { field: 'sntcol', caption: 'Colonia', size: '120px' },
+                        { field: 'edoclave', caption: 'Clave Ent. Fed.', size: '120px' },
+                        { field: 'EstidadFederativa', caption: 'Entidad Federativa', size: '120px' },
+                        { field: 'munclave', caption: 'Clave Mun.', size: '120px' },
+                        { field: 'Municipio', caption: 'Municipio', size: '150px' },
+                        { field: 'sntcodpos', caption: 'Códgio Postal', size: '120px' },
+                        { field: 'snttel', caption: 'Telefono', size: '120px' },
+                        { field: 'sntcorele', caption: 'Correo electrónico', size: '160px' },
+                        { field: 'paiclave', caption: 'Clave país', size: '120px' },
+                        { field: 'Pais', caption: 'País', size: '120px' },
+                        { field: 'sntedoext', caption: 'Estado extranjero', size: '120px' },
+                        { field: 'sntciudadext', caption: 'Ciudad extranjero', size: '120px' },
+                        { field: 'sntsexo', caption: 'Género', size: '120px' },
+                        { field: 'sntfecnac', caption: 'Fec. Nacimiento', size: '120px' },
+                        { field: 'ocuClave', caption: 'Clave ocup.', size: '120px' },
+                        { field: 'Ocupacion', caption: 'Ocupación', size: '190px' },
+                        { field: 'km_clamod', caption: 'Clave M. entrega', size: '120px' },
+                        { field: 'ModoEntrega', caption: 'Modo de entrega', size: '120px' },
+                        { field: 'solotromod', caption: 'Otro modo de entrega', size: '180px' },
+                        { field: 'solarcdes', caption: 'Archivos', size: '80px' },
+                        { field: 'soldes', caption: 'Descripción solicitud de información', size: '1200px' },
+                        { field: 'soldat', caption: 'Otros datos', size: '1200px' }
+                    ]
+                },
+                grsolrespclave: {
+                    name: 'grsolrespclave',
+                    show: {
+                        lineNumbers: true,
+                        columnHeaders: true
+                    },
+                    columns: [
+                        {
+                            field: 'Error', caption: 'Error', size: '45px',
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.Error === 1) {
+                                    datosHTML = '<div class="importar_error" />';
+                                } else
+                                    datosHTML = '<div class="importar_correcto" />';
+                                return datosHTML;
+                            }
+                        },
+                        { field: 'Mensaje', caption: 'Mensaje de Error', size: '200px' },
+                        { field: 'solclave', caption: 'Folio', size: '80px' },
+                        { field: 'res_descripcion', caption: 'Tipo Respuesta', size: '130px' },
+                        { field: 'fecha_respuesta', caption: 'Fecha', size: '100px' },
+                        { field: 'tpi_informacion', caption: 'Tipo Info', size: '110px' },
+                        {
+                            field: 'descripcion', caption: 'Descripción', size: '450px',
+                            render: function (registro) {
+                                var datosHTML = '';
+                                var iLongitud = registro.descripcion.length;
+                                if (iLongitud > 60) {
+                                    var iRen = parseInt(iLongitud / 60) + 1;
+                                    datosHTML = '<textarea rows=' + iRen + ' style="width:100%; resize: none; background-color: white; color:black;" readonly  > ' + registro.descripcion + '</textarea>';
+                                } else {
+                                    datosHTML = registro.descripcion;
+                                }
+                                return datosHTML;
+                            }
+                        },
+                        { field: 'archivo_respuesta', caption: 'Archivo de respuesta', size: '170px' }
+                    ]
+                },
+                gridArchivo: {
+                    name: 'gridArchivo',
+                    show: {
+                        lineNumbers: true,
+                        columnHeaders: true
+                    },
+                    columns: [
+                        { field: 'archivo', caption: 'Contenido del archivo ZIP', size: '80%' }
+                    ]
+                }
+            };
+
+            $(function () {
+                $('#gridSolicitud').w2grid(objetos.gridSolicitud);
+                $('#gridSolicitud').hide();
+                $('#grsolrespclave').w2grid(objetos.grsolrespclave);
+                $('#grsolrespclave').hide();
+                $('#gridArchivo').w2grid(objetos.gridArchivo);
+                $('#gridArchivo').hide();
+                $("#btnImportar").hide();
+                
+                $("#btnVerContenido").click(function () {
+                    w2ui['gridSolicitud'].clear();
+                    w2ui['grsolrespclave'].clear();
+
+                    var sArchivo = $("#ArchivoInfoMex").val();
+                    if (sArchivo === "") {
+                        w2alert("No ha seleccionado ningún archivo");
+                    } else {
+                        if (sArchivo.indexOf(".zip") > 0) {
+                            visualizarSubmit();
+                            $('#btnVerContenido').hide();
+                        } else {
+                            w2alert("Es necesario que seleccione un archivo en formato ZIP del sistema INFOMEX");
+                        }
+                    }
+                    return false;
+                });
+
+                $("#btnImportar").click(function () {
+                    w2ui['gridSolicitud'].clear();
+                    w2ui['grsolrespclave'].clear();
+
+                    var sArchivo = $("#ArchivoInfoMex").val();
+                    if (sArchivo === "") {
+                        w2alert("No ha seleccionado ningún archivo");
+                    } else {
+                        if (sArchivo.indexOf(".zip") > 0) {
+                            importarSubmit();
+                        } else {
+                            w2alert("Es necesario que seleccione un archivo en formato ZIP del sistema INFOMEX");
+                        }
+                    }
+                    return false;
+                });
+
+
+                $("#ArchivoInfoMex").click(function () {
+                    $('#gridSolicitud').hide();
+                    $('#grsolrespclave').hide();
+                    $('#gridArchivo').hide();
+                    $("#btnImportar").hide();
+                    $("#btnVerContenido").show();
+                    $('#divTipoArchivo').text(" ");
+                });
+
+                $("#menu4").toggleClass("boton_hover");
+                $("#cboPerfil").hide();
+            });
+
+            function Mensaje(data) {
+                try {
+                    var oSolicitud = JSON.parse(data);
+
+                    if (oSolicitud.iVersion == undefined) {
+                        w2alert("No se reconoce el formato del archivo");
+                        return;
+                    }
+
+                    iTipo = oSolicitud.iVersion;
+
+                    if (oSolicitud.iVersion === 1) {
+                        $('#gridSolicitud').hide();
+
+                        if (oSolicitud.lstRegistros.length > 0) {
+                            w2ui['grsolrespclave'].records = oSolicitud.lstRegistros;
+                            w2ui['grsolrespclave'].refresh();
+                            $('#grsolrespclave').show();
+                            $("#btnImportar").show();
+                            w2alert("Aclaraciones importadas con éxito");
+                        } else {
+                            w2alert("No existen registros a importar");
+                        }
+                        $('#divTipoArchivo').text("TIPO DE ARCHIVO: ACLARACIÓN");
+
+                    } else if (oSolicitud.iVersion === 2) {
+                        $('#grsolrespclave').hide();
+                        if (oSolicitud.lstRegistros.length > 0) {
+                            w2ui['gridSolicitud'].records = oSolicitud.lstRegistros;
+                            w2ui['gridSolicitud'].refresh();
+                            $('#gridSolicitud').show();
+                            $("#btnImportar").show();
+                            w2alert("Solicitudes importadas con éxito");
+                        } else {
+                            w2alert("No existen registros a importar");
+                        }
+                        $('#divTipoArchivo').text("TIPO DE ARCHIVO: SOLICITUD");
+
+                    } else {
+                        w2alert("No se reconoce el formato del archivo, seleccione un archivo de INFOMEX");
+                    }
+
+                    if (oSolicitud.lstArchivo != undefined) {
+                        for (iReg = 0; iReg < oSolicitud.lstArchivo.length; iReg++) {
+                            w2ui['gridArchivo'].add({ recid: iReg, archivo: oSolicitud.lstArchivo[iReg] });
+                        }
+                        w2ui['gridArchivo'].refresh();
+                        $('#gridArchivo').show();
+                    }
+                } catch (err) {
+                    w2alert("No se reconoce el formato del archivo");
+                }
+            }
+
+            function visualizarSubmit() {
+                var sampleFile = document.getElementById("ArchivoInfoMex").files[0];
+                var formData = new FormData();
+                formData.append("ArchivoInfoMex", sampleFile);
+                w2ui["grsolrespclave"].clear();
+                w2ui["gridSolicitud"].clear();
+                w2ui["gridArchivo"].clear();
+
+                AjaxPostFile("VistaPrevia", "POST", formData, Mensaje, "multipart/form-data", _UrlInicio,true);
+            }
+
+            function importarSubmit() {
+                var sampleFile = document.getElementById("ArchivoInfoMex").files[0];
+                var formData = new FormData();
+                formData.append("ArchivoInfoMex", sampleFile);
+
+                w2ui["grsolrespclave"].clear();
+                w2ui["gridSolicitud"].clear();
+                w2ui["gridArchivo"].clear();
+
+                AjaxPostFile("Importar", "POST", formData, Mensaje, "multipart/form-data", _UrlInicio, true);
+            }
+        </script>
+    }

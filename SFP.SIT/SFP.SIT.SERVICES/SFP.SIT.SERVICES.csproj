@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9D8D72BB-076C-4449-ABC6-301AC0F51B59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SFP.SIT.SERVICES</RootNamespace>
+    <AssemblyName>SFP.SIT.SERVICES</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SharePoint.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharePoint.Client.15.0.0\lib\Microsoft.SharePoint.Client\Microsoft.SharePoint.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Sharepoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dao\Adm\AdmAreaHistDao.cs" />
+    <Compile Include="Dao\Adm\AdmAreaDao.cs" />
+    <Compile Include="Dao\Adm\AdmCatalogoDao.cs" />
+    <Compile Include="Dao\Adm\AdmConfiguracionDao.cs" />
+    <Compile Include="Dao\Adm\AdmDiaNoLaboralDao.cs" />
+    <Compile Include="Dao\Adm\AdmModuloDao.cs" />
+    <Compile Include="Dao\Adm\AdmPerfilDao.cs" />
+    <Compile Include="Dao\Adm\AdmPerfilModDao.cs" />
+    <Compile Include="Dao\Adm\AdmTipoAreaDao.cs" />
+    <Compile Include="Dao\Adm\AdmUsuarioDao.cs" />
+    <Compile Include="Dao\Adm\AdmUsuAreaDao.cs" />
+    <Compile Include="Dao\Doc\DocAristaDao.cs" />
+    <Compile Include="Dao\Doc\DocTipoExtensionDao.cs" />
+    <Compile Include="Dao\Doc\DocumentoDao.cs" />
+    <Compile Include="Dao\Red\RedAfdDao.cs" />
+    <Compile Include="Dao\Red\RedAfdFlujoDao.cs" />
+    <Compile Include="Dao\Red\RedAristaComiteDao.cs" />
+    <Compile Include="Dao\Red\RedAristaDao.cs" />
+    <Compile Include="Dao\Red\RedAristaResolucionDao.cs" />
+    <Compile Include="Dao\Red\RedAristaRrevisionDao.cs" />
+    <Compile Include="Dao\Red\RedAristaSubClasificarDao.cs" />
+    <Compile Include="Dao\Red\RedComiteRubroDao.cs" />
+    <Compile Include="Dao\Red\RedNodoDao.cs" />
+    <Compile Include="Dao\Red\RedNodoEstadoDao.cs" />
+    <Compile Include="Dao\Red\RedTipoAristaDao.cs" />
+    <Compile Include="Dao\Red\RedTipoInfoDao.cs" />
+    <Compile Include="Dao\Rep\ReporteDao.cs" />
+    <Compile Include="Dao\Snt\SntEstadoDao.cs" />
+    <Compile Include="Dao\Snt\SntMunicipioDao.cs" />
+    <Compile Include="Dao\Snt\SntOcupacionDao.cs" />
+    <Compile Include="Dao\Snt\SntPaisDao.cs" />
+    <Compile Include="Dao\Snt\SntSolicitanteDao.cs" />
+    <Compile Include="Dao\Snt\SntTipoSolicitanteDao.cs" />
+    <Compile Include="Dao\Sol\SolicitudDao.cs" />
+    <Compile Include="Dao\Sol\SolProcesoDao.cs" />
+    <Compile Include="Dao\Sol\SolProcesoPlazosDao.cs" />
+    <Compile Include="Dao\Sol\SolSeguimientoDao.cs" />
+    <Compile Include="Dao\Sol\SolTipoMedioEntradaDao.cs" />
+    <Compile Include="Dao\Sol\SolTipoModoEntregaDao.cs" />
+    <Compile Include="Dao\Sol\SolTipoRubroTematicoDao.cs" />
+    <Compile Include="Dao\Sol\SolTipoSolicitudDao.cs" />
+    <Compile Include="Dao\Sol\SolUEnlaceDao.cs" />
+    <Compile Include="Dao\Tab\TabConsultaDao.cs" />
+    <Compile Include="Model\Adm\AdmAreaMdl.cs" />
+    <Compile Include="Model\Adm\AdmCatalogoMdl.cs" />
+    <Compile Include="Model\Adm\AdmConfiguracionMdl.cs" />
+    <Compile Include="Model\Adm\AdmDiaNoLaboralMdl.cs" />
+    <Compile Include="Model\Adm\AdmModuloMdl.cs" />
+    <Compile Include="Model\Adm\AdmPerfilMdl.cs" />
+    <Compile Include="Model\Adm\AdmPerfilModMdl.cs" />
+    <Compile Include="Model\Adm\AdmTipoAreaMdl.cs" />
+    <Compile Include="Model\Adm\AdmUsuarioMdl.cs" />
+    <Compile Include="Model\Adm\AdmUsuarioSesionMdl.cs" />
+    <Compile Include="Model\Adm\AdmUsuPerfilAreaMdl.cs" />
+    <Compile Include="Model\App\CfgCorreoMdl.cs" />
+    <Compile Include="Model\App\SharePointMdl.cs" />
+    <Compile Include="Model\BaseMdl.cs" />
+    <Compile Include="Model\Doc\DocAristaMdl.cs" />
+    <Compile Include="Model\Doc\DocContenidoMdl.cs" />
+    <Compile Include="Model\Doc\DocImportarSolicitudMdl.cs" />
+    <Compile Include="Model\Doc\DocTipoExtensionMdl.cs" />
+    <Compile Include="Model\Doc\DocumentoMdl.cs" />
+    <Compile Include="Model\Doc\FrmImportarMdl.cs" />
+    <Compile Include="Model\Imp\ImpInfomexArchivoAclMdl.cs" />
+    <Compile Include="Model\Imp\ImpInfomexArchivoSolMdl.cs" />
+    <Compile Include="Model\Imp\ImportarSolicitudMdl.cs" />
+    <Compile Include="Model\Red\RedAfdFlujoMdl.cs" />
+    <Compile Include="Model\Red\RedAfdMdl.cs" />
+    <Compile Include="Model\Red\RedAreaFaltanteMdl.cs" />
+    <Compile Include="Model\Red\RedAristaComiteMdl.cs" />
+    <Compile Include="Model\Red\RedAristaMdl.cs" />
+    <Compile Include="Model\Red\RedAristaResolucionMdl.cs" />
+    <Compile Include="Model\Red\RedAristaRrevisionMdl.cs" />
+    <Compile Include="Model\Red\RedAristaSegMdl.cs" />
+    <Compile Include="Model\Red\RedAristaSubClasificarMdl.cs" />
+    <Compile Include="Model\Red\RedComiteRubroMdl.cs" />
+    <Compile Include="Model\Red\RedGanttMdl.cs" />
+    <Compile Include="Model\Red\RedNodoEstadoMdl.cs" />
+    <Compile Include="Model\Red\RedNodoMdl.cs" />
+    <Compile Include="Model\Red\RedTipoAristaMdl.cs" />
+    <Compile Include="Model\Red\RedTipoInfoMdl.cs" />
+    <Compile Include="Model\Snt\SntEstadoGridMdl.cs" />
+    <Compile Include="Model\Snt\SntEstadoMdl.cs" />
+    <Compile Include="Model\Snt\SntMunicipioMdl.cs" />
+    <Compile Include="Model\Snt\SntOcupacionMdl.cs" />
+    <Compile Include="Model\Snt\SntPaisMdl.cs" />
+    <Compile Include="Model\Snt\SntSolicitanteMdl.cs" />
+    <Compile Include="Model\Snt\SntTipoSolicitanteMdl.cs" />
+    <Compile Include="Model\Sol\SolBuscarMdl.cs" />
+    <Compile Include="Model\Sol\SolicitudGridMdl.cs" />
+    <Compile Include="Model\Sol\SolicitudMdl.cs" />
+    <Compile Include="Model\Sol\SolicitudSegMdl.cs" />
+    <Compile Include="Model\Sol\SolImportarMdl.cs" />
+    <Compile Include="Model\Sol\SolProcesoMdl.cs" />
+    <Compile Include="Model\Sol\SolProcesoPlazosMdl.cs" />
+    <Compile Include="Model\Sol\SolSeguimientoMdl.cs" />
+    <Compile Include="Model\Sol\SolTipoMedioEntradaMdl.cs" />
+    <Compile Include="Model\Sol\SolTipoModoEntregaMdl.cs" />
+    <Compile Include="Model\Sol\SolTipoRubroTematicoMdl.cs" />
+    <Compile Include="Model\Sol\SolTipoSolicitudMdl.cs" />
+    <Compile Include="Model\Sol\SolUEnlaceMdl.cs" />
+    <Compile Include="Model\Tab\TabConsultaMdl.cs" />
+    <Compile Include="Negocio\AdmCorreoNeg.cs" />
+    <Compile Include="Negocio\AdmDocContNeg.cs" />
+    <Compile Include="Negocio\CalcularPlazoNeg.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Constantes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SFP.Persistencia\SFP.Persistencia\SFP.Persistencia.csproj">
+      <Project>{19BA7C68-3A64-4F25-A86F-90F06FAB0502}</Project>
+      <Name>SFP.Persistencia</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Outlook">
+      <Guid>{00062FFF-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Rep\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

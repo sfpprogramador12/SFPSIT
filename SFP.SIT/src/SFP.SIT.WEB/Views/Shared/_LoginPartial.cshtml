@@ -1,0 +1,36 @@
+﻿@using SFP.SIT.WEB.Util
+
+@*
+    using SFP.SIT.WEB.Models
+    inject SignInManager<ApplicationUser> SignInManager
+    inject UserManager<ApplicationUser> UserManager
+    asp-route-code="@User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value"
+*@
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-controller="Account" asp-action="ResetPassword" title="Manage">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value</a>
+            </li>
+            <li>
+                @*
+                <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
+                    <option>@ViewBag.Nombre</option>
+                </select>
+                    *@
+
+                <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">
+                    @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CBOPERFILAREA).Value)
+                </select>
+            </li>
+            <li>
+                <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario"  target="_blank"></a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="LogOff" class="glyphicon glyphicon-log-in btn-lg" data-toggle="tooltip" title="Salir" style="margin-right:20px;"> </a>
+            </li>            
+        </ul>
+    </form>
+}

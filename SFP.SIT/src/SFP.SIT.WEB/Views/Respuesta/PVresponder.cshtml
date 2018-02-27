@@ -1,0 +1,149 @@
+﻿@* --------------------------------------------
+        FORMA PARA RESPONDER    
+    -------------------------------------------- *@
+
+@model FrmRespFinal
+@using SFP.SIT.SERV.Util
+
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="width:100%; height:100%; float:left; border: 1px solid #C1C1C1; ">
+
+    @using (Html.BeginForm("PVresponder", controlName, FormMethod.Post, new { id = "ResponderForm", name = "ResponderForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        // BASE
+        <input type="hidden" asp-for="recid" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsolticks" />
+
+        <input type="hidden" asp-for="avanzar" />
+
+        <input type="hidden" asp-for="resRespuesta.repclave" />
+        <input type="hidden" asp-for="resRespuesta.rtpclave" />
+        <input type="hidden" asp-for="resRespuesta.docclave" />
+        <input type="hidden" asp-for="resRespGral.gracontenido" />
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Número de oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repoficio" size="50" style="width:600px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Agregar archivo:</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 800px; float:left;" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Modo de entrega:</label>
+            <div>
+                <select asp-for="resRespuesta.megclave" asp-items="@ViewBag.tipoModoEntrega" style="float: left; width:450px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Cantidad:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repcantidad" size="10" style="width:100px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Justificación de <br /> reproducción sin costo:</label>
+            <div>
+                <select asp-for="resRespGral.rccclave" asp-items="@ViewBag.tipoReproduccion" style="float: left; width:550px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Respuesta INAI:</label>
+            <div>
+                <select asp-for="rtpclaveAux" asp-items="@ViewBag.respINAI" style="float: left; width:800px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Descripción <br />respecto a la <br />respuesta :</label>
+            <div>
+                <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor">
+                        @Html.Raw(@Model.resRespGral.gracontenido)
+                    </textarea>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function Inicializar()
+    {
+        ckEditorDefinir(290);
+        $('#solclave').val(_solclave);
+        FormatoSugerido();
+
+        $('#btnImprimir').click(function () {
+            $('#oficio').val($('#txtCkEditor').val());
+            document.ImprimirForm.submit();
+        });
+    };
+
+
+    function Validar() {
+        if ($('#resRespuesta_megclave').val() == undefined || $('#resRespuesta_megclave').val() == null) {
+            w2alert("Seleccione un modo de entrega");
+            return false;
+        }
+
+        if ($('#rtpclaveAux').val() == undefined || $('#rtpclaveAux').val() == null) {
+            w2alert("Seleccione una respuesta del INAI");
+            return false;
+        }
+
+        var editorData = CKEDITOR.instances.txtCkEditor.getData();
+        if (editorData.length < 2) {
+            w2alert("El texto de la respuesta no puede ir en blanco")
+            return false;
+        }            
+        $('#resRespGral_gracontenido').val(editorData);
+
+       
+        return true;
+    }
+
+
+    function Grabar()
+    {     
+        _Inicio = true;
+        $('#nodclave').val(_nodclave);
+        $('#solfecsolticks').val(_solfecsolticks );
+        
+        if (Validar())
+        { 
+            $("#btnAccion").hide();
+            document.ResponderForm.submit();
+        }
+        return false;                                 
+    }
+
+
+    function DocRemoverResp(datos)
+    {
+        if (datos  == @Constantes.RespuestaTipoContenido.MODO)
+        {
+            $("#divDocContenido").hide();
+        }
+    }
+
+</script>

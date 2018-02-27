@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Catálogo Comite rubro";
+    Layout = null;
+}
+
+<div id="formComiteRubro" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVcomiteRubro" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Clave :</p></td>
+                <td><input id="corclave" name="corclave" type="text" style="width:50px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="cordescripcion" name="cordescripcion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja:</p></td>
+                <td><input id="corfecbaja" name="corfecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarComiteRubro()
+    {
+        var fecBaja = fechaValidar("#corfecbaja");
+
+        var url = '@Url.Action("PVcomiteRubro", "Catalogo")';
+        datos = {
+            corclave: parseInt($("#corclave").val()),
+            cordescripcion: $("#cordescripcion").val(),
+            corfecbaja: fecBaja.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+
+

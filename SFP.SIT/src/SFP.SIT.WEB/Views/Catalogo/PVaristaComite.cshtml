@@ -1,0 +1,52 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo arista comite";
+    Layout = null;
+}
+
+<div id="formAristaComite" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVaristaComite" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio ID :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Arista ID :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Comité rubro:</p></td>
+                <td><select id="corclave" name="corclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Motivo :</p></td>
+                <td><textarea id="com_motivo" name="com_motivo" rows="4" cols="110"></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstComiteRubro = @Html.Raw(Model.lstComiteRubro);
+
+    function GuardarAristaComite()
+    {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+        datos = {
+            solclave: parseInt($("#solclave").val()),
+            ariclave: parseInt($("#ariclave").val()),
+            corclave: parseInt($("#corclave").val()),
+            com_motivo: $("#com_motivo").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('corclave', _lstComiteRubro.records, false);
+        }
+    );
+</script>

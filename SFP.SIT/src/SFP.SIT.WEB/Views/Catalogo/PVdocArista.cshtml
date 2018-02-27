@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Arista documento";
+    Layout = null;
+}
+
+<div id="formDocArista" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVdocArista" method="post">
+        @Html.AntiForgeryToken()
+
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio ID:</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:110px" /></td>
+            </tr>
+            <tr>
+                <td><p>Arista ID :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:110px" /></td>
+            </tr>
+            <tr>
+                <td><p>Documento ID:</p></td>
+                <td><input id="docclave" name="docclave" type="text" style="width:60px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarDocArista() {
+        var url = '@Url.Action("PVdocArista", "Catalogo")';
+
+        datos = {
+            ariclave: $("#ariclave").val(),
+            solclave: $("#solclave").val(),
+            docclave: $("#docclave").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarGenerico(datos, "PVdocArista", parseInt($("#txtCmd").val()));
+    }
+</script>
+
+

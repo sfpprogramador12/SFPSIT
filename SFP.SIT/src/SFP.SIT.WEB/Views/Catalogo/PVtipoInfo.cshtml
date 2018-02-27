@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Tipo de info";
+    Layout = null;
+}
+
+<div id="formTipoInfo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoInfo" method="post">
+        @Html.AntiForgeryToken()
+
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Tipo info ID :</p></td>
+                <td><input id="nfoclave" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="nfodescripcion" type="text" style="width:450px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoInfo() {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+
+        datos = {
+            nfoclave: parseInt($("#nfoclave").val()),
+            nfodescripcion: $("#nfodescripcion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

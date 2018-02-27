@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Rubro tematico";
+    Layout = null;
+}
+
+<div id="formTipoRubroTematico" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoRubroTematico" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Tema :</p></td>
+                <td><input id="krt_clatema" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Rubro :</p></td>
+                <td><input id="krt_rubro" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Plazo reserva :</p></td>
+                <td><input id="krt_plazo_reserva" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fundamento legal :</p></td>
+                <td><input id="krt_fundamento_legal" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="krt_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoRubroTematico() {
+        var url = '@Url.Action("PVtipoRubroTematico", "Catalogo")';
+        var fecBaja = fechaValidar("#krt_fecbaja");
+
+        datos = {
+            krt_clatema: parseInt($("#krt_clatema").val()),
+            krt_rubro: $("#krt_rubro").val(),
+            krt_plazo_reserva: $("#krt_plazo_reserva").val(),
+            krt_fundamento_legal: $("#krt_fundamento_legal").val(),
+            krt_fecbaja: fecBaja.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+

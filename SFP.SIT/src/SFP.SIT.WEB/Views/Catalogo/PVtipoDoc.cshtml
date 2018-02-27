@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Tipo de documneto";
+    Layout = null;
+}
+
+<div id="formTipoDoc" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoDoc" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Extensión ID : </p></td>
+                <td><input id="extclave" type="text" style="width:60px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>MIME TYPE :</p></td>
+                <td><input id="extmimetype" type="text" style="width:350px" /></td>
+            </tr>
+            <tr>
+                <td><p>FORMATO (EXT):</p></td>
+                <td><input id="extterminacion" type="text" style="width:110px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoDoc() {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+        datos = {
+            extclave: $("#extclave").val(),
+            extmimetype: $("#extmimetype").val(),
+            extterminacion: $("#extterminacion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

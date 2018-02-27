@@ -1,0 +1,48 @@
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll.config
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.Sharepoint.Client.Runtime.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.pdb
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csprojResolveAssemblyReference.cache
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.dll
+C:\Users\Maklau\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.Sharepoint.Client.Runtime.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csprojResolveAssemblyReference.cache
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csproj.CoreCompileInputs.cache
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csprojResolveAssemblyReference.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csproj.CoreCompileInputs.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.SERV\obj\Debug\SFP.SIT.SERV.pdb

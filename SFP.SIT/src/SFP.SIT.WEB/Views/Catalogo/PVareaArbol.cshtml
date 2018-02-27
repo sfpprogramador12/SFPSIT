@@ -1,0 +1,126 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+
+@{
+    ViewData["Title"] = "Catálogo área arbol";
+    Layout = null;
+}
+
+<div id="myToolbar"></div>
+<div id="jstree"></div>
+
+<script>
+    var _lstTipoArea = @Html.Raw(Model.lstTipoArea);
+    var _lstTipoPerfil = @Html.Raw(Model.lstTipoPerfil);
+
+    function GuardarArea()
+    {
+        if ($("#araclave").val() === "")
+            $("#araclave").val(0);
+
+        var url = '@Url.Action("PVarea", "Catalogo")';
+        datos = {
+            araclave: parseInt($("#araclave").val()),
+            ka_sigla: $("#ka_sigla").val(),
+            ka_orden: parseInt($("#ka_orden").val()),
+            ka_descripcion:  $("#ka_descripcion").val(),
+            ka_reporta:  parseInt($("#ka_reporta").val()),
+            kta_clatipo_area:  parseInt($("#kta_clatipo_area").val()),
+            PERCLAVE:  parseInt($("#PERCLAVE").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+
+            if (w2ui['myToolbar'] !== undefined) {
+                w2ui['myToolbar'].destroy();
+            }
+
+            $('#myToolbar').w2toolbar({
+                name : 'myToolbar',
+                items: oToolBarTablaItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar"  ) {
+                        var sTitulo = AsignarCmd(event.target) + " área";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width:'700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#araclave").val(_RegistroActual.araclave);
+                                        $("#ka_sigla").val(_RegistroActual.KA_SIGLA);
+                                        $("#ka_orden").val(_RegistroActual.KA_ORDEN);
+                                        $("#ka_descripcion").val(_RegistroActual.KA_DESCRIPCION);
+                                        $("#ka_reporta").val(_RegistroActual.KA_REPORTA);
+                                        $("#kta_clatipo_area").val(_RegistroActual.KTA_CLATIPO_AREA);
+                                        $("#PERCLAVE").val(_RegistroActual.PERCLAVE);
+
+                                        if (iOpc === 3) {
+                                            $('#araclave').prop('readonly', true);
+                                            $('#ka_sigla').prop('readonly', true);
+                                            $('#ka_orden').prop('readonly', true);
+                                            $('#ka_descripcion').prop('readonly', true);
+                                            $('#ka_reporta').prop('readonly', true);
+                                            $('#kta_clatipo_area').prop('disabled', true);
+                                            $('#PERCLAVE').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatArea']);
+                        $('#divDatos').w2render("gridCatArea");
+                        w2ui[sObjGrid].records = registros.records;
+                        w2ui[sObjGrid].reload();
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: urlConsulta("ConsultaArbol", _EntidadAct ),
+                success: function (data) {
+                    if (data === undefined) {
+                        alert("No existen datos");
+                    } else {
+                        var dataTree = [];
+                        var items = 0;
+                        var registros = data.records;
+                        var iTotal = registros.length;
+
+                        while (items < iTotal) {
+                            if (registros[items].KA_REPORTA === 0 )
+                                dataTree[items] = { "id" : "N" + registros[items].araclave, "parent" : "#", "text" : registros[items].KA_DESCRIPCION };
+                            else
+                                dataTree[items] = { "id" : "N" + registros[items].araclave, "parent" : "N" + registros[items].KA_REPORTA, "text" : registros[items].KA_DESCRIPCION };
+                            items++;
+                        };
+
+                        $("#jstree").jstree({
+                            "checkbox": { "keep_selected_style": true, "three_state": false },
+                            "plugins": ["wholerow", "checkbox"],
+                            "core": { "data": dataTree, "multiple": true }
+                        });
+
+                    }
+                    //w2ui.gridCatalogoGral.unlock();
+                },
+                failure: function (response) {
+                    alert("failure " + response.d);
+                },
+                error: function (response) {
+                    alert("error " + response.d);
+                }
+            });
+        }
+    );
+</script>
+

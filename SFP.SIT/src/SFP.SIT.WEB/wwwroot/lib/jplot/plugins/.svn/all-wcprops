@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins
+END
+jqplot.pointLabels.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.pointLabels.min.js
+END
+jqplot.meterGaugeRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.meterGaugeRenderer.min.js
+END
+jqplot.canvasOverlay.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.canvasOverlay.min.js
+END
+jqplot.funnelRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.funnelRenderer.min.js
+END
+jqplot.donutRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.donutRenderer.min.js
+END
+jqplot.mekkoAxisRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.mekkoAxisRenderer.min.js
+END
+jqplot.bubbleRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.bubbleRenderer.min.js
+END
+jqplot.canvasAxisLabelRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.canvasAxisLabelRenderer.min.js
+END
+jqplot.json2.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.json2.min.js
+END
+jqplot.barRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.barRenderer.min.js
+END
+jqplot.mekkoRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.mekkoRenderer.min.js
+END
+jqplot.highlighter.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.highlighter.min.js
+END
+jqplot.canvasAxisTickRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.canvasAxisTickRenderer.min.js
+END
+jqplot.mobile.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.mobile.min.js
+END
+jqplot.canvasTextRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.canvasTextRenderer.min.js
+END
+jqplot.ciParser.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.ciParser.min.js
+END
+jqplot.enhancedLegendRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.enhancedLegendRenderer.min.js
+END
+jqplot.ohlcRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.ohlcRenderer.min.js
+END
+jqplot.BezierCurveRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.BezierCurveRenderer.min.js
+END
+jqplot.cursor.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.cursor.min.js
+END
+jqplot.pyramidAxisRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.pyramidAxisRenderer.min.js
+END
+jqplot.blockRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.blockRenderer.min.js
+END
+examples.min.css
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/examples.min.css
+END
+jqplot.trendline.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.trendline.min.js
+END
+jqplot.categoryAxisRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.categoryAxisRenderer.min.js
+END
+jqplot.dateAxisRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.dateAxisRenderer.min.js
+END
+jqplot.pyramidRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.pyramidRenderer.min.js
+END
+jqplot.logAxisRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.logAxisRenderer.min.js
+END
+jqplot.dragable.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.dragable.min.js
+END
+jqplot.pyramidGridRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.pyramidGridRenderer.min.js
+END
+jqplot.pieRenderer.min.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/DGAIS/!svn/ver/27330/INFOSFP/trunk/web/media/js/jplot/plugins/jqplot.pieRenderer.min.js
+END

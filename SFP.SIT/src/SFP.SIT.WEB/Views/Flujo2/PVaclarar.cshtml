@@ -1,0 +1,69 @@
+﻿@* --------------------------------------------
+    FORMA PARA ANALIZAR LAS RESPUESTAS DE LAS UA
+    -------------------------------------------- *@
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+<div id="divRespuestaUA" style="padding-top:5px; padding-bottom:5px;">
+
+    <div id="divGrupoResp">
+        <div style="width:100%; padding-top:5px; padding-bottom:5px; float:left;">
+            <div style="float:left; padding-left:2px; padding-right:5px;">Nombre del Documento: </div>
+            <input id="txtDocNombre" type="text" style="padding-bottom:5px; width:70%; float:left; padding-left:5px;" />
+        </div>
+        <div id="divRespuesta" style="width:100%; height:450px; padding-top:5px; padding-bottom:5px; overflow-y: scroll; background-color:white; border:1px  black;">
+        </div>
+    </div>
+
+    @*@using (Html.BeginForm("Aclarar", controlName, FormMethod.Post, new { id = "AclararForm", name = "AclararForm" }))
+    {
+        <input type="hidden" id="arista" name="arista" />
+        <input type="hidden" id="nodoO" name="nodoO" />
+        <input type="hidden" id="folio" name="folio" />
+        <input type="hidden" id="nodo" name="nodo" />
+    }*@
+</div>
+
+<script>
+    function returnar() {
+        var registro = w2ui.gridRespAreas.records[w2ui.gridRespAreas.getSelection(true)[0]];
+
+        $("#arista").val(registro.ariclave);
+        $("#nodoO").val(registro.nodclave);
+        $("#nodo").val(_nodclave);
+        $("#folio").val(_solclave);
+
+        this.Aclarar.submit;
+    }
+
+    $(document).ready(
+    function () {
+        $("#txtDocNombre").val( _recActual.docnombre);
+        $("#divRespuesta").empty();
+        $("#divRespuesta").append(_recActual.arimensaje);
+
+
+        @*-- BOTON DEL SUBMENU --*@
+        $("#btnAccion").hide();
+        $("#divInstruccion").hide();
+
+        SelectAddElemClearNivel("lstSubAccion", _ListaAccion, 1);
+
+        $('#lstSubAccion').click(function () {
+            var idx = w2ui.gridRespAreas.getSelection()[0];
+
+            if (idx != undefined)
+            {
+                w2ui.gridRespAreas.set(idx, { ESTADO: $("#lstSubAccion option:selected").text() });
+
+                if ($("#lstSubAccion").val() == _MostrarSubAccion )
+                    $("#divInstruccion").show();
+                else
+                    $("#divInstruccion").hide();
+            }
+        });
+
+    });
+</script>

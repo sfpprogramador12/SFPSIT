@@ -1,0 +1,75 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Módulo";
+    Layout = null;
+}
+
+<div id="formModulo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVmodulo" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Clave módulo:</p></td>
+                <td><input id="km_clamodulo" name="km_clamodulo" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="km_descripcion" name="km_descripcion" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Control :</p></td>
+                <td><input id="km_control" name="km_control" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Consecutivo :</p></td>
+                <td><input id="km_consecutivo" name="km_consecutivo" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="km_fecbaja" name="km_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Módulo padre</p></td>
+                <td>
+                    <select id="km_clamodulo_padre" naem="km_clamodulo_padre"style="width:300px"></select>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Metodo :</p></td>
+                <td><input id="km_metodo" name="km_metodo" type="text" style="width:450px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstModulo = @Html.Raw(Model.lstModulo);
+
+    function GuardarModulo()
+    {
+        var fecha = fechaValidar("#km_fecbaja");
+
+        var iReporta = parseInt($("#km_clamodulo_padre").val());
+        if (  isNaN(iReporta ))
+            iReporta = 0;
+
+        datos = {            
+            km_clamodulo: parseInt($("#km_clamodulo").val()),
+            km_descripcion: $("#km_descripcion").val(),
+            km_control: $("#km_control").val(),
+            km_consecutivo: parseInt($("#km_consecutivo").val()),
+            km_fecbaja : fecha.toISOString(),
+            km_clamodulo_padre: iReporta,
+            km_metodo: $("#km_metodo").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('km_clamodulo_padre', _lstModulo.records, true);
+        }
+    );
+</script>

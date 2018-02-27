@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Día Laboral";
+    Layout = null;
+}
+
+<div id="formDiaLab" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVdiaLab" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Día no laboral :</p></td>
+                <td><input id="diaclave" name="diaclave" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo de día</p></td>
+                <td><input id="diatipo" name="diatipo" type="text" style="width:40px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarDiaLab() {
+        var fecha = fechaValidar("#diaclave");
+
+        var url = '@Url.Action("PVdiaLab", "Catalogo")';
+        datos = {
+            diaclave: fecha.toISOString(),
+            diatipo: $("#diatipo").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

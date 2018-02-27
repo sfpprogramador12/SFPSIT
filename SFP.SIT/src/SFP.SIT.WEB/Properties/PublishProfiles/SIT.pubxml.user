@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo es utilizado por el proceso de paquete/publicación de nuestro proyecto Web. Puede personalizar el comportamiento de este proceso
+editando este archivo MSBuild. Para conocer más acerca de esto, visite http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\.\bin\Release\PublishOutput</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="SIT_DB">
+      <Value>Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=sfp-bddev01.sfp.gob.mx)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SID=DESA))); User Id=SIT; Password=wUT7gat+ph; Max Pool Size= 20; Min Pool Size=1; Connection Lifetime=120; Connection Timeout=60; Incr Pool Size=1; Decr Pool Size=1;</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

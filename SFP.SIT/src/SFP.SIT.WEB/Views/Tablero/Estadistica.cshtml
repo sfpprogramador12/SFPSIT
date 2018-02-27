@@ -1,0 +1,510 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+
+}
+
+    <div id="divGrafica" style="width:100%; height:100%; background-color: #FFFFFF;">
+        <div id="divColumnas" class="rubro"> Columnas </div>
+        <div id="divColContenido" class="divContenido">  </div>
+
+        <div id="divRenglones" class="rubro"> Renglones </div>
+        <div id="divRenContenido" class="divContenido">  </div>
+        <div style="width: 100%; height: 47px; float: left;">
+            <div id="divFechas" class="rubro"> Periodo </div>
+            <div id="divFechasContenido" class="divContenido" style="width: 30%; float: left;">
+                <div style="float:left;">
+                    <label>Del </label>
+                    <input id="fecini" name="field_date" type="date" min="2003-01-01" max="2008-12-31" style="width: 43%;">
+                    <label>al</label>
+                    <input id="fecfin" name="field_date" type="date" min="2003-01-01" max="2008-12-31" style="width: 43%;">
+                </div>
+            </div>
+            <div style="width: 50%; float: right;">
+                <div id="divTipo" class="rubro" style="width: 25.144%; margin-left: 5px;">Tipo de Gráfica</div>
+                <div class="divContenido" style="width:74%;">
+                    <div id="tabla" class="boton_chart"> Tabla </div>
+                    <div id="linea" class="boton_chart"> Linea </div>
+                    <div id="barra" class="boton_chart"> Barra </div>
+                    <div id="pie" class="boton_chart"> Pie  </div>
+                </div>
+            </div>
+        </div>
+        <div id="divTabla" class="divTablaCen"></div>
+    </div>
+
+    <div id="layoutPrincipal" class="container"></div>
+
+    <div id="divDimension" style="width: 100%; height: fit-content;">
+        <div class="encabezado">
+            <div class="titulo">Dimensiones</div>
+        </div>
+        <div id="jstreeDimension" class="arbolDimension"> </div>
+    </div>
+
+
+@section Scripts
+{
+    @* JSTREE *@
+    <script type="text/javascript" src="~/lib/jstree/dist/jstree.min.js"></script>
+
+    @* JPLOT *@
+    <script type="text/javascript" src="~/lib/jplot/jquery.jqplot.min.js"></script>
+
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.barRenderer.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.pointLabels.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.pieRenderer.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.highlighter.min.js"></script>
+    <script type="text/javascript" src="~/lib/jplot/plugins/jqplot.cursor.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/lib/jplot/jquery.jqplot.min.css" />
+
+
+    <script type="text/javascript">
+        var pstyle = 'background-color: #FFFFFF; padding: 0px;';
+        var aoData = [];
+        var asDimension = [];
+        var iOpcChart = 1;
+        var sContenidoRenID = "";
+        var sContenidoColID = "";
+        var aoDatos= [];
+
+        var objetos = {
+            layoutPrincipal: {
+                name: 'layoutPrincipal',
+                header: 'Principal',
+                padding: 4,
+                panels: [
+                    {type: 'left', size: '15%', resizable: true, style: pstyle,  content: '<div id="divContenedorLeft" style="height:fit-content; background-color: #FFFFFF; border: 1px solid #eee;" />' },
+                    {type: 'main', size: '85%', resizable: true, style: pstyle, content: '<div id="divContenedorGrafica" style="background-color:#FFF;" />'}
+                ]
+            }
+        };
+
+        function tipoGrafica(iValor){
+            iOpcChart = iValor;
+        }
+
+        function Inicializar(){
+            asDimension[0] = { "id" : "N0", "parent" : "#", "text" : "Solicitud"};
+            asDimension[1] = { "id" : "N1", "parent" : "#", "text" : "Área"};
+            asDimension[2] = { "id" : "N2", "parent" : "#", "text" : "Usuario"};
+            asDimension[3] = { "id" : "N3", "parent" : "#", "text" : "Tipo de Respuesta"};
+            asDimension[4] = { "id" : "N4", "parent" : "#", "text" : "Estado Solicitud"};
+
+            $('#jstreeDimension').jstree(true).settings.core.data = asDimension;
+            $('#jstreeDimension').jstree(true).refresh();
+
+            obtenerDatos();
+
+            //if ($('#fecini').val() === ""){
+            //    return;
+            //}
+
+            //if ($('#fecfin').val() === ""){
+            //    return;
+            //}
+            //var from_date = $('#fecini').val();
+            //var fechaini = from_date.substring(8).concat('/' + from_date.substring(5, 7)).concat('/' + from_date.substring(0, 4));
+            //from_date = $('#fecfin').val();
+            //var fechafin = from_date.substring(8).concat('/' + from_date.substring(5, 7)).concat('/' + from_date.substring(0, 4));
+
+            ////var URL = '${pageContext.servletContext.contextPath}/Tablero';
+
+            ////$.ajax({
+            ////    type: "GET",
+            ////    url: URL,
+            ////    data: {
+            ////        param:  JSON.stringify( {
+            ////            '<%= BaseConst.CMD_ENTIDAD %>'          : <%= ConstInfoSFP.ENTIDAD_AUX_TABLERO %>,
+            ////            '<%= TabConsultaDao.PARAM_FECSOLINI %>' : fechaini,
+            ////            '<%= TabConsultaDao.PARAM_FECSOLFIN %>' : fechafin,
+            ////            '<%= TabConsultaDao.PARAM_RENGLON %>'   : sContenidoRenID,
+            ////            '<%= TabConsultaDao.PARAM_COLUMNA %>'   : sContenidoColID
+            ////        })
+            ////    },
+            ////    success: function(data) {
+            ////        if (data !== undefined && data !== '') {
+            ////            //text = '{"Grafica":[{"tituloX":["A","B"],"tituloY":["X"],"datos":[15,20]},{"tituloX":["D","F"],"tituloY":["Z"],"datos":[33,50]}]}';
+            ////            //aoDatos = JSON.parse(text);
+            ////            aoDatos = data;
+            ////            construirTabla();
+            ////        }
+            ////    }
+            ////});
+        }
+
+        @* FUNCIONES PARA COLOCARLOS EN OTRO ARCHIVO *@
+        function urlConsulta( pfechaini, pfechafin, prenglon, pcolumna )
+        {
+            var url = "@Html.Raw(@Url.Action("EstadisticaDatos", "Tablero", new { fechaini = "param1", fechafin = "param2", renglon = "param3", columna = "param4" }))";
+            url = url.replace("param1", pfechaini);
+            url = url.replace("param2", pfechafin);
+            url = url.replace("param3", prenglon);
+            url = url.replace("param4", pcolumna);
+            return url;
+        }
+
+        function obtenerDatos() {
+            if ($('#fecini').val() === "") {
+                //w2alert(" Es necesario que defina la fecha inicial")
+                return;
+            }
+
+            if ($('#fecfin').val() === "") {
+                ///w2alert(" Es necesario que defina la fecha final")
+                return;
+            }
+
+            var from_date = $('#fecini').val();
+            var sAño = from_date.substring(0, 4);
+            var fechaini = from_date.substring(8).concat('/' + from_date.substring(5, 7)).concat('/' + from_date.substring(0, 4));
+            if (parseInt(sAño) < 2003)
+            {
+                return;
+            }
+
+            from_date = $('#fecfin').val();
+            var sAño = from_date.substring(0, 4);
+            var fechafin = from_date.substring(8).concat('/' + from_date.substring(5, 7)).concat('/' + from_date.substring(0, 4));
+            if (parseInt(sAño) < 2003) {
+                return;
+            }
+
+            var sURLsolicitante = urlConsulta(fechaini, fechafin, sContenidoRenID, sContenidoColID);
+
+            $.ajax({
+                type: "GET",
+                url: sURLsolicitante,
+                success: function (data) {
+                    if (data === undefined && data === '') {
+                        alert("No existen datos para esta solicitud");
+                    } else {
+                        //text = '{"Grafica":[{"tituloX":["A","B"],"tituloY":["X"],"datos":[15,20]},{"tituloX":["D","F"],"tituloY":["Z"],"datos":[33,50]}]}';
+                        //aoDatos = JSON.parse(text);
+                        aoDatos = data;
+                        construirTabla();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus, errorThrown);
+                }
+            });
+        }
+
+
+        $(function () {
+
+            $("#menu7").toggleClass("boton_hover");
+
+            AjustarPantalla('layoutPrincipal', 0.79, 0.98);
+
+            $('#layoutPrincipal').w2layout(objetos.layoutPrincipal);
+            $( "#divContenedorGrafica").append( $("#tblDatos" ));
+            $( "#divContenedorGrafica").append( $("#divGrafica" ));
+            $( "#divContenedorLeft").append( $("#divDimension" ));
+            $('input[type=date-A]').w2field('date');
+
+            $('#jstreeDimension').jstree({
+                "core" : { "themes" : {"variant" : "large" } },
+                "plugins" : [ "dnd",  "types"]
+            });
+
+            $('#jstreeFiltro').jstree({
+                "core" : { "themes" : { "variant" : "large" } },
+                "checkbox" : { "keep_selected_style" : false },
+                "plugins" : [ "wholerow", "checkbox" ]
+            });
+
+            $('#tabla').click(function( ){iOpcChart = 0; dibujarTabla();});
+            $('#linea').click(function( ){iOpcChart = 1; dibujarGrafica();});
+            $('#barra').click(function( ){iOpcChart = 2; dibujarGrafica();});
+            $('#pie').click(function( ) { iOpcChart = 3; dibujarGrafica();});
+
+            $( "#fecini" ).change(function() {
+                //var IsoDateRe = new RegExp("^([0-9]{2})/([0-9]{2})/([0-9]{4})$");
+                var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+
+                var matches1 = IsoDateRe.exec($("#fecini" ).val());
+                var matches2 = IsoDateRe.exec($("#fecfin" ).val());
+
+                if (!matches1 && !matches2) return false;
+                    obtenerDatos();
+            });
+
+            $( "#fecfin" ).change(function() {
+                var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+                var matches1 = IsoDateRe.exec($("#fecini" ).val());
+                var matches2 = IsoDateRe.exec($("#fecfin" ).val());
+
+                if (!matches1 && !matches2) return false;
+                    obtenerDatos();
+            });
+            Inicializar();
+        });
+
+        var draggedDivElement;
+
+        document.getElementById('divRenContenido').addEventListener('dragstart', function(evt) {
+            console.log("The 'dragstart' event fired.");
+            var jsonElement = new Object();
+            var divElement = evt.target;
+            jsonElement.id = divElement.getAttribute('data-id');
+            jsonElement.text = divElement.getAttribute('data-text');
+            jsonElement.icon = divElement.getAttribute('data-icon');
+            jsonElement.parent = divElement.getAttribute('data-parent');
+            evt.dataTransfer.setData('jsonElement', JSON.stringify(jsonElement));
+            draggedDivElement = divElement;
+        }, false);
+
+        document.addEventListener("dragover", function(evt) {
+            ///console.log("The 'dragover' event fired.");
+            evt.preventDefault(); // Prevent the default behavior in order to enable dropping.
+        }, false);
+
+        document.getElementById('jstreeDimension').addEventListener("drop", function(evt) {
+            /////console.log("The 'drop' event on jsTree fired.");
+            evt.preventDefault(); // Prevent the default action to open as link for some elements.
+            console.log(evt);
+        }, false);
+
+        //////$(document).on('dnd_start.vakata', function(e, data) {
+        ////////console.log('Started dragging node from jstree');
+        //////});
+
+        //////$(document).on('dnd_move.vakata', function(e, data) {
+        //////    console.log('Moving node from jstree to div');
+        //////});
+
+        $(document).on('dnd_stop.vakata', function(e, data) {
+            ////console.log('stop vakata');
+
+            if (data.event.target.id === 'divRenContenido' || data.event.target.id === 'divColContenido') {
+                var sDivContenido = data.event.target.id;
+                var jsonElement;
+                var nodeDragged = $(data.element).clone();
+                // $('#dragTarget').append(nodeDragged);
+                if (data.data.jstree && data.data.origin) {
+                    jsonElement = data.data.origin.get_node(data.element);
+
+                    var id = jsonElement.id;
+                    var icon = jsonElement.icon;
+                    var parent = jsonElement.parent;
+                    var parents = jsonElement.parents.join();
+                    var text = jsonElement.text;
+                    var iTipoDiv = "";
+
+                    var iExiste = document.getElementById( 'div' + id );
+
+                    if (iExiste === null){
+                        if (data.event.target.id === 'divRenContenido'){
+                            iTipoDiv = "Ren"
+                            if ( sContenidoRenID === "")
+                                sContenidoRenID = id;
+                            else
+                                return;
+                        } else {
+                            iTipoDiv = "Col"
+                            if ( sContenidoColID === "")
+                                sContenidoColID = id;
+                            else
+                                return;
+                        }
+
+                        var divElement = '<div id="div' + id + '" class="boton_drag_tablero" > <div id="divImg_' + id + '_' + iTipoDiv + '" class="simbolo_menos"></div> <div style="float:left;" >' + text + '</div>';
+                        $('#' + sDivContenido).append(divElement);
+
+                        $('#divImg_' + id + '_' +  iTipoDiv ).click(function(evt ){
+                            var iTipoDiv = evt.target.id.split("_");
+
+                            $( "#" + evt.target.id  ).remove();
+
+                            if ( iTipoDiv[2] === "Ren" )
+                                sContenidoRenID = "";
+                            else
+                                sContenidoColID = "";
+
+                            $( "#div" + iTipoDiv[1] ).remove();
+
+                                borrarGraficas();
+
+                        });
+
+                        if (sContenidoRenID !== "" && sContenidoColID !== ""){
+                            obtenerDatos();
+                        }
+
+                    }
+                }
+            }
+        });
+
+        $("#menu3").toggleClass("boton_hover");
+        $("#menu3_1").toggleClass("tablero_hover");
+
+        function borrarGraficas(){
+            var iIdx = 0;
+            var oDivGrafica;
+
+            $( '#tablaDatos' ).remove();
+            oDivGrafica = document.getElementById('chart' + iIdx);
+            while (oDivGrafica !== null) {
+                $( '#chart' + iIdx ).remove();
+                iIdx++;
+                oDivGrafica = document.getElementById('chart' + iIdx);
+            }
+        }
+
+        function dibujarTabla(){
+            borrarGraficas();
+
+            var result = "<table id='tablaDatos' border=1>";
+
+            result += "<tr>";
+            result += "<th></th>";
+            for (var j = 0; j < aoDatos.asTituloX.length; j++) {
+                result += "<th>" + aoDatos.asTituloX[j] + "</th>";
+            }
+            result += "<tr>";
+
+            for (idx = 0 ; idx < aoDatos.asTituloY.length; idx++) {
+                result += "<tr>";
+                result += "<td style='text-align: center'>" + aoDatos.asTituloY[idx] + "</td>";
+
+                for (var j = 0; j < aoDatos.asTituloX.length; j++) {
+                    result += "<td style='text-align: center'>" + aoDatos.Grafica[j][idx] + "</td>";
+                }
+                result += "</tr>";
+            }
+            result += "</table>";
+            $('#divTabla').append(result);
+        }
+
+        function dibujarGrafica(){
+            var xy = [];
+            var iItems = 0;
+            var iAngulo = 0;
+            var sTitulo = "";
+            var iLongitud = 0;
+
+            borrarGraficas();
+
+            for (idx = 0 ; idx < aoDatos.asTituloY.length; idx++) {
+                if (aoDatos.asTituloX.length < 4) {
+                    iAngulo = 0;
+                } else if (aoDatos.asTituloX.length > 4 && aoDatos.asTituloX.length < 11) {
+                    iAngulo = -10;
+                    iLongitud = 40;
+                } else if (aoDatos.asTituloX.length > 10 && aoDatos.asTituloX.length < 21) {
+                    iAngulo = -20;
+                    iLongitud = 35;
+                } else if (aoDatos.asTituloX.length > 21 && aoDatos.asTituloX.length < 31) {
+                    iAngulo = -30;
+                    iLongitud = 30;
+                } else if (aoDatos.asTituloX.length > 31) {
+                    iAngulo = -45;
+                    iLongitud = 25;
+                }
+
+                $('#tableChart' + idx).append("<div id='chart" + idx + "' style='  height:fit-content; width:85%; left:20px '></div>");
+                for (iItems = 0; iItems < aoDatos.asTituloX.length; iItems++) {
+                    xy[iItems] = [];
+                    sTitulo = aoDatos.asTituloX[iItems];
+
+                    if (iAngulo < 0){
+                        if (sTitulo.length < iLongitud){
+                            xy[iItems][0] = sTitulo;
+                        } else{
+                            xy[iItems][0] = sTitulo.substring(0, iLongitud-1) + "_" + iItems;
+                        }
+                    } else{
+                        xy[iItems][0] = sTitulo;
+                    }
+                    xy[iItems][1] = aoDatos.Grafica[iItems][idx];
+                }
+
+                if (iOpcChart === 1){
+                    $.jqplot('chart' + idx,  [xy], {
+                        height: 400,
+                        title: aoDatos.asTituloY[idx],
+                        axesDefaults: {
+                            tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                            tickOptions: {
+                            angle: iAngulo,
+                            fontSize: '10pt'
+                            }
+                        },
+                        axes: {
+                        xaxis: {
+                            renderer: $.jqplot.CategoryAxisRenderer
+                        }
+                        },
+                        highlighter: {
+                            show: true,
+                            showMarker:false,
+                            tooltipAxes: 'xy',
+                            yvalues: 2,
+                            formatString:'<table class="jqplot-highlighter"> \
+                            <tr><td>Tipo:</td><td>%s</td></tr> \
+                            <tr><td>solicitudes:</td><td>%s</td></tr></table>'
+                        },
+                        cursor: {
+                        show: false
+                        }
+                    });
+
+                } else if (iOpcChart === 2) {
+                    $.jqplot('chart' + idx,  [xy], {
+                        height: 400,
+                        title: aoDatos.asTituloY[idx],
+                        series:[{renderer:$.jqplot.BarRenderer}],
+                        axesDefaults: {
+                            tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                            tickOptions: {
+                            angle: iAngulo,
+                            fontSize: '10pt'
+                            }
+                        },
+                        axes: {
+                        xaxis: {
+                            renderer: $.jqplot.CategoryAxisRenderer
+                        }
+                        }
+                    });
+
+                } else if (iOpcChart === 3) {
+                    $.jqplot('chart' + idx,  [xy], {
+                        height: 400,
+                        title: aoDatos.asTituloY[idx],
+                        seriesDefaults:{
+                            renderer:$.jqplot.PieRenderer,
+                            rendererOptions: {showDataLabels: true}
+                        },
+                        legend: { show:true, location: 'e', placement:'insideGrid' }
+                    });
+                }
+            }
+        }
+
+        function construirTabla(){
+            // verificar que sean fechas..
+            $('#tblDatos').remove();
+            if ( sContenidoRenID !== "" || sContenidoColID !== ""){
+                var content = "<div id='tblDatos' class=''></div> ";
+                var idx = 0;
+                for (idx = 0 ; idx < aoDatos.asTituloY.length; idx++){
+                    content += "<div class='table_chart' id='tableChart" + idx + "'> </div>";
+                }
+                content += " </div> "    ;
+
+                $('#divTabla').append(content);
+                dibujarGrafica();
+            }
+        }
+    </script>
+}

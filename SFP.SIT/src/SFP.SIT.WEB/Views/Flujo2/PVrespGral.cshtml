@@ -1,0 +1,102 @@
+﻿@model EdoActViewModel
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+<div id="divResponder" style="width:99%; float:left; ">
+    <div class="w2ui-reset w2ui-form">
+        <form asp-controller="Respuesta" asp-action="PVrespSimple" method="post" id="RespSimpleForm" name="RespSimpleForm" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" id="nodclave" name="nodclave" />
+
+
+            <div class="w2ui-field w2ui-span10" style="clear: both">
+                <label>Número de oficio:</label>
+                <div>
+                    <input type="text" class="w2ui-input" for="Oficio" placeholder="folio" size="10" maxlength="10" style="width:135px" />
+                </div>
+            </div>
+
+            <div class="w2ui-field w2ui-span10" style="clear: both">
+                <label>Agregar archivos :</label>
+                <div>
+                    <input id="ArchivoResolucion" type="file" name="ArchivoResolucion"
+                           accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint"
+                           style="width:540px; margin: 2px 2px 2px 2px" multiple />
+                </div>
+            </div>
+
+            <div class="w2ui-field w2ui-span10" style="clear: both">
+                <label>Modo de entrega:</label>
+                <div>
+                    <select id="lstModoEntrega" name="lstModoEntrega" style="float: left;"> </select>
+                </div>
+            </div>
+
+
+            <div class="w2ui-field w2ui-span10" style="clear: both">
+                <label>Cantidad:</label>
+                <div>
+                    <input type="text" class="w2ui-input" for="Cantidad" placeholder="# hojas" size="10" maxlength="10" style="width:135px" />
+                </div>
+            </div>
+
+            <div class="w2ui-field w2ui-span10" style="clear: both">
+                <label>Descripción de la respuesta:</label>
+                <div>
+                    <div id="divEditorResolucion">
+                        <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    ///var _ModoEntrega = Html.Raw(Model.tipoModoEntrega);
+    
+
+    $(document).ready(
+        function () {
+            ckEditorDefinir(300);
+            SelectAddElemClear("lstModoEntrega", _ModoEntrega.records, true);
+
+    //////    $("#btnAccion").remove();
+    //////    $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+    //////    FormatoSugerido();
+
+    //////    $('#btnAccion').click(function () {
+    //////        $('#folio').val(_solclave);
+    //////        $('#nodo').val(_nodclave);
+    //////        $('#tipoInfo').val(0);
+    //////        $('#modoEntrega').val(0);
+    //////        $('#tipoArista').val($('#lstAccion').val());
+
+    //////        if ($('#lstModoEntrega').val() == undefined || $('#lstModoEntrega').val()== null)
+    //////        {
+    //////            w2alert("Seleccione un modo de entrega");
+    //////            return;
+    //////        }
+
+    //////        var editorData = CKEDITOR.instances.txtCkEditor.getData();
+    //////        if ( editorData.length < 2) {
+    //////            w2alert("El texto de la respuesta no puede ir en blanco")
+    //////            return;
+    //////        }
+    //////        $('#respuesta').val(editorData);
+    //////        $("#btnAccion").hide();
+    //////        document.ResponderForm.submit();
+    //////    });
+
+    //////    $('#btnImprimir').click(function () {
+    //////        $('#oficio').val($('#txtCkEditor').val());
+    //////        document.ImprimirForm.submit();
+    //////    });
+    });
+</script>
+
+

@@ -1,0 +1,51 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo arista sub";
+    Layout = null;
+}
+
+<div id="formAristaSubCla" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVaristaSubCla" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Arista :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo de arista:</p></td>
+                <td><select id="rtpclave" name="rtpclave" style="width:500px"></select></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoAri = @Html.Raw(Model.lstTipoAri);
+
+    function GuardarAristaSubCla()
+    {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+
+        datos = {
+            solclave: parseInt($("#solclave").val()),
+            ariclave: parseInt($("#ariclave").val()),
+            rtpclave: parseInt($("#rtpclave").val()),
+            cmd: parseInt($("#txtCmd").val()) 
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('rtpclave', _lstTipoAri.records, false);
+        }
+    );
+</script>
+
+

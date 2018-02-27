@@ -1,0 +1,193 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Solicitud";
+    Layout = null;
+}
+
+
+
+    <div id="formSolicitud" style="display:none">
+        <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVsolicitud" method="post">
+            @Html.AntiForgeryToken()
+            <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+                <colgroup>
+                    <col width="140">
+                    <col width="140">
+                    <col width="140">
+                    <col width="140">
+                    <col width="140">
+                </colgroup>
+                <tr>
+                    <td><p>Núm. folio :</p></td>
+                    <td><p>Folio :</p></td>
+                    <td><p>usuario:</p></td>
+                    <td><p>Fecha solicitud :</p></td>
+                    <td><p>Fecha registro :</p></td>
+                </tr>
+                <tr>
+                    <td><input id="solclave" type="text" style="width:90px" /></td>
+                    <td><input id="solclave" type="text" style="width:90px" /></td>
+                    <td><input id="sntclave" type="text" style="width:90px" /></td>
+                    <td><input id="solfecsol" type="date" style="width:140px" /></td>
+                    <td><input id="solfecrec" type="date" style="width:140px" /></td>
+                </tr>
+            </table>
+
+            <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+                <tr>
+                    <td><p>Fecha entrada :</p></td>
+                    <td><p>Fecha envio :</p></td>
+                    <td><p>Fecha respuesta :</p></td>
+                    <td><p>Fecha aclaración:</p></td>
+                    <td><p>Fecha Rec. Rev:</p></td>
+                </tr>
+                <tr>
+                    <td><input id="solfecent" type="date" style="width:140px" /></td>
+                    <td><input id="solfecenv" type="date" style="width:140px" /></td>
+                    <td><input id="solfecresp" type="date" style="width:140px" /></td>
+                    <td><input id="solfecacl" type="date" style="width:140px" /></td>
+                    <td><input id="solfecrecrev" type="date" style="width:140px" /></td>
+                </tr>
+            </table>
+
+            <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+                <tr>
+                    <td><p>Descripción:</p></td>
+                    <td><textarea id="soldes" rows="4" cols="110"> </textarea></td>
+                </tr>
+                <tr>
+                    <td><p>Otros Datos:</p></td>
+                    <td><textarea id="soldat" rows="4" cols="110"> </textarea></td>
+                </tr>
+                <tr>
+                    <td><p>Archivo de solicitud:</p></td>
+                    <td><input id="solarcdes" type="text" style="width:800px" /></td>
+                </tr>
+                <tr>
+                    <td><p>Medio entrada:</p></td>
+                    <td><select id="metclave" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Otro modo :</p></td>
+                    <td><input id="solotromod" type="text" style="width:200px" /></td>
+                </tr>
+                <tr>
+                    <td><p>Respuesta ID:</p></td>
+                    <td><input id="solrespclave" type="text" style="width:90px" /></td>
+                </tr>
+                <tr>
+                    <td><p>Tipo solicitud:</p></td>
+                    <td><select id="sotclave" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Otro derecho:</p></td>
+                    <td><input id="                        afdDataMdl.solicitud.solotroderacc = regArchivoSol.us_otroderechoacceso;" type="text" style="width:300px" /></td>
+                </tr>
+                <tr>
+                    <td><p>Motivo desecha:</p></td>
+                    <td><input id="solmotdesecha" type="text" style="width:300px" /></td>
+                </tr>
+                <tr>
+                    <td><p>solnotificado:</p></td>
+                    <td><input id="solnotificado" type="text" style="width:300px" /></td>
+                </tr>
+                <tr>
+                    <td><p>Unidad Trans :</p></td>
+                    <td><select id="us_unienl" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Modo de entrega:</p></td>
+                    <td><select id="megclave" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Forma de entrega:</p></td>
+                    <td><select id="idformaentrega" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Tema:</p></td>
+                    <td><select id="krt_clatema" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Clave del proceso:</p></td>
+                    <td><select id="prcclave" style="width:300px"></select></td>
+                </tr>
+                <tr>
+                    <td><p>Tipo de plazo:</p></td>
+                    <td><input id="pczclave" type="text" style="width:90px" /></td>
+                </tr>
+            </table>
+    </form>
+</div>
+
+    <script>
+        var _lstMedioEntrada = @Html.Raw(Model.lstMedioEntrada);
+        var _lstModoEntrega = @Html.Raw(Model.lstModoEntrega);
+        var _lstTipoSolicitud = @Html.Raw(Model.lstTipoSolicitud);
+
+        var _lstTipoTema = @Html.Raw(Model.lstTipoTema);
+        var _lstTipoProceso = @Html.Raw(Model.lstTipoProceso);
+        var _lstUnidadTran = @Html.Raw(Model.lstUnidadTran);
+
+        function GuardarSolicitud()
+        {
+            var url = '@Url.Action("PVsolicitud", "Catalogo")';
+
+            var fecSol = fechaValidar("#solfecsol");
+            var fecRec = fechaValidar("#solfecrec");
+            var fecEnt = fechaValidar("#solfecent");
+            var fecEnv = fechaValidar("#solfecenv");
+            var fecResp = fechaValidar("#solfecresp");
+            var fecAcl = fechaValidar("#solfecacl");
+            var fecRrev = fechaValidar("#solfecrecrev");
+
+            datos = {
+                solclave: parseInt($("#solclave").val()),
+                solclave: parseInt($("#solclave").val()),
+
+                solfecsol: fecSol.toISOString(),
+                solfecrec: $("#solfecrec").val(),
+                solfecent: $("#solfecent").val(),
+                solfecenv: fecEnv.toISOString(),
+                solfecresp: fecEnv.toISOString(),
+                solfecacl: fecAcl.toISOString(),
+                solfecrecrev: fecRrev.toISOString(),
+
+                us_unienl: parseInt($("#us_unienl").val()),
+                solotromod: $("#solotromod").val(),
+                soldes: $("#soldes").val(),
+                soldat: $("#soldat").val(),
+                solarcdes: $("#solarcdes").val(),
+                metclave: parseInt($("#metclave").val()),
+                solrespclave: parseInt($("#solrespclave").val()),
+                sotclave: parseInt($("#sotclave").val()),
+                                        afdDataMdl.solicitud.solotroderacc = regArchivoSol.us_otroderechoacceso;: $("#                        afdDataMdl.solicitud.solotroderacc = regArchivoSol.us_otroderechoacceso;").val(),
+                solmotdesecha: $("#solmotdesecha").val(),
+                solnotificado: $("#solnotificado").val(),
+                sntclave: parseInt($("#solnotificado").val()),
+                idformaentrega: parseInt($("#idformaentrega").val()),
+                megclave: parseInt($("#megclave").val()),
+                krt_tema: parseInt($("#krt_clatema").val()),
+
+                prcclave: parseInt($("#prcclave").val()),
+                pczclave: parseInt($("#pczclave").val()),
+                cmd: parseInt($("#txtCmd").val())
+            };
+
+            guardarForma( parseInt($("#txtCmd").val()), url, datos);
+        }
+        $(document).ready(
+            function () {
+                SelectAddElemClear('megclave', _lstModoEntrega.records, false);
+                SelectAddElemClear('metclave', _lstMedioEntrada.records, false);
+                SelectAddElemClear('idformaentrega', _lstModoEntrega.records, false);
+                SelectAddElemClear('sotclave', _lstTipoSolicitud.records, false);
+
+                SelectAddElemClear('krt_clatema', _lstTipoTema.records, false);
+                SelectAddElemClear('prcclave', _lstTipoProceso.records, false);
+                SelectAddElemClear('us_unienl', _lstUnidadTran.records, false);
+
+            }
+        );
+    </script>
+
+

@@ -1,0 +1,65 @@
+{
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "preserveCompilationContext": true
+  },
+  "dependencies": {
+    "BundlerMinifier.Core": "2.2.306",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.1",
+    "Microsoft.AspNetCore.Diagnostics": "1.1.0",
+    "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
+    "Microsoft.AspNetCore.Routing": "1.1.0",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
+    "Microsoft.Extensions.Logging": "1.1.0",
+    "Microsoft.Extensions.Logging.Console": "1.1.0",
+    "Microsoft.Extensions.Logging.Debug": "1.1.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
+    "Pdfbox": "1.1.1",
+    "Select.HtmlToPdf": "2.4.0.1",
+    "Serilog.Extensions.Logging": "1.3.1",
+    "Serilog.Extensions.Logging.File": "1.0.0",
+    "Serilog.Sinks.Literate": "2.1.0-dev-00034",
+    "System.Text.Encoding": "4.3.0"
+  },
+  "frameworks": {
+    "net462": {
+      "dependencies": {
+        "SFP.SIT.AFD": {
+          "target": "project"
+        },
+        "SFP.SIT.SERV": {
+          "target": "project"
+        }
+      },
+      "frameworkAssemblies": {
+        "System.Data": "4.0.0.0",
+        "System.Net": "4.0.0.0"
+      }
+    }
+  },
+  "publishOptions": {
+    "include": [
+      "wwwroot",
+      "**/*.cshtml",
+      "appsettings.json",
+      "web.config",
+      "Archivos",
+      "Logs",
+      "Manual",
+      "Plantillas"
+    ]
+  },
+  "scripts": {
+    "prepublish": [ "bower install", "dotnet bundle" ],
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  },
+  "tools": {
+  },
+  "userSecretsId": "aspnet-SFP.SIT.WEB-ea68d25f-6d81-4054-b54d-068364bf61a3"
+}

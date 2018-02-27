@@ -1,0 +1,228 @@
+﻿@* --------------------------------------------
+    FORMA PARA RESPONDER INFOMRACION CONFIDENCIAL
+    -------------------------------------------- *@
+@model FrmRespInexistenciaVM
+@using SFP.SIT.SERV.Util
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="overflow-y: hidden; width:100%;  ">
+
+    @using (Html.BeginForm("PVinexistencia", controlName, FormMethod.Post, new { id = "InexistenciaForm", name = "InexistenciaForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        // BASE
+        <input type="hidden" asp-for="recid" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsol" />
+
+        <input type="hidden" asp-for="resRespuesta.repclave" />
+
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Número de Oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repoficio" size="50" style="width:600px" />
+                <input type="hidden" asp-for="resRespuesta.docclave" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Agregar archivo:</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocContenido" style="float:left; ">
+                @if (Model.resRespuesta.docclave > 0)
+                {
+                    <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.docResolucionMdl.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Html.Raw(Model.docResolucionMdl.docnombre)
+                    </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.resRespuesta.repclave,'', @Model.resRespuesta.docclave)" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Modo de entrega:</label>
+            <div>
+                <select asp-for="resRespuesta.megclave" asp-items="@ViewBag.tipoModoEntrega" style="float: left; width:450px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Cantidad:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repcantidad" size="10" style="width:80px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Nombre del resposable:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resInexistencia.inxresponsable" size="10" style="width:600px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Cargo:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resInexistencia.inxcargo" size="10" style="width:600px" />
+            </div>
+        </div>
+
+        <div style="border-top:1px solid lightgray; border-bottom: 1px solid lightgray; width:100%; height:25px; margin-bottom:10px; margin-top:10px;">
+            <strong style="margin-top:10px; margin-left:50px">RAZONES</strong>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <input type="hidden" asp-for="respTiempo.repclave" />
+            <input type="hidden" asp-for="respTiempo.detclave" />
+            <input type="hidden" asp-for="respTiempo.docclave" />
+            <label>Tiempo:</label>
+            <div>
+                <textarea asp-for="respTiempo.detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docTiempo" name="docTiempo" type="file"
+                    accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                    style="width: 450px; float:left;" />
+            </div>
+            <div id="divDocTiempo" style="float:left;" >
+                @if (Model.docTiempoMdl.docclave > 0)
+                {
+                <a id="adocTiempo" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.docTiempoMdl.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                    @Html.Raw(Model.docTiempoMdl.docnombre)</a>
+                    <a id="adocTiempoRemover" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.TIEMPO', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+        </div>
+    </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <input type="hidden" asp-for="respModo.repclave" />
+            <input type="hidden" asp-for="respModo.detclave" />
+            <input type="hidden" asp-for="respModo.docclave" />
+            <label>Modo:</label>
+            <div>
+                <textarea asp-for="respModo.detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docModo" name="docModo" type="file"
+                accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocModo" style="float:left;">
+                @if (Model.docModoMdl.docclave > 0) {
+                <a id="adocModo" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.docModoMdl.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                    @Html.Raw(Model.docModoMdl.docnombre)</a>
+                    <a id="adocModoRemover" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.MODO', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <input type="hidden" asp-for="respLugar.repclave" />
+            <input type="hidden" asp-for="respLugar.detclave" />
+            <input type="hidden" asp-for="respLugar.docclave" />
+            <label>Lugar:</label>
+            <div>
+                <textarea asp-for="respLugar.detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docLugar" name="docLugar" type="file"
+                   accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                   style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocLugar" style="float:left;">
+                @if (Model.docLugarMdl.docclave > 0) {
+                    <a id="adocLugar" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.docLugarMdl.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                    @Html.Raw(Model.docLugarMdl.docnombre)</a>
+                    <a id="adocLugarRemover" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.LUGAR', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style=" font-size: 20px; color:red; "></a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+<script>
+    function Inicializar() {
+        $('#solclave').val(_solclave);
+    }
+
+    function Validar() {
+
+        if ($("#respLugar_detdescripcion").val().length < 2)
+        { 
+            w2alert("Es necesario que defina una descripción de Lugar")
+            return false;
+        }
+
+        if ($("#respModo_detdescripcion").val().length < 2) {
+            w2alert("Es necesario que defina una descripción de Modo")
+            return false;
+        }
+
+        if ($("#respTiempo_detdescripcion").val().length < 2) {
+            w2alert("Es necesario que defina una descripción de Tiempo")
+            return false;
+        }
+        
+        return true;
+    }
+
+    function Grabar() {
+        if (Validar() === true) {
+            _Inicio = true;
+            document.InexistenciaForm.submit();
+        }
+    }
+  
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            _Inicio = true;
+            var formaActual = document.InexistenciaForm;
+            formaActual.target = "iframeAux";
+            formaActual.submit();
+        }
+        return 0;
+    }
+
+
+    function DocRemoverResp(datos) {
+        window.location.reload();
+        @*if (datos == @Constantes.RespuestaTipoContenido.MODO) {
+            $("#divDocModo").hide();
+        } else if (datos == @Constantes.RespuestaTipoContenido.LUGAR) {
+            $("#divDocLugar").hide();
+        } else if (datos == @Constantes.RespuestaTipoContenido.TIEMPO) {
+            $("#divDocTiempo").hide();
+        }*@
+    }
+</script>

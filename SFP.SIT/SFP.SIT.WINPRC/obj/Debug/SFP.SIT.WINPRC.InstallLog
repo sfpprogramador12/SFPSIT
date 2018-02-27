@@ -1,0 +1,16 @@
+﻿Instalando ensamblado 'C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.InstallLog
+   assemblypath = C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe
+Instalando el servicio SFP.SIT.CALCULAR...
+Creando el origen de EventLog SFP.SIT.CALCULAR en el registro Application...
+Deshaciendo ensamblado 'C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe'.
+Los parámetros afectados son:
+   logtoconsole = 
+   logfile = C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.InstallLog
+   assemblypath = C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe
+Restaurando el registro de eventos al estado anterior para el origen SFP.SIT.CALCULAR.
+Excepción durante la fase de retroceso al estado original del instalador System.Diagnostics.EventLogInstaller.
+System.Security.SecurityException: No se encontró el origen, pero no se pudo buscar en algunos o todos los registros de eventos. Registros inaccesibles: Security.
+Excepción durante la fase de instalación de retroceso al estado original. Esta excepción se omitirá y se continuará con el retroceso al estado original. Sin embargo, puede que el equipo no recupere el estado inicial hasta que se haya completado esta fase.

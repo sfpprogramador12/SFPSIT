@@ -1,0 +1,136 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Seguimiento";
+    Layout = null;
+}
+
+<div id="formSeguimiento" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="solclave" type="text" style="width:110px" /></td>
+            </tr>
+            <tr>
+                <td><p>Proceso :</p></td>
+                <td><select id="prcclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Fecha inicio :</p></td>
+                <td><input id="segfecini" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha estimada :</p></td>
+                <td><input id="segfecestimada" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha fin:</p></td>
+                <td><input id="segfecfin" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha ampliación:</p></td>
+                <td><input id="segfecamp" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha calculo :</p></td>
+                <td><input id="segfeccalculo" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Días semaforo :</p></td>
+                <td><input id="segdiassemaforo" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Días no laborales :</p></td>
+                <td><input id="segdiasnolab" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Color semaforo :</p></td>
+                <td>
+                    <select id="segsemaforocolor" style="width:300px">
+                        <option id="1" value="1">VERDE</option>
+                        <option id="2" value="2">AMARILLO</option>
+                        <option id="3" value="3">ROJO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Multiple :</p></td>
+                <td><input id="segmultiple" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Respuesta int :</p></td>
+                <td><select id="rtpclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Respuesta ext :</p></td>
+                <td><select id="seg_resp_exterior" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Estado proceso :</p></td>
+                <td><input id="segedoproceso" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>AFD :</p></td>
+                <td><select id="AFDCLAVE" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Arista :</p></td>
+                <td><input id="ariclave" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Último nodo :</p></td>
+                <td><input id="segultimonodo" type="text" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoProceso = @Html.Raw(Model.lstTipoProceso);
+    var _lstTipoArista = @Html.Raw(Model.lstTipoAri);
+    var _lstAfd = @Html.Raw(Model.lstAFD);
+
+    function GuardarSeguimiento()
+    {
+
+        var url = '@Url.Action("PVseguimiento", "Catalogo")';
+
+        var fecIni = fechaValidar("#segfecini");
+        var fecAmpli = fechaValidar("#segfecamp");
+        var fecFin = fechaValidar("#segfecfin");
+        var fecCal = fechaValidar("#segfeccalculo");
+        var fecEst = fechaValidar("#segfecestimada");
+
+        datos = {
+            solclave: parseInt($("#solclave").val()),
+            prcclave:  parseInt($("#prcclave").val()),
+            segfecini: fecIni.toISOString(),
+            segfecestimada:  fecEst.toISOString(),
+            segfecfin: fecFin.toISOString(),
+            segfecamp:  fecAmpli.toISOString(),
+            segfeccalculo: fecCal.toISOString(),
+            segdiassemaforo: parseInt($("#segdiassemaforo").val()),
+            segdiasnolab:  parseInt($("#segdiasnolab").val()),
+            segsemaforocolor: parseInt($("#segsemaforocolor").val()),
+            segmultiple:  parseInt($("#segmultiple").val()),
+            rtpclave: parseInt($("#rtpclave").val()),
+            seg_resp_exterior:  parseInt($("#seg_resp_exterior").val()),
+            segedoproceso:  parseInt($("#segedoproceso").val()),
+           afdclave:  parseInt($("#AFDCLAVE").val()),
+            ariclave:  parseInt($("#ariclave").val()),
+            segultimonodo:  parseInt($("#segultimonodo").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+    $(document).ready(
+        function () {
+            SelectAddElemClear('prcclave', _lstTipoProceso.records, false);
+            SelectAddElemClear('rtpclave', _lstTipoArista.records, false);
+            SelectAddElemClear('seg_resp_exterior', _lstTipoArista.records, false);
+            SelectAddElemClear('AFDCLAVE', _lstAfd.records, false);
+        }
+    );
+</script>

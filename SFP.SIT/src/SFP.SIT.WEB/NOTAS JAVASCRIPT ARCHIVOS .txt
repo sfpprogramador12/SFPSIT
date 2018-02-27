@@ -1,0 +1,393 @@
+﻿<script type="text/javascript">
+        $('#uploadFile').on('change', function() {
+
+            var attachedfiles = $('#uploadFile')[0].files;
+            var validatedFiles = [];
+
+
+            for (var i = 0; i < attachedfiles.length; i++) 
+            {                       
+               if (attachedfiles[i].size < 5242880) 
+               {                 
+                 validatedFiles.push(attachedfiles[i]);
+               }
+               else 
+               {
+                 alert("File size is more than 5MB");
+                 event.preventDefault();
+                 false;
+               }
+            }
+
+            console.log(validatedFiles);
+            console.log(attachedfiles);
+        }); 
+ </script>
+
+
+
+
+
+
+
+
+
+
+
+ _______________
+
+ ARCHIVOS EN MEMORIA...
+ ___________________________
+
+ http://www.c-sharpcorner.com/UploadFile/manas1/upload-files-through-jquery-ajax-in-Asp-Net-mvc/
+
+
+
+ @* --------------------------------------------
+    FORMA PARA RESPONDER INFOMRACION CONFIDENCIAL
+    -------------------------------------------- *@
+
+@model FrmRespConfidencialVM
+@using SFP.SIT.SERV.Util
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="overflow-y: hidden; width:auto; ">
+    @using (Html.BeginForm("PVconfidencial", controlName, FormMethod.Post, new { id = "ConfidencialForm", name = "ConfidencialForm", enctype = "multipart/form-data", style = "width:auto" }))
+    {
+        @Html.AntiForgeryToken()
+        // BASE
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsol" />
+        <input type="hidden" asp-for="solfecsolticks" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="avanzar" />
+
+        <input type="hidden" asp-for="resRespuesta.rtpclave" />
+        <input type="hidden" asp-for="resRespuesta.repclave" />
+
+        @* DATOS AUXILIARES DE LA FORMA*@
+        <input type="hidden" asp-for="DatosJson" />
+        <input type="hidden" asp-for="OperSubTipo" />
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Número de Oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repoficio" size="50" style="width:450px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Agregar archivo:</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+            <div id="divDocContenido">
+                @if (Model.resRespuesta.docclave > 0)
+                {
+                    <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.docResolucionMdl.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Html.Raw(Model.docResolucionMdl.docnombre)
+                    </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.resRespuesta.repclave, @Model.resRespuesta.docclave)" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Modo de entrega:</label>
+            <div>
+                <select asp-for="resRespuesta.megclave" asp-items="@ViewBag.tipoModoEntrega" style="float: left; width:450px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Cantidad:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repcantidad" style="width:80px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Datos a testear:</label>
+            <div id="divGridConfidencial" style="width:700px; height: 170px;  "></div>
+        </div>
+
+        <input type="hidden" asp-for="resRespuesta.repclave" />
+        @Html.AntiForgeryToken()
+        <div id="divTipoDato" class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Tipo de dato:</label>
+            <div>
+                <input type="text" class="w2ui-input" id="txtClave" style="width:350px" />
+            </div>
+        </div>
+
+        <div id="divDescripcion" class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Descripción </label>
+            <div>
+                <textarea id="txtDescripcion" rows="5" cols="90"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+
+        <div id="divDoc" class="w2ui-field w2ui-span8" style="clear: both">
+            <div>
+                <input id="docTipoDato" name="docTipoDato" type="file"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 670px; float:left;" />
+            </div>
+        </div>
+
+        <div id="divBotones" class="w2ui-field w2ui-span8" style="clear: both">
+            <div style="float: right">
+                <button type="button" class="btn" style="margin-right: 30px" onclick="Ocultar();">Cancelar</button>
+                <button type="button" class="btn" onclick="FormItemGrid();">Agregar</button>
+            </div>
+        </div>
+
+
+        <input id="Archivos" name="files" type="file"
+               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+               style="width: 670px; float:left; " multiple />
+    }
+</div>
+
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+<script>
+    var _grdDatConfidencial =  @Html.Raw(Model.DatosJson);
+    var validatedFiles = [];
+
+    function Ocultar(){
+        $('#divTipoDato').hide();
+        $('#divDescripcion').hide();
+        $('#divDoc').hide();
+        $('#divBotones').hide();
+
+        $("#txtClave").val("");
+        $("#txtDescripcion").val("");
+        $("#docTipoDato").val(null);
+
+        $('#btnAnalizarCerrar').show();
+        $('#btnAnalizarGrabar').show();        
+    }
+
+    function Inicializar()
+    {        
+        $('#Archivos').hide();
+        $('#solclave').val(_solclave);
+        Ocultar();
+
+        var gridConfidencial = {
+            name: 'gridConfidencial',
+            show: {
+                lineNumbers: true,
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: 'RecID', size: '1px', hidden: true },
+                { field: 'repclave', caption: 'repclave', size: '1px', hidden: true },
+                { field: 'detclave', caption: 'Clave ', size: '180px'},
+                { field: 'docclave', caption: 'Documento', size: '80px',
+                    render: function (registro) {
+                    var datosHTML = "";
+                    if ( registro.docclave !== 0 )
+                    {
+                        if (registro.docclave != undefined ) {
+                            datosHTML = '<a class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px" href="Documento?id=' + registro.docclave + '"></a>';
+                        } else {
+                            datosHTML ="";
+                        }
+                    } else {
+                        if (registro.docTemp != undefined) {
+                            datosHTML = '<a class="glyphicon glyphicon glyphicon-list-alt btn-lg green" data-toggle="tooltip" title="Ver documento anexo" href="#" onclick="Mensaje()"><span class="glyphicon glyphicon-arrow-up"></span></a>'
+                        }
+                        else { 
+                            datosHTML = "";
+                        }                        
+                    }
+
+                    return datosHTML;
+                }},
+                { field: 'detdescripcion', caption: 'Tipo de dato', size: '390px', sortable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems2,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" ){
+                        $('#divDescripcion').val("");
+                        $('#divDoc').val("");
+                        $('#divTipoDato').show();
+                        $('#divDescripcion').show();
+                        $('#divDoc').show();
+                        $('#divBotones').show();
+                        $('#OperSubTipo').val(1);
+
+                        $('#btnAnalizarCerrar').hide();
+                        $('#btnAnalizarGrabar').hide();                                                
+                    }
+                    else if (event.target === "cmdBorrar" )
+                    {
+                        var sel = w2ui.gridConfidencial.getSelection();
+                        if (sel.length == 1) {
+                            var registro = $.extend(true, {}, w2ui.gridConfidencial.get(sel[0]));
+                        }
+
+                        w2confirm('¿Esta usted seguro de borrar este registro ? <br/> <br/>' + registro.detclave, function btn(answer) {
+                            if (answer == "Yes")
+                            {
+                                w2ui['gridConfidencial'].remove(registro.recid);
+
+                                //$("#resRespuesta_repclave").val(registro.repclave);
+                                //$("#txtClave").val(registro.detclave);
+                                //$('#OperSubTipo').val(3);
+                                //FormItemSubmit();
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        
+        if (w2ui['gridConfidencial'] == null) {
+            $().w2grid(gridConfidencial);
+        }
+        else
+        { 
+            w2ui['gridConfidencial'].destroy();
+            $().w2grid(gridConfidencial);
+        }
+
+        if (_grdDatConfidencial.records.length > 0)
+        {
+            for ( idx = 0; idx < _grdDatConfidencial.records.length; idx++)
+            {
+                var dato = _grdDatConfidencial.records[idx];
+                w2ui['gridConfidencial'].add([{
+                    recid: dato.recid, repclave: dato.REPCLAVE,
+                    detclave: dato.DETCLAVE, detdescripcion: dato.DETDESCRIPCION, docclave: dato.DOCCLAVE
+                }]);
+            }
+            $("#resRespuesta_repclave").val(_grdDatConfidencial.records[0].REPCLAVE);
+        }       
+        $('#divGridConfidencial').w2render('gridConfidencial');
+    }
+
+
+  
+    function Validar()
+    {
+        if ($("#resRespuesta_repoficio").val().length < 2)
+        {
+            w2alert("Es necesario que defina un número de oficio");
+            return false;
+        }
+        
+        if ($("#resRespuesta_repcantidad").val().length == 0) {
+            w2alert("Es necesario que defina una cantidad");
+            return false;
+        }
+
+        $("#resRespuesta_rtpclave").val(@Constantes.Respuesta.INFO_CONFIDENCIAL);        
+        return true;
+    }
+
+    function submit() {
+        _Inicio = true;
+        document.getElementById("nodclave").value = _nodclave;
+        document.getElementById("solfecsolticks").value = _solfecsolticks;
+
+        ////var fileInput = document.getElementById("Archivos");
+        ////fileInput.files = validatedFiles;
+
+        var formData = document.ConfidencialForm;
+        for (var idx = 0; idx < validatedFiles.length; idx++)
+        { 
+            formData.append("files", validatedFiles[idx]);
+        }
+
+        formData.submit();
+    }
+
+    function Grabar() {
+        if (Validar() === true) {
+            submit();
+        }
+    }
+
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            var formaActual = document.ConfidencialForm;
+            /// formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+
+    function FormItemSubmit() {
+        if (Validar() === true)
+        {
+
+            var formData = new FormData();
+            formData.append("nodclave", _nodclave);
+            formData.append("rtpclave",  @Constantes.Respuesta.INFO_CONFIDENCIAL );
+
+            formData.append("solfecsolticks", _solfecsolticks);
+
+            formData.append("ctpClave", $("#resDatos_ctpclave").val());
+            formData.append("datDescripcion", $("#resDatos_datdescripcion").val());
+            formData.append("repClave", $("#resRespuesta_repclave").val());
+            formData.append("OperSubTipo", $("#OperSubTipo").val());
+
+            // SI NO EXISTE EL REGISTRO CREARLO
+            formData.append("repoficio", $("#resRespuesta_repoficio").val());
+            formData.append("megclave", $("#resRespuesta_megclave").val());
+            formData.append("repcantidad", $("#resRespuesta_repcantidad").val());
+            formData.append("docResolucion", document.getElementById("docResolucion").files[0]);            
+
+            //DATOS DEL ITEM
+            var sampleFile = document.getElementById("docTipoDato").files[0];
+            formData.append("txtClave", $("#txtClave").val());
+            formData.append("txtDescripcion", $("#txtDescripcion").val() );
+            formData.append("docTipoDato", sampleFile);
+
+            $('#btnAnalizarCerrar').show();
+            $('#btnAnalizarGrabar').show();
+
+            AjaxPostFile(ConfidencialForm.action + "Item", "POST", formData, GridAclaracionAct, "multipart/form-data", _UrlInicio, true);
+        }
+    }
+
+    function GridAclaracionAct(datos) {
+        var obj = JSON.parse(datos);
+
+        w2ui['gridConfidencial'].clear();
+
+        for (idx = 0; idx < obj.records.length; idx++) {
+            var dato = obj.records[idx];
+            w2ui['gridConfidencial'].add([{
+                recid: dato.recid, repclave: dato.REPCLAVE,
+                detclave: dato.DETCLAVE, detdescripcion: dato.DETDESCRIPCION, docclave: dato.DOCCLAVE
+            }]);
+            $('#resRespuesta_repclave').val(dato.REPCLAVE);
+        }
+
+        // como se agrego algo cambia a edición
+        document.getElementById("Oper").value = "2";
+        Ocultar();
+        document.getElementById("docResolucion").value = "";
+        document.getElementById("resDatos.datdescripcion").value = "";
+    }
+    
+    function DocRemoverResp(datos)
+    {
+        if (datos  == @Constantes.RespuestaTipoContenido.MODO)
+        {
+            $("#divDocContenido").hide();
+        }
+    }
+</script>

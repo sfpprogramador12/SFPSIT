@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Proceso";
+    Layout = null;
+}
+
+<div id="formProceso" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVproceso" method="post">
+        @Html.AntiForgeryToken()
+
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Proceso ID :</p></td>
+                <td><input id="prcclave" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="prcdescripcion" type="text" style="width:450px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarProceso() {
+        var url = '@Url.Action("PVproceso", "Catalogo")';
+
+        datos = {
+            prcclave: parseInt($("#prcclave").val()),
+            prcdescripcion: $("#prcdescripcion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

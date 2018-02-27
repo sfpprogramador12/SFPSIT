@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Catálogo arista revisión;
+    Layout = null;
+}
+
+<div id="formAristaRev" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVaristaRev" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:100px" /></td>
+            </tr>
+            <tr>
+                <td><p>Arista :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Expediente :</p></td>
+                <td><input id="rev_expediente" name="rev_expediente" type="text" style="width:80px" /></td>
+            </tr>
+            <tr>
+                <td><p>Responsable :</p></td>
+                <td><input id="rev_responsable" name="rev_responsable" type="text" style="width:350px" /></td>
+            </tr>
+            <tr>
+                <td><p>Correo :</p></td>
+                <td><input id="rev_correo" name="rev_correo" type="text" style="width:350px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarAristaRev() {
+
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+        datos = {
+            solclave: parseInt($("#solclave").val()),
+            ariclave: $("#ariclave").val(),
+            rev_expediente: $("#rev_expediente").val(),
+            rev_responsable: $("#rev_responsable").val(),
+            rev_correo: $("#rev_correo").val(),
+            cmd: parseInt($("#txtCmd").val())
+        }
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

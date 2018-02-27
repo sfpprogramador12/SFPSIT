@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Tipo de área";
+    Layout = null;
+}
+
+<div id="formTipoArea" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Clave tipo área:</p></td>
+                <td><input id="kta_clatipo_area" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="kta_descripcion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Siglas :</p></td>
+                <td><input id="kta_siglas" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="kta_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoArea()
+    {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+        var fecha = fechaValidar("#kta_fecbaja");
+
+        datos = {
+            kta_clatipo_area: parseInt($("#kta_clatipo_area").val()),
+            kta_descripcion: $("#kta_descripcion").val(),
+            kta_siglas: $("#kta_siglas").val(),
+            kta_fecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

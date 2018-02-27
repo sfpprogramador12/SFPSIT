@@ -1,0 +1,249 @@
+﻿@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+<div id="divRecursoRevisionDatos">
+    <div id="divGridRespAreas" style="width: 100%; height: 100px"></div>
+    @* --------------------------------------------
+        FORMA PARA TURNAR
+        -------------------------------------------- *@
+    @using (Html.BeginForm("PVrevision", controlName, FormMethod.Post, new { id = "RevisionForm", name = "RevisionForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="turnarFolio" name="turnarFolio" />
+        <input type="hidden" id="turnarAreas" name="turnarAreas" />
+        <input type="hidden" id="resumen" name="resumen" />
+
+        <fieldset style="float:left; margin: 8px 0px 5px 0px; height:190px; font-family:Arial; font-size:small">
+            <label style="font-family:Arial; font-size:small">Información del Recurso de Revisión</label>
+            <table >
+                <colgroup>
+                    <col style="width:110px;">
+                    <col style="width:160px;">
+                </colgroup>
+                <tr>
+                    <td>Expediente: </td>
+                    <td> <input id="expediente" name="expediente" type="text" style="width:200px;"> </td>
+                </tr>
+
+                <tr>
+                    <td>Fec. recepción: </td>
+                    <td><input id="fecRecepcion" name="fecRecepcion" type="date" style="width:200px;"></td>
+                </tr>
+
+                <tr>
+                    <td>Responsable: </td>
+                    <td><input id="responsable" name="responsable" type="text" style="width:200px;"></td>
+                </tr>
+
+                <tr>
+                    <td>Correo:</td>
+                    <td><input id="correo" name="correo" type="text" style="width:200px;"></td>
+                </tr>
+
+                <tr>
+                    <td>Fec. respuesta: </td>
+                    <td><input id="fecRespuesta" name="fecRespuesta" type="date" style="width:200px;"></td>
+                </tr>
+
+            </table>    
+        </fieldset>
+
+        <fieldset style="float:left; margin: 8px 0px 5px 0px; width:700px; font-family:Arial; font-size:small ">
+            <label>Documentos</label>
+            <table>
+                <colgroup>
+                    <col style="width:90px;">
+                    <col style="width:300px;">
+                </colgroup>
+                <tr>
+                    <td>Notificación</td>
+                    <td>
+                        <input id="docNotificar" type="file" name="docNotificar"
+                               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12,
+                                        application/vnd.ms-powerpoint" style="width: 660px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Respuesta</td>
+                    <td>
+                        <input id="docRespuesta" type="file" name="docRespuesta"
+                               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12,
+                                        application/vnd.ms-powerpoint" style="width: 660px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Solicitud</td>
+                    <td>
+                        <input id="docSolicitud" type="file" name="docSolicitud"
+                               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12,
+                                        application/vnd.ms-powerpoint" style="width: 660px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Recurso: </td>
+                    <td>
+                        <input id="docRecurso" type="file" name="docRecurso"
+                               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12,
+                                        application/vnd.ms-powerpoint" style="width: 660px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Acuerdo </td>
+                    <td>
+                        <input id="docAcuerdo" type="file" name="docAcuerdo"
+                               accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12,
+                                        application/vnd.ms-powerpoint" style="width: 660px;" />
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <table style="width:100%">
+            <tr>
+                <td>Acto que se Recurre y Puntos Petitorios</td>
+                <td> <textarea id="actos" name="actos" cols="120" rows="3" > </textarea> </td>
+            </tr>                         
+        </table>
+
+        <div>
+
+        </div>
+
+        <div id="divCkEditor" style="margin-top:5px; float:left; width:99%">
+            <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor"></textarea>
+        </div>
+        }
+
+        <table>
+            <colgroup>
+                <col span="1" style="width:30px;">
+                <col span="1" style="width:88%;">
+            </colgroup>
+            <tr>
+                <td>
+                    <a href="#" class="botonInt" style="float:left" id="btnPara">Agregar</a>
+                    <a href="#" class="botonInt" style="float:left" id="btnBorrarArea">Borrar</a>
+                </td>
+                <td>
+                    <div id="divGridTurnar" style="float:left; padding-top: 5px; width: 980px; height: 13vh;"></div>
+                </td>
+            </tr>
+        </table>
+
+        @* FORMA PARA SELECCIONAR AREAS  *@
+        <div id="Aux"></div>
+        <div id="dialog-form" style="display: none; width: 100%; height: 100%; overflow: hidden;">
+            <div rel="body">
+                <div id="gridArea" style="width: 100%; height: 470px;"></div>
+            </div>
+        </div>
+</div>
+
+   
+<div id="divRecursoRevisionMensaje">
+
+</div>
+   
+<script>
+    $(document).ready(
+        function () {
+            _Solicitante =  @Html.Raw(ViewBag.solicitante);
+            _Solicitud =    @Html.Raw(ViewBag.solicitud);
+            _FecAclaracion= @Html.Raw(ViewBag.fecAclaracion);
+            _Aclaracion =   @Html.Raw(ViewBag.aclaracion);
+            _solclave =        @Html.Raw(@ViewBag.folio);
+            _FecFin =       @Html.Raw(@ViewBag.fecfin);
+            _FecRecRev =    @Html.Raw(@ViewBag.fecRecRev);
+            _RespAreas=     @Html.Raw(@ViewBag.respAreas);
+            _UltimoNodo =   @Html.Raw(@ViewBag.ultimoNodo);
+
+            InicilizaRevision();
+
+            $('#btnBorrarArea').click(function () {
+                w2ui['gridTurnar'].remove(w2ui['gridTurnar'].getSelection());
+            });
+        }
+    );
+
+    function abrirDocumento(docIdx) {
+        event.stopPropagation();
+        window.open("Documento?id=" + docIdx);
+    }
+
+
+    function InicilizaRevision()
+    {
+        $("#divRecursoRevisionDatos").hide();
+
+        if ( _Solicitante.records.length > 0)
+        {
+            w2ui.gridSolicitante.records = _Solicitante.records;
+            w2ui.gridSolicitante.reload();
+            w2ui.gridSolicitud.records = _Solicitud.records;
+            w2ui.gridSolicitud.reload();
+
+            HabilitarTabAclaracionRecurso();
+
+            @* R E S P U E S T A S *@
+            if (w2ui.gridRespAreas == undefined)
+                $('#divGridRespAreas').w2grid(GetGridRespAreas());
+
+            w2ui.gridRespAreas.records = _RespAreas.records;
+            w2ui.gridRespAreas.reload();
+            w2ui.gridRespAreas.hideColumn('ESTADO');
+            w2ui.gridRespAreas.refresh();
+            $('#divGridRespAreas').w2render('gridRespAreas');
+
+            if (w2ui.gridTurnar == undefined)
+                $('#divGridTurnar').w2grid(GetGridTurnar());
+
+            w2ui.gridTurnar.show.toolbar = false;
+            w2ui.gridTurnar.hideColumn('recid', 'Instruccion','AreasID');
+            w2ui.gridTurnar.reload();
+            $('#divGridTurnar').w2render('gridTurnar');
+
+            ckEditorDefinir("15vh");
+
+
+            if (_UltimoNodo == 0)
+            {
+                $('#btnAccion').hide();
+                w2alert("No es posible dar de alta el Recurso de Revisión debido que la solicitud sigue en un proceso de respuesta ");
+            }
+
+            if (_FecFin > 0)
+            {
+                if (_FecRecRev > 0 )
+                {
+                    $('#btnAccion').hide();
+                    w2alert("El Recurso de Revisión ya fue dado de alta previamente");
+                }
+                else
+                    $('#btnAccion').show();
+
+                EventosTurnar("agregarAreasRevision()");
+
+                $("#divRecursoRevisionDatos").show();
+                $("#divRecursoRevisionMensaje").hide();
+            }
+            else
+            {
+                w2alert("No es posible dar de alta el Recurso de Revisión debido que la solicitud sigue en un proceso de respuesta ");
+            }
+        }
+        else
+        {
+            w2ui['gridSolicitante'].clear();
+            w2ui['gridSolicitud'].clear();
+
+            w2alert("El folio de la solicitud que proporcionó no existe, favor de verificar ")
+        }
+    }
+
+</script>

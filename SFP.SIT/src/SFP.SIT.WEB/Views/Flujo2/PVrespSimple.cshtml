@@ -1,0 +1,97 @@
+﻿@* --------------------------------------------
+    FORMA PARA RESPONDER
+    -------------------------------------------- *@
+@model EdoActViewModel
+
+@{
+    Layout = null;
+}
+
+<div id="divResponder" class="container">
+    <form asp-controller= "Respuesta" asp-action="PVrespSimple" method="post" id = "RespSimpleForm" name = "RespSimpleForm" 
+           enctype = "multipart/form-data" >
+        @Html.AntiForgeryToken()
+
+        <div class="w2ui-field w2ui-span6" style="clear: both">
+            <label>Número de oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" id="Oficio" name="Oficio" size="10" style="width:450px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span6" style="clear: both">
+            <label>Agregar archivos:</label>
+            <div>
+                <input id="ArchivoResolucion" type="file" name="ArchivoResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span6" style="clear: both">
+            <label >Descripción <br/> respecto a  <br />la respuesta :</label>
+            <div>
+                <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor"></textarea>
+            </div>
+        </div>
+
+        <input type="hidden" id="folio" name="folio" />
+        <input type="hidden" id="nodo" name="nodo" />
+        <input type="hidden" id="tipoArista" name="tipoArista" />
+        <input type="hidden" id="tipoInfo" name="tipoInfo" />
+        <input type="hidden" id="respuesta" name="respuesta" />
+        <input type="hidden" id="temporal" name="temporal"  value="0"/>
+    </form>
+
+    <form asp-controller=@Model.controlName asp-action="PVpublicaPdf" method="post" id="ImprimirForm" name="ImprimirForm"
+          target="_blank" class="form-inline">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="oficio" name="oficio" />
+    </form>
+</div>
+
+<script>
+
+    function Inicializar()
+    {
+        ckEditorDefinir(_EditorHeight);
+        FormatoSugerido();
+
+        $('#btnImprimir').click(function () {
+            var editorData = CKEDITOR.instances.txtCkEditor.getData();
+
+            $('#oficio').val(editorData);
+            document.ImprimirForm.submit();
+        });
+    }
+
+    function FormaSerializar()
+    {        
+        return $(RespSimpleForm).serialize();
+    }
+       
+    function FormSubmit()
+    {
+        $('#folio').val(_solclave);
+        $('#nodo').val(_nodclave);
+        $('#tipoInfo').val(0);
+        $('#modoEntrega').val(0);
+
+        if ($('#lstAccion').val() != undefined )
+            $('#tipoArista').val( $('#lstAccion').val() );
+        else
+            $('#tipoArista').val(@Model.accion);
+
+        var editorData = CKEDITOR.instances.txtCkEditor.getData();
+        if ( editorData.length < 2) {
+            w2alert("El texto de la respuesta no puede ir en blanco")
+            return;
+        }
+        $('#respuesta').val(editorData);
+        $("#btnAccion").hide();
+        document.RespSimpleForm.submit();
+    }
+
+
+
+</script>

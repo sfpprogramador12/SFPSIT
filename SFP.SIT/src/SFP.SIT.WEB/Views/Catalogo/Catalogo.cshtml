@@ -1,0 +1,360 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+
+<div id="mainLayout" style="margin-top:5px"> </div>
+<input type="hidden" id="txtCmd" name="txtCmd">
+
+@section Scripts
+{
+    <script type="text/javascript">       
+        var _Catalogos = JSON.parse('@Html.Raw(Model.lstCatalogos)');
+        var pstyle = 'border: 1px solid #dfdfdf; padding: 5px;';
+        var Width = 700;
+        var Height = 500;
+        var _urlAccion = '';
+        var _GridCatActual;
+        var _EntidadAct = 0;
+        var _Entidad = "";
+
+        var config = {
+            layoutModulo: {
+                name: 'layoutModulo',
+                header: 'Catálogo de áreas',
+                padding: 4,
+                panels: [
+                    { type: 'left', size: '20%', style: pstyle, resizable: true },
+                    { type: 'main', size: '80%', style: pstyle }
+                ]
+            },
+            gridCatalogoGral: {
+                name: 'gridCatalogoGral',
+                header: "Catálogos",
+                multiSelect: false,
+                show: {
+                    header: true,
+                    lineNumbers: true
+                },
+                columns: [
+                    { field: 'text', caption: 'NOMBRE', size: '100%', sortable: true, resizable: true }
+                ],
+                onClick: function (event) {
+                    event.onComplete = function () {
+                        _GridCatActual = this.get(event.recid);
+                        gridModuloOnclick(_GridCatActual);
+                    }
+                }
+            }
+        }
+
+        function AsignarCmd(id) {
+            var iValor = 0;
+            var sMensaje;
+
+            if (id == 'cmdAgregar') {
+                iValor = @SFP.Persistencia.Dao.BaseDao.OPE_INSERTAR;
+                sMensaje = "@SFP.Persistencia.Dao.BaseDao.OPE_INSERTAR_ETIQUETA";
+            } else if (id == 'cmdEditar'){
+                iValor = @SFP.Persistencia.Dao.BaseDao.OPE_EDITAR;
+                sMensaje = "@SFP.Persistencia.Dao.BaseDao.OPE_EDITAR_ETIQUETA";
+            } else if (id == 'cmdBorrar') {
+                iValor = @SFP.Persistencia.Dao.BaseDao.OPE_BORRAR;
+                sMensaje = "@SFP.Persistencia.Dao.BaseDao.OPE_BORRAR_ETIQUETA";
+            }
+            $('#txtCmd').val(iValor);
+            return sMensaje;
+        }
+
+        //FUNCIONES PARA COLOCARLOS EN OTRO ARCHIVO
+        function urlConsulta(pAccion, pEntidad, pPagAct, pPagMaxReg )
+        {
+            var url = "@Html.Raw(@Url.Action("param1", "Catalogo", new { Entidad = "param2", PagAct = "param3", PagMaxReg = "param4" }))";
+            url = url.replace("param1", pAccion);
+            url = url.replace("param2", parseInt(pEntidad));
+            url = url.replace("param3", parseInt(pPagAct));
+            url = url.replace("param4", parseInt(pPagMaxReg));
+
+            return url;
+        }
+
+        function gridModuloOnclick( Registro ){
+            _Entidad = Registro.text;
+            _EntidadAct = Registro.id;
+            PaginacionIni();
+            Buscar();
+        };
+
+        function Buscar(){
+            //w2ui.gridCatalogoGral.lock('Obteniendo datos ...', true);
+            $.ajax({
+                type: "GET",
+                url: urlConsulta("Consulta", _EntidadAct, _PaginaActual, _PaginaRegistro ),
+                success: function (data) {
+                    if (data === undefined) {
+                        alert("No existen datos");
+                    } else {
+                        gridActualizar (_Entidad, data );
+                        if (data.records.length > 0 )
+                            PaginacionAct( data.records.length, parseInt(data.records[0].RESULT_COUNT));
+                    }
+                    //w2ui.gridCatalogoGral.unlock();
+                },
+                error: function(jqXHR, textStatus) {
+                    alert("¡ No es posible comunicarse con el sistema, se redirecciona a la pantalla principal !");
+                    window.location.href = document.location.host+ "\\Account\\Login";
+                },
+                complete: function(jqXHR, textStatus) {
+                    switch (jqXHR.status) {
+                        case 401:
+                            alert("El tiempo de sesión expiró, se redirecciona a la pantalla principal");
+                            window.location.href = document.location.host+ "\\Account\\Login";
+                            break;
+                    }
+                }
+            });
+        }
+
+        $(function() {
+            AjustarPantalla('mainLayout', 0.79, 0.98);
+
+            // initialization despejar todo en memoria......
+            if (w2ui['gridCatalogoGral'] !== undefined) {
+                w2ui['gridCatalogoGral'].destroy();
+            }
+            if (w2ui['layoutModulo'] !== undefined) {
+                w2ui['layoutModulo'].destroy();
+            }
+
+            if (w2ui['toolbarModulo'] !== undefined) {
+                w2ui['toolbarModulo'].destroy();
+            }
+
+            $('#mainLayout').w2layout(config.layoutModulo);
+            w2ui.layoutModulo.content('left', $().w2grid(config.gridCatalogoGral));
+            w2ui['layoutModulo'].load( 'main', 'CatalogoGrid', '',
+                function () {
+                    $('#txtPagAct').val(_PaginaActual);
+                });
+
+            $().w2grid(GetGridCat());
+            $().w2grid(GetGridCatArea());
+            $().w2grid(GetGridCatConfig());
+            $().w2grid(GetGridCatDiaLab());
+            $().w2grid(GetGridCatDocArista());
+            $().w2grid(GetGridCatModulo());
+            $().w2grid(GetGridCatPerfil());            
+            $().w2grid(GetGridCatPerfilMod());
+            $().w2grid(GetGridCatTipoArea());                        
+            $().w2grid(GetGridCatUsuario());
+            $().w2grid(GetGridCatUsuArea());            
+            $().w2grid(GetGridCatTipoDoc());
+            $().w2grid(GetGridCatDoc());
+            $().w2grid(GetGridCatAfd());
+            $().w2grid(GetGridCatAfdFlujo());
+            $().w2grid(GetGridCatArista());
+            $().w2grid(GetGridCatAristaComite());
+            $().w2grid(GetGridCatAristaRes());
+            $().w2grid(GetGridCatAristaRev());
+            $().w2grid(GetGridCatAristaSubCla());
+            $().w2grid(GetGridCatComiteRubro());
+            $().w2grid(GetGridCatNodo());
+            $().w2grid(GetGridCatNodoEstado());
+            $().w2grid(GetGridCatTipoArista());
+            $().w2grid(GetGridCatTipoInfo());
+            $().w2grid(GetGridCatEntFed());
+            $().w2grid(GetGridCatMunicipio());
+            $().w2grid(GetGridCatOcupacion());
+            $().w2grid(GetGridCatPais());
+            $().w2grid(GetGridCatTipoSnt());
+            $().w2grid(GetGridCatSolicitante());
+            $().w2grid(GetGridCatProceso());
+            $().w2grid(GetGridCatProcesoPlazos());
+            $().w2grid(GetGridCatMedioEntrada());
+            $().w2grid(GetGridCatModoEntrega());
+            $().w2grid(GetGridCatRubroTematico());
+            $().w2grid(GetGridCatTipoSol());
+            $().w2grid(GetGridCatUnidadTran());
+            $().w2grid(GetGridCatSeguimiento());
+            $().w2grid(GetGridCatSolicitud());
+
+            w2ui.gridCatalogoGral.records = _Catalogos.records;
+            w2ui.gridCatalogoGral.reload();
+
+            $("#menu2").toggleClass("boton_hover");
+
+        });
+
+        function gridActualizar (sEntidad, registros )
+        {
+            var  sObjGrid = "";
+            var  sObjForma = "";
+
+            if (sEntidad == 'Área') {
+                sObjGrid = 'gridCatArea';
+                sObjForma = 'formArea';
+
+            } else if (sEntidad == 'Catalogo') {
+                sObjGrid = 'gridCat';
+                sObjForma = 'formCat';
+
+            } else if (sEntidad == 'Configuración') {
+                sObjGrid = 'gridCatConfig';
+                sObjForma = 'formConfig';
+
+            } else if (sEntidad == 'Días laborales') {
+                sObjGrid = 'gridCatDiaLab';
+                sObjForma = 'formDiaLab';
+
+            } else if (sEntidad == 'Módulos') {
+                sObjGrid = 'gridCatModulo';
+                sObjForma = 'formModulo';
+
+            } else if (sEntidad == 'Pérfiles') {
+                sObjGrid = 'gridCatPerfil';
+                sObjForma = 'formPerfil';
+
+            } else if (sEntidad == 'Perfil-Módulo') {
+                sObjGrid = 'gridCatPerfilMod';
+                sObjForma = 'formPerfilMod';
+
+            } else if (sEntidad == 'Tipo de área') {
+                sObjGrid = 'gridCatTipoArea';
+                sObjForma = 'formTipoArea';
+
+            } else if (sEntidad == 'Usuario') {
+                sObjGrid = 'gridCatUsuario';
+                sObjForma = 'formUsuario';
+
+            } else if (sEntidad == 'Usuario-Área') {
+                sObjGrid = 'gridCatUsuArea';
+                sObjForma = 'formUsuArea';
+
+            } else if (sEntidad == 'Doc-Arista') {
+                sObjGrid = 'gridCatDocArista';
+                sObjForma = 'formDocArista';
+
+            } else if (sEntidad == 'Tipo documento') {
+                sObjGrid = 'gridCatTipoDoc';
+                sObjForma = 'formTipoDoc';
+
+            } else if (sEntidad == 'Documento') {
+                sObjGrid = 'gridCatDoc';
+                sObjForma = 'formDoc';
+
+            } else if (sEntidad == 'AFD') {
+                sObjGrid = 'gridCatAfd';
+                sObjForma = 'formAfd';
+
+            } else if (sEntidad == 'AFD_flujo') {
+                sObjGrid = 'gridCatAfdFlujo';
+                sObjForma = 'formAfdFlujo';
+
+            } else if (sEntidad == 'Arista') {
+                sObjGrid = 'gridCatArista';
+                sObjForma = 'formArista';
+
+            } else if (sEntidad == 'Arista comite') {
+                sObjGrid = 'gridCatAristaComite';
+                sObjForma = 'formAristaComite';
+
+            } else if (sEntidad == 'Arista resolución') {
+                sObjGrid = 'gridCatAristaRes';
+                sObjForma = 'formAristaRes';
+
+            } else if (sEntidad == 'Arista revisión') {
+                sObjGrid = 'gridCatAristaRev';
+                sObjForma = 'formAristaRev';
+
+            } else if (sEntidad == 'Arista subclasificar') {
+                sObjGrid = 'gridCatAristaSubCla';
+                sObjForma = 'formAristaSubCla';
+
+            } else if (sEntidad == 'Cómite rubro') {
+                sObjGrid = 'gridCatComiteRubro';
+                sObjForma = 'formComiteRubro';
+
+            } else if (sEntidad == 'Nodo estado') {
+                sObjGrid = 'gridCatNodoEstado';
+                sObjForma = 'formNodoEstado';
+
+            } else if (sEntidad == 'Tipo arista') {
+                sObjGrid = 'gridCatTipoArista';
+                sObjForma = 'formTipoArista';
+
+            } else if (sEntidad == 'Tipo de información') {
+                sObjGrid = 'gridCatTipoInfo';
+                sObjForma = 'formTipoInfo';
+
+            } else if (sEntidad == 'Nodo') {
+                sObjGrid = 'gridCatNodo';
+                sObjForma = 'formNodo';
+
+            } else if (sEntidad == 'Entidad Federativa') {
+                sObjGrid = 'gridCatEntFed';
+                sObjForma = 'formEntFed';
+
+            } else if (sEntidad == 'Municipio') {
+                sObjGrid = 'gridCatMunicipio';
+                sObjForma = 'formMunicipio';
+
+            } else if (sEntidad == 'Ocupacion') {
+                sObjGrid = 'gridCatOcupacion';
+                sObjForma = 'formOcupacion';
+
+            } else if (sEntidad == 'Pais') {
+                sObjGrid = 'gridCatPais';
+                sObjForma = 'formPais';
+
+            } else if (sEntidad == 'Tipo solicitante') {
+                sObjGrid = 'gridCatTipoSnt';
+                sObjForma = 'formTipoSnt';
+
+            } else if (sEntidad == 'Solicitantes') {
+                sObjGrid = 'gridCatSolicitante';
+                sObjForma = 'formSolicitante';
+
+            } else if (sEntidad == 'Proceso') {
+                sObjGrid = 'gridCatProceso';
+                sObjForma = 'formProceso';
+
+            } else if (sEntidad == 'Proceso plazos') {
+                sObjGrid = 'gridCatProcesoPlazos';
+                sObjForma = 'formProcesoPlazos';
+
+            } else if (sEntidad == 'Medio de entrada') {
+                sObjGrid = 'gridCatMedioEntrada';
+                sObjForma = 'formMedioEntrada';
+
+            } else if (sEntidad == 'Modo de entrega') {
+                sObjGrid = 'gridCatModoEntrega';
+                sObjForma = 'formModoEntrega';
+
+            } else if (sEntidad == 'Rubro temático') {
+                sObjGrid = 'gridCatRubroTematico';
+                sObjForma = 'formRubroTematico';
+
+            } else if (sEntidad == 'Tipo solicitud') {
+                sObjGrid = 'gridCatTipoSol';
+                sObjForma = 'formTipoSol';
+
+            } else if (sEntidad == 'Unidad de enlace') {
+                sObjGrid = 'gridCatUnidadTran';
+                sObjForma = 'formUnidadTran';
+
+            } else if (sEntidad == 'Seguimiento') {
+                sObjGrid = 'gridCatSeguimiento';
+                sObjForma = 'formSeguimiento';
+
+            } else if (sEntidad == 'Solicitud') {
+                sObjGrid = 'gridCatSolicitud';
+                sObjForma = 'formSolicitud';
+            }
+
+            AjustarPantalla('divDatos', 0.72, 0.76);
+            
+            $('#divDatos').w2render(sObjGrid);
+            w2ui[sObjGrid].records = registros.records;
+            w2ui[sObjGrid].reload();
+
+            $("#gridSolBuscarPie").show();
+        }
+    </script>
+}

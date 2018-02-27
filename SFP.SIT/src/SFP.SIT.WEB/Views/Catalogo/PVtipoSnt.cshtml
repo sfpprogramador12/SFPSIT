@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Tipo de Solicitante";
+    Layout = null;
+}
+
+<div id="formTipoSnt" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoSnt" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Tipo solicitante :</p></td>
+                <td><input id="tslclave" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="tsldescripcion" type="text" style="width:450px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoSnt()
+    {
+        var url = '@Url.Action("PVtipoSnt", "Catalogo")';
+        datos = {
+            tslclave: parseInt($("#tslclave").val()),
+            tsldescripcion: $("#tsldescripcion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+
+

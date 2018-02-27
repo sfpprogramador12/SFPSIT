@@ -1,0 +1,112 @@
+﻿@model FrmRespIncompVM
+@using SFP.SIT.SERV.Util
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+<div id="divResponder" style="width:99%; float:left; ">
+    <form asp-controller="Respuesta" asp-action="PVincompArea" method="post" id="RespIncompAreaForm" name="RespIncompAreaForm" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsol" />
+        <input type="hidden" asp-for="solfecsolticks" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="avanzar" />
+
+        <input type="hidden" asp-for="respRespuesta.repclave" />
+        <input type="hidden" asp-for="respRespuesta.rtpclave" />
+        <input type="hidden" asp-for="respGeneral.gracontenido" />
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Número de oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="respRespuesta.repoficio" placeholder="folio" size="10" maxlength="120" style="width:600px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Agregar archivos :</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint"
+                       style="width:540px; margin: 2px 2px 2px 2px" multiple />
+            </div>
+            <div id="divDocContenido">
+                @if (Model.respRespuesta.docclave > 0)
+                {
+                    <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.respRespuesta.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Html.Raw(Model.respDoc.docnombre)
+                    </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.respGeneral.repclave, '', '@Model.respRespuesta.docclave)" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Descripción de la respuesta:</label>
+            <div>
+                <div id="divEditorResolucion">
+                    <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor">@Model.respGeneral.gracontenido</textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+
+<script>
+    function Inicializar() {
+        ckEditorDefinir(410);
+        $('#solclave').val(_solclave);
+        FormatoSugerido();
+
+        $('#btnImprimir').click(function () {
+            $('#oficio').val($('#txtCkEditor').val());
+            document.ImprimirForm.submit();
+        });
+    };
+
+
+    function Validar() {
+        var editorData = CKEDITOR.instances.txtCkEditor.getData();
+        if (editorData.length < 2) {
+            w2alert("El texto de la respuesta no puede ir en blanco")
+            return false;
+        }
+        $('#respGeneral_gracontenido').val(editorData);
+
+        return true;
+    }
+
+    function submit() {
+        _Inicio = true;
+        $("#solfecsolticks").val(_solfecsolticks);
+        $("#respRespuesta_rtpclave").val(@Constantes.Respuesta.INCOMPETENCIA_TOTAL_AREA);
+
+
+        $("#btnAccion").hide();
+        document.RespIncompAreaForm.submit();
+    }
+
+    function Grabar() {
+        $('#avanzar').val(1);
+        if (Validar() === true) {
+            submit();
+        }
+    }
+
+    function GrabarIFrame() {
+        $('#avanzar').val(0);
+        if (Validar() === true) {
+            var formaActual = document.RespIncompAreaForm;
+            formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+</script>

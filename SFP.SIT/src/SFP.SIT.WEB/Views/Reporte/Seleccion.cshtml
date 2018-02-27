@@ -1,0 +1,196 @@
+﻿@model SFP.SIT.WEB.Models.FrmReporteDatos
+@{
+    
+}
+
+<div class="encabezado">
+    <div class="titulo">Reportes Disponibles</div>
+</div>
+<div id="formReporte">
+    <div class="w2ui-page page-0" style="margin: 0 2%;">
+        <div class="w2ui-field">
+            <label>Tipo de Reporte:</label>
+            <div>
+                <input name="Tipo_Reporte" type="text" size="150" />
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Tipo de proceso:</label>
+            <div>                
+                <select id="TipoProceso" name="TipoProceso" style="float: left;width:800px;"> </select>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Áreas:</label>
+            <div>
+                <select id="Area" name="Area" style="float: left;width:800px;"> </select>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Tipo de Solicitud:</label>
+            <div><select id="TipoSolicitud" name="TipoSolicitud" style="float: left;width:300px;"> </select></div>
+        </div>
+        <div class="w2ui-field">
+            <label>Tipo de Respuesta:</label>
+                <div><select id="TipoArista" name="TipoArista" style="float: left;width:800px;"> </select>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Folio:</label>
+            <div>
+                <input name="Folio1" type="text" size="18" />
+                <input name="Folio2" type="text" size="18" />
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Periódo:</label>
+            <div>
+                <input id="Periodo1" name="Periodo1" type="date" min="2003-01-01" max="2020-12-31" style="width: 150px;">
+                <input id="Periodo2" name="Periodo2" type="date" min="2003-01-01" max="2020-12-31" style="width: 150px;">
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Semáforo:</label>
+            <div>
+                <input name="Semaforo" type="text" size="10" />
+            </div>
+        </div>
+    </div>
+    <div class="w2ui-buttons">
+        <button class="btn" name="reset">Limpiar valores</button>
+        <button class="btn" name="generar">Generar Reporte</button>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var _Areas = @Html.Raw(ViewBag.areas);
+        var _TipoSolicitud = @Html.Raw(ViewBag.SolicitudTipo);
+        var _TipoResp = @Html.Raw(ViewBag.tipoArista);
+        var _TipoProceso = @Html.Raw(ViewBag.ProcesoTipo);
+
+        $(function () {
+
+            SelectAddElemClear("TipoSolicitud", _TipoSolicitud.records, true);
+            SelectAddElemClear("Area", _Areas.records, true);
+            SelectAddElemClear("TipoProceso", _TipoProceso.records, true);
+            SelectAddElemClear("TipoArista", _TipoResp.records, true);
+
+            $('#formReporte').w2form({
+                            name   : 'formReporte',
+                url    : 'server/post',
+                fields : [
+                    { field: 'Tipo_Reporte', type: 'list', required: true,
+                        options: { items: [
+                                { id: '1', text:'Solicitudes Acceso a la Información Recibidas en la SFP'},
+                                { id: '2',  text:'Solicitudes de Acceso a la Información en las que la Unidad de Enlace determinó la Incompetencia de la SFP'},
+                                { id: '3',  text:'Solicitudes de Acceso a la Información en las que la U.A. de la SFP determinaron la Incompetencia para atenderlas'},
+                                { id: '4',  text:'Solicitudes de Acceso a la Información que fueron atendidas proporcionando Información Pública'},
+                                { id: '5',  text:'Resoluciones emitidas por ampliación del periodo de respuesta de las solicitudes'},
+                                { id: '6',  text:'Resoluciones emitidas por inexistencia  de la información requerida por el peticionario'},
+                                { id: '7',  text:'Resoluciones emitidas por la puesta a disposición de información con datos confidenciales a testar (versión pública)'},
+                                { id: '8',  text:'Resoluciones emitidas por la reserva  de la información requerida por el peticionario'},
+                                { id: '9',  text:'Resoluciones emitidas con respuesta mixta (inexistencia y/o versión pública y/o reserva y/o información pública) del periodo de respuesta de las solicitudes'},
+                                { id: '10', text:'Resoluciones emitidas por  cumplimiento a las determinaciones del IFAI en los recursos de Revisión'},
+                                { id: '11', text:'Promedio de días en la atención de Solicitudes de Acceso a la Información'},
+                                { id: '12', text:'Recursos de Revisión que fueron desechados por el IFAI'},
+                                { id: '13', text:'Recursos de Revisión que fueron sobreseídos por el IFAI'},
+                                { id: '14', text:'Recursos de Revisión que modificaron la respuesta brindada por la SFP'},
+                                { id: '15', text:'Recursos de Revisión que revocaron la respuesta brindada por la SFP'},
+                                { id: '16', text:'Recursos de Revisión que confirmaron la respuesta brindada por la SFP'} ]}},
+                    { field: 'Semaforo', type: 'list', options: { items: [ { id: '1', text:'Rojo'}, { id: '2', text:'Amarillo'},{ id: '1', text:'Verde'}]} }
+                ],
+                actions: {
+                    reset: function () {
+                        $('#TipoSolicitud').val("");
+                        $('#Area').val("");
+                        $('#TipoProceso').val("");
+                        $('#TipoArista').val("");
+
+                        $('#Folio1').val("");
+                        $('#Folio2').val("");
+                        $('#Periodo1').val("");
+                        $('#Periodo2').val("");
+                    },
+                    generar: function (event) {
+                        if (this.record === undefined){
+                            w2alert("Es necesario definir un reporte");
+                            return;
+                        }
+                        if ( this.record.Tipo_Reporte === undefined){
+                            w2alert("Es necesario definir un reprote");
+                            return;
+                        }
+
+
+                        var objStatus, objUA, objTipoSol, objTipoResp, objFol, objPer1, objPer2, objSemaforo;
+                        var iStatus, iUA, iTipoSol, iTipoResp;
+
+                        objStatus   = this.record.Status_sol;
+                        objUA       = this.record.UA;
+                        objTipoSol  = this.record.Tipo_Solicitud;
+                        objTipoResp = this.record.Tipo_Respuesta;
+                        objFol      = this.record.Folio;
+                        objPer1     = this.record.Periodo1;
+                        objPer2     = this.record.Periodo2;
+                        objSemaforo = this.record.Semaforo;
+
+                        if ( objPer1 !== undefined && objPer2 !== undefined){
+                            if (jsStringtoDate(objPer1) > jsStringtoDate(objPer2)) {
+                                w2alert(' La Fecha Inicial no puede ser mayor a la Fecha Final');
+                                return;
+                            }
+                        } else if ( objPer1 === undefined && objPer2 !== undefined){
+                            w2alert(' Debe de existir una fecha inicial y una final');
+                            return;
+                        }
+
+                        objStatus   === undefined ? iStatus = 0     : iStatus   = objStatus.id;
+                        objUA       === undefined ? iUA = 0         : iUA       = objUA.id;
+                        objTipoSol  === undefined ? iTipoSol = 0    : iTipoSol  = objTipoSol.id;
+                        objTipoResp === undefined ? iTipoResp = 0   : iTipoResp = objTipoResp.id;
+
+                        var href = urlConsulta(this.record.Tipo_Reporte.id, iStatus, iUA, iTipoSol, iTipoResp, objFol, objPer1, objPer2, objSemaforo);
+                        window.open(href, '_blank');
+                    }
+                    }
+            });
+
+            @*  $('#TipoSolicitud').append($('<option value="0" selected disabled></option>'));  *@
+            $('#TipoSolicitud').append($('<option value="0" selected></option>'));
+            $('#Area').append($('<option value="0" selected></option>'));
+            $('#TipoProceso').append($('<option value="0" selected></option>'));
+            $('#tipoArista').append($('<option value="0" selected></option>'));
+
+        });
+
+        function jsStringtoDate(date)
+        {
+                var parts = date.split("/");
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
+        function urlConsulta(pIdReporte, iStatus, iUA, iTipoSol, iTipoResp, objFol,objPer1,objPer2, objSemaforo )
+        {
+            var url = "@Html.Raw(@Url.Action("CrearReporte", "Reporte", new {
+                        REP = "param1",   STATUS = "param2",  AREA = "param3", TIPSOL = "param4",
+                        TIPRES = "param5", FOLIO = "param6",  FECSOLINI = "param7",FECSOLFIN = "param8",
+                        SEMAFORO = "param9"
+                        }))";
+
+        url = url.replace("param1", pIdReporte);
+        url = url.replace("param2", iStatus);
+        url = url.replace("param3", iUA);
+        url = url.replace("param4", iTipoSol);
+        url = url.replace("param5", iTipoResp);
+        url = url.replace("param6", objFol);
+        url = url.replace("param7", objPer1);
+        url = url.replace("param8", objPer2);
+        url = url.replace("param9", objSemaforo);
+
+        return url;
+    }
+    </script>
+ }

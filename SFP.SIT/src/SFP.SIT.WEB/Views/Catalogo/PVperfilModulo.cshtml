@@ -1,0 +1,52 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Perfil Modulo";
+    Layout = null;
+}
+
+<div id="formPerfilModulo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVperfilModulo" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Perfil</p></td>
+                <td>
+                    <select id="PERCLAVE" name="PERCLAVE" style="width:300px"></select>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Módulo</p></td>
+                <td>
+                    <select id="km_clamodulo" style="width:300px"></select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstModulo = @Html.Raw(Model.lstModulo);
+    var _lstTipoPerfil = @Html.Raw(Model.lstTipoPerfil);
+
+    function GuardarPerfilModulo()
+    {
+        var url = '@Url.Action("PVperfilModulo", "Catalogo")';
+
+        datos = {
+            PERCLAVE: parseInt($("#PERCLAVE").val()),
+            km_clamodulo: parseInt($("#km_clamodulo").val()),            
+            cmd: parseInt($("#txtCmd").val()) 
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('PERCLAVE', _lstTipoPerfil.records, false);
+            SelectAddElemClear('km_clamodulo', _lstModulo.records, false);
+        }
+    );
+</script>
+
+

@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Perfil";
+    Layout = null;
+}
+
+<div id="formPerfil" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVperfil" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Clave perfil :</p></td>
+                <td><input id="PERCLAVE" name="PERCLAVE" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="kp_fecbaja" name="kp_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="kp_descripcion" name="kp_descripcion" type="text" style="width:420px" /></td>
+            </tr>
+            <tr>
+                <td><p>Sigla :</p></td>
+                <td><input id="kp_sigla" name="kp_sigla" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Multiple :</p></td>
+                <td><input id="kp_multiple" name="kp_multiple" type="text" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarPerfil() {
+        var fecha = fechaValidar("#KP_FECBAJA");
+
+        datos = {
+            PERCLAVE: $("#PERCLAVE").val(),
+            kp_fecbaja: fecha.toISOString(),
+            kp_descripcion: $("#kp_descripcion").val(),
+            kp_sigla: $("#kp_sigla").val(),
+            kp_multiple: $("#kp_multiple").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+

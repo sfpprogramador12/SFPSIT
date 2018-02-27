@@ -1,0 +1,50 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Usuario por área";
+    Layout = null;
+}
+
+<div id="formUsuArea" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVusuArea" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Usuario</p></td>
+                <td>
+                    <select id="usrclave" style="width:300px"></select>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Área</p></td>
+                <td>
+                    <select id="araclave" style="width:300px"></select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstArea = @Html.Raw(Model.lstArea);
+    var _lstTipoPerfil = @Html.Raw(Model.lstTipoPerfil);
+    var _lstUsuario = @Html.Raw(Model.lstUsuario);
+
+    function GuardarUsuArea()
+    {
+        var url = '@Url.Action("PVusuArea", "Catalogo")';
+        datos = {
+            usrclave: parseInt($("#usrclave").val()),
+            araclave: parseInt($("#araclave").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('usrclave', _lstUsuario.records, false);
+            SelectAddElemClear('araclave', _lstArea.records, false);
+        }
+    );
+</script>

@@ -1,0 +1,204 @@
+﻿@{
+    
+}
+
+@section Scripts
+{
+    <div id="divSolicitudEncabezado">
+        <div class="encabezado">
+            <div class="titulo">BITÁCORA DE USUARIOS</div>
+        </div>
+    </div>
+    <div id="layoutMain" class="container"></div>
+    <input type="hidden" id="txtCmd" name="txtCmd">
+
+    <script type="text/javascript">
+        var pstyle = 'border: 1px solid #dfdfdf; padding: 5px;';
+
+        var _lstArchivo = JSON.parse('@Html.Raw( ViewBag.lstArchivos)');
+        AjustarPantalla('layoutMain', 0.77, 0.97);
+
+        var config = {
+            layoutModulo: {
+                name: 'layoutModulo',
+                header: 'Catálogo de áreas',
+                padding: 4,
+                panels: [
+                    { type: 'left', size: '15%', style: pstyle, resizable: true },
+                    { type: 'main', size: '85%', style: pstyle }
+                ]
+            },
+            gridArchivoFechaGral: {
+                name: 'gridArchivoFechaGral',
+                header: "Catálogos",
+                multiSelect: false,
+                show: {
+                    header: true,
+                    lineNumbers: true
+                },
+                columns: [
+                    { field: 'archivo', caption: 'NOMBRE DEL ARCHIVO', size: '180px', sortable: true, resizable: true }
+                ],
+                onClick: function (event) {
+                    event.onComplete = function () {
+                        _GridCatActual = this.get(event.recid);                        
+                        gridModuloOnclick(_GridCatActual);  
+                    };                    
+                }
+            },
+            gridArchivo: {
+                name: 'gridArchivo',
+                header: "Actividad de los usuarios",
+                multiSelect: false,
+                show: {
+                    header: true,
+                    lineNumbers: true,
+                    toolbar: true
+                },
+                columns: [
+                    { field: 'TIPO', caption: 'TIPO', size: '1400px', sortable: true, resizable: true },
+                    //{ field: 'FEC', caption: 'FECHA - HORA', size: '150px', sortable: true, resizable: true },
+                    //{ field: 'IP', caption: 'IP', size: '60px', sortable: true, resizable: true },
+                    //{ field: 'CTRL', caption: 'CONTROLADOR', size: '150px', sortable: true, resizable: true },
+                    //{ field: 'ACC', caption: 'ACCION', size: '80px', sortable: true, resizable: true },
+                    //{ field: 'USU', caption: 'USUARIO', size: '80px', sortable: true, resizable: true },
+                    //{ field: 'DSC', caption: 'DESCRIPCION', size: '150px', sortable: true, resizable: true },
+                    //{ field: 'OBJ', caption: 'OBJETO', size: '150px', sortable: true, resizable: true },
+                    //{ field: 'NP', caption: 'NO. OP', size: '60px', sortable: true, resizable: true },
+                    //{ field: 'OP', caption: 'OPERACION', size: '150px', sortable: true, resizable: true },
+                    //{ field: 'DAT', caption: 'DATOS', size: '550px', sortable: true, resizable: true }
+                ]
+            }
+        };
+
+
+        //FUNCIONES PARA COLOCARLOS EN OTRO ARCHIVO
+        function urlConsulta(pAccion, pArchivo)
+        {
+            var url = "@Html.Raw(@Url.Action("param1", "Seguridad", new { Archivo = "param2" }))";
+            url = url.replace("param1", pAccion);
+            url = url.replace("param2", pArchivo);
+            return url;
+        }
+
+        function gridModuloOnclick( Registro ){
+            // SOLICITAR VIA AJAX EL CONTENIDO DEL ARCHIVO                        
+            $.ajax({
+                type: "GET",
+                contentType: "text/plain;charset=utf-8",
+                url: urlConsulta("ArchivoLog", Registro.archivo),
+                success: function (data) {
+                    if (data === undefined) {
+                        w2alert("No existen datos");
+                    } else {
+                        // aqui dividir el arhcivo en partes......
+                        var iRecID = 0;
+
+                        var datos = [];                                
+                        var iIdxIni = 0;
+                        var index = data.indexOf('\n');
+                        var iIdxJson = 0;
+                        var bitacoraDatos = {};
+                        var iIdxFinal = 0;
+
+                        while (index > -1) {
+                            var line = data.substring(iIdxIni, index);
+
+                            iIdxJson = line.indexOf('{"ip":');
+                            if (iIdxJson > 0)
+                            {
+                                ////var NvoDatos = line.substring(iIdxJson);
+                                ////var iIdxFinal = NvoDatos.indexOf('}') + 1 ;
+                                
+                                ////bitacoraDatos = JSON.parse(JSON.stringify(eval("(" + NvoDatos.substring(0, iIdxFinal) + ")")));
+                                ////var Valores = bitacoraDatos.data;
+                                ////datos.push(
+                                ////    {
+                                ////        recid: iRecID, TIPO: "INFO", FEC: line.substring(0, iIdxJson), CTRL: bitacoraDatos.objeto,
+                                ////        ACC: bitacoraDatos.accion, IP: bitacoraDatos.ip, USU: bitacoraDatos.usuario,
+                                ////        OP: bitacoraDatos.opdesc
+                                ////    });
+                                ////iRecID++;            
+                                datos.push(
+                                    {
+                                        recid: iRecID, TIPO: line
+                                    });
+                                iRecID++;            
+                            }
+
+                            ///DSC: lineData[6], OBJ: lineData[7], NP: lineData[8], , DAT: "'" + Valores +"'"
+
+                            iIdxIni = index + 1;
+                            index = data.indexOf('\n', iIdxIni);
+                        }
+                        w2ui.gridArchivo.records = datos;
+                        w2ui.gridArchivo.reload();
+
+                        //var iIdxIni = 0;
+                        //var index = data.indexOf('\n');
+                        //while (index > -1) {
+                        //    var line = data.substring(iIdxIni, index);
+                        //    var lineData = line.split('|');
+                        //    w2ui.gridArchivo.add({
+                        //        recid: iRecID, TIPO: lineData[0], FEC: lineData[1], CTRL: lineData[2],
+                        //        ACC: lineData[3], USU: lineData[4], DSC: lineData[5], OBJ: lineData[6],
+                        //        NP: lineData[7], OP: lineData[8], DAT: lineData[9]
+                        //    });
+                        //    iRecID++;
+                        //    iIdxIni = index + 1;
+                        //    index = data.indexOf('\n', iIdxIni);
+                        //}
+
+
+                        //var asLineas = data.split('\n');
+                        //var iIdx = 0;
+                        //while (iIdx < asLineas.length) {
+                        //    var lineData = asLineas[iIdx].split('|');
+                        //    w2ui.gridArchivo.add({ recid: iRecID, TIPO: lineData[0], FEC: lineData[1], CTRL:lineData[2], 
+                        //        ACC:lineData[3], USU:lineData[4], DSC:lineData[5], OBJ:lineData[6], 
+                        //        NP: lineData[7], OP: lineData[8], DAT: lineData[9]
+                        //    });
+                        //    iIdx++;
+                        //}
+                        
+
+                        //var remaining = '';
+                        //remaining += data;
+                        //var index = remaining.indexOf('\n');
+                        //while (index > -1) {
+                        //    var line = remaining.substring(0, index);
+                        //    remaining = remaining.substring(index + 1);
+                        //    var lineData = line.split('|');
+
+                        //    w2ui.gridArchivo.add({ recid: iRecID, TIPO: lineData[0], FEC: lineData[1], CTRL:lineData[2], 
+                        //        ACC:lineData[3], USU:lineData[4], DSC:lineData[5], OBJ:lineData[6], 
+                        //        NP:lineData[7], OP:lineData[8], DAT:lineData[9]
+                        //    });
+                        //    iRecID++;
+                        //    index = remaining.indexOf('\n');
+                        //}
+                    }
+                }
+            });
+        };
+
+
+        $(function() {
+            // initialization despejar todo en memoria......
+            if (w2ui['gridCatalogoGral'] !== undefined) {
+                w2ui['gridCatalogoGral'].destroy();
+            }
+            if (w2ui['layoutModulo'] !== undefined) {
+                w2ui['layoutModulo'].destroy();
+            }
+
+            $('#layoutMain').w2layout(config.layoutModulo);
+            w2ui.layoutModulo.content('left', $().w2grid(config.gridArchivoFechaGral));
+            w2ui.layoutModulo.content('main', $().w2grid(config.gridArchivo));
+
+            w2ui.gridArchivoFechaGral.records = _lstArchivo.records;
+            w2ui.gridArchivoFechaGral.reload();
+        });
+
+    </script>
+}

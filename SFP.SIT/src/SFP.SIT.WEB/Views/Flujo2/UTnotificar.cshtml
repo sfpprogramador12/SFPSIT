@@ -1,0 +1,83 @@
+﻿@model SFP.SIT.WEB.Models.FrmRespuestaMdl
+
+    <div id="divSolicitudEncabezado">
+        <div class="encabezado">
+            <div class="titulo">UNIDAD DE TRANSPARENCIA - NOTIFICAR RESPUESTA SOLICITUD </div>
+            <div class="titulo" style="float:right; text-align: left; "><b>Folio: @ViewBag.folio - @ViewBag.solFecIni - @ViewBag.solTipo &nbsp;</b></div>
+        </div>
+    </div>
+    <div id="layoutMain" class="container"></div>
+
+    @* --------------------------------------------
+        CONTENIDO DEL LAYOUT IZQUIERDO
+        -------------------------------------------- *@
+    <div id="divIzquierdo">
+        <div style="float:left; width:100%; border: 1px solid #C1C1C1;">
+            <div id="divTabInformacion" style="margin-left: 5px; margin-right: 5px"></div>
+            <div id="divGrid" style="width: 100%; height: 75vh;"></div>
+        </div>
+    </div>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $('#layoutMain').w2layout(GetLayoutLeftMain("20%","80%"));
+
+            @*--  DEFINIMOS PANEL IZQUIERDO --*@
+            w2ui['layoutLeftMain'].content('left', '<div id="divLytIzq" > </div>');
+            $('#divLytIzq').append(  $('#divIzquierdo').detach());
+
+            @*-- PANEL DERECHO AL LAYOUT --*@
+            $().w2layout(GetLayoutTopMain(30, "80%"));
+            w2ui['layoutLeftMain'].content('main', w2ui['layoutTopMain']);
+            w2ui['layoutTopMain'].load('top', 'PVrecibirTop' );
+            w2ui['layoutTopMain'].content('main', ' ' );
+
+            $().w2grid( GetGridSolicitante() );
+            $().w2grid( GetGridSolicitud() );
+
+            $('#divTabInformacion').w2toolbar(GetTabInformacion());
+            $('#divGrid').w2render('gridSolicitud');
+
+            HabilitarTabAclaracionRecurso();
+
+            @*-- ---------------------------------------------
+                MOSTRAR INFORMACIÓN SOLICITANTE - SOLICITUD
+            --------------------------------------------- --*@
+            w2ui.gridSolicitante.records = _Solicitante.records;
+            w2ui.gridSolicitante.reload();
+            w2ui.gridSolicitud.records = _Solicitud.records;
+            w2ui.gridSolicitud.reload();
+        });
+
+        var pstyle = 'border: 1px; solid #dfdfdf; background-color: #eeeeee';
+        var TipoClas = [{id:0, text:'Seleccionar'}];
+        var _Area;
+        var _Documento;
+        var _ModoEntrega;
+        var _Solicitud = "";
+        var _solclave = @ViewBag.folio;
+        var _nodclave = @ViewBag.claNodo;
+        var _AreasTurnar = "";
+
+        var _FechaIni =     @Html.Raw(ViewBag.fecIni);
+        var _FechaAct =     @Html.Raw(ViewBag.fecAct);
+        var _ListaAccion =  @Html.Raw(ViewBag.listaAccion);
+        var _tipoAristaInfomex =  @Html.Raw(ViewBag.tipoAristaInfomex);
+
+        var _Solicitante =  @Html.Raw(ViewBag.solicitante);
+        var _Solicitud =    @Html.Raw(ViewBag.solicitud);
+        var _FecAclaracion= @Html.Raw(ViewBag.fecAclaracion);
+        var _RecRevision = @Html.Raw(ViewBag.recRevision);
+
+        var _AreaTurnar = @Html.Raw(ViewBag.turnarArea);
+
+        var _Respuesta = '@Html.Raw(ViewBag.respuesta)';
+        var _RespContenido = '@Html.Raw(ViewBag.respuestaContenido)';
+        var _RespDoc = @Html.Raw(ViewBag.respuestaDoc);
+        var _RespDocNombre = '@Html.Raw(ViewBag.respuestaDocNombre)';
+
+
+    </script>
+}

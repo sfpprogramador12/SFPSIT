@@ -1,0 +1,64 @@
+﻿@{ 
+    Layout = null;
+}
+
+<div id="divMain" style="padding-left:10px; margin-top:2px; margin-bottom:2px;">
+    <div class="w2ui-field w2ui-span6" style="clear: both">
+        <label>Acción a realizar :</label>
+        <div>
+            <select id="lstAccion" style="float: left; width:450px;"> </select>
+        </div>
+    </div>
+</div>
+<div id="txtInstr" style="background-color:white; height:88px; width:99%; overflow:auto; margin-top:5px; display:inline-block"></div>
+
+<div id="layoutTopMain" style="height:99%;"> </div>
+
+<script>
+    var _PaginaActual;
+
+    $(function () {
+        _Observacion = _Observacion.trim();
+
+        if (_Observacion.length > 0) {
+            $('#txtInstr').html(_Observacion);
+            panelAlto = "138px";
+        } else {
+            panelAlto = "45px";
+            $("#txtInstr").hide();
+        }
+
+        @*--  PANEL TOP --*@
+        $('#layoutTopMain').w2layout(GetLayoutTopMain(panelAlto, "80%"));
+        w2ui['layoutTopMain'].content('top', {
+            render: function () {
+                $(this.box).append($('#divMain').detach());
+                $(this.box).append($('#txtInstr').detach());
+            }
+        });
+
+        SelectAddElemClearLimite("lstAccion", _ListaAccion, _FechaIni, _FechaAct, 0);
+
+        $('#lstAccion').change(function () {
+            if ($('#lstAccion').val() != null) {
+                _PaginaActual = AristaClick(_ListaAccion, parseInt($('#lstAccion').val())) + "?solclave=" + _solclave + "&proclave=" + _TipoPrcActual + "&nodclave=" + _nodclave;
+                
+                AjaxValidarSesion(_UrlSesionActiva, _UrlInicio);
+
+                w2ui['layoutTopMain'].load('main', _PaginaActual, null, function () {
+                    $("#btnAccion").remove();
+                    $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ");
+                    Inicializar();
+                    $('#btnAccion').click(FormSubmit);
+                });
+            }
+        });
+    });
+
+
+    function sesionActiva()
+    {
+
+    }
+
+</script>

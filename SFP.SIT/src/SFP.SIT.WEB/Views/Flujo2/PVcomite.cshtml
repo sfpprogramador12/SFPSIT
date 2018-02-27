@@ -1,0 +1,141 @@
+﻿@model EdoActViewModel
+@* --------------------------------------------
+    FORMA PARA RESPONDER
+    -------------------------------------------- *@
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("PVcomite", controlName, FormMethod.Post, new { id = "ResponderForm", name = "ResponderForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="folio" name="folio" />
+    <input type="hidden" id="nodo" name="nodo" />
+    <input type="hidden" id="tipoArista" name="tipoArista" />
+    <input type="hidden" id="modoEntrega" name="modoEntrega" />
+    <input type="hidden" id="respuesta" name="respuesta" />
+    <input type="hidden" id="clasificar" name="clasificar" />
+    <input type="hidden" id="respInfomex" name="respInfomex" />
+
+    <div class="form-group" style="display:inline-block; margin-bottom: 2px;">
+        <label style="float: left">Clasificar : </label>
+        <input id="subClasificar" class="form-control" style="float:left; width:950px" >
+    </div>
+
+    <div class="form-group" style="display:inline-block; margin-bottom: 2px;">
+        <label style="float: left;">Modo de entrega : </label>
+        <select id="lstModoEntrega" name="lstModoEntrega" style="float: left;"> </select>
+    </div>
+
+    <div class="form-group" style="display:inline-block; margin-bottom: 2px;">
+        <label style="float: left;">Rubro : </label>
+        <select id="lstRubro" name="lstRubro" style="float: left;"> </select>
+    </div>
+
+    <div class="form-group" style="display:inline-block; margin-bottom: 2px;">
+        <label style="float: left;">La respuesta para el INAI es : </label>
+        <select id="lstInfomex" style="float: left;"> </select>
+    </div>
+
+    <div class="form-group" style="display:inline-block; margin-bottom: 2px;">
+        <label style="float: left;">No. Oficio </label>
+        <input type="text" id="Oficio" name="Oficio" style="width:110px; float: left; ">
+        <input id="ArchivoResolucion" type="file" name="ArchivoResolucion"
+                accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel,
+                application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint" style="width: 500px;float:left" multiple />
+    </div>
+
+    @*
+    <div style="float:left; padding-top: 2px; padding-left:20px; align-content:center">
+        <input id="btnImprimir" name="btnImprimir" type="button" value="Imprimir" style="width:80px; height:24px; padding-left:10px">
+    </div>
+    *@
+
+    <div id="divCkEditor" style="float:left; padding-top: 2px; width:100%">
+        <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor"></textarea>
+    </div>
+}
+
+@using (Html.BeginForm("PVpublicaPdf", controlName, FormMethod.Post, new { id = "ImprimirForm", name = "ImprimirForm", target = "_blank" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="oficio" name="oficio" />
+}
+
+<script>
+    $(document).ready(
+        function () {
+            SelectAddElemClear("lstInfomex", _tipoAristaInfomex.records, true);
+            SelectAddElemClear("lstModoEntrega", _ModoEntrega.records, true);
+            SelectAddElemClear("lstRubro", _RubroTematico.records, true);
+
+            ckEditorDefinir(_EditorHeight);        
+
+            $("#btnAccion").remove();
+            $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+            $('#btnAccion').click(function () {
+                $('#folio').val(_solclave);
+                $('#nodo').val(_nodclave);
+                $('#tipoInfo').val(0);
+                $('#tipoArista').val($('#lstAccion').val());
+                $('#respInfomex').val($('#lstInfomex').val());
+                        
+                if ($('#lstInfomex').val() == "" || $('#lstInfomex').val() == null )
+                {
+                    w2alert("Es necesario que defina una respuesta para la plataforma del INAI");
+                    return;
+                }
+
+                if ($('#lstModoEntrega').val() == "" || $('#lstModoEntrega').val() == null )
+                {
+                    w2alert("Es necesario que defina un modo de entrega");
+                    return;
+                }
+
+                var sIdxClasificar = "";
+                var aoClasificar = $('#subClasificar').data('selected');
+
+                if (aoClasificar.length == 0) {
+                    w2alert("Es necesario que clasifique el tipo de respuesta");
+                    return;
+                }
+
+                for (var idx = 0; idx < aoClasificar.length; idx++)
+                {
+                    sIdxClasificar = sIdxClasificar + "," + aoClasificar[idx].id;
+                }
+
+                $('#clasificar').val(sIdxClasificar);
+
+                var editorData = CKEDITOR.instances.txtCkEditor.getData();
+                if (editorData.length < 2) {
+                    w2alert("El texto de la respuesta no puede ir en blanco")
+                    return;
+                }
+                $('#respuesta').val(editorData);
+
+
+                if ($('#lstRubro').val() == "" || $('#lstRubro').val() == null) {
+                    w2alert("Es necesario que defina un rubro");
+                    return;
+                }
+
+                $("#btnAccion").hide();
+                document.ResponderForm.submit();
+            });
+
+            $('#btnImprimir').click(function () {
+                $('#oficio').val($('#txtCkEditor').val());
+                document.ImprimirForm.submit();
+            });
+
+            $('#subClasificar').w2field('enum', {
+                items: _SubClasificar.records,
+                openOnFocus: true
+            });        
+        }
+    );
+</script>

@@ -1,0 +1,23 @@
+﻿@using SFP.SIT.SERV.Model.ADM
+@model SFP.SIT.WEB.Models.MenuViewModel
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    @if (Model != null)
+    {
+        @foreach (SIT_ADM_MODULO drModulo in Model.lstAdmModMdl)
+        {
+            <div class="navbar-header">
+                @Html.ActionLink(
+                linkText: drModulo.moddescripcion,
+                actionName: drModulo.modmetodo,
+                controllerName: drModulo.modcontrol,
+                routeValues: null, // or to pass some value -> routeValues: new { id = 1 },
+                htmlAttributes: new { @class = "btn btn-primary btn-sm", id = "menu" + drModulo.modclave, style = "width:100px; margin:5px" }
+                )
+            </div>
+        }
+        <div id="divMenuAccion" class="nav navbar-nav navbar-right" style="width: 300px; height:45px;  margin-right:10px;"></div>
+    }
+}

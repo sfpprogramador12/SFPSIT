@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+
+<div> Servidores Públicos en áreas internas </div>
+<div id="divInstr" style="background-color:white; height:35%; width:99%; overflow:auto; margin-top:5px; display:inline-block"></div>
+<div id="divGridAreasInternas" style="width:99%; height:55%"></div>
+
+<script>
+    var gridAreasInternas = {
+        name: 'gridAreasInternas',
+        method: 'GET', // need this to avoid 412 error on Safari
+        show: {
+            lineNumbers: true,
+            toolbar: true,
+            selectColumn: true,
+            multiSelect: true
+        },
+        columns: [
+            { field: 'usrclave', caption: 'Usuario', size: '0px', attr: "align=left" },
+            { field: 'NOMBRE', caption: 'Nombre', size: '50px', attr: "align=left" },
+            { field: 'PUESTO', caption: 'Puesto', size: '50px', attr: "align=left" }
+        ]
+    }
+
+    function Inicializar() {
+        $("#divGridAreasInternas").w2grid(gridAreasInternas);
+        w2ui.gridAreasInternas.records = _AreasInternas.records;
+        w2ui.gridAreasInternas.reload();
+    }
+
+
+
+</script>

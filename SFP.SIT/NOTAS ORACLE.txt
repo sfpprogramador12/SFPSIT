@@ -1,0 +1,7 @@
+
+
+http://www.oracle.com/technetwork/es/articles/sql/manejo-de-oracle-large-objects-1937051-esa.html
+
+create table TABLA_CLOB (id number, valor CLOB default EMPTY_CLOB() )
+
+DBMS_LOB.SUBSTR(valor, 5, 12)

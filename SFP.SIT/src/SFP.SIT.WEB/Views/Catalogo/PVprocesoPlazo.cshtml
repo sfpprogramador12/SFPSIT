@@ -1,0 +1,68 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+
+@{
+    ViewData["Title"] = "Proceso plazo";
+    Layout = null;
+}
+
+<div id="formProcesoPlazo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVprocesoPlazo" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Proceso ID :</p></td>
+                <td><select id="prcclave" style="width:300px"></select> </td>
+            </tr>
+            <tr>
+                <td><p>Plazo :</p></td>
+                <td><input id="pczplazo" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Verde :</p></td>
+                <td><input id="pczverde" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Amarillo :</p></td>
+                <td><input id="pczamarillo" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo solicitud :</p></td>
+                <td><select id="sotclave" style="width:300px"></select> </td>
+            </tr>
+            <tr>
+                <td><p>Tipo plazo :</p></td>
+                <td><input id="pczclave" type="text" style="width:40px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<script>
+    var _lstTipoProceso = @Html.Raw(Model.lstTipoProceso);
+    var _lstTipoSolicitud = @Html.Raw(Model.lstTipoSolicitud);
+
+    function GuardarProcesoPlazo() {
+        var url = '@Url.Action("PVprocesoPlazo", "Catalogo")';
+
+        datos = {
+            prcclave: parseInt($("#prcclave").val()),
+            pczplazo: $("#pczplazo").val(),
+            pczverde: parseInt($("#pczverde").val()),
+            pczamarillo: $("#pczamarillo").val(),
+            sotclave: parseInt($("#sotclave").val()),
+            pczclave: $("#pczclave").val(),
+            cmd: parseInt($("#txtCmd").val()) 
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('prcclave', _lstTipoProceso.records, false);
+            SelectAddElemClear('sotclave', _lstTipoSolicitud.records, false);
+        }
+    );
+</script>
+

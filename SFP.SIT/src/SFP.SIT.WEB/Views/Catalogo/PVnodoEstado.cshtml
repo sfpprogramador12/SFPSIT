@@ -1,0 +1,59 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Nodo estado";
+    Layout = null;
+}
+
+<div id="formNodoEstado" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVnodoEstado" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Nodo estado :</p></td>
+                <td><input id="nodclave" name="nodclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="nodDescripcion" name="nodDescripcion" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>URL :</p></td>
+                <td><input id="nedurl" name="nedurl" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo :</p></td>
+                <td><input id="nedtipo" name="nedtipo" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Clave perfil :</p></td>
+                <td><select id="PERCLAVE" name="PERCLAVE" style="width:250px"></select></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstPerfil = @Html.Raw(Model.lstTipoPerfil );
+
+    function GuardarNodoEstado()
+    {
+        var url = '@Url.Action("PVnodoEstado", "Catalogo")';
+
+        datos = {
+            nodclave: parseInt($("#nodclave").val()),
+            nodDescripcion: $("#nodDescripcion").val(),
+            nedurl: $("#nedurl").val(),
+            nedtipo:   parseInt($("#nedtipo").val()),
+            PERCLAVE:   parseInt($("#PERCLAVE").val()),
+            cmd: parseInt($("#txtCmd").val()) 
+        };
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('PERCLAVE', _lstPerfil.records, false);
+        }
+    );
+</script>
+

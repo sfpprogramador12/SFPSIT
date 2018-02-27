@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "País";
+    Layout = null;
+}
+
+<div id="formPais" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+
+            <tr>
+                <td><p>País ID :</p></td>
+                <td><input id="paiclave" name="paiclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="paidescripcion" name="paidescripcion" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="paifecbaja" name="paifecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarPais()
+    {
+        var url = '@Url.Action("PVpais", "Catalogo")';
+        var fecha = fechaValidar("#paifecbaja");
+
+        datos = {
+            paiclave: parseInt($("#paiclave").val()),
+            paidescripcion: $("#paidescripcion").val(),
+            paifecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+

@@ -1,0 +1,50 @@
+﻿
+
+
+    // CREAR UN METODO QUE RESUELVA DE FOMRA AUTOMATICA LOS CAMPOS QUE SE LLENARON Y  CONVETIR LOS CAMPOS
+	protected override object CrearListaMDL(DataTable dtDatos)
+
+
+	QUE RECIBA DE FORMA GENERICA UNA CLASE....
+	PRO REFLECITO NQUE LEA LOS PARAMETROS
+	QUE LEA EL CONTENDO DE LA DATATABLE
+	Y QUE VACIE LOS CAMPOS QUE EXISTAN...
+
+            List<UsuarioMdl> lstUsuMdl = CrearListaMDL(ConsultaDML(sqlQuery, dicParam[PARAM_COL_USUID])) as List<UsuarioMdl>;
+            return lstUsuMdl[0];
+        }
+        
+
+2  Que la clase sea <T>
+
+context.Database.SqlQuery<myEntityType>(
+    "mySpName @param1, @param2, @param3",
+    new SqlParameter("param1", param1),
+    new SqlParameter("param2", param2),
+    new SqlParameter("param3", param3)
+);        
+
+
+3) Crear una calse derivada del SERviico
+	Donde se crren todas las contantes de los campos de las TABLAS..
+	// 
+
+
+
+
+	    Function EmailAddressChecker(ByVal emailAddress As String) As Boolean
+        ''Dim regExPattern As String = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$"
+        ''Dim regExPattern As String = "^[_a-z0-9-]+(.[a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$"
+        Dim regExPattern As String = "^[a-z0-9-_.]+(.[_a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$"
+        Dim emailAddressMatch As Match = Regex.Match(emailAddress, regExPattern)
+        If emailAddressMatch.Success Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+
+
+
+	https://stackoverflow.com/jobs/134375/c-sharp-net-chief-software-architect-100k-crossover?med=clc

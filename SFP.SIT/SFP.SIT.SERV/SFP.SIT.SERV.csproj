@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FDCF5EB6-D496-4E14-8660-D9EBCFB0D6B8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SFP.SIT.SERV</RootNamespace>
+    <AssemblyName>SFP.SIT.SERV</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SharePoint.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharePoint.Client.15.0.0\lib\Microsoft.SharePoint.Client\Microsoft.SharePoint.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Sharepoint.Client.Runtime, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dao\ADM\SIT_ADM_AREADao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_AREAGESTIONDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_AREAHISTDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_AREANIVELDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_AREAORGDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_AREATIPODao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_CLASESDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_CONFIGURACIONDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_DIANOLABORALDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_MODULODao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_PERFILCLASESDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_PERFILDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_PERFILMODDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_PERFILNODODao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_USRCOMPARTIRDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_USRPERFILDao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_USUARIOAREADao.cs" />
+    <Compile Include="Dao\ADM\SIT_ADM_USUARIODao.cs" />
+    <Compile Include="Dao\ConsultaDao.cs" />
+    <Compile Include="Dao\DOC\SIT_DOC_DOCUMENTODao.cs" />
+    <Compile Include="Dao\DOC\SIT_DOC_EXTENSIONDao.cs" />
+    <Compile Include="Dao\ProcesoGralDao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_AFDDao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_AFDFLUJODao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_ARISTADao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_NODODao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_NODOESTADODao.cs" />
+    <Compile Include="Dao\RED\SIT_RED_NODORESPDao.cs" />
+    <Compile Include="Dao\REP\ReporteDao.cs" />
+    <Compile Include="Dao\RESP\NodoRespuestaMdl.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_CLASINFODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_COMITERUBRODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_DETALLEDao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_ESTADODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_GRALDao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_INEXISTENCIADao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_MOMENTODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_REPRODUCCIONDao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_RESERVADao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_RESPUESTADao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_RREVISIONDao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_TEMADao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_TIPODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_TIPOINFODao.cs" />
+    <Compile Include="Dao\RESP\SIT_RESP_TURNARDao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_ESTADODao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_MUNICIPIODao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_OCUPACIONDao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_PAISDao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_SOLICITANTEDao.cs" />
+    <Compile Include="Dao\SNT\SIT_SNT_SOLICITANTETIPODao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_DOCDao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_MEDIOENTRADADao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_MODOENTREGADao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_PROCESODao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_PROCESOPLAZOSDao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_SEGUIMIENTODao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_SOLICITUDDao.cs" />
+    <Compile Include="Dao\SOL\SIT_SOL_SOLICITUDTIPODao.cs" />
+    <Compile Include="Dao\TAB\TabConsultaDao.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREA.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREAGESTION.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREAHIST.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREANIVEL.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREAORG.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_AREATIPO.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_CLASES.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_CONFIGURACION.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_DIANOLABORAL.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_MODULO.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_PERFIL.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_PERFILCLASES.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_PERFILMOD.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_PERFILNODO.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_USRCOMPARTIR.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_USRPERFIL.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_USUARIO.cs" />
+    <Compile Include="Model\ADM\SIT_ADM_USUARIOAREA.cs" />
+    <Compile Include="Model\DOC\DocContenidoMdl.cs" />
+    <Compile Include="Model\DOC\DocImportarSolicitudMdl.cs" />
+    <Compile Include="Model\DOC\FrmImportarMdl.cs" />
+    <Compile Include="Model\DOC\SIT_DOC_DOCUMENTO.cs" />
+    <Compile Include="Model\DOC\SIT_DOC_EXTENSION.cs" />
+    <Compile Include="Model\IMP\ImpInfomexArchivoAclMdl.cs" />
+    <Compile Include="Model\IMP\ImpInfomexArchivoSolMdl.cs" />
+    <Compile Include="Model\IMP\ImportarSolicitudMdl.cs" />
+    <Compile Include="Model\RED\RedAristaSegMdl.cs" />
+    <Compile Include="Model\RED\SIT_RED_AFD.cs" />
+    <Compile Include="Model\RED\SIT_RED_AFDFLUJO.cs" />
+    <Compile Include="Model\RED\SIT_RED_ARISTA.cs" />
+    <Compile Include="Model\RED\SIT_RED_NODO.cs" />
+    <Compile Include="Model\RED\SIT_RED_NODOESTADO.cs" />
+    <Compile Include="Model\RED\SIT_RED_NODORESP.cs" />
+    <Compile Include="Model\REP\ReporteMdl.cs" />
+    <Compile Include="Model\RESP\ReservaEdoActMdl.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_CLASINFO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_COMITERUBRO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_DETALLE.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_ESTADO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_GRAL.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_INEXISTENCIA.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_MOMENTO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_REPRODUCCION.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_RESERVA.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_RESPUESTA.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_RREVISION.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_SUBTIPO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_TEMA.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_TIPO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_TIPOINFO.cs" />
+    <Compile Include="Model\RESP\SIT_RESP_TURNAR.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_ESTADO.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_MUNICIPIO.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_OCUPACION.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_PAIS.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_SOLICITANTE.cs" />
+    <Compile Include="Model\SNT\SIT_SNT_SOLICITANTETIPO.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_DOC.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_MEDIOENTRADA.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_MODOENTREGA.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_PROCESO.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_PROCESOPLAZOS.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_SEGUIMIENTO.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_SOLICITUD.cs" />
+    <Compile Include="Model\SOL\SIT_SOL_SOLICITUDTIPO.cs" />
+    <Compile Include="Model\SOL\SolBuscarMdl.cs" />
+    <Compile Include="Model\SOL\SolSegEnProcesoMdl.cs" />
+    <Compile Include="Model\TAB\TabConsultaMdl.cs" />
+    <Compile Include="Negocio\AdmCorreoNeg.cs" />
+    <Compile Include="Negocio\AdmDocContNeg.cs" />
+    <Compile Include="Negocio\CalcularPlazoNeg.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Constantes.cs" />
+    <Compile Include="Util\DButil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SFP.Persistencia\SFP.Persistencia\SFP.Persistencia.csproj">
+      <Project>{19ba7c68-3a64-4f25-a86f-90f06fab0502}</Project>
+      <Name>SFP.Persistencia</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

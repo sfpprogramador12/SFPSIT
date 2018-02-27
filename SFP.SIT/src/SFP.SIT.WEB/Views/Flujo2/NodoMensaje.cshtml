@@ -1,0 +1,32 @@
+﻿@model EdoActViewModel
+@{
+    Layout = null;
+    String controlName = ViewBag.controlName;
+}       
+    <label style="padding-left: 5px"> <strong> Ha recibido el siguiente mensaje :</strong></label>
+    
+    <div id="divRespObserv" style="background-color:white; height:90%; width:99%; overflow:auto; margin-top:5px; display:inline-block"> </div>
+
+    @using (Html.BeginForm("NodoMensaje", controlName, FormMethod.Post, new { id = "notificarForm", name = "notificarForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="folio" name="folio" />
+        <input type="hidden" id="nodo" name="nodo" />
+    }
+
+<script>
+    $(function () {
+        $('#divRespObserv').html(_Observacion);
+
+        $("#btnAccion").remove();
+        $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+        $('#btnAccion').click(function () {
+            $("#btnAccion").hide();
+            $('#folio').val(_solclave);
+            $('#nodo').val(_nodclave);
+
+            document.notificarForm.submit();
+        });
+    });
+</script>

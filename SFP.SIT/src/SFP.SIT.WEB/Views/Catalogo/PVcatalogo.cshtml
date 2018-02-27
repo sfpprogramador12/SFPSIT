@@ -1,0 +1,54 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogos";
+    Layout = null;
+}
+
+<div id="formCatalogo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVcatalogo" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Catálogo ID :</p></td>
+                <td><input id="cat_clacat" name="cat_clacat" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Clase :</p></td>
+                <td><input id="cat_clase" name="cat_clase" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción:</p></td>
+                <td><input id="cat_descripcion" name="cat_descripcion" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p> Tipo de perfil</p></td>
+                <td>
+                    <select id="PERCLAVE" name="PERCLAVE" style="width:300px"></select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoPerfil = @Html.Raw(Model.lstTipoPerfil);
+
+    function GuardarCatalogo()
+    {
+        datos = {
+            cat_clacat: parseInt($("#cat_clacat").val()),
+            cat_clase: $("#cat_clase").val(),
+            cat_descripcion: $("#cat_descripcion").val(),
+            PERCLAVE:  parseInt($("#PERCLAVE").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('PERCLAVE', _lstTipoPerfil.records, false);
+        }
+    );
+</script>

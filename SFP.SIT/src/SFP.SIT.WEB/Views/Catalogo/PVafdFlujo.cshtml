@@ -1,0 +1,60 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo Flujo de trabajo ruta";
+    Layout = null;
+}
+
+<div id="formAfdFlujo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVafdFlujo" method="post">
+        @Html.AntiForgeryToken()
+
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Afd ID :</p></td>
+                <td><input id="AFDCLAVE" name="AFDCLAVE" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo origen :</p></td>
+                <td><input id="afforigen" name="afforigen" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo de arista:</p></td>
+                <td><select id="rtpclave" name="rtpclave" style="width:500px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Nodo destino :</p></td>
+                <td><input id="affdestino" name="affdestino" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p> Plazo :</p></td>
+                <td><input id="affplazo" name="affplazo" type="text" style="width:40px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoAri = @Html.Raw(Model.lstTipoAri);
+
+    function GuardarAfdFlujo()
+    {
+        var url = '@Url.Action("PVafdFlujo", "Catalogo")';
+        datos = {
+           afdclave: parseInt($("#AFDCLAVE").val()),
+            afforigen: parseInt($("#afforigen").val()),
+            rtpclave: parseInt($("#rtpclave").val()),
+            affdestino:  parseInt($("#affdestino").val()),
+            affplazo:  parseInt($("#affplazo").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('rtpclave', _lstTipoAri.records, false);
+        }
+    );
+</script>

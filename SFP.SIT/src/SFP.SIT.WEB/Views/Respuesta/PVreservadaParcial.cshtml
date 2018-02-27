@@ -1,0 +1,313 @@
+﻿@* --------------------------------------------
+    FORMA PARA RESPONDER LA RESERVA DE INFORMACION
+    -------------------------------------------- *@
+@model FrmRespReservadaVM
+@using SFP.SIT.SERV.Util
+@using SFP.SIT.AFD.Core
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="overflow-y: hidden; width:100%;  ">
+
+    @using (Html.BeginForm("PVreservada", controlName, FormMethod.Post, new { id = "ReservadaForm", name = "ReservadaForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        // BASE
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsol" />
+        <input type="hidden" asp-for="solfecsolticks" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="avanzar" />
+
+        <input type="hidden" asp-for="resRespuesta.repclave" />
+        <input type="hidden" asp-for="resRespuesta.rtpclave" />
+
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Unidad que reserva:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="areaNombre" size="50" style="width:450px" disabled />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Historial de reservas:</label>
+            <div>
+                <select asp-for="resReserva.repclave" asp-items="@ViewBag.HistorialReserva" style="float: left; width:600px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Expediente:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resReserva.rsvexpediente" size="50" style="width:450px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Solicitud de reserva:</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+            <div id="divDocContenido"style="float:left;">
+                @if (Model.resRespuesta.docclave > 0)
+                {
+                    <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.resRespuesta.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Html.Raw(Model.respDoc.docnombre)
+                    </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '',  @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Modo de entrega:</label>
+            <div>
+                <select asp-for="resRespuesta.megclave" asp-items="@ViewBag.tipoModoEntrega" style="float: left; width:450px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Cantidad:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resRespuesta.repcantidad" size="10" style="width:80px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Tema:</label>
+            <div>
+                <select asp-for="resReserva.temclave" asp-items="@ViewBag.tipoTema" style="float: left; width:630px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Momento de clasificación:</label>
+            <div>
+                <select asp-for="resReserva.momclave" asp-items="@ViewBag.tipoMomento" style="float: left; width:630px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Plazo de la reserva:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="resReserva.rsvaños" style="width:50px;" placeholder="Años" /> Años
+                <input type="text" class="w2ui-input" asp-for="resReserva.rsvmeses" style="width:50px; margin-left:40px;" placeholder="Meses" /> Meses
+                <input type="text" class="w2ui-input" asp-for="resReserva.rsvdias" style="width:50px; margin-left:40px;" placeholder="Días" /> Días
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Fundamento legal <br />de la clasificación:</label>
+            <div>
+                <textarea asp-for="@Model.dirRespDetalle[Constantes.RespuestaTipoContenido.FUNDAMENTO_LEGAL].detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docFundamento" name="docFundamento" type="file"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocFundamentoLegal">
+                @if (Model.dicDocumento.ContainsKey(Constantes.RespuestaTipoContenido.FUNDAMENTO_LEGAL) == true)
+                {
+                    <a id="aDoc" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.dicDocumento[Constantes.RespuestaTipoContenido.FUNDAMENTO_LEGAL].docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Model.dicDocumento[Constantes.RespuestaTipoContenido.FUNDAMENTO_LEGAL].docnombre
+                    </a>
+                    <a id="aQuitarDocFundamentoLegal" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.FUNDAMENTO_LEGAL', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Justificación <br />de la reserva <br />o prueba de daño:</label>
+            <div>
+                <textarea asp-for="@Model.dirRespDetalle[Constantes.RespuestaTipoContenido.JUSTIFICACION].detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+
+            <div>
+                <input id="docJustificacion" name="docJustificacion" type="file"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocJustificacion">
+                @if (Model.dicDocumento.ContainsKey(Constantes.RespuestaTipoContenido.JUSTIFICACION) == true)
+                {
+                    <a id="aDocJustificacion" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.dicDocumento[Constantes.RespuestaTipoContenido.JUSTIFICACION].docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Model.dicDocumento[Constantes.RespuestaTipoContenido.JUSTIFICACION].docnombre
+                    </a>
+                    <a id="aQuitarDocJustificacion" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.JUSTIFICACION', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Razones y motivos <br />de la clasificación :</label>
+            <div>
+                <textarea asp-for="@Model.dirRespDetalle[Constantes.RespuestaTipoContenido.MOTIVOS].detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docMotivos" name="docMotivos" type="file"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocMotivos">
+                @if (Model.dicDocumento.ContainsKey(Constantes.RespuestaTipoContenido.MOTIVOS) == true)
+                {
+                    <a id="aDocMotivos" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.dicDocumento[Constantes.RespuestaTipoContenido.MOTIVOS].docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Model.dicDocumento[Constantes.RespuestaTipoContenido.MOTIVOS].docnombre
+                    </a>
+                    <a id="aQuitarDocMotivos" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.MOTIVOS', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <label>Partes del  documento<br />que reserva :</label>
+            <div>
+                <textarea asp-for="@Model.dirRespDetalle[Constantes.RespuestaTipoContenido.RESERVA_PARTES].detdescripcion" rows="4" cols="75"></textarea>
+                <label>Si el texto anterior es muy extenso, favor de adjuntar un archivo:</label>
+            </div>
+        </div>
+        <div class="w2ui-field w2ui-span10" style="clear: both">
+            <div>
+                <input id="docPartes" name="docPartes" type="file"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+            </div>
+
+            <div id="divDocPartes">
+                @if (Model.dicDocumento.ContainsKey(Constantes.RespuestaTipoContenido.RESERVA_PARTES) == true)
+                {
+                    <a id="aDocPartes" asp-controller="Flujo2" asp-action="Documento" asp-route-id="@Model.dicDocumento[Constantes.RespuestaTipoContenido.RESERVA_PARTES].docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Model.dicDocumento[Constantes.RespuestaTipoContenido.RESERVA_PARTES].docnombre
+                    </a>
+                    <a id="aQuitarDocPartes" onclick="RemoverOnclick(@Model.resRespuesta.repclave, '@Constantes.RespuestaTipoContenido.RESERVA_PARTES', @Model.resRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+    }
+</div>
+
+<iframe name="iframeAux" onload="Actualizar(event);" style="display:none;"></iframe>
+
+<script>
+    var _HistorialReserva = @Html.Raw(Model.jsonReservaEdo);
+
+    function Inicializar()
+    {
+        $('#solclave').val(_solclave);
+        SelectAddElemReserva("resReserva_repclave", _HistorialReserva);
+    };
+
+    function Validar() {
+        if ($("#resReserva_rsvexpediente").val().length < 1) {
+            w2alert("Es necesario que defina un expediente");
+            return false;
+        }
+
+        if ($("#dirRespDetalle_Fundamento_legal__detdescripcion").val().length < 1) {
+            w2alert("Es necesario que defina el fundamento legal");
+            return false;
+        }
+
+        if ($("#dirRespDetalle_Justificacion__detdescripcion").val().length < 1) {
+            w2alert("Es necesario que defina una justificación ");
+            return false;
+        }
+
+        if ($("#dirRespDetalle_Motivos__detdescripcion").val().length < 1) {
+            w2alert("Es necesario que defina los motivos");
+            return false;
+        }
+
+        if ($("#dirRespDetalle_Partes__detdescripcion").val().length < 1) {
+            w2alert("Es necesario que defina las partes que se reservan");
+            return false;
+        }
+
+
+        if ($("#resReserva_rsva_os").val().length < 1) {
+            w2alert("Es necesario que defina los años de reserva");
+            return false;
+        }
+
+        if ($("#resReserva_rsvmeses").val().length < 1) {
+            w2alert("Es necesario que defina los meses de reserva");
+            return false;
+        }
+        if ($("#resReserva_rsvdias").val().length < 1) {
+            w2alert("Es necesario que defina los días de reserva");
+            return false;
+        }
+
+        var suma = parseInt($("#resReserva_rsva_os").val()) + parseInt($("#resReserva_rsvmeses").val()) + parseInt($("#resReserva_rsvdias").val());
+
+        if (suma == 0) {
+            w2alert("Es necesario que defina un periodo de reserva");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    function Grabar() {
+        if (Validar() === true) {
+            submit();
+        }
+    }
+
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            var formaActual = document.ReservadaForm;
+            formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+
+    function DocRemoverResp(datos) {
+        window.location.reload();
+        //if (datos == 1) {
+        //    $("#divDocContenido").hide();
+        //    $("#divDocFundamentoLegal").hide();
+        //    $("#divDocJustificacion").hide();
+        //    $("#divDocMotivos").hide();
+        //}
+    }
+
+    function submit()
+    {
+        _Inicio = true;
+        $("#resRespuesta_rtpclave").val(@Constantes.Respuesta.INFO_RESERVADA_PARCIAL);
+        document.ReservadaForm.submit();
+    }
+
+
+
+
+</script>
+
+
+
+

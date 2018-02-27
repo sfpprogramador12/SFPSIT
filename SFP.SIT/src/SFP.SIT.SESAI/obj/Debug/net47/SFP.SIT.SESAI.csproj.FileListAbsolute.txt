@@ -1,0 +1,420 @@
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.deps.json
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\libuv.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\dotnet-bundle.exe
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Antiforgery.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cors.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Html.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Extensions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.HttpOverrides.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Localization.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Cors.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Localization.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.Host.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.Runtime.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.IISIntegration.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.Kestrel.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.StaticFiles.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.WebUtilities.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Composite.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Globalization.CultureInfoCache.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Console.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Debug.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.ObjectPool.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Primitives.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.WebEncoders.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Net.Http.Headers.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.VisualStudio.Web.BrowserLink.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Win32.Primitives.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Newtonsoft.Json.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\NUglify.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.AppContext.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Buffers.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.Immutable.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.NonGeneric.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.Primitives.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.TypeConverter.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Console.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.StackTrace.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.Tracing.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Globalization.Calendars.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.ZipFile.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.Primitives.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.Expressions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Http.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Sockets.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Numerics.Vectors.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.Metadata.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.Extensions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Algorithms.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Encoding.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Primitives.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encoding.CodePages.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encodings.Web.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.RegularExpressions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Tasks.Extensions.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Thread.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.ReaderWriter.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XmlDocument.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.XDocument.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Oracle.ManagedDataAccess.dll
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csprojResolveAssemblyReference.cache
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.SFP.SIT.SESAI.exe.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CoreCompileInputs.cache
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfoInputs.cache
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfo.cs
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.deps.json
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\libuv.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\dotnet-bundle.exe
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Antiforgery.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Authorization.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cors.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Html.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Extensions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.HttpOverrides.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Localization.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Cors.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Localization.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.Host.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.Runtime.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.IISIntegration.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.Kestrel.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.StaticFiles.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.WebUtilities.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyModel.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Composite.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Globalization.CultureInfoCache.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Console.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Debug.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.ObjectPool.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Primitives.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.WebEncoders.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Net.Http.Headers.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.VisualStudio.Web.BrowserLink.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Win32.Primitives.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Newtonsoft.Json.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\NUglify.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.AppContext.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Buffers.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.Immutable.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.NonGeneric.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.Primitives.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.TypeConverter.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Console.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.DiagnosticSource.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.FileVersionInfo.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.StackTrace.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.Tracing.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Globalization.Calendars.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.ZipFile.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.Primitives.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.Expressions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Http.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Sockets.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Numerics.Vectors.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.Metadata.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.Extensions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Algorithms.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Encoding.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Primitives.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.X509Certificates.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encoding.CodePages.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encodings.Web.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.RegularExpressions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Tasks.Extensions.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Thread.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.ReaderWriter.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XmlDocument.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.XDocument.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Oracle.ManagedDataAccess.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csprojResolveAssemblyReference.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CoreCompileInputs.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfoInputs.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfo.cs
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.deps.json
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\libuv.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\dotnet-bundle.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Antiforgery.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Authorization.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cors.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Html.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Extensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.HttpOverrides.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Localization.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Cors.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Localization.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.Razor.Host.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Razor.Runtime.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Routing.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.IISIntegration.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.Server.Kestrel.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.StaticFiles.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.AspNetCore.WebUtilities.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.DependencyModel.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Composite.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Globalization.CultureInfoCache.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Console.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Logging.Debug.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.ObjectPool.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Extensions.WebEncoders.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Net.Http.Headers.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.VisualStudio.Web.BrowserLink.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.Win32.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Newtonsoft.Json.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\NUglify.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.AppContext.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Buffers.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.Immutable.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Collections.NonGeneric.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.ComponentModel.TypeConverter.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Console.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.DiagnosticSource.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.FileVersionInfo.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.StackTrace.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Diagnostics.Tracing.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Globalization.Calendars.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.Compression.ZipFile.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.IO.FileSystem.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Linq.Expressions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Http.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Net.Sockets.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Numerics.Vectors.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Reflection.Metadata.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.Extensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Algorithms.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Encoding.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Security.Cryptography.X509Certificates.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encoding.CodePages.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.Encodings.Web.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Text.RegularExpressions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Tasks.Extensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Threading.Thread.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.ReaderWriter.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XmlDocument.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\System.Xml.XPath.XDocument.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\Oracle.ManagedDataAccess.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfoInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfo.cs
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.pdb

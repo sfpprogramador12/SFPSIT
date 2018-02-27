@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Importar información del SESAI";
+}
+
+@using (Html.BeginForm("ImportarCatalogos", "Home", FormMethod.Post))
+{
+    <input type="submit" name="btnImportar" id="btnImportar" value="Importar Catálogos del SESAI" style="height:28px; width: 250px" />
+}
+
+@using (Html.BeginForm("ImportarSolicitudesNuevo", "Home", FormMethod.Post))
+{
+    <input type="submit" name="btnSolicitud" id="btnSolicitud" value="Importar Solicitudes" style="height:28px; width: 250px" />
+}
+
+@using (Html.BeginForm("CrearUsuario", "Home", FormMethod.Post))
+{
+    <input type="submit" name="btnCrearUsuario" id="btnCrearUsuario" value="Crear usuario" style="height:28px; width: 250px" />
+} 

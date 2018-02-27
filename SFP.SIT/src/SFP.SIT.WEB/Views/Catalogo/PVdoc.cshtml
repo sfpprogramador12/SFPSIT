@@ -1,0 +1,82 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Documentos";
+    Layout = null;
+}
+
+<div id="formDoc" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVdoc" method="post">
+        @Html.AntiForgeryToken()
+
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Doc ID :</p></td>
+                <td><input id="docclave" name="docclave" type="text" style="width:50px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha :</p></td>
+                <td><input id="docfecha" name="docfecha" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tamaño :</p></td>
+                <td><input id="dic_size" name="dic_size" type="text" style="width:120px" /></td>
+            </tr>
+            <tr>
+                <td><p>Ubicación :</p></td>
+                <td><input id="docruta" name="docruta" type="text" style="width:500px" /></td>
+            </tr>
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="docfolio" name="docfolio" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nombre :</p></td>
+                <td><input id="docnombre" name="docnombre" type="text" style="width:500px" /></td>
+            </tr>
+            <tr>
+                <td><p>Extensión :</p></td>
+                <td><select id="extclave" name="extclave"  style="width:120px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Filesystem :</p></td>
+                <td><input id="docfilesystem" name="docfilesystem" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>URL :</p></td>
+                <td><input id="docurl" name="docurl" style="width:500px"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoExt = @Html.Raw(Model.lstTipoExt);
+
+    function GuardarDoc()
+    {
+        var fecha = fechaValidar("#docfecha");
+        var fecSystem = fechaValidar("#docfilesystem");
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+
+        datos = {
+            docclave: parseInt($("#docclave").val()),
+            docfecha: fecha.toISOString(),
+            doctamaño: parseInt($("#doctamaño").val()),
+            docruta: $("#docruta").val(),
+            docfolio: $("#docfolio").val(),
+            docnombre: $("#docnombre").val(),
+            extclave: parseInt($("#extclave").val()),
+            docfilesystem: fecSystem.toISOString(),
+            docurl: $("#docurl").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('extclave', _lstTipoExt.records, false);
+        }
+    );
+</script>
+

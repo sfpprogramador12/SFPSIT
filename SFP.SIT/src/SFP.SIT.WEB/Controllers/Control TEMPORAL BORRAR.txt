@@ -1,0 +1,529 @@
+﻿
+        ////private EdoActViewModel DatosGenerales(ref FrmAfdDatosMdl afdDatosMdl, Boolean bSolicitante, Boolean bSolicitud, ref Dictionary<Int32, AfdNodoFlujo> dicFlujoTrabajo)
+        ////{
+        ////    EdoActViewModel edoActVM = new EdoActViewModel();
+        ////    DateTime dteFecAclaracion = new DateTime();
+        ////    CalcularPlazoNeg calcularPlazoNeg = new CalcularPlazoNeg(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>);
+
+        ////    edoActVM.folio = afdDatosMdl.folio;
+        ////    edoActVM.solFecIni = afdDatosMdl.fecini.ToString("dd/MM/yyyy");
+        ////    edoActVM.solTipo = afdDatosMdl.solTipo;
+        ////    edoActVM.claNodo = afdDatosMdl.clanodo;
+
+
+        ////    edoActVM.fecIni = "new Date('" + afdDatosMdl.fecini.ToString("yyyy/MM/dd") + "')";
+        ////    edoActVM.fecAct = "new Date('" + DateTime.Now.ToString("yyyy/MM/dd") + "')";
+
+        ////    /* INICIO VALORES PANEL IZQUIERDO     */
+        ////    // SOLICITANTE
+        ////    if (bSolicitante)
+        ////        edoActVM.solicitante = JsonTransform.convertJson(
+        ////            _sitDmlDbSer.operEjecutar<SIT_SNT_SOLICITANTEDao>(nameof(SIT_SNT_SOLICITANTEDao.dmlSelectSolicitanteTranspuestoPorID), afdDatosMdl.folio) as DataTable);
+
+        ////    // SOLICITUD
+        ////    if (bSolicitud)
+        ////        edoActVM.solicitud = _solServ.ObtenerSolicitudTranspuesta(afdDatosMdl.folio, out dteFecAclaracion);
+
+        ////    // ACLARACION
+        ////    SIT_SOL_SEGUIMIENTO segAclMdl = _solServ.ObtenerSeguimiento(edoActVM.folio, Constantes.ProcesoTipo.ACLARACION);
+        ////    if (dteFecAclaracion != DateTime.MinValue)
+        ////        edoActVM.aclaracion = _solServ.ObtenerAclaracion(edoActVM.folio,
+        ////            AfdConstantes.RESPUESTA.REQUERIMIENTO_INFO_ADICIONAL, AfdConstantes.RESPUESTA.RECEPCION_INFO_ADICIONAL_SOLICITANTE);
+        ////    else
+        ////        edoActVM.aclaracion = JsonTransform.NO_RECORDS;
+
+        ////    // RECURSO DE REVISION
+        ////    edoActVM.recRevision = _solServ.ObtenerRecRevision(afdDatosMdl.folio);
+
+        ////    /* ACTUALIZAR LA LISTA DE ACCIONES  */
+        ////    dicFlujoTrabajo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+        ////    AfdNodoFlujo NodoFlujo = dicFlujoTrabajo[afdDatosMdl.estado];
+
+        ////    List<AfdEdoPdoMdl> lstEdoAccion = new List<AfdEdoPdoMdl>();
+        ////    foreach (KeyValuePair<int, AfdEdoPdoMdl> pair in NodoFlujo.dicAristaPlazo)
+        ////        lstEdoAccion.Add(pair.Value);
+
+
+        ////    AfdEdoPdoMdl edoQuitarTurnar = null;
+        ////    AfdEdoPdoMdl edoQuitarAmpliacion = null;
+
+        ////    edoActVM.turnarTransp = JsonTransform.NO_RECORDS;
+        ////    edoActVM.turnarArea = JsonTransform.NO_RECORDS;
+        ////    edoActVM.turnarAreasInternas = JsonTransform.NO_RECORDS;
+
+
+        ////    foreach (AfdEdoPdoMdl edoAccionMdl in lstEdoAccion)
+        ////    {
+        ////        if (edoAccionMdl.plazo > 0)
+        ////        {
+        ////            DateTime dtFechaLimite = calcularPlazoNeg.ObtenerFechaFinal(afdDatosMdl.fecini, edoAccionMdl.plazo);
+        ////            dtFechaLimite = dtFechaLimite.AddMonths(-1);
+        ////            edoAccionMdl.fecLimite = dtFechaLimite.ToString("yyyy/MM/dd");
+        ////        }
+
+        ////        if (edoAccionMdl.id == SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.TURNAR ||
+        ////            edoAccionMdl.id == SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.RETURNAR)
+        ////        {
+        ////            // verificar si tiene hijos en caso contrario borrar
+
+        ////            edoActVM.turnarArea = JsonTransform.convertJson((DataTable)_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectAreasActual), DateTime.Now));
+        ////            if (edoActVM.turnarArea == JsonTransform.NO_RECORDS)
+        ////                edoQuitarTurnar = edoAccionMdl;
+        ////        }
+        ////        else if (edoAccionMdl.id == SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.TURNAR_AREAS_TRANSPARENCIA)
+        ////        {
+        ////            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+        ////            dicParam.Add(Constantes.Parametro.FECHA, DateTime.Now);
+        ////            dicParam.Add(DButil.SIT_ADM_AREAHIST_COL.ARHREPORTA, (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT));
+
+        ////            edoActVM.turnarTransp = JsonTransform.convertJson(_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectAreasActualReporta), dicParam));
+
+        ////            if (edoActVM.turnarTransp == JsonTransform.NO_RECORDS)
+        ////                edoQuitarTurnar = edoAccionMdl;
+        ////        }
+        ////        else if (edoAccionMdl.id == SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.TURNAR_AREA_INTERNA)
+        ////        {
+        ////            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+        ////            dicParam.Add(Constantes.Parametro.FECHA, DateTime.Now);
+        ////            dicParam.Add(DButil.SIT_ADM_AREAHIST_COL.ARHREPORTA, afdDatosMdl.area);
+
+        ////            edoActVM.turnarAreasInternas = JsonTransform.convertJson(_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectAreasActualReporta), dicParam));
+
+        ////            if (edoActVM.turnarAreasInternas == JsonTransform.NO_RECORDS)
+        ////                edoQuitarTurnar = edoAccionMdl;
+        ////        }
+
+        ////        else if (edoAccionMdl.id == SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.AMPLIACION)
+        ////        {
+        ////            if (segAclMdl != null)
+        ////                edoQuitarAmpliacion = edoAccionMdl;
+        ////        }
+        ////    }
+
+        ////    if (edoQuitarTurnar != null)
+        ////        lstEdoAccion.Remove(edoQuitarTurnar);
+
+        ////    if (edoQuitarAmpliacion != null)
+        ////        lstEdoAccion.Remove(edoQuitarAmpliacion);
+
+        ////    edoActVM.controlName = "Flujo" + _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO).ToString();
+
+        ////    lstEdoAccion.Sort(delegate (AfdEdoPdoMdl x, AfdEdoPdoMdl y)
+        ////    {
+        ////        if (x.text == null && y.text == null) return 0;
+        ////        else if (x.text == null) return -1;
+        ////        else if (y.text == null) return 1;
+        ////        else return x.text.CompareTo(y.text);
+        ////    });
+
+        ////    edoActVM.tipoPrcActual = afdDatosMdl.prcID;
+        ////    edoActVM.listaAccion = JsonTransform.convertJson(lstEdoAccion);
+        ////    return edoActVM;
+        ////}
+
+
+        ////[HttpGet]
+        ////public IActionResult NodoBase (String DatosMdl)
+        ////{            
+        ////    // 1) UTrecibirSol
+        ////    FrmAfdDatosMdl afdDatosMdl = JsonConvert.DeserializeObject<FrmAfdDatosMdl>(DatosMdl);
+        ////    Dictionary<Int32, AfdNodoFlujo> dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+        ////    EdoActViewModel edActVM = DatosGenerales(ref afdDatosMdl, true, true, ref dicAfdFlujo);
+
+        ////    // SOLO SI EL NODO ES UNA UNIDAD ADMINISTRATIVA BUSCAR LAS OBSERVACION O INSTRUCCION O REQUERIMIENTO....
+        ////    // SOLO SI EL NODO ES UNA UNIDAD ADMINISTRATIVA BUSCAR LAS OBSERVACION O INSTRUCCION O REQUERIMIENTO....
+        ////    // SOLO SI EL NODO ES UNA UNIDAD ADMINISTRATIVA BUSCAR LAS OBSERVACION O INSTRUCCION O REQUERIMIENTO....
+        ////    // SOLO SI EL NODO ES UNA UNIDAD ADMINISTRATIVA BUSCAR LAS OBSERVACION O INSTRUCCION O REQUERIMIENTO....
+        ////    // SOLO SI EL NODO ES UNA UNIDAD ADMINISTRATIVA BUSCAR LAS OBSERVACION O INSTRUCCION O REQUERIMIENTO....
+        ////    // SI FUE UN TRANDO
+        ////    ////edActVM.observacion = BuscarObservacion(afdDatosMdl.folio, afdDatosMdl.clanodo);
+
+        ////    // AQUI COLOCO EL TITULO Y SU BUSQUEDA....
+        ////    String sProceso = _memCacheSIT.BuscarLista(CacheWebSIT.LST_SOL_PROCESO, afdDatosMdl.prcID .ToString());
+        ////    String sSolTipo = _memCacheSIT.BuscarLista(CacheWebSIT.LST_SOL_TIPO, afdDatosMdl.solTipo.ToString());
+        ////    String sPerfil = _memCacheSIT.BuscarLista(CacheWebSIT.LST_PERFIL, afdDatosMdl.perfil.ToString());
+        ////    String sNodoEstado = _memCacheSIT.BuscarDiccionario(CacheWebSIT.DIC_NODO_ESTADO, afdDatosMdl.estado);
+
+        ////    // SI ES UA COLOCAR EL NOMBRE DEL ÄREA..
+        ////    // SI ES UA COLOCAR EL NOMBRE DEL ÄREA..
+        ////    // SI ES UA COLOCAR EL NOMBRE DEL ÄREA..
+
+        ////    edActVM.titulo = sPerfil.ToUpper() + " - " + sProceso + " - " + sSolTipo + " - " + sNodoEstado.ToUpper();
+
+        ////    // PUEDEN SER LOS PROPIOS NODOS o POR EL ADMINSITRADOR EN CUALQUEIR MOMENTO
+        ////    if (afdDatosMdl.mvc == ConstantesWeb.FLUJO.AMPLIACION)
+        ////    {
+        ////        edActVM.titulo = " UNIDAD DE TRANSPARENCIA - SOLICITAR PRÓRROGA INMEDIATA";
+        ////        ////////edActVM.nodoView = "PVrespSimple?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo + "&area=" + _memCacheSIT.ObtenerDato(CacheWebSIT.AREA_CT);
+        ////        edActVM.accion = AfdConstantes.RESPUESTA.AMPLIACION;
+        ////        _appLog.opdesc = "AMPLIACION UNIDAD TRANSPARENCIA ";
+        ////        _appLog.data = edActVM.Datos();
+        ////    }
+
+        ////    else if (afdDatosMdl.mvc == ConstantesWeb.FLUJO.RESPONDER)
+        ////    {
+        ////        if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UTnotificar")
+        ////        {
+        ////            //////////edActVM.nodoView = "PVnotificar?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodclave=" + afdDatosMdl.clanodo + "&area=" + _memCacheSIT.ObtenerDato(CacheWebSIT.AREA_CT);
+        ////            edActVM.accion = AfdConstantes.RESPUESTA.REGISTRAR_NOTIFICAR_SISTEMA;
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UTanalizar")
+        ////        {
+        ////            edActVM.nodoView = "NodoAnalizarResp?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo + "&usr=" + afdDatosMdl.usuario;
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "NodoMensaje")
+        ////        {
+        ////            edActVM.nodoView = "NodoMensaje?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo;
+
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "CTsesionar")
+        ////        {
+        ////            ////////edActVM.nodoView = "NodoAnalizarResp?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo + "&area=" + _memCacheSIT.ObtenerDato(CacheWebSIT.AREA_CT);
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UTnotificarAmp")
+        ////        {
+        ////            ////////edActVM.nodoView = "PVnotificarAmp?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodclave=" + afdDatosMdl.clanodo + "&area="  + _memCacheSIT.ObtenerDato(CacheWebSIT.AREA_CT);
+        ////            edActVM.accion = AfdConstantes.RESPUESTA.NOTIFICACION_PRORROGA;
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "NodoMsjFinal")
+        ////        {
+        ////            edActVM.nodoView = "NodoMsjFinal?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo + "&btnAccion=S";
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UA")
+        ////        {
+        ////            edActVM.nodoView = "NodoMsjFinal?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo + "&btnAccion=S";
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UAanalizar")
+        ////        {
+        ////            edActVM.nodoView = "UAanalizar?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo;
+        ////        }
+        ////        else if (dicAfdFlujo[afdDatosMdl.estado].nedurl == "UTrecibirSol")
+        ////        {
+        ////            edActVM.nodoView = "UTrecibirSol?solclave=" + afdDatosMdl.folio + "&proclave=" + afdDatosMdl.prcID + "&nodo=" + afdDatosMdl.clanodo;
+        ////        }
+        ////        else
+        ////        {
+        ////            edActVM.nodoView = "NodoGeneral";
+        ////        }                     
+        ////    }
+
+        ////    _appLog.opdesc = "EstadoActual  " + edActVM.titulo;
+        ////    _appLog.data = edActVM.Datos();
+        ////    return View(edActVM);
+        ////}
+
+
+        ////////[HttpGet]
+        ////////public IActionResult NodoGeneral()
+        ////////{
+        ////////    return View();
+        ////////}
+
+
+
+        [HttpGet]
+        public IActionResult NodoAnalizarResp(Int64 folio, Int64 tipoPrcActual, Int64 nodo, Int64 usr)
+        {
+            _appLog.opdesc = "NodoAnalizar - GET ";
+            _appLog.data = "";
+
+            EdoActViewModel edoActVM = new EdoActViewModel();
+            edoActVM.respAreas = _solServ.ObtenerUTpendientes(folio, nodo, (int)tipoPrcActual, (int)usr, Constantes.Perfil.UA);
+            edoActVM.tipoModoEntrega = JsonTransform.convertJsonDicToTable(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_SOL_MODOENTREGA_VISIBLE) as Dictionary<int, String>);
+
+            //////////if ((int)area == (int)_memCacheSIT.ObtenerDato(CacheWebSIT.AREA_CT))
+            //////////{
+            //////////    edoActVM.etiqueta = "Requerimiento";
+            //////////    edoActVM.subclasificar = _solServ.ObtenerAristaSubClasificacion(AfdConstantes.Respuesta_SUBCLASIFICAR.SI);
+            //////////    edoActVM.tipoAristaInfomex = _solServ.ObtenerAristaTipo(AfdConstantes.Respuesta_TIPO.EXTERNO, AfdConstantes.RESPUESTA.NOTIFICACION_PRORROGA.ToString());
+            //////////    edoActVM.tipoComiteRubro = JsonTransform.convertJson(_memCacheSIT.ObtenerDato(CacheWebSIT.DT_CI_RUBRO));
+            //////////}
+            //////////else
+            //////////{
+            edoActVM.etiqueta = "Modificar";
+            edoActVM.subclasificar = JsonTransform.NO_RECORDS;
+            edoActVM.tipoAristaInfomex = JsonTransform.NO_RECORDS;
+            edoActVM.tipoComiteRubro = JsonTransform.NO_RECORDS;
+            //////////}
+            return View(edoActVM);
+        }
+
+
+        private String BuscarObservacion(Int64 folio, Int64 nodo)
+        {
+            List<SIT_RED_ARISTA> lstAristaMdl = _solServ.ObtenerAristasIDnodoDestino(folio, nodo);
+
+            // verificar simepre debe de exitir la arista.
+            if (lstAristaMdl != null)
+                if (lstAristaMdl.Count > 0)
+                {
+
+                }
+            return "";
+        }
+
+        /*********************************************
+               GENERAL NOTIFICAR            
+        ******************************************** */
+        [HttpGet]
+        public IActionResult NodoMensaje(Int64 folio, Int64 tipoPrcActual, Int64 nodo)
+        {
+            _appLog.opdesc = "Notificar - ";
+            _appLog.data = "";
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NodoMensaje(Int64 folio, Int64 nodo)
+        {
+            AfdEdoDataMdl afdDataMdl = NodoActualIni(folio, AfdConstantes.RESPUESTA.CONFIRMAR, nodo);
+            // Buscamos la arista actual que debemos de acutalizar.....
+            List<SIT_RED_ARISTA> lstAristaMDl = (List<SIT_RED_ARISTA>)_solServ.ObtenerAristasIDnodoDestino(folio, nodo);
+
+            // solo debe de exitir una arista..
+            afdDataMdl.ID_ClaAristaActual = lstAristaMDl[0].ariclave;
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+            _appLog.opdesc = "Notificar - AfdServicio.ACCION";
+            _appLog.data = afdDataMdl.Datos();
+
+            return RedirectToAction("BandejaEntrada", "Solicitud");
+        }
+
+        [HttpGet]
+        public IActionResult NodoMsjFinal(Int64 folio, Int64 nodo, Int64 tipoPrcActual, Char btnAccion)
+        {
+            SIT_SOL_SEGUIMIENTO segMdl = _solServ.ObtenerSeguimiento(folio, Convert.ToInt32(tipoPrcActual));
+
+            //////////EdoActViewModel edActVM = respuestaAgregar(_solServ.ObtenerRespNotificar(folio, Convert.ToInt32(tipoPrcActual), nameof(SIT_RED_ARISTADao.dmlSelectRespDoc)));
+            EdoActViewModel edActVM = new EdoActViewModel();
+            edActVM.btnAccion = btnAccion;
+
+            _appLog.opdesc = "NodoMsjFinal - AfdServicio.ACCION";
+            _appLog.data = edActVM.Datos();
+
+            return View(edActVM);
+        }
+
+        [HttpPost]
+        public IActionResult NodoMsjFinal(Int64 folio, Int64 nodo)
+        {
+            AfdEdoDataMdl afdDataMdl = NodoActualIni(folio, AfdConstantes.RESPUESTA.REGISTRAR_NOTIFICAR_SISTEMA, nodo);
+            // Buscamos la arista actual que debemos de acutalizar.....
+            List<SIT_RED_ARISTA> lstAristaMDl = (List<SIT_RED_ARISTA>)_solServ.ObtenerAristasIDnodoDestino(folio, nodo);
+
+            // solo debe de exitir una arista..
+            afdDataMdl.ID_ClaAristaActual = lstAristaMDl[0].ariclave;
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+            _appLog.opdesc = "NodoMsjFinal - AfdServicio.ACCION";
+            _appLog.data = afdDataMdl.Datos();
+
+            return RedirectToAction("BandejaEntrada", "Solicitud");
+        }
+
+
+		
+        public EdoActViewModel respuestaAgregar(RespNotificarViewModel respNotMdl)
+        {
+            EdoActViewModel edActVM = new EdoActViewModel();
+
+            if (respNotMdl != null)
+            {
+                edActVM.respuesta = respNotMdl.respDesc;
+                edActVM.respuestaContenido = respNotMdl.respDocDesc;
+                edActVM.respuestaDoc = respNotMdl.respDocIdx;
+                edActVM.respuestaDocNombre = respNotMdl.respDocNombre;
+            }
+            else
+            {
+                edActVM.respuesta = "";
+                edActVM.respuestaContenido = "";
+                edActVM.respuestaDoc = 0;
+                edActVM.respuestaDocNombre = "";
+            }
+            return  edActVM;
+        }
+
+        [HttpGet]
+        public IActionResult PVresultado(Int64 folio, Int64 tipoPrcActual, Int64 claArista)
+        {
+            SIT_SOL_SEGUIMIENTO segMdl = _solServ.ObtenerSeguimiento(folio, (Int32) tipoPrcActual);
+            /////EdoActViewModel edActVM = respuestaAgregar( _solServ.ObtenerRespNotificar(folio, segMdl.ariclave, Convert.ToInt32(tipoPrcActual), nameof(SIT_RED_ARISTADao.dmlSelectRespDoc)));
+            EdoActViewModel edActVM = new EdoActViewModel();
+
+            edActVM.tipoAristaInfomex = _solServ.ObtenerAristaTipo(AfdConstantes.Respuesta_TIPO.EXTERNO, AfdConstantes.RESPUESTA.NOTIFICACION_PRORROGA.ToString());            
+
+            _appLog.opdesc = "PVresultado - GET";
+            _appLog.data = "";
+
+            return View(edActVM);
+        }
+
+        [HttpPost]
+        public IActionResult PVresultado(Int64 folio, Int64 nodo, int tipoArista)
+        {
+            AfdEdoDataMdl afdDataMdl = NodoActualIni(folio, tipoArista, nodo);
+
+            ////////// TODAS LAS RESPUESTAS VAN AL PERFIL DEL AREA DE TRANSPARENCIA.....               
+            ////////int iSiguienteEstado = _memCacheSIT.EstadoFinal(afdDataMdl.AFDnodoActMdl.nodclave, tipoArista);
+            ////////int iPerfil = ((Dictionary<int, int>)_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_NODO_ESTADO_PERFIL))[iSiguienteEstado];
+            ////////afdDataMdl.ID_AreaDestPerfil = iPerfil;
+            ////////afdDataMdl.ID_AreaDestino = _solServ.ObtenerAreaPerfil(iPerfil);
+
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+            _appLog.opdesc = "PVresultado - AfdServicio.OPE_ACCION";
+            _appLog.data = afdDataMdl.Datos();
+
+            return RedirectToAction("BandejaEntrada", "Solicitud");
+        }        
+
+        [HttpPost]
+        //////[ValidateInput(false)]
+        public IActionResult Returnar(long folio, int arista, int nodoO, string instruccion, int nodo)
+        {
+            if (instruccion.Length > 2)
+            {
+                AfdEdoDataMdl afdDataMdl = NodoActualIni(folio, AfdConstantes.RESPUESTA.MODIFICAR, nodo);
+                afdDataMdl.Observacion = instruccion.Replace("\"", "\\\"");
+                /////////////////////////////////afdDataMdl.AFDresolucionMdl = new SIT_ARISTA_RESOLUCION(megclave: 0, ariclave: Constantes.General.ID_PENDIENTE,rsl_art7: " ", rsl_tam_cant_dir: " ", rsl_ubicacion: " ", nfoclave: 0);
+
+                afdDataMdl.AFDnodoOrigen = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodoO) as SIT_RED_NODO;
+                afdDataMdl.ID_ClaArista = arista;
+
+                ////// TODAS LAS RESPUESTAS VAN AL PERFIL DEL AREA DE TRANSPARENCIA.....    
+                ////afdDataMdl.ID_AreaDestino = afdDataMdl.AFDnodoOrigen.araclave;
+                ////afdDataMdl.ID_AreaDestPerfil = (_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AREA_PERFIL) as Dictionary<int, int>) [afdDataMdl.AFDnodoOrigen.araclave];
+                ////object oResultado = EjecutarAfdServicio(ref afdDataMdl, AfdServicio.OPE_ACCION);
+
+                afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+                object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+                _appLog.opdesc = "Returnar - AfdServicio.OPE_ACCION";
+                _appLog.data = afdDataMdl.Datos();                
+            }
+            return RedirectToAction("BandejaEntrada", "Solicitud");
+        }
+
+
+        [HttpGet]
+        public IActionResult PVaclarar()
+        {
+            _appLog.opdesc = "PVaclarar ";
+            _appLog.data = "";
+
+            return View();
+        }
+
+
+
+		        [HttpGet]
+        public IActionResult RespEditar(Int64 claNodo, int recid)
+        {
+            //////FrmResponderVM responderVM = new FrmResponderVM();
+
+            ////////////SIT_RED_NODORESP nodoRespBuscar = new SIT_RED_NODORESP(null, recid, claNodo);
+            ////////////nodoRespBuscar = _sitDmlDbSer.operEjecutarTransaccion<SIT_RED_NODORESPDao>(nameof(SIT_RED_NODORESPDao.dmlSelectID), nodoRespBuscar) as SIT_RED_NODORESP;
+            ////////////responderVM = JsonConvert.DeserializeObject<FrmResponderVM>(nodoRespBuscar.nrpdatos);
+            return View();
+        }
+
+
+
+        [HttpGet]
+        public IActionResult PVrespGral()
+        {
+            EdoActViewModel edoActVM = new EdoActViewModel();
+            edoActVM.controlName = "Flujo" + _memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO).ToString();
+            edoActVM.tipoModoEntrega = JsonTransform.convertJsonDicToTable(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_SOL_MODOENTREGA_VISIBLE));
+
+            _appLog.opdesc = "PVrespGral";
+            _appLog.data = "  ";
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult PVturnarSubAreas()
+        {
+            _appLog.opdesc = "Respuesta";
+            _appLog.data = "  ";
+
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult UArequerir()
+        {
+            _appLog.opdesc = "UArequerir";
+            _appLog.data = "  ";
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult UArecrevision()
+        {
+            _appLog.opdesc = "UArecrevision";
+            _appLog.data = "  ";
+
+            return View();
+        }
+
+        /* ********************************************
+                    COMITE DE TRANSPARENCIA
+        ******************************************** */
+        [HttpGet]
+        public IActionResult PVcomite()
+        {
+            _appLog.opdesc = "PVcomite";
+            _appLog.data = "  ";
+            return View();
+        }
+
+        [HttpPost]
+        ////[ValidateInput(false)]
+        public IActionResult PVcomite(Int64 folio, Int64 nodo, int tipoArista,  int lstModoEntrega, int lstRubro, string motivo,
+            string respuesta, string FechaArchivo, string Oficio, ICollection<IFormFile> ArchivoResolucion, string clasificar, string respInfomex)
+        {
+            AfdEdoDataMdl afdDataMdl = NodoActualIni(folio, tipoArista, nodo);
+            //////////////////afdDataMdl.AFDrescomiteMdl = new SIT_ARISTA_COMITE(megclave:0, ariclave: Constantes.General.ID_PENDIENTE, corclave: lstRubro, com_motivo: motivo);
+            afdDataMdl.Observacion = respuesta.Replace("\"", "\\\"");
+            afdDataMdl.lstDocContenidoMdl = DocumentoGestionar(Oficio, ref ArchivoResolucion);
+            //////////////////afdDataMdl.AFDseguimientoMdl.rtpclave = Convert.ToInt32(respInfomex);
+            afdDataMdl.ID_Clasificar = clasificar;
+
+            ////// TODAS LAS RESPUESTAS VAN AL PERFIL DEL AREA DE TRANSPARENCIA.....               
+            ////int iSiguienteEstado = _memCacheSIT.EstadoFinal(afdDataMdl.AFDnodoActMdl.nodclave, tipoArista);
+            ////int iPerfil = ((Dictionary<int, int>)_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_NODO_ESTADO_PERFIL))[iSiguienteEstado];
+            ////afdDataMdl.ID_AreaDestPerfil = iPerfil;
+            ////afdDataMdl.ID_AreaDestino = _solServ.ObtenerAreaPerfil(iPerfil);
+            ////object oResultado = EjecutarAfdServicio(ref afdDataMdl, AfdServicio.OPE_ACCION);
+
+
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+
+            _appLog.opdesc = "PVcomite - AfdServicio.OPE_ACCION";
+            _appLog.data = afdDataMdl.Datos();
+
+            return RedirectToAction("BandejaEntrada", "Solicitud");
+        }
+
+        [HttpGet]
+        public IActionResult CTampliacion()
+        {
+            _appLog.opdesc = "CTampliacion";
+            _appLog.data = "  ";
+
+            ////// DatosGenerales(true, true, true);
+            return View();
+        }
+
+

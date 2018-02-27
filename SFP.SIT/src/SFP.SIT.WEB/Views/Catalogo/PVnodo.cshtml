@@ -1,0 +1,104 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Nodo";
+    Layout = null;
+}
+
+<div id="formNodo" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVnodo" method="post">
+    @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Nodo  ID :</p></td>
+                <td><input id="nodclave" name="nodclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Folio :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:110px" /></td>
+            </tr>
+            <tr>
+                <td><p>Proceso :</p></td>
+                <td><select id="prcclave" name="prcclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Área :</p></td>
+                <td><select id="araclave" name="araclave" style="width:850px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de creación :</p></td>
+                <td><input id="nodfeccreacion" name="nodfeccreacion" type="date" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo estado :</p></td>
+                <td><select id="nodclave" name="nodclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Atendido :</p></td>
+                <td><input id="nodatendido" name="nodatendido" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Capa :</p></td>
+                <td><input id="nodcapa" name="nodcapa" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Holgura :</p></td>
+                <td><input id="nod_holgura" name="nod_holgura" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo TIP :</p></td>
+                <td><input id="nod_tip" name="nod_tip" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo TTP :</p></td>
+                <td><input id="nod_ttp" name="nod_ttp" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo TIL :</p></td>
+                <td><input id="nod_til" name="nod_til" type="text" style="width:40px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nodo TTL :</p></td>
+                <td><input id="nod_ttl" name="nod_ttl" type="text" style="width:40px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>                   
+
+<script>
+    var _lstArea = @Html.Raw(Model.lstArea);
+    var _lstNodoEstado = @Html.Raw(Model.lstNodoEstado);
+    var _lstTipoProceso = @Html.Raw(Model.lstTipoProceso);
+    function GuardarNodo()
+    {
+        var url = '@Url.Action("PVnodo", "Catalogo")';
+
+        datos = {
+            nodclave: parseInt($("#nodclave").val()),
+            araclave: parseInt($("#araclave").val()),
+            nodfeccreacion: $("#nodfeccreacion").val(),
+            nodclave:   parseInt($("#nodclave").val()),
+            nod_holgura:   parseInt($("#nod_holgura").val()),
+            nod_tip:   parseInt($("#nod_tip").val()),
+            nod_ttp:   parseInt($("#nod_ttp").val()),
+            nod_til:   parseInt($("#nod_til").val()),
+            nod_ttl:   parseInt($("#nod_ttl").val()),
+            solclave:   $("#solclave").val(),
+            nodatendido:   parseInt($("#nodatendido").val()),
+            prcclave:   parseInt($("#prcclave").val()),
+            nodcapa:   parseInt($("#nodcapa").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('araclave', _lstArea.records, false);
+            SelectAddElemClear('nodclave', _lstNodoEstado.records, false);
+            SelectAddElemClear('prcclave', _lstTipoProceso.records, false);            
+        }
+    );
+</script>
+
+

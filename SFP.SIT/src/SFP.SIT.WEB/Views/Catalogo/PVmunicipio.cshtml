@@ -1,0 +1,63 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Municipio";
+    Layout = null;
+}
+
+<div id="formMunicipio" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVmunicipio" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Pais:</p></td>
+                <td><select id="paiclave" name="paiclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Estado:</p></td>
+                <td><select id="edoclave" name="edoclave" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Municipio:</p></td>
+                <td><input id="munclave" name="munclave" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="mundescripcion" name="mundescripcion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja:</p></td>
+                <td><input id="munfecbaja" name="munfecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstPais = @Html.Raw(Model.lstPais);
+    var _lstEstado = @Html.Raw(Model.lstEstado);
+
+    function GuardarMunicipio()
+    {
+        var fecha = fechaValidar("#munfecbaja");
+        var url = '@Url.Action("PVmunicipio", "Catalogo")';
+
+        datos = {
+            paiclave: parseInt($("#paiclave").val()),
+            edoclave: parseInt($("#edoclave").val()),
+            munclave:  $("#munclave").val(),
+            mundescripcion: $("#mundescripcion").val(),                        
+            munfecbaja:  fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val()) 
+        };
+        
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('paiclave', _lstPais.records, false);
+            SelectAddElemClear('edoclave', _lstEstado.records, false);
+        }
+    );
+
+</script>

@@ -1,0 +1,734 @@
+﻿@using SFP.SIT.SERV.Util
+@{    }
+
+<style>
+    i.custom {
+        font-size: 1em;
+        color: darkgreen;
+    }
+</style>
+
+<div id="mainLayout" style=""></div>
+
+<div id="layout3Top">
+    <div class="encabezado">
+        <div class="titulo">Información</div>
+    </div>
+    <div class="subencabezado">
+        <div id="divMenuAccion1" onclick="panelInfo1()"></div>
+        <div id="divMenuAccion2" onclick="panelInfo2()"></div>
+        <div id="divMenuAccion3" onclick="panelInfo3()"></div>
+    </div>
+</div>
+
+<form id="frmBandejaEntrada" asp-controller="Solicitud" asp-action="BandejaEntrada" method="post" accept-charset="UTF-8">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="folio" name="folio">
+    <input type="hidden" id="estado" name="estado">
+    <input type="hidden" id="prcID" name="prcID">
+    <input type="hidden" id="sfecini" name="sfecini">
+    <input type="hidden" id="solTipo" name="solTipo">
+    <input type="hidden" id="clanodo" name="clanodo">
+    <input type="hidden" id="mvc" name="mvc">
+    <input type="hidden" id="flujo" name="flujo">
+    <input type="hidden" id="area" name="area">
+    <input type="hidden" id="perfil" name="perfil">
+    <input type="hidden" id="usuario" name="usuario">
+</form>
+
+
+<div id="divFlujoSolicitud" style="display: none; width:100%; height:100%; overflow: hidden"> </div>
+<div id="ContenedorRespuestas" style="display: none; width:550px; height:100%; margin-top: 200px; overflow: hidden"> </div>
+@section Scripts
+    {
+    <script type="text/javascript">
+            $("#menu5").toggleClass("boton_hover");
+
+            var selectobject=document.getElementById("cboPerfil")
+            for (var i=0; i<selectobject.length; i++){
+                if (selectobject.options[i].value == '' )
+                    selectobject.remove(i);
+            }
+
+            var oAreaData = [];
+            var pstyle = 'border: 1px; solid #dfdfdf; padding: 5px; background-color: #eeeeee';
+            var pstylepanel = 'border: 1px solid #eeeeee; background-color: #eeeeee; padding: 0px;';
+            var pstyle1 = 'border: 1px solid #dfdfdf; padding: 0px; background-color:#FFF, overflow: visible; text-aling: center; ';
+            var pstyle2 = 'border: 1px solid #dfdfdf; padding: 0px; background-color:#FFF; overflow: auto;';
+            var record = 0;
+
+            var CONSULTA_ACTUAL = "ACT";
+            var CONSULTA_SEGUIMIENTO = "SEG";
+
+            var _EdoRecibirSolUT = @SFP.SIT.SERV.Util.Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
+            var _TipoProcesoSol = @SFP.SIT.SERV.Util.Constantes.ProcesoTipo.SOLICITUD;
+
+            var _solclave = 0;
+            var _MedioEntrada = 0;
+            var _TipoSolicitud = 0;
+            var _GridIdx = 0;
+            var _PaginaMax = 0;
+
+            var _FormaBuscar = null;
+            var _TipoConsulta = CONSULTA_ACTUAL;
+            var _Usuario = @ViewBag.Usuario;
+
+
+            var objetos = {
+                layout1: {
+                    name: 'layout1',
+                    panels: [
+                        {type: 'main', size: 400, resizable: true, style: pstylepanel, content: 'right'},
+                        {type: 'right', size: 300, resizable: true, style: pstylepanel, content: 'right'}
+                    ]
+                },
+                layout2: {
+                    name: 'layout2',
+                    panels: [
+                        {type: 'main', size: 300, resizable: true, style: pstyle1, content: 'main'},
+                    ]
+                },
+                layout3: {
+                    name: 'layout3',
+                    panels: [
+                        {type: 'top', size: 60, resizable: false, style: 'background:#EEEEEE;', content: 'top'},
+                        {type: 'view', size: 200, resizable: true, style: pstyle1, content: 'view'},
+                        {type: 'bottom', size: 200, resizable: true, overflow: 'scroll', style: pstyle2, content: 'bottom'}
+                    ]
+                },
+                gridSolBuscar: {
+                    name: 'gridSolBuscar',
+                    show: {
+                        lineNumbers: true,
+                        footer: true,
+                        toolbar: true
+                    },
+                    method: 'GET', // need this to avoid 412 error on Safari
+                    columns: [
+                        {field: 'SOLCLAVE', caption: 'Folio', size: '120px',sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.NEDCLAVE === 6) {
+                                    datosHTML = '<i class="glyphicon glyphicon glyphicon-circle-arrow-down custom" style="margin-right:5px;"></i>' + registro.SOLCLAVE ;
+                                } else {
+                                    datosHTML = registro.SOLCLAVE ;
+                                }
+
+                                if (registro.nodfeclectura === null)
+                                    datosHTML = '<div style="font-weight:bold">' + datosHTML + '</div>';
+
+                                return datosHTML;
+                            }},
+                        {field: 'SEGFECINI', caption: 'Fecha<br/> Solicitud', size: '90px',sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.nodfeclectura === null)
+                                    datosHTML = '<div style="font-weight:bold">' + registro.SEGFECINI + '</div>';
+                                else
+                                    datosHTML = registro.SEGFECINI;
+
+                                return datosHTML;
+                            }},
+                        {field: 'NODFECCREACION', caption: 'Fecha<br/>Turno', size: '90px',sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.nodfeclectura === null)
+                                    datosHTML = '<div style="font-weight:bold">' + registro.NODFECCREACION + '</div>';
+                                else
+                                    datosHTML = registro.NODFECCREACION;
+
+                                return datosHTML;
+                            }},
+                        {field: 'SEGFECESTIMADA', caption: 'Fecha<br/>Limite', size: '90px',sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.nodfeclectura === null)
+                                    datosHTML = '<div style="font-weight:bold">' + registro.SEGFECESTIMADA + '</div>';
+                                else
+                                    datosHTML = registro.SEGFECESTIMADA;
+
+                                return datosHTML;
+                            }},
+                        {field: 'CARAC1', caption: 'I', size: '34px', resizable: false,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                // tipo de solicitud
+                                if (registro.CARAC1 === 1) {
+                                    datosHTML = "<div class=\'caracI_1\' />";
+                                } else if (registro.CARAC1 === 2) {
+                                    datosHTML = "<div class=\'caracI_2\' />";
+                                } else if (registro.CARAC1 === 3) {
+                                    datosHTML = "<div class=\'caracI_3\' />";
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'CARAC2', caption: 'II', size: '34px', resizable: false,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                // fecha aclaracion
+                                if (registro.CARAC2 === 1) {
+                                    datosHTML = '<div class="caracII_1" />';
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'CARAC3', caption: 'III', size: '34px', resizable: false,
+                            render: function (registro) {
+                                var datosHTML = '';
+
+                                // la solicitud es multiple
+                                if (registro.CARAC3 === 1) {
+                                    datosHTML = '<div class="caracIII_1" />';
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'CARAC4', caption: 'IV', size: '34px', resizable: false,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.NEDCLAVE == 19)
+                                {
+                                    datosHTML = '<div class="numSobre" />';
+                                }
+                                else if (registro.NEDCLAVE == 20)
+                                {
+                                    datosHTML = '<div class="num11" />';
+                                }
+                                else
+                                {
+                                    if (registro.CARAC4 === 1) {
+                                        datosHTML = '<div class="caracIV_1" />';
+                                    } else if (registro.CARAC4 === 2) {
+                                        datosHTML = '<div class="caracIV_2" />';
+                                    } else if (registro.CARAC4 === 3) {
+                                        datosHTML = '<div class="caracIV_3" />';
+                                    }
+                                }
+
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'CARAC5', caption: 'V', size: '34px', resizable: false,
+                            render: function (registro) {
+                                // Fecha de ampliacion
+                                var datosHTML = '';
+                                if (registro.CARAC5 === 1) {
+                                    datosHTML = '<div class="caracV_1" />';
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'CARAC6', caption: 'VI', size: '34px', resizable: false,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.CARAC6 === 1) {
+                                    datosHTML = '<div class="caracVI_1" />';
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'SEGDIASSEMAFORO', caption: 'Días<br/> laborales', size: '65px', attr: 'align=center',sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.nodfeclectura === null)
+                                    datosHTML = '<div style="font-weight:bold">' + registro.SEGDIASSEMAFORO + '</div>';
+                                else
+                                    datosHTML = registro.SEGDIASSEMAFORO;
+
+                                return datosHTML;
+                            }},
+                        {field: 'SEGSEMAFOROCOLOR', caption: 'Semáforo', size: '72px', resizable: false,sortable: true,
+                            render: function (registro) {
+                                var datosHTML = '';
+                                if (registro.SEGSEMAFOROCOLOR === 3) {
+                                    datosHTML = '<div class=\"semaforo_rojo\" />';
+                                } else if (registro.SEGSEMAFOROCOLOR === 2) {
+                                    datosHTML = '<div class=\"semaforo_amarillo\" />';
+                                } else if (registro.SEGSEMAFOROCOLOR === 1) {
+                                    datosHTML = '<div class=\"semaforo_verde\" />';
+                                }
+                                return datosHTML;
+                            }, attr: 'align=center'
+                        },
+                        {field: 'NODCLAVE', caption: 'NODO', size: '1px'},
+                        {field: 'SOLDES', caption: 'Descripción', size: '600px',
+                        render: function (registro) {
+                            var datosHTML = '';
+                            if (registro.nodfeclectura === null)
+                                datosHTML = '<div style="font-weight:bold">' + registro.SOLDES + '</div>';
+                            else
+                                datosHTML = registro.SOLDES;
+
+                            return datosHTML;
+                        }},
+
+                        {field: 'PRCCLAVE', caption: 'Proceso', size: '600px'},
+                        {field: 'NODCLAVE', caption: 'Nodo', size: '600px'},
+                    ],
+                    toolbar: {
+                        items: [
+                            {id: 'buscar',  type: 'button', caption: 'Busqueda Avanzada', hidden: true},
+                            { type: 'break',  id: 'break0' },
+                            {id: 'expander',type: 'button', caption: '', img:'icon-fullSize'},
+                            { type: 'break',  id: 'break2' },
+                            {id: 'flujo',   type: 'button', caption: 'Ver flujo solicitud' },
+                            { type: 'spacer' },
+                            {id: 'recepcion', type: 'radio',    group: '1', caption: 'Recepción',  checked: true },
+                            {id: 'seguimiento', type: 'radio',  group: '1', caption: 'Seguimiento', }
+                        ],
+                        onClick: function(event) {
+                            if (event.target === 'buscar') {
+                                w2popup.load({ url: 'SolicitudBuscar',
+                                    showMax: true,
+                                    onClose   : function (event) {
+                                        var  resultado = ObtenerPerfilArea();
+                                        $("#perClave").val( resultado.perfil );
+                                        $("#araClave").val( resultado.area );
+                                        _FormaBuscar = $('#frmBuscar').serialize();
+                                        Buscar();
+                                    }
+                                } );
+
+                            } else if (event.target === 'expander') {
+                                w2ui['layout1'].toggle('right', window.instant);
+
+                            } else if (event.target === 'flujo') {
+                                popupDiagramaFlujo( parseInt($("#folio").val()) );
+
+                            } else if (event.target === 'recepcion') {
+                                BorrarDatos();
+                                $('#folio').val(0);
+                                _TipoConsulta =  CONSULTA_ACTUAL;
+                                this.hide('buscar')
+                                $('#btnResponder').hide();
+                                $('#btnAmpliacion').hide();
+                                $(this.box).css("background-color", "#eeeeee");
+                                Buscar();
+
+                            }else if (event.target === 'seguimiento') {
+                                BorrarDatos();
+                                $('#folio').val(0);
+                                _TipoConsulta =  CONSULTA_SEGUIMIENTO;
+                                this.show('buscar')
+                                $('#btnResponder').hide();
+                                $('#btnAmpliacion').hide();
+                                // si la solicitud esta como finalziada mostar el boton de reucros de QUEAJ
+                                $(this.box).css("background-color", "#a6e0b3");
+                                Buscar();
+                            }
+                        }
+                    },
+                    onClick: function (event) {
+                        record = this.get(event.recid);
+                        $('#folio').val(record.SOLCLAVE);
+                        _solclave = record.SOLCLAVE;
+
+                        w2ui['gridSolicitante'].clear();
+                        w2ui['gridAreaFaltante'].clear();
+
+                        w2ui['gridInfo2'].clear();
+                        w2ui['gridInfo2'].add({recid: 0, titulo:'Descripción', valor:record.SOLDES});
+                        w2ui['gridInfo2'].add({recid: 0, titulo:'Otro<br/>datos', valor:record.soldat});
+
+                        w2ui['gridInfo3'].clear();
+                        w2ui['gridInfo3'].add({recid: 0, titulo:'Tip. Solic.', valor:record.sotdescripcion});
+                        w2ui['gridInfo3'].add({recid: 1, titulo:'For. Entrega', valor:record.megdescripcion});
+                        w2ui['gridInfo3'].add({recid: 2, titulo:'Rub. Tématico', valor:record.KRT_RUBRO});
+
+                        // MOSTRAMOS LAS ACCIONES DEL SUBMENU
+                        $('#btnResponder').hide();
+                        $('#btnTurnarAdd').hide();
+                        $('#btnSolicitudEditar').hide();
+                        $('#btnAmpliacion').hide();
+
+                        if ( _TipoConsulta  == CONSULTA_ACTUAL )
+                        {
+                            $('#btnResponder').show();
+                            if (record.NODCLAVE == _EdoRecibirSolUT )
+                                $('#btnSolicitudEditar').show();
+                        }
+
+                        @*if ( record.CARAC4 == 1 &&  $("#cboPerfil").val() == _UT && record.NODCLAVE != SFP.AFD.Core.AfdConstantes.ESTADO.UT_RECIBIR_RESULTADO )
+                        { $('#btnTurnarAdd').show(); } *@
+
+                        if ($("#cboPerfil").val().substr(0,1) !== "A")
+                        {
+                            if (record.PRCCLAVE == _TipoProcesoSol && record.CARAC4 === 1 && record.CARAC5 != 1)
+                                $('#btnAmpliacion').show();
+                        }
+
+                        w2ui['gridSolBuscar'].set(record.recid, { nodfeclectura:"LEIDO"});
+                        AjaxPostForm('Solicitante', $('#frmBandejaEntrada').serialize(), SolDatosAdicionales, _UrlInicio);
+
+                    },
+                    onDblClick: function(event) {
+                        var registro = this.get(event.recid);
+
+                        if ( registro.CARAC4 === 2 ){
+                            $("#btnAccion").remove();
+                            w2popup.load({ url: '/Estado/NodoMsjFinal?Folio=' + registro.SOLCLAVE + "&proclave=" + registro.PRCCLAVE + "&nodo=" + registro.NODCLAVE + "&btnAccion=N",
+                                width:800, height:700, onOpen: function (event) {
+                                    event.onComplete = function () {
+                                        $("#divFolio").text(_solclave);
+                                        $("#tipoSolicitud").val(_TipoSolicitud);
+                                        $("#medioEnt").val(_MedioEntrada);
+                                    };
+                                }
+                            });
+                        }
+                    }
+                },
+                gridInfo2: {
+                    name: 'gridInfo2',
+                    method: 'GET', // need this to avoid 412 error on Safari
+                    show: {columnHeaders: false},
+                    columns: [
+                        {field: 'titulo', caption: 'name', size: '28%', style: 'background-color: #efefef; border-bottom: 1px solid white; padding-right: 5px;', attr: "align=left"},
+                        {field: 'valor', caption: 'value', size: '72%',
+                            render: function (record) {
+                                var datosHTML = '';
+
+                                if (record.valor == undefined)
+                                    datosHTML =  '<div> </div>';
+                                else
+                                {
+                                    var iLongitud = record.valor.length;
+                                    if (iLongitud > 30) {
+                                        var iRen = parseInt(iLongitud / 30) + 2;
+                                        datosHTML = '<textarea rows=' + iRen + ' style="width:100%; resize: none; background-color: white; color:black;" readonly  > ' + record.valor + '</textarea>';
+                                    } else {
+                                        datosHTML = record.valor;
+                                    }
+                                }
+                                return datosHTML;
+                            }
+                        }
+                    ]
+                },
+                gridInfo3: {
+                    name: 'gridInfo3',
+                    method: 'GET', // need this to avoid 412 error on Safari
+                    show: {columnHeaders: false},
+                    columns: [
+                        {field: 'titulo', caption: 'name', size: '40%', style: 'background-color: #efefef; border-bottom: 1px solid white; padding-right: 5px;', attr: "align=left"},
+                        {field: 'valor', caption: 'value', size: '60%'}
+                    ],
+                    onClick: function(event) {
+                        record = this.get(event.recid);
+                        if (record.titulo === "Anexo")
+                        {
+                            window.open("@Url.Content("~/Solicitud/Documento")?id=" + record.clave);
+                        }
+                    }
+                },
+                gridAreaFaltante: {
+                    name: 'gridAreaFaltante',
+                    header: 'Áreas pendientes',
+                    show: {
+                        header: true,
+                        toolbar: false,
+                        footer: false,
+                        lineNumbers: false,
+                        selectColumn: false,
+                        expandColumn: true
+                    },
+                    columns: [
+                        {field: 'siglas', caption: 'Siglas', size: '20%', attr: 'align=left'},
+                        {field: 'area', caption: 'Descripción', size: '75%', attr: 'align=left'}
+                    ],
+                    onExpand: function (event) {
+                        $('#' + event.box_id).html(oAreaData[event.recid]).animate({'height': 100}, 100);
+                    }
+                }
+            };
+
+            $(function ()
+            {
+                AjustarPantalla('mainLayout', 0.79, 0.98);
+                $('#mainLayout').w2layout(objetos.layout1);
+                $().w2layout(objetos.layout2);
+                $().w2layout(objetos.layout3);
+                $().w2grid(objetos.gridSolBuscar);
+                $().w2grid( GetGridSolicitante());
+                $().w2grid(objetos.gridInfo2);
+                $().w2grid(objetos.gridInfo3);
+                $().w2grid(objetos.gridInfo4);
+                $().w2grid(objetos.gridAreaFaltante);
+
+                $('#formAccion').w2form(objetos.formAccion);
+
+                w2ui['layout1'].content('main', w2ui['layout2']);
+                w2ui['layout1'].content('right', w2ui['layout3']);
+
+                w2ui['layout2'].content('main', w2ui['gridSolBuscar']);
+
+                w2ui['layout3'].content('top', { render: function () { $(this.box).append($('#layout3Top').detach()); } } );
+                w2ui['layout3'].content('main', w2ui['gridSolicitante']);
+                w2ui['layout3'].content('bottom', w2ui['gridAreaFaltante']);
+
+                // que no este cerrada se puede returnar..
+                $('#divMenuAccion').append("<a id='btnAmpliacion' name='btnAmpliacion' data-toggle='tooltip' title='Solicitar prórroga'> <div class='boton2'><div class='num6'></div></div> </a> ")
+                $('#btnAmpliacion').click(function() {
+                    AsignaValores (@SFP.SIT.WEB.Util.ConstantesWeb.FLUJO.AMPLIACION);
+                });
+                $('#btnAmpliacion').hide();
+
+                // que no este cerrada se puede returnar..
+                $('#divMenuAccion').append('<a id="btnTurnarAdd" name="btnTurnarAdd"  style="border-radius: 80%; height:35px; width:35px; margin: 2px 20px 2px 0px;" class="btn-success glyphicon icon-cogwheels"></a>');
+                $('#btnTurnarAdd').click(function() {
+                    AsignaValores (@SFP.SIT.WEB.Util.ConstantesWeb.FLUJO.TURNAR_ADICIONAL);
+                });
+                $('#btnTurnarAdd').hide();
+
+                // que no este cerrada se puede editar
+                $('#divMenuAccion').append("<a id='btnSolicitudEditar' name='btnSolicitudEditar' data-toggle='tooltip' title='Editar tipo de solicitud'> <div class='boton2'><div class='num10'></div></div> </a> ")
+                $('#btnSolicitudEditar').click(function() {
+                    _solclave = record.SOLCLAVE;
+                    _MedioEntrada = record.metclave;
+                    _TipoSolicitud = record.CARAC1;
+                    _GridIdx = record.recid;
+
+                    w2popup.load({ url: 'SolicitudEditar', width:660, height:180,
+                        onOpen: function (event) {
+                            event.onComplete = function () {
+                                $("#divFolio").text(_solclave);
+                                $("#tipoSolicitud").val(_TipoSolicitud);
+                                $("#medioEnt").val(_MedioEntrada);
+                            };
+                        }
+                    });
+                });
+
+                $('#btnSolicitudEditar').hide();
+                $('#divMenuAccion').append("<a id='btnResponder' name='btnResponder' data-toggle='tooltip' title='Responder solicitud'> <div class='boton2'><div class='num4'></div></div> </a> ")
+                $('#btnResponder').click(function() {
+                    AsignaValores (@SFP.SIT.WEB.Util.ConstantesWeb.FLUJO.RESPONDER);
+                });
+
+                $('#btnResponder').hide();
+                _TipoConsulta = CONSULTA_ACTUAL;
+
+                w2ui.gridSolBuscar.hideColumn('NODCLAVE', 'NODCLAVE', 'PRCCLAVE');
+                Buscar();
+                PixieSitIni("divFlujoSolicitud");
+            });
+
+
+            function AsignaValores(iMVC ){
+                $(".btn").prop('disabled', true);
+                $(".boton2").prop('disabled', true);
+                $('#folio').val(record.SOLCLAVE);
+                $('#estado').val(record.NEDCLAVE);
+                $('#clanodo').val(record.NODCLAVE);
+                $('#prcID').val(record.PRCCLAVE);
+                $('#sfecini').val(record.SEGFECINI);
+                $('#solTipo').val(record.CARAC1);
+                $('#mvc').val(iMVC);
+                $('#flujo').val(record.AFDCLAVE);
+                $('#usuario').val( _Usuario  );
+
+                var sPerfil = $('#cboPerfil').val();
+
+                if ( sPerfil.substr(0,1) == "A" )
+                {
+                    $("#perfil").val( @Constantes.Perfil.UA);
+                    $("#area").val( sPerfil.substr(1) );
+                }
+                else
+                {
+                    $("#perfil").val(sPerfil.substr(1));
+                    $("#area").val(  );
+                }
+
+                document.getElementById("frmBandejaEntrada").submit();
+            }
+
+            function SolDatosAdicionales(data)
+            {
+                if (data === undefined ){
+                    alert("No existen datos para esta solicitud");
+                } else {
+
+                    var sPerfil = $("#cboPerfil").val().substr(0,1) ;
+
+                    if (sPerfil === "A" )
+                    {
+                        panelInfo2();
+                    }  else {
+                        w2ui.gridSolicitante.records = data[0].records;
+                        w2ui.gridSolicitante.reload();
+                        panelInfo1();
+                    }
+
+                    if (data[1] != undefined)
+                    {
+                        oAreaData = [];
+                        var lsSiglaAnterior = "";
+                        var lsSiglaActual = "";
+                        var iIndexArea = 0;
+                        var iIdx = - 1;
+                        for ( iIndex = 0 ; iIndex < data[1].records.length; iIndex++) {
+                            lsSiglaActual = data[1].records[iIndex].SIGLA;
+
+                            if ( lsSiglaActual !== lsSiglaAnterior){
+                                iIdx++;
+                                w2ui['gridAreaFaltante'].add([{ recid: iIndexArea, siglas: data[1].records[iIndex].SIGLA, area: data[1].records[iIndex].DESCRIPCION }]);
+                                oAreaData.push(" ");
+                                lsSiglaAnterior = lsSiglaActual;
+                                iIndexArea++;
+                            }
+                            oAreaData[iIdx] = oAreaData[iIdx] + data[1].records[iIndex].NOMBRE + " <br/><br/>" ;
+                        }
+                    }
+                    if (data[2].records.length > 0)
+                    {
+                        for ( iIndex = 0 ; iIndex < data[2].records.length; iIndex++)
+                        {
+                            w2ui['gridInfo3'].add({recid: 3, titulo:'Anexo', valor: data[2].records[iIndex].docnombre, clave:  data[2].records[iIndex].docclave });
+                        }
+                    }
+                }
+            }
+
+            function setValue() {
+                $( '#editor1' ).val( $( 'input#val' ).val() );
+            }
+
+            function jsStringtoDate(date) {
+                var parts = date.split("/");
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+
+            function panelInfo1() {
+                w2ui['layout3'].content('main', w2ui['gridSolicitante']);
+                $("#divMenuAccion2, #divMenuAccion3").css("background-color", "transparent");
+                $("#divMenuAccion1").css("background-color", "#cccccc");
+            }
+            function panelInfo2() {
+                w2ui['layout3'].content('main', w2ui['gridInfo2']);
+                $("#divMenuAccion1, #divMenuAccion3").css("background-color", "transparent");
+                $("#divMenuAccion2").css("background-color", "#cccccc");
+            }
+            function panelInfo3() {
+                w2ui['layout3'].content('main', w2ui['gridInfo3']);
+                $("#divMenuAccion1, #divMenuAccion2").css("background-color", "transparent");
+                $("#divMenuAccion3").css("background-color", "#cccccc");
+            }
+
+
+            function BorrarDatos(){
+                w2ui['gridSolBuscar'].clear();
+                w2ui['gridSolicitante'].clear();
+                w2ui['gridAreaFaltante'].clear();
+                w2ui['gridInfo2'].clear();
+                w2ui['gridInfo3'].clear();
+            }
+
+
+            function ObtenerPerfilArea(){
+
+                var sPerfil = $('#cboPerfil').val();
+                var perClave = "";
+                var araClave = "";
+
+                if ( sPerfil.substr(0,1) == "A" )
+                {
+                    $("#divMenuAccion1").hide();
+                    perClave = "0";
+                    araClave = sPerfil.substr(1);
+                }
+                else
+                {
+                    $("#divMenuAccion1").show();
+                    perClave = sPerfil.substr(1);
+                    araClave = "0";
+                }
+
+                return {
+                    perfil: perClave,
+                    area: araClave
+                };
+            }
+
+            function Buscar(){
+                w2ui.gridSolBuscar.selectNone();
+                $('#folio').val(0);
+
+                $('#btnResponder').hide();
+                $('#btnTurnarAdd').hide();
+                $('#btnAmpliacion').hide();
+                $('#btnSolicitudEditar').hide();
+
+                BorrarDatos();
+
+                $("#aResponder").remove();
+
+                var iTipoSol, iEstado, iTipoPrc, iRubro;
+
+                if ( _FormaBuscar === null)
+                {
+                    my_form=document.createElement('form');
+                    my_form.name='frmBuscar';
+                    my_form.method='POST';
+
+                    var  resultado = ObtenerPerfilArea();
+                    ////<input type="hidden" asp-for="usrclave" />
+
+                    my_tb=document.createElement('INPUT');
+                    my_tb.type = 'HIDDEN';
+                    my_tb.name = 'perClave';
+                    my_tb.value = resultado.perfil;
+                    my_form.appendChild(my_tb);
+
+                    my_tb=document.createElement('INPUT');
+                    my_tb.type = 'HIDDEN';
+                    my_tb.name = 'araClave';
+                    my_tb.value = resultado.area;
+                    my_form.appendChild(my_tb);
+
+                    _FormaBuscar = $(my_form).serialize();
+                }
+
+                w2popup.lock("Obteniendo datos ...", true);
+                if ( _TipoConsulta === CONSULTA_SEGUIMIENTO){
+                    AjaxPostForm( 'ConsultaSeguimiento', _FormaBuscar, ActualizarGrid, _UrlInicio);
+                } else {
+                    AjaxPostForm( 'ConsultaActual', _FormaBuscar, ActualizarGrid, _UrlInicio);
+                }
+                _FormaBuscar= null;
+            }
+
+            function ActualizarGrid(data){
+                oSolicitud = data.records;
+                if (oSolicitud != null) {
+                    w2ui.gridSolBuscar.records = oSolicitud;
+                    w2ui.gridSolBuscar.reload();
+
+                    if (oSolicitud.length > 0)
+                        PaginacionAct(oSolicitud.length, parseInt(oSolicitud[0].RESULT_COUNT));
+                }
+                w2popup.unlock();
+            }
+
+            /*  AQUI VAN LOS DATOS PARA EXTRAER DIBUJAR LA SOLICITUD Y LUEGO MOVERLOS A UN ARCHIVO */
+            var _datos;
+            var style = {
+                font: 'bold 12px Arial',
+                fill: '#000000',
+                //stroke: '#4a1850',
+                //strokeThickness: 5,
+                //dropShadow: true,
+                //dropShadowColor: '#000000',
+                //dropShadowAngle: Math.PI / 6,
+                //dropShadowDistance: 6,
+                wordWrap: true,
+                wordWrapWidth: 100
+            };
+
+            function getContextPath() {
+                return window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+            }
+
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Catálogo arista resolución";
+    Layout = null;
+}
+
+<div id="formAristaRes" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVaristaRes" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Folio ID :</p></td>
+                <td><input id="solclave" name="solclave" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Arista ID :</p></td>
+                <td><input id="ariclave" name="ariclave" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo Información :</p></td>
+                <td><select id="tpi_clatipoinfo" name="tpi_clatipoinfo" style="width:300px"></select></td>
+            </tr>
+            <tr>
+                <td><p>Ubicación :</p></td>
+                <td><input id="rsl_ubicacion" name="rsl_ubicacion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tamaño, cantidad, ubicación :</p></td>
+                <td><input id="rsl_tam_cant_dir" name="rsl_tam_cant_dir" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Articulo 7 :</p></td>
+                <td><input id="rsl_art7" name="rsl_art7" type="text" style="width:40px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstTipoInfo = @Html.Raw(Model.lstTipoInfo);
+
+    function GuardarAristaRes()
+    {
+        var url = '@Url.Action("PVaristaRes", "Catalogo")';
+        datos = {
+            solclave: parseInt($("#solclave").val()),
+            ariclave: parseInt($("#ariclave").val()),
+            nfoclave: parseInt($("#tpi_clatipoinfo").val()),            
+            rsl_ubicacion:  $("#rsl_ubicacion").val(),
+            rsl_tam_cant_dir:  $("#rsl_tam_cant_dir").val(),
+            rsl_art7:  $("#rsl_art7").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('tpi_clatipoinfo', _lstTipoInfo.records, false);
+        }
+    );
+</script>
+

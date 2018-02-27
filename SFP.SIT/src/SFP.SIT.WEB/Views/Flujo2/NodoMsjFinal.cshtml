@@ -1,0 +1,80 @@
+﻿@model SFP.SIT.WEB.Models.EdoActViewModel
+@{
+    Layout = null;
+    String controlName = ViewBag.controlName;
+}
+
+    @* LAYOUT DERECHO  *@
+    <div id="divDerecho">
+        @using (Html.BeginForm("NodoMsjFinal", controlName, FormMethod.Post, new { id = "NodoMsjFinalForm", name = "NodoMsjFinalForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="container">
+                <h2>Respuesta final de la solicitud</h2>
+                <div class="panel-group">
+                    <div id="divArchivo" class="panel panel-default">
+                        <div class="panel-heading">Nombre del archivo:
+                            <button id="BtnDocIdx" class="btn-primary btn-sm"  style="float:right; width:140px;" onclick="buscarDocumento();">Ver documento</button>
+                        </div>
+                        <div id="docNombre" class="panel-body"> </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Texto de la respuesta :</div>
+                        <div id="divRespuesta"  class="panel-body;"  style="height:600px" ></div>
+                    </div>
+
+                </div>
+            </div>
+            <input type="hidden" id="folio" name="folio" />
+            <input type="hidden" id="nodo" name="nodo" />
+        }                    
+    </div>
+
+<script>
+    var _Respuesta = "@Html.Raw(Model.respuesta)";
+    var _RespContenido = "@Html.Raw(Model.respuestaContenido)";
+    var _RespDoc = @Model.respuestaDoc;
+    var _RespDocNombre = "@Html.Raw(Model.respuestaDocNombre)";
+    var _btnAccion = "@Html.Raw(Model.btnAccion)";
+
+    function buscarDocumento()
+    {
+        window.location.href = 'Documento?id=' + _RespDoc;
+    }
+
+    $(function () {
+
+        if (_btnAccion == 'S')
+        {
+            $("#btnAccion").remove();
+            $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+            $('#btnAccion').click(function () {
+                $("#btnAccion").hide();
+                $('#folio').val(_solclave);
+                $('#nodo').val(_nodclave);
+                document.NodoMsjFinalForm.submit();
+            });
+
+        }
+
+        $("#divRespuesta").append(_RespContenido);
+        $("#docNombre").html(_RespDocNombre);
+
+
+        if ( _RespDoc > 0) {
+            $("#divArchivo").show();
+            $("#BtnDocIdx").show();
+        } else  {
+            $("#divArchivo").hide();
+            $("#BtnDocIdx").hide();
+        }
+
+        $("#lblRespuesta").html(_Respuesta);
+
+        if ( _RespDocNombre.length == 0)
+            $("#divArchivo").hide();
+    });
+
+</script>

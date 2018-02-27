@@ -1,0 +1,149 @@
+﻿@using SFP.SIT.SERV.Model.SOL
+@using SFP.SIT.SERV.Util
+
+@model SolBuscarMdl
+
+@{   
+    Layout = null;
+ }
+
+<div id="divBuscar" style="display: none; width: 850px; height: 450px; overflow: hidden">
+    <div rel="title"> Busqueda avanzada </div>
+    <div rel="body">
+        <div class="w2ui-reset w2ui-form">
+            <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="perClave" />
+                    <input type="hidden" asp-for="araClave" />
+                    <input type="hidden" asp-for="usrclave" />
+                    <input type="hidden" asp-for="consClave" />
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Folio del:</label>
+                        <div>
+                            <input type="text" class="w2ui-input" asp-for="FolioIni" placeholder="folio inicial" size="10" maxlength="10" style="width:135px" />
+                            &nbsp;al:
+                            <input type="text" class="w2ui-input" asp-for="FolioFin" placeholder="folio fin" size="10" maxlength="10" style="width:135px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Fecha Ingreso del:</label>
+                        <div>
+                            <input type="text" class="w2ui-input" asp-for="FecIngresoIni" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                            &nbsp;al:
+                            <input type="text" class="w2ui-input" asp-for="FecIngresoFin" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Fecha Conclusión:</label>
+                        <div>
+                            <input type="text" class="w2ui-input" asp-for="FecConcIni" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                            &nbsp;al:
+                            <input type="text" class="w2ui-input" asp-for="FecConcFin" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Fecha Respuesta:</label>
+                        <div>
+                            <input type="text" class="w2ui-input" asp-for="FecRespIni" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                            &nbsp;al:
+                            <input type="text" class="w2ui-input" asp-for="FecRespFin" placeholder="fecha inicial" size="10" maxlength="10" style="width:135px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Año:</label>
+                        <div>
+                            <input type="text" class="w2ui-input" asp-for="Periodo" placeholder="año" size="10" maxlength="4" style="width:100px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Descripción:</label>
+                        <div>
+                            <input type="text" asp-for="Descripcion" placeholder="año" size="10" maxlength="4" style="width:100px" />
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Tipo de proceso:</label>
+                        <div>
+                            <select asp-for="ProcesoTipo" asp-items="@ViewBag.lstPrcTipo" style="width:250px"></select>
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Estado Actual:</label>
+                        <div>
+                            <select asp-for="SolicitudEstado" style="width:250px">
+                                <option value="0">En proceso</option>
+                                <option value="1">Concluido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Tipo de solicitud:</label>
+                        <div>
+                            <select asp-for="SolicitudTipo" asp-items="@ViewBag.lstSolTipo" style="width:660px"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Área:</label>
+                        <div>
+                            <select asp-for="Area" asp-items="@ViewBag.lstArea" style="width:660px"></select>
+                        </div>
+                    </div>
+
+                    <div class="w2ui-field w2ui-span8" style="clear: both">
+                        <label>Acción realizada:</label>
+                        <div>
+                            <select asp-for="Area" asp-items="@ViewBag.lstAccion" style="width:660px"></select>
+                        </div>
+                    </div>
+                </form>
+        </div>        
+    </div>
+    <div rel="buttons">
+        <input type="button" class="btn btn-primary btn-sm" style="width:80px;" value="Limpiar" name="btnLimpiar" onclick="limpiarForma();">
+        <input type="button" class="btn btn-primary btn-sm" style="width:80px;" value="Buscar" name="btnBuscar" onclick="ValidarDatos();">
+    </div>
+</div>
+
+
+    <script>
+        function limpiarForma() {
+            $("#FolioIni").val('');
+            $("#FolioFin").val('');
+            $("#FechaIni").val('');
+            $("#FechaFin").val('');
+            $("#Periodo").val('');
+            $("#FechaConclusion").val('');
+            $("#TipoSolicitud").val('');
+            $("#TipoProceso").val(0);
+            $("#EstadoActual").val('');
+            $("#RubroTematico").val('');
+            $("#Datos").val('');
+        }
+
+        function ValidarDatos()
+        {
+            if ($("#FechaIni").val() !== null && $("#FechaIni").val() !== undefined && $("#FechaFin").val() !== null && $("#FechaFin").val() !== undefined) {
+                if (jsStringtoDate($("#FechaIni").val()) > jsStringtoDate($("#FechaFin").val())) {
+                    w2alert(' La Fecha Inicial no puede ser mayor a la Fecha Final');
+                    return false;
+                }
+            } else if ($("#FechaIni").val() === null && $("#FechaFin").val() !== null) {
+                w2alert(' Debe de existir una fecha inicial y una final');
+                return false;
+            }
+
+            w2popup.close();
+        }
+
+    </script>

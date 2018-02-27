@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Catálogo Flujo de trabajo";
+    Layout = null;
+}
+
+<div id="formAfd" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVafd" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>AFD ID :</p></td>
+                <td><input id="AFDCLAVE" name="AFDCLAVE" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="afddescripcion" name ="afddescripcion" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Prefijo :</p></td>
+                <td><input id="afdprefijo" name="afdprefijo" type="text" style="width:450px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja</p></td>
+                <td><input id="afdfecbaja" name="afdfecbaja" type="date" style="width:150px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarAfd() {
+        var fecha = fechaValidar("#afdfecbaja");
+
+        var url = '@Url.Action("PVafd", "Catalogo")';
+        var datos = {
+           afdclave: parseInt($("#AFDCLAVE").val()),
+            afddescripcion: $("#afddescripcion").val(),
+            afdprefijo: $("#afdprefijo").val(),
+            afdfecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+
+    }
+</script>

@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Medio de entrada";
+    Layout = null;
+}
+
+<div id="formMedioEntrada" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Medio ID :</p></td>
+                <td><input id="metclave" name="metclave" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="metdescripcion" name="metdescripcion" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha baja :</p></td>
+                <td><input id="met_fecbaja" name="met_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarMedioEntrada() {
+        var fecha = fechaValidar("#met_fecbaja");
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+
+        datos = {
+            metclave: parseInt($("#metclave").val()),
+            metdescripcion: $("#metdescripcion").val(),
+            met_fecbaja: fecha.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+
+

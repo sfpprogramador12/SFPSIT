@@ -1,0 +1,149 @@
+﻿@{
+
+}
+
+<div id="divSolicitudEncabezado">
+    <div class="encabezado">
+        <div class="titulo">COMITÉ DE TRANSPARENCIA - REGISTRAR RECURSO DE REVISIÓN</div>
+        <div style="float:right">
+            <div style="float:left">Folio de la solicitud&nbsp;
+                <input id="txtFolio" type="text" style="float:right; padding-left:10px">
+            </div>
+            <input id="btnBuscar" type="button" value="buscar" style="float:left; width:60px; height:24px;">
+        </div>
+    </div>
+</div>
+<div id="layoutMain" class="container"></div>
+@* --------------------------------------------
+    CONTENIDO DEL LAYOUT IZQUIERDO
+    -------------------------------------------- *@
+<div id="divIzquierdo">
+    <div style="float:left; width:100%; border: 1px solid #C1C1C1;">
+        <div id="divTabInformacion" style="margin-left: 5px; margin-right: 5px"></div>
+        <div id="divGrid" style="width: 100%; height: 75vh;"></div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    function gridRespAreasOnClick(record) {
+        _recActual = record;
+
+        w2popup.open({
+            title: 'Texto de la respuesta',
+            body: _recActual.arimensaje,
+            width     : 800,
+            height    : 500,
+            overflow  : 'hidden',
+            color     : '#333',
+            speed     : '0.3',
+            opacity   : '0.8',
+            modal     : true,
+            showClose : true,
+            showMax   : true
+        });
+    }
+
+    var pstyle = 'border: 1px; solid #dfdfdf; background-color: #eeeeee';
+    var _Solicitante;
+    var _Solicitud;
+    var _FecAclaracion;
+    var _Aclaracion;
+    var _RespAreas;
+    var _RecRevision;
+
+    var _AreaTurnar = @Html.Raw(ViewBag.turnarArea);
+    var _solclave;
+
+    $(function () {
+        AjustarPantalla('layoutMain', 0.77, 0.97);
+        $('#layoutMain').w2layout(GetLayoutLeftMain("20%", "80%"));
+
+        @*--  DEFINIMOS PANEL IZQUIERDO --*@
+        w2ui['layoutLeftMain'].content('left', '<div id="divLytIzq"> </div>');
+        $('#divLytIzq').append($('#divIzquierdo').detach());
+
+        @*-- PANEL DERECHO AL LAYOUT --*@
+        $().w2layout(GetLayoutTopMain(160, "80%"));
+        w2ui['layoutLeftMain'].content('main', '');
+
+        $().w2grid(GetGridSolicitante());
+        $().w2grid(GetGridSolicitud());
+
+        $('#divTabInformacion').w2toolbar(GetTabInformacion());
+        $('#divGrid').w2render('gridSolicitud');
+
+        w2ui.tabInformacion.remove('recrevision');
+
+        $('#btnBuscar').click(function () {
+            var sFolio = parseInt($("#txtFolio").val());
+
+            if (sFolio == null || sFolio.length == 0 || /^\s+$/.test(sFolio)) {
+                w2alert("El número de folio no puede ir en blanco");
+                return false;
+            }
+
+            if (isNaN(sFolio)) {
+                w2alert("El folio debe de ser un número");
+                return false;
+            }
+
+            _solclave = sFolio;
+            w2ui['layoutLeftMain'].content("");
+            w2ui['layoutLeftMain'].load('main', 'PVrevision?lFolio=' + sFolio);
+        });
+
+        /* AGREGAR LA OPCIÓN DE SUBMENU */
+        $("#btnAccion").remove();
+        $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+        $('#btnAccion').click(function () {
+            $("#turnarFolio").val(_solclave);
+            $('#turnarAreas').val(JSON.stringify(w2ui.gridTurnar.records));
+            
+            if ( w2ui.gridTurnar.records.length == 0 )
+            {
+                w2alert("Es necesario que al menos seleccione una área a turnar");
+                return;
+            }
+
+            if ($('#actos').val() == "")
+            {
+                w2alert("Es necesario que capture el Acto que se Recurre y Puntos Petitorios ");
+                return;
+            }
+
+            var editorData = CKEDITOR.instances.txtCkEditor.getData();
+            if ( editorData.length < 2) {
+                w2alert("Es necesario que capture el resumen a enviar a las áreas involucradas ");
+                return;
+            }
+            $("#resumen").val(editorData);
+
+            if ($('#expediente').val() == "")
+            {
+                w2alert("Es necesario que capture el número de expediente");
+                return
+            }
+
+            if ($('#responsable').val() == "")
+            {
+                w2alert("Es necesario que capture al responsable");
+                return
+            }
+
+            if ($('#fecRespuesta').val() == "")
+            {
+                w2alert("Es necesario que capture una fecha limite para la respuesta");
+                return
+            }
+
+            $("#btnAccion").hide();
+            document.RevisionForm.submit();
+        });
+        $('#btnAccion').hide();
+        $("#menu9").toggleClass("boton_hover");
+    });
+</script>
+}

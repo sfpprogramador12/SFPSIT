@@ -1,0 +1,51 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Entidad Federativa";
+    Layout = null;
+}
+
+<div id="formEntFed" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Clave estado:</p></td>
+                <td><input id="edoclave" name="edoclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="edodescripcion" name="edodescripcion" type="text" style="width:300px" /></td>
+            </tr>
+            <tr>
+                <td><p>Pais:</p></td>
+                <td><select id="paiclaves" name="paiclaves" style="width:300px"></select> </td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja:</p></td>
+                <td><input id="edofecbaja" name="edofecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>    
+
+<script>
+    var _lstPais = @Html.Raw(Model.lstPais);
+
+    function GuardarEntFed()
+    {
+        var url = '@Url.Action("PVentFed", "Catalogo")';
+        var data = { edoclave: $('#edoclave').val(), 
+            edodescripcion: $('#edodescripcion').val(),
+            paiclave:$('#paiclaves').val(), 
+            edofecbaja: $('#edofecbaja').val(),  
+            cmd: parseInt($("#txtCmd").val()) }                
+
+        guardarForma( parseInt($("#txtCmd").val()), url, data  );
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('paiclaves', _lstPais.records, false);
+        }
+    );
+</script>
+

@@ -1,0 +1,13 @@
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.SIT.AFD.dll.config
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.SIT.AFD.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.SIT.AFD.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.Persistencia.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.SIT.SERVICES.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.Persistencia.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\bin\x64\Debug\SFP.SIT.SERVICES.pdb
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\x64\Debug\SFP.SIT.AFD.csprojResolveAssemblyReference.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\x64\Debug\SFP.SIT.AFD.dll
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\x64\Debug\SFP.SIT.AFD.pdb

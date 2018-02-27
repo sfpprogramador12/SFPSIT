@@ -1,0 +1,572 @@
+﻿https://github.com/aspnet/Identity/tree/dev/src/Microsoft.AspNetCore.Identity
+https://github.com/saan800/SaanSoft.AspNet.Identity3.MongoDB/blob/master/src/SaanSoft.AspNet.Identity3.MongoDB/IdentityUser.cs
+
+
+DOCUMENTACION DE ASP.CORE  ... MUY BUENO.
+http://andrewlock.net/page/6/#open
+
+// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+
+CARRUSEL
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Learn how to build ASP.NET apps that can run anywhere.
+                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    There are powerful new features in Visual Studio for building modern web apps.
+                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Bring in libraries from NuGet, Bower, and npm, and automate tasks using Grunt or Gulp.
+                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
+            <div class="carousel-caption" role="option">
+                <p>
+                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
+                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
+                        Learn More
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+
+
+
+CREATE TABLE "AspNetRoles" ( 
+  "Id" NVARCHAR2(128) NOT NULL,
+  "Name" NVARCHAR2(256) NOT NULL,
+  PRIMARY KEY ("Id")
+)
+/
+
+CREATE TABLE "AspNetUserRoles" ( 
+  "UserId" NVARCHAR2(128) NOT NULL,
+  "RoleId" NVARCHAR2(128) NOT NULL,
+  PRIMARY KEY ("UserId", "RoleId")
+)
+/
+
+CREATE TABLE "AspNetUsers" ( 
+  "Id" NVARCHAR2(128) NOT NULL,
+  "Email" NVARCHAR2(256) NULL,
+  "EmailConfirmed" NUMBER(1) NOT NULL,
+  "PasswordHash" NVARCHAR2(256) NULL,
+  "SecurityStamp" NVARCHAR2(256) NULL,
+  "PhoneNumber" NVARCHAR2(256) NULL,
+  "PhoneNumberConfirmed" NUMBER(1) NOT NULL,
+  "TwoFactorEnabled" NUMBER(1) NOT NULL,
+  "LockoutEndDateUtc" TIMESTAMP(7) NULL,
+  "LockoutEnabled" NUMBER(1) NOT NULL,
+  "AccessFailedCount" NUMBER(10) NOT NULL,
+  "UserName" NVARCHAR2(256) NOT NULL,
+  PRIMARY KEY ("Id")
+)
+/
+
+CREATE TABLE "AspNetUserClaims" ( 
+  "Id" NUMBER(10) NOT NULL,
+  "UserId" NVARCHAR2(128) NOT NULL,
+  "ClaimType" NVARCHAR2(256) NULL,
+  "ClaimValue" NVARCHAR2(256) NULL,
+  PRIMARY KEY ("Id")
+)
+/
+
+CREATE SEQUENCE "AspNetUserClaims_SEQ"
+/
+
+CREATE OR REPLACE TRIGGER "AspNetUserClaims_INS_TRG"
+  BEFORE INSERT ON "AspNetUserClaims"
+  FOR EACH ROW
+BEGIN
+  SELECT "AspNetUserClaims_SEQ".NEXTVAL INTO :NEW."Id" FROM DUAL;
+END;
+/
+
+CREATE TABLE "AspNetUserLogins" ( 
+  "LoginProvider" NVARCHAR2(128) NOT NULL,
+  "ProviderKey" NVARCHAR2(128) NOT NULL,
+  "UserId" NVARCHAR2(128) NOT NULL,
+  PRIMARY KEY ("LoginProvider", "ProviderKey", "UserId")
+)
+/
+
+CREATE UNIQUE INDEX "RoleNameIndex" ON "AspNetRoles" ("Name")
+/
+
+CREATE INDEX "IX_AspNetUserRoles_UserId" ON "AspNetUserRoles" ("UserId")
+/
+
+CREATE INDEX "IX_AspNetUserRoles_RoleId" ON "AspNetUserRoles" ("RoleId")
+/
+
+CREATE UNIQUE INDEX "UserNameIndex" ON "AspNetUsers" ("UserName")
+/
+
+CREATE INDEX "IX_AspNetUserClaims_UserId" ON "AspNetUserClaims" ("UserId")
+/
+
+CREATE INDEX "IX_AspNetUserLogins_UserId" ON "AspNetUserLogins" ("UserId")
+/
+
+ALTER TABLE "AspNetUserRoles"
+  ADD CONSTRAINT "FK_UserRoles_Roles" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id")
+  ON DELETE CASCADE
+/
+
+ALTER TABLE "AspNetUserRoles"
+  ADD CONSTRAINT "FK_UserRoles_Users" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id")
+  ON DELETE CASCADE
+/
+
+ALTER TABLE "AspNetUserClaims"
+  ADD CONSTRAINT "FK_UserClaims_Users" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id")
+  ON DELETE CASCADE
+/
+
+ALTER TABLE "AspNetUserLogins"
+  ADD CONSTRAINT "FK_UserLogins_Users" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id")
+  ON DELETE CASCADE
+
+
+  
+  SEGURIDAD IDENTITY,..,...
+
+  TUTORIAL ASP.NET
+  https://github.com/blowdart/AspNetAuthorizationWorkshop
+
+
+  http://nugetmusthaves.com/Tag/identity?page=3
+
+
+  https://docs.asp.net/en/latest/search.html?q=session&check_keywords=yes&area=default
+https://msdn.microsoft.com/en-us/magazine/mt767699.aspx
+http://benjii.me/2015/07/using-sessions-and-httpcontext-in-aspnet5-and-mvc6/
+http://andrewlock.net/an-introduction-to-session-storage-in-asp-net-core/
+http://www.mikesdotnetting.com/article/270/sessions-in-asp-net-core-1-0
+https://chsakell.com/2015/02/28/asp-net-mvc-session-state-performance-issue/
+https://docs.asp.net/en/latest/fundamentals/app-state.html
+https://docs.asp.net/en/latest/fundamentals/app-state.html#installing-and-configuring-session
+http://www.davepaquette.com/archive/2015/06/03/mvc-6-cache-tag-helper.aspx
+
+
+
+                    ////ClaimsPrincipal principal = context.HttpContext.Current.User as ClaimsPrincipal;
+                    ////if (null != principal)
+                    ////{
+                    ////    foreach (Claim claim in principal.Claims)
+                    ////    {
+                    ////        Response.Write("CLAIM TYPE: " + claim.Type + "; CLAIM VALUE: " + claim.Value + "</br>");
+                    ////    }
+                    ////}
+                    ////await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", principal);
+
+https://www.asp.net/identity/overview/getting-started/aspnet-identity-recommended-resources
+http://bitoftech.net/2015/03/31/asp-net-web-api-claims-authorization-with-asp-net-identity-2-1/
+http://stackoverflow.com/questions/21404935/mvc-5-access-claims-identity-user-data
+https://docs.asp.net/en/latest/mvc/views/layout.html
+http://asp.net-hacker.rocks/2016/02/18/extending-razor-views.html
+http://stackoverflow.com/questions/38945678/access-cookie-in-layout-cshtml-in-asp-net-core/38946286
+https://docs.asp.net/en/latest/mvc/views/dependency-injection.html
+http://stackoverflow.com/questions/38945678/access-cookie-in-layout-cshtml-in-asp-net-core
+
+
+http://andrewlock.net/introduction-to-authentication-with-asp-net-core/
+
+
+
+
+http://developer.telerik.com/featured/understanding-asp-net-core-initialization/
+http://wildermuth.com/2015/3/2/A_Look_at_ASP_NET_5_Part_2_-_Startup
+
+
+http://stackoverflow.com/questions/34375083/custom-authorization-iactionresults-in-aspnet-5-mvc-6
+http://andrewlock.net/model-binding-json-posts-in-asp-net-core/
+
+
+
+
+https://blog.mariusschulz.com/2015/11/26/view-components-in-asp-net-mvc-6
+
+
+http://www.davepaquette.com/archive/2016/01/02/goodbye-child-actions-hello-view-components.aspx
+
+https://stormpath.com/blog/token-authentication-asp-net-core
+https://lbadri.wordpress.com/2014/11/23/web-api-model-binding-in-asp-net-mvc-6-asp-net-5/
+
+
+SERILOG
+http://hovercraft.ie/log-file-asp-net-core-mvc-6/
+http://stackoverflow.com/questions/30849166/how-to-turn-off-serilog
+http://blog.getseq.net/asp-net-core-1-0-logging-update/
+
+SHAREPOINT
+https://msdn.microsoft.com/en-us/library/office/fp179912.aspx
+https://msdn.microsoft.com/en-us/library/office/dn292553.aspx#Files
+
+
+http://www.sharepoint.bg/radi/post/Getting-Started-with-ASPNET-Core-Add-ins-for-SharePoint-Online
+http://sharepoint.stackexchange.com/questions/50085/how-can-i-add-a-new-file-to-a-document-library-with-client-object-model
+http://sharepoint.stackexchange.com/questions/87468/upload-file-into-sharepoint-document-set
+http://sharepoint.stackexchange.com/questions/113929/make-a-restful-api-call-to-sharepoint-online-from-console-program
+
+http://stackoverflow.com/questions/468469/how-do-you-upload-a-file-to-a-document-library-in-sharepoint
+http://stackoverflow.com/questions/468469/how-do-you-upload-a-file-to-a-document-library-in-sharepoint  <!-- Lo utilize actualmente..
+
+
+
+SHAREPOINT  -  WEBPARTS
+https://msdn.microsoft.com/en-us/library/office/dn769086.aspx
+http://bloggerbrij.blogspot.mx/2015/02/crud-operation-on-files-using-rest.html
+http://www.c-sharpcorner.com/article/upload-file-to-document-library-in-sharepoint-2016-javascript-object-model/
+
+
+FIREWALL
+NetSh Advfirewall set allprofiles state off
+NetSh Advfirewall set allrprofiles state on
+To check the status of Windows Firewall: 
+Netsh Advfirewall show allprofiles
+
+
+
+INCREMENTAR LA CARGA DE ARCHIVOS
+https://forums.asp.net/t/2100265.aspx?How+to+increase+upload+file+size+in+ASP+Net+Core
+
+
+SHAREPOINT NOTAS CLASES
+
+        public string User(string usuario, string contraseña, string url, string domino)
+        {
+            using (ClientContext context = new ClientContext("http://172.29.50.135:13882"))
+            {
+                context.Credentials = new NetworkCredential("DGAIS", "bAfu$Res7a", "sfpappdev12.local");
+
+                string barRootFolderRelativeUrl = "Sistema de Transparencia SFP";
+                Folder barFolder = context.Web.GetFolderByServerRelativeUrl(barRootFolderRelativeUrl);
+
+                string newFolderName = "mak" + DateTime.Now.ToString("yyyyMMddHHmm");
+                barFolder.Folders.Add(newFolderName);
+                barFolder.Update();
+
+                String fileToUpload = @"C:\temp\Examen 1.docx";
+                if (!System.IO.File.Exists(fileToUpload))
+                    throw new FileNotFoundException("File not found.", fileToUpload);
+
+                String fileName = System.IO.Path.GetFileName(fileToUpload);
+                FileStream fileStream = System.IO.File.OpenRead(fileToUpload);
+                FileCreationInformation fciDoc = new FileCreationInformation();
+
+                var fileCreationInformation = new FileCreationInformation();
+
+                fileCreationInformation.Content = System.IO.File.ReadAllBytes(fileToUpload);
+                fileCreationInformation.Overwrite = true;
+                fileCreationInformation.Url = "Sistema de Transparencia SFP/" + Path.GetFileName(fileToUpload);
+
+                barFolder.Files.Add(fileCreationInformation);
+
+                context.ExecuteQuery();
+            }
+
+
+
+            ////WebRequest request = WebRequest.Create("http://172.29.50.135:13882");
+            ////var securePassword = new SecureString();
+            ////foreach (var c in "bAfu$Res7a" ) { securePassword.AppendChar(c); }
+
+            ////NetworkCredential networkCredential = new NetworkCredential("bAfu$Res7a", securePassword, "sfpappdev12.local");
+            ////request.Method = WebRequestMethods.Http.Get;
+
+            ////CredentialCache myCredentialCache = new CredentialCache { { new Uri("http://172.29.50.135:13882"), "Basic", networkCredential } };
+            //////request.PreAuthenticate = true;
+            ////using (WebResponse response = request.GetResponse())
+            ////{
+            ////    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+
+            ////    using (Stream dataStream = response.GetResponseStream())
+            ////    {
+            ////        using (StreamReader reader = new StreamReader(dataStream))
+            ////        {
+            ////            string responseFromServer = reader.ReadToEnd();
+            ////            Console.WriteLine(responseFromServer);
+            ////        }
+            ////    }
+            ////}
+
+
+
+            ////SPSite asdf = new SPSite
+
+            ////var webUri = new Uri("http://172.29.50.135:13882");
+            //////const string userName = "DGAIS@contoso.onmicrosoft.com";
+            ////const string userName = "DGAIS@sfpappdev12.local";
+            ////const string password = "bAfu$Res7a";
+            ////var securePassword = new SecureString();
+            ////foreach (var c in password)
+            ////{
+            ////    securePassword.AppendChar(c);
+            ////}
+
+            ////var credentials = new SharePointOnlineCredentials(userName, securePassword);
+
+
+
+
+            ////using (var client = new WebClient())
+            ////{
+            ////    client.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f");
+            ////    client.Credentials = credentials;
+            ////    client.Headers.Add(HttpRequestHeader.ContentType, "application/json;odata=verbose");
+            ////    client.Headers.Add(HttpRequestHeader.Accept, "application/json;odata=verbose");
+            ////    //var endpointUri = new Uri(webUri, string.Format("/_api/web/lists/getbytitle('{0}')", listTitle));
+            ////    var endpointUri = new Uri(webUri, string.Format("/_api/web/lists"));
+            ////    var result = client.DownloadString(endpointUri);
+            ////}
+
+
+
+            ////HttpClient client = new HttpClient(new HttpClientHandler() { Credentials = credentials });
+            ////var _token = GetDigets();
+            ////string digest = _token.ToString();
+
+            ////client.BaseAddress = webUri;
+            ////client.DefaultRequestHeaders.Clear();
+            ////client.DefaultRequestHeaders.Add("Accept", "application/json;odata=verbose");
+            ////client.DefaultRequestHeaders.Add("ContentType", "application/json;odata=verbose");
+            ////client.DefaultRequestHeaders.Add("X-RequestDigest", digest);
+            ////client.DefaultRequestHeaders.Add("X-HTTP-Method", "POST");
+            ////StringContent strContent = new StringContent("");
+            ////HttpResponseMessage response = new HttpResponseMessage();
+
+            return "Hola";
+        }
+
+
+// INJECTION A SERVICE
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection
+https://wildermuth.com/2016/08/07/ASP-NET-Core-Dependency-Injection
+http://www.binaryintellect.net/articles/7751fa4c-5638-4090-bb4a-4c5f0a2513da.aspx
+https://www.exceptionnotfound.net/getting-started-with-dependency-injection-in-asp-net-core/
+
+// IIS  APP POOL
+https://www.iis.net/learn/manage/configuring-security/application-pool-identities
+
+
+// COOKIES
+http://www.hanselman.com/blog/SharingAuthorizationCookiesBetweenASPNET4xAndASPNETCore10.aspx
+http://andrewlock.net/introduction-to-authentication-with-asp-net-core/
+
+// ASYNC
+https://www.exceptionnotfound.net/using-async-and-await-in-asp-net-what-do-these-keywords-mean/
+
+
+// SIMPLE ENTITY FRAMEWORK
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration
+
+// UPLOAD FILES
+http://www.mikesdotnetting.com/article/288/uploading-files-with-asp-net-core-1-0-mvc
+
+
+// STATIC FILES
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files
+
+
+// ASP CORE
+https://docs.asp.net/en/latest/security/authentication/cookie.html
+https://www.exceptionnotfound.net/writing-custom-middleware-in-asp-net-core-1-0/
+http://stackoverflow.com/questions/34657983/using-simple-injector-in-mvc6-with-cookie-auth
+https://blogs.msdn.microsoft.com/cdndevs/2015/02/18/evolving-asp-net-appscookie-authentication/
+https://leastprivilege.com/2012/09/24/claimsidentity-isauthenticated-and-authenticationtype-in-net-4-5/
+
+
+NWFM7-QVBRH-C4DR7-844BB-JK82F
+
+
+
+// W2UI
+	--> LLAMAR UN OTRA PAGINA DENTRO DE UN LAYOUT
+
+            //w2ui['layout2'].load( 'main', 'PVgrid', '',
+            //    function () {
+            //        PaginacionIni();
+            //        Buscar();
+            //        $('#gridSolBuscar').w2render('gridSolBuscar');
+            //    });
+
+
+// EDITORES   WYSIWYG
+http://1stwebdesigner.com/best-wysiwyg-html-editor/
+https://www.sitepoint.com/10-best-html-wysiwyg-plugins/
+
+CKEDITOR
+http://www.stepcoder.com/Articles/10003/how-to-set-or-change-height-of-ckediotr-textbox-area-using-asp-net
+
+
+// COLOCARL EL LAYOUT 
+    FORMA PARA RESPONDER
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+    -------------------------------------------- *@
+
+
+HTML-HELPERS -- TAG-HELPER
+	https://dannyvanderkraan.wordpress.com/2016/04/19/asp-net-core-1-0-goodbye-html-helpers-and-hello-taghelpers/
+	https://docs.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms
+
+BEST PRACTICES
+	http://www.c-sharpcorner.com/article/best-practices-for-asp-net-mvc-application/
+	https://dzone.com/articles/9-tips-for-writing-secure-applications-in-aspnet
+
+IFormFile 
+http://stackoverflow.com/questions/36432028/how-to-convert-a-file-into-byte-array-directly-without-its-pathwithout-saving-f	
+
+CONEXION EJEMPLO
+"DefaultConnection": "Server=172.29.149.39;Database=tablero;; User Id=usr_tablero; Password=tRAeNc6s3m;MultipleActiveResultSets=true",
+
+ANTIFORGERYTOKEN
+http://www.ealsur.com.ar/wp/index.php/2016/04/08/asp-net-core-1-0-antiforgery-ajax/
+
+
+JAVASCRIPT
+                $('#mydiv').load('http://localhost/qa/ask#external-div', function(response, status, xhr) {
+                    if (status == "error") {
+                        var msg = "Sorry but there was an error: ";
+                        alert(msg + xhr.status + " " + xhr.statusText);
+                    }
+                });
+
+CONTROLLERS
+	Binding values
+				https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding
+
+
+AFD
+	EXISTE ESTADOS FORZADOS
+		- EJ. LA SOLICITUD SE ENCUENTRA EN UN ESTADO PERO YO COMO ADMINISTRADOR QUIERO QUE SE COMPORTE COMO UN ESTADO DIFERENTE MENU DIRECTOS
+
+VALIDACION
+	https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation
+
+CREAR UN SERVICIO EN WINDOWS
+ http://www.c-sharpcorner.com/UploadFile/8a67c0/create-and-install-windows-service-step-by-step-in-C-Sharp/
+
+
+ RUTA DE DOCUMENTOS.
+	var documento = new PIXI.Sprite.fromImage(window.location.protocol + "//" + window.location.host + '/images/documento.png');
+
+
+REGRESAR DOCUMENTOS
+            HttpContext.Response.ContentType = "application/pdf";
+            FileContentResult result = null;
+
+            string sRuta = _app.ContentRootPath + "\\Manual\\ManualUsuarioSIT.pdf";
+            
+
+            if (System.IO.File.Exists(sRuta) )
+            {
+                result = new FileContentResult(System.IO.File.ReadAllBytes(sRuta), "application/pdf");
+            }
+
+AGREGAR ARCHIVOS FALTANTES
+	https://jonhilton.net/2016/08/18/publishing-your-net-core-web-app/
+
+
+PATH 
+/ means the root of the current drive;
+./ means the current directory;
+../ means the parent of the current directory.
+
+
+
+            //////$.ajaxSetup({
+            //////    statusCode: {
+            //////        401: function(err){
+            //////            alert("La sesión expiro");
+            //////            // or whatever...
+            //////        }
+            //////    }
+            //////});
+
+
+
+			https://docs.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms
+http://www.davepaquette.com/archive/2015/05/18/mvc-6-label-tag-helper.aspx
+https://www.w3schools.com/bootstrap/bootstrap_ref_comp_glyphs.asp
+
+
+                        var routeParms = new RouteValueDictionary();
+                        routeParms.Add("iEval", iEval.ToString());
+                        return RedirectToAction("ServPub", routeParms);
+
+
+
+	nslookup -type=srv _ldap._tcp.DOMAINNAME
+	nslookup -type=srv _ldap._tcp.sfp.gob.mx
+
+
+
+
+
+<div id="my-Modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmación</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta usted seguro de borrar este compromiso?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="Aceptar" type="button" class="btn btn-default" data-dismiss="modal" data-usr-id="">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a data-toggle="modal" data-target="#my-Modal" class="btn btn-xs btn-danger">Borrar</a>

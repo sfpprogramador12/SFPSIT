@@ -1,0 +1,88 @@
+﻿@* --------------------------------------------
+    FORMA PARA RESPONDER
+    -------------------------------------------- *@
+@model EdoActViewModel
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+    @using (Html.BeginForm("PVnotificar", controlName, FormMethod.Post, new { id = "NotificarForm", name = "NotificarForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div style="float:left ; padding-top : 5px; padding-left: 5px">
+            <div sytle="width:100%" >La respuesta en el proceso fue : <strong><label id="lblRespuesta"> </label></strong></div>
+        </div>
+        <br />
+        <div style="float:left ; padding-top : 5px; padding-left : 5px; width:100%">
+            <div style="float:left;">La respuesta para el INAI - INFOMEX es:</div>            
+            <select id="lstInfomex" style="float: left;"> </select>
+        </div>
+        <br />
+        <input type="hidden" id="folio" name="folio" />
+        <input type="hidden" id="nodo" name="nodo" />
+        <input type="hidden" id="tipoArista" name="tipoArista" />
+        <input type="hidden" id="tipoInfo" name="tipoInfo" />
+        <input type="hidden" id="modoEntrega" name="modoEntrega" />
+        <input type="hidden" id="respInfomex" name="respInfomex" />
+    }
+
+    <div id="divDoc"style="float:left ; margin-top : 5px 0px 5px 0px; width:100%;">
+        <label style="float:left;">Nombre del archivo:</label>
+        <label id="docNombre" style="float:left; margin-left:5px;"> </label>
+        <button id="BtnDocIdx" class="btn-info" style="float:right; margin-left:5px; width:160px" onclick="buscarDocumento();">Ver documento</button>
+    </div>
+
+    <div id="divRespuesta" style="float:left ; margin-top : 10px; background-color:white; width:99%; height: 400px ">
+    </div>
+
+    <script>
+        var _tipoAristaInfomex = @Html.Raw(Model.tipoAristaInfomex);
+
+        $(document).ready(
+            function () {
+                SelectAddElemClear("lstInfomex", _tipoAristaInfomex.records, true);
+
+                $("#btnAccion").remove();
+                $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+                $('#btnAccion').click(function () {
+                    $('#folio').val(_solclave);
+                    $('#nodo').val(_nodclave);
+                    $('#tipoInfo').val(0);
+                    $('#modoEntrega').val(0);
+
+                    @*   Como es una so*@
+                    $('#tipoArista').val( _Accion );
+                    $('#respInfomex').val( $('#lstInfomex').val() );
+
+                    if ($('#lstInfomex').val() == "" || $('#lstInfomex').val() == null) {
+                        w2alert("Es necesario que defina una respuesta para la plataforma del INAI");
+                        return;
+                    }
+
+                    $("#btnAccion").hide();
+                    document.NotificarForm.submit();
+                });
+
+                $('#lstInfomex').click(function () {
+                    $("#btnAccion").show();
+                });
+
+                $("#lblRespuesta").html("@Model.respNotificarVM.respDesc");
+                $("#divRespuesta").append("@Html.Raw(@Model.respNotificarVM.respDocDesc)");
+                $("#docNombre").html("@Model.respNotificarVM.respDocNombre");
+
+                if (@Model.respNotificarVM.respDocIdx  == 0)
+                {
+                    $("#divDoc").hide();
+                }
+
+            }
+        );
+
+        function buscarDocumento()
+        {
+            window.location.href = 'Documento?id=' + @Model.respNotificarVM.respDocIdx;
+        }
+    </script>

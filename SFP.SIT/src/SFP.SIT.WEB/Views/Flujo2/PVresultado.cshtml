@@ -1,0 +1,71 @@
+﻿@model EdoActViewModel
+@* --------------------------------------------
+    FORMA PARA RESPONDER
+    -------------------------------------------- *@
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+<div style="float:left ; margin-top : 5px; width:100%">
+    <div class="titulo">La respuesta en el proceso fue : <strong><label id="lblRespuesta"> </label></strong></div>
+</div>
+
+<div style="float:left ; margin-top : 5px; padding-left: 5px; width:100% ">    
+    <label id="docNombre" style="float:left;"> Nombre del archivo :</label>&nbsp;&nbsp;&nbsp;
+    <button id="BtnDocIdx"  onclick="buscarDocumento();">Ver documento</button>
+</div>
+<br />
+<div id="divRespuesta" style="float:left ; padding-top : 10px; background-color:white; width:99%; height: 510px "></div>
+
+@using (Html.BeginForm("PVresultado", controlName, FormMethod.Post, new { id = "ResultadoForm", name = "ResultadoForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="folio" name="folio" />
+    <input type="hidden" id="nodo" name="nodo" />
+    <input type="hidden" id="tipoArista" name="tipoArista" />
+    <input type="hidden" id="tipoInfo" name="tipoInfo" />
+    <input type="hidden" id="modoEntrega" name="modoEntrega" />
+    <input type="hidden" id="respuesta" name="respuesta" />
+}
+
+<script>
+    @*-- DATOS DEL PANEL IZQUIERDO  --*@
+    var _Respuesta = "@Html.Raw(Model.respuesta)";
+    var _RespContenido = "@Html.Raw(Model.respuestaContenido)";
+    var _RespDocNombre = "@Html.Raw(Model.respuestaDocNombre)";
+    var _RespDoc = @Html.Raw(Model.respuestaDoc);
+
+    $(document).ready(
+        function () {
+            $("#btnAccion").remove();
+            $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ")
+
+            $('#btnAccion').click(function () {
+                $("#btnAccion").hide();
+                $('#folio').val(_solclave);
+                $('#nodo').val(_nodclave);
+                $('#tipoInfo').val(0);
+                $('#modoEntrega').val(0);
+                $('#tipoArista').val($('#lstAccion').val());                
+                document.ResultadoForm.submit();
+            });
+
+            $("#lblRespuesta").html(_Respuesta);
+            $("#divRespuesta").append(_RespContenido);
+            $("#docNombre").html("Nombre del archivo : " +_RespDocNombre);
+
+            if (_RespDoc > 0) {
+                $("#BtnDocIdx").show();
+            }
+            else
+                $("#BtnDocIdx").hide();
+        }
+    );
+
+    function buscarDocumento()
+    {
+        window.location.href = 'Documento?id=' + _RespDoc;
+    }
+
+</script>

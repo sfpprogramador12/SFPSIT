@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Tipo de solicitud";
+    Layout = null;
+}
+
+<div id="formTipoSol" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoSol" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Tipo solicitud :</p></td>
+                <td><input id="sotclave" type="text" style="width:50px" /></td>
+            </tr>
+            <tr>
+                <td><p>descripcion :</p></td>
+                <td><input id="sotdescripcion" type="text" style="width:400px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<script>
+    function GuardarTipoSol() {
+        var url = '@Url.Action("PVtipoSol", "Catalogo")';
+        datos = {
+            sotclave: parseInt($("#sotclave").val()),
+            sotdescripcion: $("#sotdescripcion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+

@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Tipo de arista";
+    Layout = null;
+}
+
+<div id="formTipoArea" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVtipoArista" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Tipo arista ID:</p></td>
+                <td><input id="rtpclave" type="text" style="width:60px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Sigla :</p></td>
+                <td><input id="KAR_SIGLA" type="text" style="width:140px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="rtpdescripcion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Forma :</p></td>
+                <td><input id="rtpforma" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Formato :</p></td>
+                <td><textarea id="rtpformato" cols="110" rows="7"></textarea></td>
+            </tr>
+            <tr>
+                <td><p>Tipo Info :</p></td>
+                <td><input id="kar_aplicatipoinfo" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Respuesta :</p></td>
+                <td><input id="kar_respuesta" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Tipo :</p></td>
+                <td><input id="kar_tipo" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Subclasificar :</p></td>
+                <td><input id="kar_subclasificar" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Mostrar Sub :</p></td>
+                <td><input id="kar_mostrarsub" type="text" style="width:90px" /></td>
+            </tr>
+            <tr>
+                <td><p>Nivel :</p></td>
+                <td><input id="kar_nivel" type="text" style="width:90px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarTipoArista()
+    {
+        var url = '@Url.Action("PVtipoArista", "Catalogo")';
+        datos = {
+            rtpclave: parseInt($("#rtpclave").val()),
+            rtpdescripcion: $("#rtpdescripcion").val(),
+            kar_aplicatipoinfo: parseInt($("#kar_aplicatipoinfo").val()),
+            rtpformato: $("#rtpformato").val(),
+            kar_sigla: $("#KAR_SIGLA").val(),
+            rtpforma: $("#rtpforma").val(),
+            kar_respuesta:  parseInt($("#kar_respuesta").val()),
+            kar_tipo:  parseInt($("#kar_tipo").val()),            
+            kar_subclasificar: parseInt($("#kar_subclasificar").val()),
+            kar_mostrarsub: parseInt($("#kar_mostrarsub").val()),
+            kar_nivel: parseInt($("#kar_nivel").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

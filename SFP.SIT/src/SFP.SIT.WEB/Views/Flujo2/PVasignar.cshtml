@@ -1,0 +1,55 @@
+﻿@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+
+@* --------------------------------------------
+    FORMA PARA SELECCIONAR AREAS
+    -------------------------------------------- *@
+<div id="dialog-form" style="width: 100%; height: 100%; ">
+    <div rel="body">
+        <div class="w2ui-field w2ui-span6" style="clear: both">
+            <label>Asignar a:</label>
+            <div>
+                <select id="selServPub" name="selServPub" style="width:450px"></select>                
+            </div>
+        </div>
+        <div class="w2ui-field w2ui-span6" style="clear: both">
+            <label>Instrucciones :</label>
+            <div>
+                <textarea id="tarPregunta" name="field.textarea" type="text" style="width: 100%; height: 200px; resize: none;"></textarea>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+@* --------------------------------------------
+    FORMA PARA TURNAR
+    -------------------------------------------- *@
+@using (Html.BeginForm("PVasignar", controlName, FormMethod.Post, new { id = "FormAsignar", name = "FormAsignar" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="folio" name="folio" />
+    <input type="hidden" id="nodo" name="nodo" />
+    <input type="hidden" id="servPub" name="servPub" />    
+    <input type="hidden" id="tipoArista" name="tipoArista" />
+}
+
+<script>
+
+    function Inicializar()
+    {
+        SelectAddElemClear("selServPub", _TranspTurnar.records, true);
+
+        $('#btnAccion').click(function () {
+            $("#btnAccion").hide();
+            $('#folio').val(_solclave);
+            $('#nodo').val(_nodclave);
+            $('#servPub').val($('#selServPub').val() );
+            $('#tipoArista').val($('#lstAccion').val());
+            document.FormAsignar.submit();
+        });
+    }
+
+</script>

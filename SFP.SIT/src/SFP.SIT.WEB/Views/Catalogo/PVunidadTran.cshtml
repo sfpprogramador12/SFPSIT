@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Unidad de transparencia";
+    Layout = null;
+}
+
+<div id="formUnidadTran" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVunidadTran" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Unidad Trans. ID:</p></td>
+                <td><input id="us_unienl" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="enl_descripcion" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="enl_fecbaja" type="date" style="width:140px" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function GuardarUnidadTran() {
+        var fecBaja = fechaValidar("#enl_fecbaja");
+        var url = '@Url.Action("PVunidadTran", "Catalogo")';
+        datos = {
+            us_unienl: parseInt($("#us_unienl").val()),            
+            enl_descripcion: $("#enl_descripcion").val(),
+            enl_fecbaja: fecBaja.toISOString(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>
+
+

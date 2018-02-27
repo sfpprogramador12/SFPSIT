@@ -1,0 +1,6 @@
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.CalcularInd.resources
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.ProjectInstaller.resources
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.csproj.GenerateResource.Cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.csproj.CoreCompileInputs.cache

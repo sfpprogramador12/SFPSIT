@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Tipo modo de entrega";
+    Layout = null;
+}
+
+<div id="formModoEntrega" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVentFed" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Modo entrega:</p></td>
+                <td><input id="megclave" type="text" style="width:60px" /></td>
+            </tr>
+            <tr>
+                <td><p>Descripción :</p></td>
+                <td><input id="megdescripcion" type="text" style="width:300px" /></td>
+            </tr>
+        </table>    
+    </form>
+</div>
+
+
+<script>
+    function GuardarModoEntrega() {
+        var url = '@Url.Action("PVtipoModoEntrega", "Catalogo")';
+
+        datos = {
+            megclave: parseInt($("#megclave").val()),
+            megdescripcion: $("#megdescripcion").val(),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma(parseInt($("#txtCmd").val()), url, datos);
+    }
+</script>

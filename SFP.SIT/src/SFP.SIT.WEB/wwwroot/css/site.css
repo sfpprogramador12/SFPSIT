@@ -1,0 +1,270 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 100%;
+    height: 83%;    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+/* input,
+select,
+textarea {
+    max-width: 280px;
+} */
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* buttons and links extension to use brackets: [ click me ] */
+.btn-bracketed::before {
+    display:inline-block;
+    content: "[";
+    padding-right: 0.5em;
+}
+.btn-bracketed::after {
+    display:inline-block;
+    content: "]";
+    padding-left: 0.5em;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"]
+{
+    width: 100%;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+
+
+/* 
+    Created on : 23-jul-2015, 12:08:26
+    Author     : maserarte
+
+
+*/
+
+
+
+
+/* 
+    Created on : 23-jul-2015, 12:08:26
+    Author     : maserarte
+
+
+@font-face{
+    font-family: ACaslonPro-Bold;
+    src: url(../fuentes/ACaslonPro-Bold.otf);
+}
+
+@font-face{
+    font-family: ACaslonPro-Regular;
+    src: url(../fuentes/ACaslonPro-Regular.otf);
+}
+
+@font-face{
+    font-family: ACaslonPro-Semibold;
+    src: url(../fuentes/ACaslonPro-Semibold.otf);
+}
+
+@font-face{
+    font-family: TrajanPro-Bold;
+    src: url(../fuentes/TrajanPro-Bold.otf);
+}
+
+@font-face{
+    font-family: TrajanPro-Regular;
+    src: url(../fuentes/TrajanPro-Regular.otf);
+}
+    
+div[id*='encabezado']{
+    font-family: TrajanPro-Regular !important;
+    text-align: center;
+    width: 96%;
+    color: #808080;
+    border-top: #fff solid 5px;
+    border-bottom: #fff solid 5px;
+    background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(251,251,251,1) 7%, rgba(242,242,242,1) 25%, rgba(242,242,242,1) 71%, rgba(252,252,252,1) 93%, rgba(255,255,255,0) 100%); \\ FF3.6+ 
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(7%,rgba(251,251,251,1)), color-stop(25%,rgba(242,242,242,1)), color-stop(71%,rgba(242,242,242,1)), color-stop(93%,rgba(252,252,252,1)), color-stop(100%,rgba(255,255,255,0))); \\ Chrome,Safari4+ 
+    background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(251,251,251,1) 7%,rgba(242,242,242,1) 25%,rgba(242,242,242,1) 71%,rgba(252,252,252,1) 93%,rgba(255,255,255,0) 100%); \\ Chrome10+,Safari5.1+ 
+    background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(251,251,251,1) 7%,rgba(242,242,242,1) 25%,rgba(242,242,242,1) 71%,rgba(252,252,252,1) 93%,rgba(255,255,255,0) 100%); \\ Opera 11.10+ 
+    background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(251,251,251,1) 7%,rgba(242,242,242,1) 25%,rgba(242,242,242,1) 71%,rgba(252,252,252,1) 93%,rgba(255,255,255,0) 100%); \\ IE10+ 
+    background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(251,251,251,1) 7%,rgba(242,242,242,1) 25%,rgba(242,242,242,1) 71%,rgba(252,252,252,1) 93%,rgba(255,255,255,0) 100%); \\ W3C 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 ); \\  IE6-9
+}
+
+
+/*
+div[id*='titulo']{
+    font-family: TrajanPro-Regular !important;
+    margin: 0 20%;
+    font-size: 1em;
+}
+    
+.drop-shadow {
+        position:relative;
+        float:left;
+        width:40%;
+        padding:.3%;
+        margin:2% 1%;
+}
+
+.drop-shadow:before,
+.drop-shadow:after {
+        content:"";
+        position:absolute;
+        z-index:-2;
+}
+
+.curved:before {
+        top:10px;
+        bottom:10px;
+        left:0;
+        right:50%;
+        -webkit-box-shadow:0 0 15px rgba(0,0,0,0.6);
+        -moz-box-shadow:0 0 15px rgba(0,0,0,0.6);
+        box-shadow:0 0 15px rgba(0,0,0,0.6);
+        -moz-border-radius:50px / 200px;
+        border-radius:50px / 200px;
+}
+
+.curved-hz-2:before {
+        top:0;
+        bottom:0;
+        left:98px;
+        right:98px;
+        -moz-border-radius:500px / 100px;
+        border-radius:500px / 100px;
+}
+    
+#logo{
+    margin: 1% 2% 0% 2%;
+    float: left;
+}
+
+
+section{
+    width: 80%;
+    text-align: center;
+    padding: 0 10% 0 10%;
+}
+
+.encabezado{
+    float: right;
+    width: 55%;
+}
+
+.texto{
+    text-align: left;
+    width: 55%;
+    float: right;
+    padding: 1% 0 0 0;
+}
+
+.sistema{
+    margin-top: 4%;
+    float: right;
+    position: initial;
+    height: 10vw;
+    width: 45vw;
+    background-color: #CF1F40;
+    cursor: pointer;
+}
+
+.sistema:hover{
+    background-color: #DC2210;
+}
+
+.entrada{
+    font-size: 1em; 
+    margin: 18% 1% 1% 0;
+    color:#fff;
+    text-align: right;
+}
+
+.candado{
+    background-image: url("../img/candado.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 10vw;
+    height: 10vw;
+    margin-left: 1%;
+    float: left;
+}
+
+footer{
+    padding: 0% 1.5% 1% 3%;
+    margin-top: 5%;
+    
+    z-index: 1;
+}
+
+#roja{
+    background-color: #cf043c;
+    height: 2px;
+    width: 90%;
+    float: left;
+    margin: 2% 0% 2% 5%;
+}
+
+.baseBrand {
+    margin: 0% auto 0px auto;
+    padding: 6px 8px;
+    width: 100%;
+}
+
+.baseBrand img {
+    float: left;
+    margin: auto 24px;
+}
+.coolLine {
+    float: left;
+    border-top: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
+    width: 37%;
+    height: 1px;
+    margin: 2.5% auto;
+}
+
+.infoDir {
+    clear: both;
+    margin: 32px auto 82px auto;
+    text-align: center;
+    font-family: 'Times New Roman', serif;
+    font-weight: lighter;
+    font-size: 13px;
+}
+
+
+.field-validation-error {color: #f00;}
+.field-validation-valid { display: none;}
+.input-validation-error { border: 1px solid #f00; background-color: #fee; }
+.validation-summary-errors { font-weight: bold; color: #f00;}
+.validation-summary-valid { display: none;}
+*/
+
+/*  ESTILOS PARA EL AREA  TEXT BOX
+#editable {
+    padding: 10px;
+    float: left;
+}
+
+*/

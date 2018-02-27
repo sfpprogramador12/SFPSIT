@@ -1,0 +1,143 @@
+﻿@model FrmRespPublicaVM
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="width:99%; float:left; ">
+
+    @using (Html.BeginForm("PVpublica", controlName, FormMethod.Post, new { id = "PublicaForm", name = "PublicaForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="solclave" />
+        <input type="hidden" asp-for="proclave" />
+        <input type="hidden" asp-for="nodclave" />
+        <input type="hidden" asp-for="araclave" />
+        <input type="hidden" asp-for="solfecsol" />
+        <input type="hidden" asp-for="solfecsolticks" />
+        <input type="hidden" asp-for="Oper" />
+        <input type="hidden" asp-for="avanzar" />
+
+        <input type="hidden" asp-for="respRespuesta.repclave" />
+        <input type="hidden" asp-for="respRespuesta.docclave" />
+        <input type="hidden" asp-for="respGeneral.gracontenido" />
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Número de oficio:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="respRespuesta.repoficio" size="50"  maxlength="128" style="width:600px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Agregar archivo:</label>
+            <div>
+                <input id="docResolucion" type="file" name="docResolucion"
+                       accept="text/richtext, application/zip, image/jpeg, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-excel.sheet.macroEnabled.12, application/vnd.ms-powerpoint"
+                       style="width: 450px; float:left;" />
+
+            </div>
+
+            <div id="divDocContenido">
+                @if (Model.respRespuesta.docclave > 0)
+                {
+                <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.respRespuesta.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                    @Html.Raw(Model.respDoc.docnombre)
+                </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.respGeneral.repclave, '',  @Model.respRespuesta.docclave )" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Modo de entrega:</label>
+            <div>
+                <select asp-for="respRespuesta.megclave" asp-items="@ViewBag.tipoModoEntrega" style="float: left; width:450px;"></select>
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Cantidad:</label>
+            <div>
+                <input type="text" class="w2ui-input" asp-for="respRespuesta.repcantidad" size="10" style="width:100px" />
+            </div>
+        </div>
+
+        <div class="w2ui-field w2ui-span8" style="clear: both">
+            <label>Descripción <br />respecto a la <br />respuesta :</label>
+            <div>
+                <textarea id="txtCkEditor" class="ckeditor" name="txtCkEditor">@Model.respGeneral.gracontenido</textarea>
+            </div>
+        </div>
+    }
+
+    @using (Html.BeginForm("PVpublicaPdf", controlName, FormMethod.Post, new { id = "ImprimirForm", name = "ImprimirForm", target = "_blank" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="oficio" name="oficio" />
+    }
+</div>
+
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+<script>
+    
+    function Inicializar()
+    {
+        ckEditorDefinir(_EditorHeight);
+        $('#solclave').val(_solclave);
+        FormatoSugerido();
+
+        $('#btnImprimir').click(function () {
+            $('#oficio').val($('#txtCkEditor').val());
+            document.ImprimirForm.submit();
+        });
+    };
+
+
+    function Validar() {
+        if ($('#respRespuesta_megclave').val() == undefined || $('#respRespuesta_megclave').val() == null) {
+            w2alert("Seleccione un modo de entrega");
+            return false;
+        }
+
+        var editorData = CKEDITOR.instances.txtCkEditor.getData();
+        if (editorData.length < 2) {
+            w2alert("El texto de la respuesta no puede ir en blanco")
+            return false;
+        }
+
+        return true;
+    }
+
+    function submit() {
+        _Inicio = true;
+        $('#nodclave').val(_nodclave);
+        $('#solfecsolticks').val(_solfecsolticks);
+        $('#respGeneral_gracontenido').val(CKEDITOR.instances.txtCkEditor.getData());
+        document.PublicaForm.submit();
+    }
+
+
+    function Grabar() {
+        if (Validar() === true) {
+            submit();
+        }
+    }
+
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            var formaActual = document.PublicaForm;
+            formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+
+
+    function DocRemoverResp(datos)
+    {
+        window.location.reload();
+        //$("#divDocContenido").hide();
+    }
+
+</script>
+   

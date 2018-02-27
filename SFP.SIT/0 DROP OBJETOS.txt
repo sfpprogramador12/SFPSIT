@@ -1,0 +1,181 @@
+﻿http://biblio.juridicas.unam.mx/libros/7/3336/3.pdf
+http://biblio.juridicas.unam.mx/libros/7/3454/6.pdf
+http://biblio.juridicas.unam.mx/libros/1/44/4.pdf
+http://biblio.juridicas.unam.mx/libros/8/3982/7.pdf
+
+http://mp3party.net/music/8446861
+
+Время и Стекло - Back2Leto
+Archi-M ft. Самира - Совпали (2017)
+LOBODA — Твои Глаза
+LOBODA — Случайная
+Jah Khalib - Сегодня я нашёл тебя
+маГнит- юля паяшута
+ЛАЙК.А / LIKE.A - ПУЛЬС / ПРЕМЬЕРА 2017 
+Время & Cтекло - Music Evolution
+
+Татьяна Решетняк- люблю
+ФОМИН Митя -     найти и не тертяь 
+три СЛова - катя чехова
+тебе не Будет БоЛет - Olega kai & Ruslan RINo
+
+
+Ани Лорак - Я Буду Солнцем
+Ани Лорак - Удержи Моё Сердце 
+Анна Семенович - Я За Тобой 
+Алёна Валенсия - Отпускаю 
+Валерия - Сильные Женщины 
+Виктория Дайнеко - Жить Вдвоем
+Виктория Дайнеко - Эти ночи
+Винтаж - Город, Где Сбываются Мечты (Feat. Dj Smash
+ДОМИНИК ДЖОКЕР - ТАКАЯ ОДНА
+Егор Крид - Невеста
+Елена Темникова - Ревность
+Елена Темникова - вДох
+Елена Темникова - Давай улетим
+
+Artik & Asti - Я твоя | Новая песня
+ARTIK & ASTI - Неделимы
+
+
+Элина Чага - Выхода Не Видно
+Юлианна Караулова - Внеорбитные 
+ЮЛИЯ КОВАЛЬЧУК - ПРЯМО В СЕРДЦЕ
+ХАННА - Мама, я влюбилась в него 
+Фабрика - Полюбила 
+ФОМИН Митя ft. PET SHOP BOYS - Огни Большого Города 
+Макsим - Хорошо 
+Лена Бронская - По Ночной Москве 
+Наталья Могилевская - Всё Хорошо
+Нюша - Где Ты Там Я
+Пропаганда and Tres - Я Ухожу От Тебя 
+Полина Гагарина - Я Не Буду 
+Тамерлан и Алена - Потоки Ветра 
+Сати Казанова - Спит Моё Счастье 
+Серебро - Перепутала 
+Стрелки - Влюблённый Мужчина 
+Слава - Красный (Я Смогу Тебя Забыть)
+Баста - Самолёты (Feat. Lil Kate
+
+MONAKO project - таю в твоих руках
+
+http://101.ru/?an=port_channel_mp3&channel=34
+
+SELECT 'drop table ' ||  object_name  || ' CASCADE CONSTRAINTS purge;' FROM all_objects WHERE ( object_type = 'TABLE' )  AND  OWNER = 'SIT' AND object_name  like '%SIT%';
+
+SELECT 'DROP SEQUENCE ' ||  object_name || ' ;' FROM all_objects WHERE ( object_type = 'SEQUENCE')  AND  OWNER = 'SIT' AND object_name  like '%SIT%';
+
+
+
+
+/*INICIO*/
+
+
+/*FIN*/
+
+
+
+select count(*) from SIT_SOLICITUD_SEGUIMIENTO;
+select * from SIT_SOLICITUD_SEGUIMIENTO;
+SELECT * FROM SIT_red_arista where us_clafolio = 2700000103;
+
+
+
+
+delete from SIT_doc_arista;
+delete from SIT_documento;
+delete from SIT_red_arista_FLUJO;
+delete from SIT_red_arista_revforma;
+delete from SIT_red_arista_comite;
+delete from SIT_red_arista_resolucion;
+delete from SIT_red_arista_recurso;
+delete from SIT_red_arista;
+delete from SIT_red_nodo;
+delete from SIT_sol_seguimiento;
+delete from SIT_sol_pregunta;
+delete from SIT_solicitud;
+delete from SIT_SNT_SOLICITANTE;
+commit;
+
+
+
+        sbQuery.append(" WITH Nodos AS ");
+        sbQuery.append(" (SELECT NODO.US_CLAFOLIO, RED.NRE_FECINI" );
+        sbQuery.append(" FROM   SIT_NODO_RED RED, SIT_nodo  NODO ");
+        sbQuery.append(" WHERE nre_fecfin is null and red.us_clafolio = NODO.us_clafolio AND" );
+        sbQuery.append(" RED.nod_origen = NODO.nod_claNodo AND nodo.ka_claarea = 100" );
+        sbQuery.append(" ORDER BY NODO.us_clafolio )");
+        sbQuery.append(" SELECT  s.US_CLAFOLIO, US_FECHASOL, n.NRE_FECINI,");
+        sbQuery.append(" s.tso_clatiposol AS  CARAC1,  
+NVL2(s.us_fechaSOL,1,0) AS  CARAC2,  
+SEG_ESTADO AS CARAC3, ");
+        sbQuery.append(" 1 AS CARAC4,  
+NVL2(seg.seg_fecampliacion,1,0) AS CARAC5,  
+NVL2(seg.seg_fecini,1,0) AS CARAC6, ");
+
+        sbQuery.append(" seg_diassemaforo, seg_colorsemaforo, us_des,");
+        sbQuery.append(" TSO_DESCRIPCION, MEN_DESCRIPCION, KNR_DESCRIPCION, KRT_RUBRO || ' ' || KRT_PLAZO_RESERVA || ' ' || KRT_FUNDAMENTO_LEGAL as KRT_RUBRO");
+        sbQuery.append(" FROM  Nodos n, SIT_solicitud s, SIT_solicitud_seguimiento seg,");
+        sbQuery.append(" SIT_ktipo_solicitud ts, SIT_ktipo_modo_entrega te,  SIT_ktipo_nivel_riesgo tr,");
+        sbQuery.append(" SIT_ktipo_rubro_tematico tt");
+        sbQuery.append(" WHERE s.US_CLAFOLIO = n.US_CLAFOLIO and s.US_CLAFOLIO = seg.US_CLAFOLIO ");
+        sbQuery.append(" AND ts.tso_clatiposol = s.tso_clatiposol and s.US_MODENT = te.us_modent and tr.KNR_CLARIESGO = tr.KNR_CLARIESGO ");
+        sbQuery.append(" and tr.KNR_CLARIESGO = s.KNR_CLARIESGO and tt.krt_clatema = s.krt_clatema");
+        
+        
+        
+SELECT sol.US_CLAFOLIO, seg_fecini
+FROM  SIT_SOLICITUD sol, SIT_SOLICITUD_SEGUIMIENTO seg, SIT_red_nodo nod, SIT_RED_ARISTA ari
+WHERE 
+sol.US_CLAFOLIO  = 2700042303 AND sol.US_CLAFOLIO = seg.US_CLAFOLIO AND
+seg.SEG_FECFIN IS NULL AND
+nod.us_clafolio = sol.us_clafolio AND 
+ari.us_clafolio = sol.us_clafolio AND 
+nod.nod_clanodo = ari.nod_destino AND
+nod.KA_CLAAREA = 100 and ari.nre_aristaestado = 1
+ORDER BY seg_fecini;
+
+<%@ page import="mx.gob.sfp.seguridad.daos.SegAreaDao" %>
+<%= SegAreaDao.OPE_SELECT_GRID %>
+
+
+
+select * from SIT_red_nodo where US_CLAFOLIO  = 2700042303;
+select * from SIT_red_arista where US_CLAFOLIO  = 2700042303;
+select * from SIT_SOLICITUD_SEGUIMIENTO where US_CLAFOLIO  = 2700042303;
+select * from SIT_SOLICITUD_SEGUIMIENTO where SEG_FECFIN is null;
+
+
+
+
+
+
+
+SELECT * FROM SIT_RED_NODO where US_CLAFOLIO  = 2700019003;
+SELECT * FROM SIT_RED_ARISTA where US_CLAFOLIO  = 2700019003;
+
+select * from SIT_SOLICITUD_SEGUIMIENTO where SEG_FECFIN IS NULL;
+
+2700019003
+
+
+
+
+----->
+No. Folio	
+Fecha Recepcion
+	¿ Fecha de Recepcion en el Area en Turno ?
+Dias Transcurridos	
+Area origen/Area en Turno	
+Situacion
+
+------->
+Fecha turno
+Area origen
+Area turno
+Días en el area
+Fecha en que contestó el área
+Situación
+
+
+

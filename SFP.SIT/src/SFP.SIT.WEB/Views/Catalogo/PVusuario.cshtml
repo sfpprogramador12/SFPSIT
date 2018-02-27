@@ -1,0 +1,94 @@
+﻿@model SFP.SIT.WEB.Models.CatViewModel
+@{
+    ViewData["Title"] = "Usuario";
+    Layout = null;
+}
+
+<div id="formUsuario" style="display:none">
+    <form id="formaGral" name="formaGral" asp-controller="Catalogo" asp-action="PVusuario" method="post">
+        @Html.AntiForgeryToken()
+        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+            <tr>
+                <td><p>Usuario ID :</p></td>
+                <td><input id="usrclave" type="text" style="width:40px" readonly /></td>
+            </tr>
+            <tr>
+                <td><p>Nombre :</p></td>
+                <td><input id="usrnombre" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Paterno :</p></td>
+                <td><input id="usrpaterno" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Materno :</p></td>
+                <td><input id="usrmaterno" type="text" style="width:400px" /></td>
+            </tr>
+
+            <tr>
+                <td><p>Puesto :</p></td>
+                <td><input id="usrpuesto" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Fecha de baja :</p></td>
+                <td><input id="usrfecbaja" type="date" style="width:140px" /></td>
+            </tr>
+            <tr id="trContraseña">
+                <td><p>Contraseña :</p></td>
+                <td><input id="usrcontraseña" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Correo :</p></td>
+                <td><input id="usrcorreo" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Extension :</p></td>
+                <td><input id="usrextension" type="text" style="width:400px" /></td>
+            </tr>
+            <tr>
+                <td><p>Área adscripcion</p></td>
+                <td>
+                    <select id="araclave_origen" style="width:800px"></select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    var _lstArea = @Html.Raw(Model.lstArea);
+
+    function GuardarUsuario()
+    {
+        var url = '@Url.Action("PVusuario", "Catalogo")';
+        var fecha = fechaValidar("#usrfecbaja");
+
+        datos = {
+            usrclave: parseInt($("#usrclave").val()),
+            usrnombre: $("#usrnombre").val(),
+            usrpaterno: $("#usrpaterno").val(),
+            usrmaterno: $("#usrmaterno").val(),
+            usrpuesto: $("#usrpuesto").val(),
+            usrfecbaja: fecha.toISOString(),
+            usrcontraseña: $("#usrcontraseña").val(),
+            usrcorreo: $("#usrcorreo").val(),
+            usrextension: $("#usrextension").val(),
+            araclave_origen:  parseInt($("#araclave_origen").val()),
+            cmd: parseInt($("#txtCmd").val())
+        };
+
+        guardarForma( parseInt($("#txtCmd").val()), url, datos);
+    }
+
+    $(document).ready(
+        function () {
+            SelectAddElemClear('araclave_origen', _lstArea.records, false);
+
+            if ( parseInt($("#txtCmd").val() != 1) )
+            {
+                $("#trContraseña").hide();
+            }                
+
+        }
+    );
+</script>
