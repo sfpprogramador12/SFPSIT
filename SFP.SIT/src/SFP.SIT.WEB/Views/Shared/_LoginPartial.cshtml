@@ -11,26 +11,43 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
+            <!--
+             <li>
+
                 <a asp-controller="Account" asp-action="ResetPassword" title="Manage">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value</a>
             </li>
+            -->
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-controller="Account" asp-action="ResetPassword" title="Manage">Cambiar Contraseña</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Perfiles</li>
+                    
+                        <li><a asp-controller="Account" asp-action="ChangeProfile" asp-route-id="10">David  Duran</a></li>
+                    
+                </ul>
+            </li>
+
             <li>
                 @*
-                <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
-                    <option>@ViewBag.Nombre</option>
-                </select>
-                    *@
+            <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
+                <option>@ViewBag.Nombre</option> 22622575
+            </select>
+                *@
 
                 <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">
                     @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CBOPERFILAREA).Value)
                 </select>
             </li>
             <li>
-                <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario"  target="_blank"></a>
+                <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario" target="_blank"></a>
             </li>
             <li>
                 <a asp-controller="Account" asp-action="LogOff" class="glyphicon glyphicon-log-in btn-lg" data-toggle="tooltip" title="Salir" style="margin-right:20px;"> </a>
-            </li>            
+            </li>
         </ul>
     </form>
 }

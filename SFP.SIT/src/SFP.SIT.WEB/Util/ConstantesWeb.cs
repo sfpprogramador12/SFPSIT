@@ -43,7 +43,9 @@ namespace SFP.SIT.WEB.Util
             public const string MODULOS = "UsuModulos";
             public const string CORREO = "UsuCorreo";
             public const string CBOPERFILAREA = "UsuPerfilArea";
-        }        
+        }
+
+        
     }
 
     public static class Operacion
