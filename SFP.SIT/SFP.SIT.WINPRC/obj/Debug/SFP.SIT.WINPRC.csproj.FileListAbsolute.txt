@@ -4,3 +4,17 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WI
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.ProjectInstaller.resources
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.csproj.GenerateResource.Cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.WINPRC.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.WINPRC.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\bin\Debug\SFP.SIT.SERV.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.WINPRC\obj\Debug\SFP.SIT.WINPRC.pdb

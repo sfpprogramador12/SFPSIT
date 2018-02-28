@@ -66,10 +66,69 @@ namespace SFP.SIT.WEB.Services
             return UsrMdl;
         }
 
+
+        public UsuarioViewModel EncontrarUsuario(Dictionary<string, object> dicParam)
+        {
+            UsuarioViewModel UsrMdl = new UsuarioViewModel();
+
+            /* BUSCAR LOS DATOS DEL USUARIO POR MEDIO DEL CORREO*/
+            SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
+            SIT_ADM_USUARIO admUsrMdl = admUsuDao.dmlSelectEncontrarUsuario(dicParam) as SIT_ADM_USUARIO;
+            if (admUsrMdl != null)
+            {
+                UsrMdl.AdmUsuMdl = admUsrMdl;
+                //dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, admUsrMdl.usrclave);
+                UsrMdl.lstAreas = new SIT_ADM_USUARIOAREADao(_cn, _transaction, _sDataAdapter).dmlUsuarioArea(dicParam) as List<SIT_ADM_AREAHIST>;
+                UsrMdl.lstPerfil = new SIT_ADM_USRPERFILDao(_cn, _transaction, _sDataAdapter).dmlSelectPerfilxUsr(admUsrMdl.usrclave) as List<SIT_ADM_PERFIL>;
+                UsrMdl.lstModulo = new SIT_ADM_PERFILMODDao(_cn, _transaction, _sDataAdapter).dmlSelectModxUsr(admUsrMdl.usrclave) as List<SIT_ADM_MODULO>;
+
+
+                string sComboPerfil = "";
+                foreach (SIT_ADM_PERFIL admPerfil in UsrMdl.lstPerfil)
+                {
+                    if (admPerfil.perclave > Constantes.Perfil.SISTEMAS)
+                    {
+                        if (admPerfil.perclave == Constantes.Perfil.UA)
+                        {
+                            foreach (SIT_ADM_AREAHIST admAreas in UsrMdl.lstAreas)
+                            {
+                                sComboPerfil = sComboPerfil + "<option value=\"A" + admAreas.araclave + "\"> UA - " + admAreas.arhsiglas + "<option> \r";
+                            }
+                        }
+                        else
+                        {
+                            sComboPerfil = sComboPerfil + "<option value=\"P" + admPerfil.perclave + "\"> " + admPerfil.perdescripcion + "<option> \r";
+                        }
+
+                    }
+                }
+                UsrMdl.sCboPerfilArea = sComboPerfil.Trim();
+
+
+            }
+            return UsrMdl;
+        }
+
         public Object CambiarContraseña(SIT_ADM_USUARIO admUsr)
         {            
             return  (int )new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdContraseña(admUsr) ; 
         }
+
+        /*
+         *Obtiene el id y el nombre de los usuarios que se pueden personificar      
+        */
+        public Dictionary<int, string> GetUsuariosCompartidos(string userClave)
+        {
+            Dictionary<int, string> users = new Dictionary<int, string>();
+
+            foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave)) {
+                users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + "" + actual.usrmaterno);
+            }
+
+            return users;
+        }
+
+        
 
         public Object OlvidarContraseña(Object oDatos)
         {

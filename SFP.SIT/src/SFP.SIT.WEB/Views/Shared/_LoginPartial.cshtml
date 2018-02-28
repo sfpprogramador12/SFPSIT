@@ -1,4 +1,5 @@
 ﻿@using SFP.SIT.WEB.Util
+@using Microsoft.AspNetCore.Http;
 
 @*
     using SFP.SIT.WEB.Models
@@ -25,17 +26,17 @@
                     <li><a asp-controller="Account" asp-action="ResetPassword" title="Manage">Cambiar Contraseña</a></li>
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">Perfiles</li>
-                    
-                        <li><a asp-controller="Account" asp-action="ChangeProfile" asp-route-id="10">David  Duran</a></li>
-                    
+
+                    <li><a asp-controller="Account" asp-action="ImpersonateUser" asp-route-userId="1285">Luz María Martines </a></li>
+
                 </ul>
             </li>
 
             <li>
                 @*
-            <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
-                <option>@ViewBag.Nombre</option> 22622575
-            </select>
+                    <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
+                        <option>@ViewBag.Nombre</option> 22622575
+                    </select>
                 *@
 
                 <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">

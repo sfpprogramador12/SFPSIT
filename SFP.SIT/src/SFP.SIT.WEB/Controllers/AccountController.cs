@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Hosting;
 using SFP.SIT.SERV.Util;
 using SFP.SIT.SERV.Model.ADM;
 using SFP.SIT.SERV.Dao.ADM;
+using System.Linq;
 
 namespace SFP.SIT.WEB.Controllers
 {
@@ -117,7 +118,15 @@ namespace SFP.SIT.WEB.Controllers
                         new Claim(ConstantesWeb.Usuario.CORREO, usrMdl.AdmUsuMdl.usrcorreo ),
                         new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea )
                     };
+
+                    /* Traer usuarios que comparte y guardarlos en el context*/
+                    usrMdl.usuarioBase = new Dictionary<int, string>() {
+                            { usrMdl.AdmUsuMdl.usrclave, usrMdl.UsuarioNombre }
+                        };
+                    usrMdl.usuariosCompartidos =  (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), usrMdl.AdmUsuMdl.usrclave.ToString());
+                    HttpContext.SetDataToSession<UsuarioViewModel>("User", usrMdl);
                     
+
                     ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
                     await HttpContext.Authentication.SignInAsync("SitCookieMiddlewareInstance", principal,
                         new AuthenticationProperties
@@ -135,6 +144,112 @@ namespace SFP.SIT.WEB.Controllers
             _loggerAud.LogInformation(_appLog.ToString());
             return View(model);
         }
+
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        // <-- Solo administradores pueden acceder a esta parte
+        public async Task<IActionResult> ImpersonateUser(String userId)
+        {
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string currentUserId = identity.Name.ToString();
+            
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // sign out the current user
+            await HttpContext.Authentication.SignOutAsync("SitCookieMiddlewareInstance");
+
+            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+            dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, userId);
+            dicParam.Add(SIT_ADM_USUARIOAREADao.PARAM_FECHA, DateTime.Now);
+            dicParam.Add(SeguridadSer.PARAM_IP, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            UsuarioViewModel impersonatedUser  = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
+
+
+            List<Claim> userClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, Convert.ToString(impersonatedUser.AdmUsuMdl.usrclave)),
+                new Claim(ConstantesWeb.Usuario.CLAVE, Convert.ToString(impersonatedUser.AdmUsuMdl.usrclave)),
+                new Claim(ConstantesWeb.Usuario.NOMBRE, impersonatedUser.UsuarioNombre),
+                new Claim(ConstantesWeb.Usuario.AREAS,  JsonTransform.Serializar(impersonatedUser.lstAreas)),
+                new Claim(ConstantesWeb.Usuario.PERFILES,JsonTransform.Serializar(impersonatedUser.lstPerfil)),
+                new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(impersonatedUser.lstModulo)),
+                new Claim(ConstantesWeb.Usuario.CORREO, impersonatedUser.AdmUsuMdl.usrcorreo ),
+                new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, impersonatedUser.sCboPerfilArea ),
+                new Claim(ConstantesWeb.Usuario.USUARIOBASE, currentUserId)
+                        
+            };
+
+            ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
+            await HttpContext.Authentication.SignInAsync("SitCookieMiddlewareInstance", principal,
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    IsPersistent = false,
+                    AllowRefresh = false
+                });
+            HttpContext.User = principal;
+
+            _appLog.opdesc = "AutentificarSer.OPE_VALIDAR_USUARIO -" + ConstantesWeb.LogMensajes.USUARIO_AUTENTIFICADO;
+            return RedirectToAction("Plazos", "Informacion");
+
+           
+        }
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        // <-- Solo administradores pueden acceder a esta parte
+        public async Task<IActionResult> StopImpersonation()
+        {
+            var usuarioBase = ConstantesWeb.Usuario.USUARIOBASE;
+            if (usuarioBase == "UsuBase")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+
+            dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, usuarioBase);
+            dicParam.Add(SIT_ADM_USUARIOAREADao.PARAM_FECHA, DateTime.Now);
+            dicParam.Add(SeguridadSer.PARAM_IP, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+            UsuarioViewModel impersonatedUser = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
+
+
+            // sign out the current user
+            await HttpContext.Authentication.SignOutAsync("SitCookieMiddlewareInstance");
+
+            List<Claim> userClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, Convert.ToString(impersonatedUser.AdmUsuMdl.usrclave)),
+                new Claim(ConstantesWeb.Usuario.CLAVE, Convert.ToString(impersonatedUser.AdmUsuMdl.usrclave)),
+                new Claim(ConstantesWeb.Usuario.NOMBRE, impersonatedUser.UsuarioNombre),
+                new Claim(ConstantesWeb.Usuario.AREAS,  JsonTransform.Serializar(impersonatedUser.lstAreas)),
+                new Claim(ConstantesWeb.Usuario.PERFILES,JsonTransform.Serializar(impersonatedUser.lstPerfil)),
+                new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(impersonatedUser.lstModulo)),
+                new Claim(ConstantesWeb.Usuario.CORREO, impersonatedUser.AdmUsuMdl.usrcorreo ),
+                new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, impersonatedUser.sCboPerfilArea ),
+                new Claim(ConstantesWeb.Usuario.USUARIOBASE, "UsuBase")
+
+            };
+
+            ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
+            await HttpContext.Authentication.SignInAsync("SitCookieMiddlewareInstance", principal,
+                new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    IsPersistent = false,
+                    AllowRefresh = false
+                });
+            HttpContext.User = principal;
+
+            _appLog.opdesc = "AutentificarSer.OPE_VALIDAR_USUARIO -" + ConstantesWeb.LogMensajes.USUARIO_AUTENTIFICADO;
+            return RedirectToAction("Plazos", "Informacion");
+
+
+        }
+
 
         // GET: /Account/ResetPassword
         [HttpGet]        

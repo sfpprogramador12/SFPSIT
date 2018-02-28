@@ -152,6 +152,26 @@ namespace SFP.SIT.SERV.Dao.ADM
                 return null;
         }
 
+        /*
+         // BUSQUEDA DE USUARIO A TRAVES DE SU CLAVE 
+        */
+        public SIT_ADM_USUARIO dmlSelectEncontrarUsuario(Dictionary<string, object> dicParametros)
+        {
+            string sqlQuery = "SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, usrPUESTO, usrFECBAJA, "
+                    + " usrCONTRASEÑA, usrCORREO, usrEXTENSION, usrINTENTOS, usrbloquearfin, "
+                    + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO "
+                    + " FROM SIT_ADM_USUARIO WHERE USRCLAVE = :P0  AND usrFECBAJA is null";
+
+            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
+                    ConsultaDML(sqlQuery, dicParametros[DButil.SIT_ADM_USUARIO_COL.USRCLAVE].ToString()));
+
+
+            if (lstAdmUsuMdl.Count > 0)
+                return lstAdmUsuMdl[0];
+            else
+                return null;
+        }
+
 
 
 
@@ -161,6 +181,28 @@ namespace SFP.SIT.SERV.Dao.ADM
 
             string sqlQuery = " UPDATE SIT_ADM_USUARIO SET usrCONTRASEÑA = :P0 WHERE usrclave = :P1 ";
             return EjecutaDML(sqlQuery, sContraseñaMD5, admUsr.usrclave);
+        }
+
+
+        public List<SIT_ADM_USUARIO> dmlGetSharedUsers(string usrclave)
+        {
+            //String sContraseñaMD5 = EncriptarUtil.ObtenerMD5Hash(admUsr.usrcontraseña);
+            string sqlQuery = "SELECT USRCLAVE, USRNOMBRE, USRPATERNO, USRMATERNO FROM SIT_ADM_USUARIO WHERE USRCLAVE IN(SELECT C.COMUSR FROM SIT_ADM_USUARIO U INNER JOIN SIT_ADM_USRCOMPARTIR C ON U.USRCLAVE = C.USRCLAVE and U.USRCLAVE = "+usrclave+" ); ";
+
+            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+
+            dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, usrclave);
+            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
+                    ConsultaDML(sqlQuery, dicParam[DButil.SIT_ADM_USUARIO_COL.USRCLAVE].ToString()));
+
+
+            if (lstAdmUsuMdl.Count > 0)
+                return lstAdmUsuMdl;
+            else
+                return null;
+            
+            //string sqlQuery = "";
+            //return EjecutaDML(sqlQuery, usrclave);
         }
 
 
