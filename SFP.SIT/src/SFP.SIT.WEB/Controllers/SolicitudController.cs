@@ -48,6 +48,8 @@ namespace SFP.SIT.WEB.Controllers
             ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
 
             return View();
+            //return View("BandejaEntrada", "_WebmastLayout");
+
         }
 
         [HttpPost]
