@@ -85,7 +85,7 @@
     <Compile Include="MIGRAR\EdoNodoMsjFinal2.cs" />
     <Compile Include="WF2\EdoINAIsol2.cs" />
     <Compile Include="WF2\EdoPRUDrecibirSol2.cs" />
-    <Compile Include="WF2\EdoUAanalizar2.cs" />
+    <Compile Include="WF2\EdoUAanalizarSol2.cs" />
     <Compile Include="WF2\EdoUTrecibirSol2.cs" />
   </ItemGroup>
   <ItemGroup>

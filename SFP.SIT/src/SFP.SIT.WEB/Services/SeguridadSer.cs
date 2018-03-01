@@ -122,7 +122,7 @@ namespace SFP.SIT.WEB.Services
             Dictionary<int, string> users = new Dictionary<int, string>();
 
             foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave)) {
-                users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + "" + actual.usrmaterno);
+                users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + " " + actual.usrmaterno);
             }
 
             return users;

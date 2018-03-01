@@ -187,13 +187,13 @@ namespace SFP.SIT.SERV.Dao.ADM
         public List<SIT_ADM_USUARIO> dmlGetSharedUsers(string usrclave)
         {
             //String sContraseñaMD5 = EncriptarUtil.ObtenerMD5Hash(admUsr.usrcontraseña);
-            string sqlQuery = "SELECT USRCLAVE, USRNOMBRE, USRPATERNO, USRMATERNO FROM SIT_ADM_USUARIO WHERE USRCLAVE IN(SELECT C.COMUSR FROM SIT_ADM_USUARIO U INNER JOIN SIT_ADM_USRCOMPARTIR C ON U.USRCLAVE = C.USRCLAVE and U.USRCLAVE = "+usrclave+" ); ";
+            string sqlQuery = "SELECT USRCLAVE, USRNOMBRE, USRPATERNO, USRMATERNO FROM SIT_ADM_USUARIO WHERE USRCLAVE IN(SELECT C.COMUSR FROM SIT_ADM_USUARIO U INNER JOIN SIT_ADM_USRCOMPARTIR C ON U.USRCLAVE = C.USRCLAVE and U.USRCLAVE = "+usrclave+" ) ";
 
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
 
             dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, usrclave);
-            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
-                    ConsultaDML(sqlQuery, dicParam[DButil.SIT_ADM_USUARIO_COL.USRCLAVE].ToString()));
+            DataTable dt = ConsultaDML(sqlQuery, dicParam);
+            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(dt);
 
 
             if (lstAdmUsuMdl.Count > 0)

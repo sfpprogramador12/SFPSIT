@@ -1,5 +1,7 @@
 ﻿using SFP.Persistencia.Dao;
 using SFP.SIT.SERV.Dao.RESP;
+using SFP.SIT.SERV.Model.RED;
+using SFP.SIT.SERV.Model.RESP;
 using SFP.SIT.SERV.Util;
 using System;
 using System.Collections.Generic;
@@ -190,6 +192,12 @@ namespace SFP.SIT.SERV.Dao
             return sInstr;
         }
 
+        public List<SIT_RESP_RESPUESTA> dmlSelectRespEdo(SIT_RED_NODORESP nodoResp)
+        {
+            String sSQL = " select * from SIT_RESP_RESPUESTA WHERE repclave in ( select repclave from SIT_RED_NODORESP where nodclave = 64 and sdoclave = 3)	 ";
+
+            return CrearListaMDL<SIT_RESP_RESPUESTA>(ConsultaDML(sSQL, nodoResp.nodclave, nodoResp.sdoclave) as DataTable);
+        }
     }
 }
 

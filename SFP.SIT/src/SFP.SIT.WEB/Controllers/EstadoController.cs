@@ -276,7 +276,17 @@ namespace SFP.SIT.WEB.Controllers
 
             return View();
         }
-        
+
+        [HttpGet]
+        public IActionResult PRUDrevisarResp(int iPrc, Int64 lNodo, int iArea, int iPerfil, int iUsr)
+        {
+            EdoActViewModel edoActVM = ObtenerDatosGral(lNodo, true, iPrc, iArea, iPerfil);
+            edoActVM.nodoView = "PRUDrevisarResp";
+
+            ViewBag.DatosGrals = edoActVM;
+
+            return View();
+        }
         /* ********************************************
                     UNIDAD ADMINISTRATIVA         
         ******************************************** */
@@ -340,34 +350,32 @@ namespace SFP.SIT.WEB.Controllers
         [HttpPost]
         public IActionResult UAanalizarResponder(long solclave, int proclave, long nodclave, int araclave, int perclave)
         {
-
-            ////FrmRespAsignarVM respAsignar;
-            ////respAsignar.resRespuesta.rtpclave = Constantes.Respuesta.ASIGNAR;
-            ////respAsignar.resRespuesta.repedofec = DateTime.Now;
-            ////respAsignar.Oper = 1; // INSERTAR
-            ////respAsignar.resAsignar.araclave = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-
-            ////SIT_RED_NODORESP oNodoResp = new SIT_RED_NODORESP();
-            ////oNodoResp.nodclave = respAsignar.nodclave;
-            ////oNodoResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
-
             Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-            ////// DATOS DE LA RESPUESTA..
-            ////dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, respAsignar.resRespuesta);
-            ////dicDatos.Add(ProcesoGralDao.PARAM_RESP_TURNAR, respAsignar.resAsignar);
-            ////dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);
-
             //// DATOS GENERALES A AGRUPAR....
             dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, nodclave);
-            //dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(respAsignar.solfecsolticks));
             dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-            ///dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, respAsignar.Oper);
-            ///dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-            ///dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_ASIGNAR);
+
+
+
+            SIT_RED_NODORESP nodResp = new SIT_RED_NODORESP();
+            nodResp.nodclave = nodclave;
+            nodResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
+
 
             AfdEdoDataMdl afdDataMdl = NodoActualIni(solclave, Constantes.Respuesta.ASIGNAR, nodclave);
             afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
             afdDataMdl.dicAuxRespuesta = dicDatos;
+
+            List<SIT_RESP_RESPUESTA> dmlSelectRespEdo = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespEdo), nodResp) as List<SIT_RESP_RESPUESTA>;
+            // siempre tiene que haber uan respueta para avanzar...
+            // Buscar tipos de repsuesta
+            // * Solo permite TURNAR, Ampliacion de plazo y Respuesta Multiple..
+            if (dmlSelectRespEdo[0].rtpclave == Constantes.Respuesta.TURNAR)
+                afdDataMdl.rtpclave = Constantes.Respuesta.TURNAR;
+            else if (dmlSelectRespEdo[0].rtpclave == Constantes.Respuesta.RIA_AREA)
+                afdDataMdl.rtpclave = Constantes.Respuesta.RIA_AREA;
+            else
+                afdDataMdl.rtpclave = Constantes.Respuesta.RESPUESTA_MULTIPLE;
 
             //BUSCAR QUIEN ES EL USUARIO QUE ESTA EN EL EESTADO
             afdDataMdl.usrClaveDestino = _iUsuario;
@@ -380,12 +388,8 @@ namespace SFP.SIT.WEB.Controllers
             string oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
 
             return RedirectToAction("BandejaEntrada", "Solicitud");
-
-
-
-            return View();
         }
-        
+
 
         [HttpPost]
         public IActionResult CtrlSiguienteEstado(Int64 solclave, Int32 proclave, Int64 nodclave, Int32 araclave, Int32 tipoArista)

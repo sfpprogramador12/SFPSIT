@@ -178,9 +178,9 @@ namespace SFP.SIT.WEB.Injection
                 _dicCacheSIT.Add(DIC_RESP_TIPO, sitOperSer.operEjecutar<SIT_RESP_TIPODao>(nameof(SIT_RESP_TIPODao.dmlSelectDiccionario), null) as Dictionary<int, String>);
                 _dicCacheSIT.Add(DIC_RESP_MOMENTO, sitOperSer.operEjecutar<SIT_RESP_MOMENTODao>(nameof(SIT_RESP_MOMENTODao.dmlSelectDiccionario), null) as Dictionary<int, String>);
                 _dicCacheSIT.Add(DIC_RESP_REPRODUCCION, sitOperSer.operEjecutar<SIT_RESP_REPRODUCCIONDao>(nameof(SIT_RESP_REPRODUCCIONDao.dmlSelectDiccionario), null) as Dictionary<int, String>);
-                _dicCacheSIT.Add(DIC_RESP_INAI, sitOperSer.operEjecutar<SIT_RESP_TIPODao>(nameof(SIT_RESP_TIPODao.dmlSelectRespTipo), 2) as Dictionary<int, String>);
+                _dicCacheSIT.Add(DIC_RESP_INAI, sitOperSer.operEjecutar<SIT_RESP_TIPODao>(nameof(SIT_RESP_TIPODao.dmlSelectRespTipo), 1) as Dictionary<int, String>);
 
-                
+
 
 
                 // SOLICITANTE
