@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 
 namespace SFP.Persistencia.Servicio
 {
@@ -68,10 +69,19 @@ namespace SFP.Persistencia.Servicio
                         connection.Open();
 
                         oEntidad = Activator.CreateInstance(tyObjeto, connection, null, _objDbModel.objDbDataAdapter);
+
                         if (objParam == null)
+                        {
                             oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, null);
+                        }
                         else
-                            oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });                        
+                        {
+                            MethodInfo method = tyObjeto.GetMethod(sMetodo);
+                            object[] obj = new object[1];
+                            obj.SetValue(objParam, 0);
+                            oResultado = method.Invoke(oEntidad, obj);
+                            //oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });
+                        }
                     }
                 }
                 catch (Exception e)

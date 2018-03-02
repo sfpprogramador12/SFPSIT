@@ -837,9 +837,9 @@ function GetGridCatAfd() {
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
             { field: 'AFDCLAVE', caption: 'AFD ID', size: '50px', resizable: true },
-            { field: 'afddescripcion', caption: 'Descripción', size: '350px', resizable: true },           
-            { field: 'afdprefijo', caption: 'Prefijo', size: '140px', resizable: true },
-            { field: 'afdfecbaja', caption: 'Fecha baja', size: '140px', resizable: true }
+            { field: 'AFDDESCRIPCION', caption: 'Descripción', size: '350px', resizable: true },           
+            { field: 'AFDPREFIJO', caption: 'Prefijo', size: '140px', resizable: true },
+            { field: 'AFDFECBAJA', caption: 'Fecha baja', size: '140px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems,
@@ -853,10 +853,11 @@ function GetGridCatAfd() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
+                                    console.log(_RegistroActual);
                                     $("#AFDCLAVE").val(_RegistroActual.AFDCLAVE);
-                                    $("#afddescripcion").val(_RegistroActual.afddescripcion);
-                                    $("#afdprefijo").val(_RegistroActual.afdprefijo);
-                                    $("#afdfecbaja").val(_RegistroActual.afdfecbaja);
+                                    $("#afddescripcion").val(_RegistroActual.AFDDESCRIPCION);
+                                    $("#afdprefijo").val(_RegistroActual.AFDPREFIJO);
+                                    $("#afdfecbaja").val(_RegistroActual.AFDFECBAJA);
                                     if (iOpc === 3) {
                                         $('#AFDCLAVE').prop('readonly', true);
                                         $('#afddescripcion').prop('readonly', true);

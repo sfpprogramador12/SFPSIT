@@ -1138,8 +1138,8 @@ namespace SFP.SIT.WEB.Controllers
 
             string sJson = null;
             string sObj = dicCatalogos[Convert.ToInt32(Entidad)];
-            {                
-                sJson = JsonTransform.convertJsonNoRecID((DataTable)_sitDmlDbSer.operEjecutar(sObj,  BaseDao.CMD_GRID, baseMdl));
+            {
+                sJson = JsonTransform.convertJsonNoRecID((DataTable)_sitDmlDbSer.operEjecutar(sObj.ToString(), BaseDao.CMD_GRID, baseMdl));
                 _httpContextAccessor.HttpContext.Response.Headers["Expires"] = "-1";
                 _httpContextAccessor.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store";
                 _httpContextAccessor.HttpContext.Response.Headers["Pragma"] = "no-cache";
