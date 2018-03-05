@@ -113,17 +113,18 @@ namespace SFP.SIT.SERV.Dao.RED
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                ////+ "  SELECT AFDCLAVE, AFFORIGEN, PORI.KP_DESCRIPCION AS ORIGENAREA, ORI.KNE_DESCRIPCION AS ORIGENACCION,  ARI.rtpclave, rtpdescripcion,  "
-                ////+ "  affdestino,  PDES.KP_DESCRIPCION as DESTAREA, DES.KNE_DESCRIPCION as DESTACCION, affplazo "
-                ////+ "  FROM SIT_RED_AFDFLUJO FLU, SIT_RESP_TIPO ARI, SIT_RED_NODOESTADO ORI, SIT_RED_NODOESTADO DES,  "
-                ////+ "  SIT_ADM_KPERFIL PORI, SIT_ADM_KPERFIL PDES "
-                ////+ "  WHERE ARI.rtpclave = FLU.rtpclave "
-                ////+ "  AND ORI.nedclave = AFFORIGEN "
-                ////+ "  AND DES.nedclave = affdestino "
-                ////+ "  AND PORI.KP_CLAPERFIL = ORI.KP_CLAPERFIL "
-                ////+ "  AND PDES.KP_CLAPERFIL = DES.KP_CLAPERFIL "
-                ////+ "  ORDER BY  ORI.KP_CLAPERFIL, ORI.KNE_DESCRIPCION, rtpclave "
+                + "  SELECT AFDCLAVE, AFFORIGEN, PORI.KP_DESCRIPCION AS ORIGENAREA, ORI.KNE_DESCRIPCION AS ORIGENACCION,  ARI.rtpclave, rtpdescripcion,  "
+                + "  affdestino,  PDES.KP_DESCRIPCION as DESTAREA, DES.KNE_DESCRIPCION as DESTACCION, affplazo "
+                + "  FROM SIT_RED_AFDFLUJO FLU, SIT_RESP_TIPO ARI, SIT_RED_NODOESTADO ORI, SIT_RED_NODOESTADO DES,  "
+                + "  SIT_ADM_KPERFIL PORI, SIT_ADM_KPERFIL PDES "
+                + "  WHERE ARI.rtpclave = FLU.rtpclave "
+                + "  AND ORI.nedclave = AFFORIGEN "
+                + "  AND DES.nedclave = affdestino "
+                + "  AND PORI.KP_CLAPERFIL = ORI.KP_CLAPERFIL "
+                + "  AND PDES.KP_CLAPERFIL = DES.KP_CLAPERFIL "
+                + "  ORDER BY  ORI.KP_CLAPERFIL, ORI.KNE_DESCRIPCION, rtpclave "
             + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.*from( SELECT AFDCLAVE, AFFORIGEN, PORI.PERDESCRIPCION AS ORIGENAREA, ORI.NEDDESCRIPCION AS ORIGENACCION, ARI.rtpclave, rtpdescripcion, affdestino, PDES.PERDESCRIPCION as DESTAREA, DES.NEDDESCRIPCION as DESTACCION, RTPPLAZO FROM SIT_RED_AFDFLUJO FLU, SIT_RESP_TIPO ARI, SIT_RED_NODOESTADO ORI, SIT_RED_NODOESTADO DES, SIT_ADM_PERFIL PORI, SIT_ADM_PERFIL PDES WHERE ARI.rtpclave = FLU.rtpclave   AND ORI.nedclave = AFFORIGEN   AND DES.nedclave = affdestino AND PDES.PERCLAVE = DES.NEDCLAVE ORDER BY   PDES.PERCLAVE, ORI.NEDDESCRIPCION, rtpclave) a ) SELECT* from Resultado WHERE recid between :P0 and :P1";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

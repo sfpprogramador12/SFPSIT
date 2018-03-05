@@ -136,6 +136,13 @@
 
             $().w2grid(GetGridCat());
             $().w2grid(GetGridCatArea());
+            $().w2grid(GetGridCatAreaGestion());
+            $().w2grid(GetGridCatAreaHistorico());
+            $().w2grid(GetGridCatAreaNivel());
+            $().w2grid(GetGridCatAreaOrganizacion());
+            $().w2grid(GetGridCatAreaTipo());
+            $().w2grid(GetGridClase());
+
             $().w2grid(GetGridCatConfig());
             $().w2grid(GetGridCatDiaLab());
             $().w2grid(GetGridCatDocArista());
@@ -157,6 +164,7 @@
             $().w2grid(GetGridCatComiteRubro());
             $().w2grid(GetGridCatNodo());
             $().w2grid(GetGridCatNodoEstado());
+            $().w2grid(GetGridCatEstado());
             $().w2grid(GetGridCatTipoArista());
             $().w2grid(GetGridCatTipoInfo());
             $().w2grid(GetGridCatEntFed());
@@ -184,22 +192,53 @@
 
         function gridActualizar (sEntidad, registros )
         {
+            console.log("grid: " + sEntidad );
+
             var  sObjGrid = "";
             var  sObjForma = "";
 
-            if (sEntidad == 'Área') {
+            if (sEntidad == 'Áreas') {
                 sObjGrid = 'gridCatArea';
                 sObjForma = 'formArea';
 
-            } else if (sEntidad == 'Catalogo') {
+            } else if (sEntidad == 'Áreas gestión') {
+                sObjGrid = 'gridCatAreaGestion';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Historico') {
+                sObjGrid = 'gridCatAreaHistorico';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas nivel ') {
+                sObjGrid = 'gridCatAreaNivel';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Organización') {
+                sObjGrid = 'gridCatAreaOrganizacion';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Tipo') {
+                sObjGrid = 'gridCatAreaTipo';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Catalogo') {
                 sObjGrid = 'gridCat';
                 sObjForma = 'formCat';
 
-            } else if (sEntidad == 'Configuración') {
+            } else if (sEntidad == 'Clases') {
+                sObjGrid = 'gridClase';
+                sObjForma = 'formCat';
+
+            }
+            else if (sEntidad == 'Configuración') {
                 sObjGrid = 'gridCatConfig';
                 sObjForma = 'formConfig';
-
-            } else if (sEntidad == 'Días laborales') {
+            }/*
+            else if (sEntidad == 'Estado') {
+                sObjGrid = 'gridCatEstado';
+                sObjForma = 'formConfig';
+            }*/
+            else if (sEntidad == 'Día no laboral') {
                 sObjGrid = 'gridCatDiaLab';
                 sObjForma = 'formDiaLab';
 
@@ -231,7 +270,7 @@
                 sObjGrid = 'gridCatDocArista';
                 sObjForma = 'formDocArista';
 
-            } else if (sEntidad == 'Tipo documento') {
+            } else if (sEntidad == 'Documento Extension') {
                 sObjGrid = 'gridCatTipoDoc';
                 sObjForma = 'formTipoDoc';
 
@@ -243,7 +282,7 @@
                 sObjGrid = 'gridCatAfd';
                 sObjForma = 'formAfd';
 
-            } else if (sEntidad == 'AFD_flujo') {
+            } else if (sEntidad == 'AFD flujo') {
                 sObjGrid = 'gridCatAfdFlujo';
                 sObjForma = 'formAfdFlujo';
 
@@ -287,7 +326,7 @@
                 sObjGrid = 'gridCatNodo';
                 sObjForma = 'formNodo';
 
-            } else if (sEntidad == 'Entidad Federativa') {
+            } else if (sEntidad == 'Estado') {
                 sObjGrid = 'gridCatEntFed';
                 sObjForma = 'formEntFed';
 
@@ -347,6 +386,8 @@
                 sObjGrid = 'gridCatSolicitud';
                 sObjForma = 'formSolicitud';
             }
+           
+            console.log("selected: " + sObjGrid);
 
             AjustarPantalla('divDatos', 0.72, 0.76);
             

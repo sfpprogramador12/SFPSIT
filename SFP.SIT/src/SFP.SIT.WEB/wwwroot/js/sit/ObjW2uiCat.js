@@ -83,13 +83,13 @@ function GetGridCatArea() {
         },
         columns: [
             { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'araclave', caption: 'CLAVE', size: '80px', resizable: true },
-            { field: 'KA_SIGLA', caption: 'SIGLA', size: '80px', resizable: true },
-            { field: 'KA_ORDEN', caption: 'ORDEN', size: '80px', resizable: true },
-            { field: 'KA_DESCRIPCION', caption: 'DESCRIPCIÓN', size: '350px', resizable: true },
-            { field: 'KA_REPORTA', caption: 'REPORTA', size: '80px', resizable: true },
-            { field: 'KTA_DESCRIPCION', caption: 'TIPO ÁREA', size: '250px', resizable: true },
-            { field: 'KP_DESCRIPCION', caption: 'TIPO PERFIL', size: '160px', resizable: true }
+            { field: 'ARACLAVE', caption: 'CLAVE', size: '80px', resizable: true },
+            { field: 'ARAFECCREACION', caption: 'FECHA CREACIÓN', size: '250px', resizable: true },
+            { field: 'ATPDESCRIPCION', caption: 'DESCRIPCIÓN', size: '351px', resizable: true },
+            { field: '', caption: '', size: '50px', resizable: true },
+            { field: '', caption: '', size: '80px', resizable: true },
+            { field: '', caption: '', size: '80px', resizable: true },
+            { field: '', caption: '', size: '160px', resizable: true }
         ],
         toolbar: {
             items: oToolBarTreeItems,
@@ -103,22 +103,23 @@ function GetGridCatArea() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#araclave").val(_RegistroActual.araclave);
-                                    $("#ka_sigla").val(_RegistroActual.KA_SIGLA);
-                                    $("#ka_orden").val(_RegistroActual.KA_ORDEN);
-                                    $("#ka_descripcion").val(_RegistroActual.KA_DESCRIPCION);
-                                    $("#ka_reporta").val(_RegistroActual.KA_REPORTA);
-                                    $("#kta_clatipo_area").val(_RegistroActual.KTA_CLATIPO_AREA);
-                                    $("#PERCLAVE").val(_RegistroActual.PERCLAVE);
+                                    $("#recid").val(_RegistroActual.recid);
+                                    $("#ARACLAVE").val(_RegistroActual.ARACLAVE);
+                                    $("#ARAFECCREACION").val(_RegistroActual.ARAFECCREACION);
+                                    $("#ATPDESCRIPCION").val(_RegistroActual.ATPDESCRIPCION);
+                                    //$("#ka_reporta").val(_RegistroActual.KA_REPORTA);
+                                    //$("#kta_clatipo_area").val(_RegistroActual.KTA_CLATIPO_AREA);
+                                    //$("#PERCLAVE").val(_RegistroActual.PERCLAVE);
 
                                     if (iOpc === 3) {
-                                        $('#araclave').prop('readonly', true);
-                                        $('#ka_sigla').prop('readonly', true);
-                                        $('#ka_orden').prop('readonly', true);
-                                        $('#ka_descripcion').prop('readonly', true);
-                                        $('#ka_reporta').prop('readonly', true);
-                                        $('#kta_clatipo_area').prop('disabled', true);
-                                        $('#PERCLAVE').prop('disabled', true);
+                                        $('#RECID').prop('readonly', true);
+                                        $('#ARACLAVE').prop('readonly', true);
+                                        $('#ARAFECCREACION').prop('readonly', true);
+                                        $('#ATPESCRIPCION').prop('readonly', true);
+
+                                        //$('#ka_reporta').prop('readonly', true);
+                                        //$('#kta_clatipo_area').prop('disabled', true);
+                                        //$('#PERCLAVE').prop('disabled', true);
                                     }
                                 }
                             };
@@ -144,6 +145,355 @@ function GetGridCatArea() {
     };
     return gridCatArea;
 }
+
+
+function GetGridCatAreaGestion() {
+    var gridCatAreaGestion =
+        {
+            name: 'gridCatAreaGestion',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'AGNDESCRIPCION', caption: 'DESCRIPCIÓN', size: '200px', resizable: true },
+                { field: 'AGNFECINI', caption: 'FECHA INICIO', size: '150px', resizable: true },
+                { field: 'AGNFECFIN', caption: 'FECHA FINAL', size: '150px', resizable: true },
+                { field: 'AGNCLAVE', caption: 'CLAVE GESTIÓN', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '160px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarTreeItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " área gestión";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width: '700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#AGNDESCRIPCION").val(_RegistroActual.AGNDESCRIPCION);
+                                        $("#AGNFECINI").val(_RegistroActual.AGNFECINI);
+                                        $("#AGNFECFIN").val(_RegistroActual.AGNFECFIN);
+                                        $("#AGNCLAVE").val(_RegistroActual.AGNCLAVE);
+                                        //$("#kta_clatipo_area").val(_RegistroActual.KTA_CLATIPO_AREA);
+                                        //$("#PERCLAVE").val(_RegistroActual.PERCLAVE);
+
+                                        if (iOpc === 3) {
+                                            $('#RECID').prop('readonly', true);
+                                            $('#AGNDESCRIPCION').prop('readonly', true);
+                                            $('#AGNFECINI').prop('readonly', true);
+                                            $('#AGNFECFIN').prop('readonly', true);
+                                            $('#AGNCLAVE').prop('readonly', true);
+                                            //$('#kta_clatipo_area').prop('disabled', true);
+                                            //$('#PERCLAVE').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatAreaGestion']);
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+
+                    } else if (event.target === "cmdArbol") {
+                        w2ui.layoutModulo.load('main', 'PVareaArbol');
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAreaGestion;
+}
+
+
+
+function GetGridCatAreaHistorico() {
+    var gridCatAreaHistorico =
+        {
+            name: 'gridCatAreaHistorico',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'ARHDESCRIPCION', caption: 'DESCRIPCIÓN', size: '200px', resizable: true },
+                { field: 'ARHFECINI', caption: 'FECHA INICIO', size: '150px', resizable: true },
+                { field: 'ARHFECFIN', caption: 'FECHA FINAL', size: '150px', resizable: true },
+                { field: 'ARHCLAVEUA', caption: 'CLAVE UNIDAD ADM', size: '180px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '160px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarTreeItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " área historico";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width: '700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#ARHDESCRIPCION").val(_RegistroActual.ARHDESCRIPCION);
+                                        $("#ARHFECINI").val(_RegistroActual.ARHFECINI);
+                                        $("#ARHFECFIN").val(_RegistroActual.ARHFECFIN);
+                                        $("#ARHCLAVEUA").val(_RegistroActual.ARHCLAVEUA);
+                                        //$("#kta_clatipo_area").val(_RegistroActual.KTA_CLATIPO_AREA);
+                                        //$("#PERCLAVE").val(_RegistroActual.PERCLAVE);
+
+                                        if (iOpc === 3) {
+                                            $('#RECID').prop('readonly', true);
+                                            $('#AGNDESCRIPCION').prop('readonly', true);
+                                            $('#AGNFECINI').prop('readonly', true);
+                                            $('#AGNFECFIN').prop('readonly', true);
+                                            $('#AGNCLAVE').prop('readonly', true);
+                                            //$('#kta_clatipo_area').prop('disabled', true);
+                                            //$('#PERCLAVE').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatAreaHistorico']);
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+
+                    } else if (event.target === "cmdArbol") {
+                        w2ui.layoutModulo.load('main', 'PVareaArbol');
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAreaHistorico;
+}
+
+
+function GetGridCatAreaNivel() {
+    var gridCatAreaNivel =
+        {
+            name: 'gridCatAreaNivel',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'ANLCLAVE', caption: 'CLAVE', size: '100px', resizable: true },
+                { field: 'ANLDESCRIPCION', caption: 'DESCRIPCIÓN', size: '250px', resizable: true },
+                { field: '', caption: '', size: '150px', resizable: true },
+                { field: '', caption: '', size: '180px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '160px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarTreeItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " área historico";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width: '700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#ANLCLAVE").val(_RegistroActual.ANLCLAVE);
+                                        $("#ANLDESCRIPCION").val(_RegistroActual.ANLDESCRIPCION);
+                                       
+
+                                        if (iOpc === 3) {
+                                            $('#RECID').prop('readonly', true);
+                                            $('#ANLCLAVE').prop('readonly', true);
+                                            $('#ANLDESCRIPCION').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatAreaNivel']);
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+
+                    } else if (event.target === "cmdArbol") {
+                        w2ui.layoutModulo.load('main', 'PVareaArbol');
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAreaNivel;
+}
+
+
+function GetGridCatAreaOrganizacion() {
+    var gridCatAreaOrganizacion =
+        {
+            name: 'gridCatAreaOrganizacion',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'ORGCLAVEREPORTA', caption: 'CLAVE', size: '100px', resizable: true },
+                { field: 'ORGORDEN', caption: 'DESCRIPCIÓN', size: '250px', resizable: true },
+                { field: 'ARACLAVE', caption: 'AREA CLAVE', size: '150px', resizable: true },
+                { field: 'AGNCLAVE', caption: 'CLAVE ORGANIZACIÓN', size: '180px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '160px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarTreeItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " área historico";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width: '700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#ORGCLAVEREPORTA").val(_RegistroActual.ORGCLAVEREPORTA);
+                                        $("#ORGORDEN").val(_RegistroActual.ORGORDEN);
+                                        $("#ARACLAVE").val(_RegistroActual.ARACLAVE);
+                                        $("#AGNCLAVE").val(_RegistroActual.AGNCLAVE);
+
+
+                                        if (iOpc === 3) {
+                                            $('#RECID').prop('readonly', true);
+                                            $('#ORGCLAVEREPORTA').prop('readonly', true);
+                                            $('#ORGORDEN').prop('readonly', true);
+                                            $('#ARACLAVE').prop('readonly', true);
+                                            $('#AGNCLAVE').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatAreaOrganizacion']);
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+
+                    } else if (event.target === "cmdArbol") {
+                        w2ui.layoutModulo.load('main', 'PVareaArbol');
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAreaOrganizacion;
+}
+
+
+function GetGridCatAreaTipo() {
+    var gridCatAreaTipo =
+        {
+            name: 'gridCatAreaTipo',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'ATPCLAVE', caption: 'CLAVE', size: '100px', resizable: true },
+                { field: 'ATPDESCRIPCION', caption: 'DESCRIPCIÓN', size: '250px', resizable: true },
+                { field: '', caption: '', size: '150px', resizable: true },
+                { field: '', caption: ' ', size: '180px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '80px', resizable: true },
+                { field: '', caption: '', size: '160px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarTreeItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " área tipo";
+                        w2popup.load({
+                            url: 'PVarea', showMax: true, title: sTitulo, width: '700px', height: '300px', model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#ATPCLAVE").val(_RegistroActual.ATPCLAVE);
+                                        $("#ATPDESCRIPCION").val(_RegistroActual.ATPDESCRIPCION);
+
+                                        if (iOpc === 3) {
+                                            $('#RECID').prop('readonly', true);
+                                            $('#ATPCLAVE').prop('readonly', true);
+                                            $('#ATPDESCRIPCION').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    } else if (event.target === "cmdTabla") {
+                        w2ui.layoutModulo.content('main', w2ui['gridCatAreaTipo']);
+                        $('#divDatos').show();
+                        $("#gridSolBuscarPie").show();
+
+                    } else if (event.target === "cmdArbol") {
+                        w2ui.layoutModulo.load('main', 'PVareaArbol');
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAreaTipo;
+}
+
 
 function GetGridCat() {
     var gridCat =
@@ -211,10 +561,10 @@ function GetGridCatConfig() {
         },
         columns: [
             { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'cfgclave', caption: 'CLAVE', size: '50px', resizable: true },
-            { field: 'cfgsubclave', caption: 'CLAVE', size: '150px', resizable: true },
-            { field: 'cfgvalor', caption: 'VALOR', size: '150px', resizable: true },
-            { field: 'cfgfecbaja', caption: 'FECHA BAJA', size: '120px', resizable: true }
+            { field: 'CFGCLAVE', caption: 'CLAVE', size: '50px', resizable: true },
+            { field: 'CFGSUBCLAVE', caption: 'CLAVE', size: '150px', resizable: true },
+            { field: 'CFGVALOR', caption: 'VALOR', size: '150px', resizable: true },
+            { field: 'CFGFECBAJA', caption: 'FECHA BAJA', size: '120px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems,
@@ -228,15 +578,15 @@ function GetGridCatConfig() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#cfgclave").val(_RegistroActual.cfgclave);
-                                    $("#cfgsubclave").val(_RegistroActual.cfgsubclave);
-                                    $("#cfgvalor").val(_RegistroActual.cfgvalor);
-                                    $("#cfgfecbaja").val(_RegistroActual.cfgfecbaja);
+                                    $("#CFGCLAVE").val(_RegistroActual.CFGCLAVE);
+                                    $("#CFGSUBCLAVE").val(_RegistroActual.CFGSUBCLAVE);
+                                    $("#CFGVALOR").val(_RegistroActual.CFGVALOR);
+                                    $("#CFGFECBAJA").val(_RegistroActual.CFGFECBAJA);
                                     if (iOpc === 3) {
-                                        $('#cfgclave').prop('readonly', true);
-                                        $('#cfgsubclave').prop('readonly', true);
-                                        $('#cfgvalor').prop('readonly', true);
-                                        $('#cfgfecbaja').prop('readonly', true);
+                                        $('#CFGCLAVE').prop('readonly', true);
+                                        $('#CFGSUBCLAVE').prop('readonly', true);
+                                        $('#CFGVALOR').prop('readonly', true);
+                                        $('#CFGFECBAJA').prop('readonly', true);
                                     }
                                 }
                             };
@@ -256,6 +606,62 @@ function GetGridCatConfig() {
     return gridCatConfig;
 }
 
+
+function GetGridClase() {
+    var gridClase =
+        {
+            name: 'gridClase',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'CLACLAVE', caption: 'CLAVE', size: '50px', resizable: true },
+                { field: 'CLADESCRIPCION', caption: 'CLAVE', size: '150px', resizable: true },
+                { field: 'CLANOMBRE', caption: 'VALOR', size: '450px', resizable: true },
+            ],
+            toolbar: {
+                items: oToolBarItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " configuración";
+                        w2popup.load({
+                            url: 'PVconfiguracion', showMax: true, title: sTitulo, width: 750, height: 260, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarConfig();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#recid").val(_RegistroActual.recid);
+                                        $("#CLACLAVE").val(_RegistroActual.CLACLAVE);
+                                        $("#CLADESCRIPCION").val(_RegistroActual.CLADESCRIPCION);
+                                        $("#CLANOMBRE").val(_RegistroActual.CLANOMBRE);
+                                        if (iOpc === 3) {
+                                            $('#recid').prop('readonly', true);
+                                            $('#CLACLAVE').prop('readonly', true);
+                                            $('#CLADESCRIPCION').prop('readonly', true);
+                                            $('#CLANOMBRE').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatConfig_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridClase;
+}
+
+
 function GetGridCatDiaLab() {
     var gridCatDiaLab =
     {
@@ -266,8 +672,8 @@ function GetGridCatDiaLab() {
         },
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'diaclave', caption: 'Día no laboral', size: '160px', resizable: true },
-            { field: 'diatipo', caption: 'Día de la semana', size: '160px', resizable: true }
+            { field: 'DIACLAVE', caption: 'Día no laboral', size: '160px', resizable: true },
+            { field: 'DIATIPO', caption: 'Día de la semana', size: '160px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems2,
@@ -281,11 +687,11 @@ function GetGridCatDiaLab() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#diaclave").val(_RegistroActual.diaclave);
-                                    $("#diatipo").val(_RegistroActual.diatipo);
+                                    $("#DIACLAVE").val(_RegistroActual.DIACLAVE);
+                                    $("#DIATIPO").val(_RegistroActual.DIATIPO);
                                     if (iOpc === 3) {
-                                        $('#diaclave').prop('readonly', true);
-                                        $('#diatipo').prop('readonly', true);
+                                        $('#DIACLAVE').prop('readonly', true);
+                                        $('#DIATIPO').prop('readonly', true);
                                     }
                                 }
                             };
@@ -714,9 +1120,9 @@ function GetGridCatTipoDoc() {
         },
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'extclave', caption: 'Clave', size: '50px', resizable: true },
-            { field: 'extmimetype', caption: 'Mime', size: '510px', resizable: true },
-            { field: 'extterminacion', caption: 'Extensión', size: '100px', resizable: true }
+            { field: 'EXTCLAVE', caption: 'Clave', size: '50px', resizable: true },
+            { field: 'EXTMIMETYPE', caption: 'Mime', size: '510px', resizable: true },
+            { field: 'EXTTERMINACION', caption: 'Extensión', size: '100px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems,
@@ -730,13 +1136,13 @@ function GetGridCatTipoDoc() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#extclave").val(_RegistroActual.extclave);
-                                    $("#extmimetype").val(_RegistroActual.extmimetype);
-                                    $("#extterminacion").val(_RegistroActual.extterminacion);
+                                    $("#EXTCLAVE").val(_RegistroActual.EXTCLAVE);
+                                    $("#EXTMIMETYPE").val(_RegistroActual.EXTMIMETYPE);
+                                    $("#EXTTERMINACION").val(_RegistroActual.EXTTERMINACION);
                                     if (iOpc === 3) {
-                                        $('#extclave').prop('readonly', true);
-                                        $('#extmimetype').prop('readonly', true);
-                                        $('#extterminacion').prop('readonly', true);
+                                        $('#EXTCLAVE').prop('readonly', true);
+                                        $('#EXTMIMETYPE').prop('readonly', true);
+                                        $('#EXTTERMINACION').prop('readonly', true);
                                     }
                                 }
                             };
@@ -766,15 +1172,15 @@ function GetGridCatDoc() {
         },
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'docclave', caption: 'Doc ID', size: '50px', resizable: true },
-            { field: 'docfecha', caption: 'Fecha', size: '80px', resizable: true },
-            { field: 'doctamaño', caption: 'Tamaño', size: '80px', resizable: true },
-            { field: 'docruta', caption: 'Ruta', size: '400px', resizable: true },
-            { field: 'docnombre', caption: 'Nombre', size: '400px', resizable: true },
-            { field: 'docfolio', caption: 'Folio', size: '80px', resizable: true },
-            { field: 'extclave', caption: 'Ext', size: '80px', resizable: true },
-            { field: 'docfilesystem', caption: 'FileSystem', size: '80px', resizable: true },
-            { field: 'docurl', caption: 'Url', size: '400px', resizable: true }
+            { field: 'DOCCLAVE', caption: 'Doc ID', size: '50px', resizable: true },
+            { field: 'DOCFECHA', caption: 'Fecha', size: '80px', resizable: true },
+            { field: 'DOCTAMAÑO', caption: 'Tamaño', size: '80px', resizable: true },
+            { field: 'DOCRUTA', caption: 'Ruta', size: '400px', resizable: true },
+            { field: 'DOCNOMBRE', caption: 'Nombre', size: '400px', resizable: true },
+            { field: 'DOCFOLIO', caption: 'Folio', size: '80px', resizable: true },
+            { field: 'EXTCLAVE', caption: 'Ext', size: '80px', resizable: true },
+            { field: 'DOCFILESYSTEM', caption: 'FileSystem', size: '80px', resizable: true },
+            { field: 'DOCURL', caption: 'Url', size: '400px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems,
@@ -788,25 +1194,25 @@ function GetGridCatDoc() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#docclave").val(_RegistroActual.docclave);
-                                    $("#docfecha").val(_RegistroActual.docfecha);
-                                    $("#doctamaño").val(_RegistroActual.doctamaño);
-                                    $("#docruta").val(_RegistroActual.docruta);
-                                    $("#docnombre").val(_RegistroActual.docnombre);
-                                    $("#docfolio").val(_RegistroActual.docfolio);
-                                    $("#extclave").val(_RegistroActual.extclave);
-                                    $("#docfilesystem").val(_RegistroActual.docfilesystem);
-                                    $("#docurl").val(_RegistroActual.docurl);
+                                    $("#DOCCLAVE").val(_RegistroActual.DOCCLAVE);
+                                    $("#DOCFECHA").val(_RegistroActual.DOCFECHA);
+                                    $("#DOCTAMAÑO").val(_RegistroActual.DOCTAMAÑO);
+                                    $("#DOCRUTA").val(_RegistroActual.DOCRUTA);
+                                    $("#DOCNOMBRE").val(_RegistroActual.DOCNOMBRE);
+                                    $("#DOCFOLIO").val(_RegistroActual.DOCFOLIO);
+                                    $("#EXTCLAVE").val(_RegistroActual.EXTCLAVE);
+                                    $("#DOCFILESYSTEM").val(_RegistroActual.DOCFILESYSTEM);
+                                    $("#DOCURL").val(_RegistroActual.DOCURL);
                                     if (iOpc === 3) {
-                                        $('#docclave').prop('readonly', true);
-                                        $('#docfecha').prop('readonly', true);
-                                        $('#doctamaño').prop('readonly', true);
-                                        $('#docruta').prop('readonly', true);
-                                        $('#docnombre').prop('readonly', true);
-                                        $('#docfolio').prop('readonly', true);
-                                        $('#extclave').prop('disabled', true);
-                                        $('#docfilesystem').prop('readonly', true);
-                                        $('#docurl').prop('readonly', true);
+                                        $('#DOCCLAVE').prop('readonly', true);
+                                        $('#DOCFECHA').prop('readonly', true);
+                                        $('#DOCTAMAÑO').prop('readonly', true);
+                                        $('#DOCRUTA').prop('readonly', true);
+                                        $('#DOCNOMBRE').prop('readonly', true);
+                                        $('#DOCFOLIO').prop('readonly', true);
+                                        $('#EXTCLAVE').prop('disabled', true);
+                                        $('#DOCFILESYSTEM').prop('readonly', true);
+                                        $('#DOCURL').prop('readonly', true);
                                     }
                                 }
                             };
@@ -891,14 +1297,14 @@ function GetGridCatAfdFlujo() {
             toolbar: true
         },
         columns: [
-            { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+            { field: 'RECID', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
             { field: 'AFDCLAVE', caption: 'AFD ID', size: '50px', resizable: true },
             { field: 'ORIGENAREA', caption: 'Origen', size: '300px', resizable: true },
             { field: 'ORIGENACCION', caption: 'Accion', size: '300px', resizable: true },
-            { field: 'rtpdescripcion', caption: 'Tipo arista', size: '250px', resizable: true },
+            { field: 'RTPDESCRIPCION', caption: 'Tipo arista', size: '250px', resizable: true },
             { field: 'DESTAREA', caption: 'Destino', size: '300px', resizable: true },
             { field: 'DESTACCION', caption: 'Accion', size: '300px', resizable: true },            
-            { field: 'affplazo', caption: 'Plazo', size: '50px', resizable: true }
+            { field: 'RTPPLAZO', caption: 'Plazo', size: '50px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems2,
@@ -913,16 +1319,16 @@ function GetGridCatAfdFlujo() {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
                                     $("#AFDCLAVE").val(_RegistroActual.AFDCLAVE);
-                                    $("#afforigen").val(_RegistroActual.afforigen);
-                                    $("#rtpclave").val(_RegistroActual.rtpclave);
-                                    $("#affdestino").val(_RegistroActual.affdestino);
-                                    $("#affplazo").val(_RegistroActual.affplazo);
+                                    $("#AFFORIGEN").val(_RegistroActual.afforigen);
+                                    $("#RTPCLAVE").val(_RegistroActual.rtpclave);
+                                    $("#AFFDESTINO").val(_RegistroActual.affdestino);
+                                    $("#RTPPLAZO").val(_RegistroActual.affplazo);
                                     if (iOpc === 3) {
                                         $('#AFDCLAVE').prop('readonly', true);
-                                        $('#afforigen').prop('disabled', true);
-                                        $('#rtpclave').prop('disabled', true);
-                                        $('#affdestino').prop('disabled', true);
-                                        $('#affplazo').prop('readonly', true);
+                                        $('#AFFORIGEN').prop('disabled', true);
+                                        $('#RTPCLAVE').prop('disabled', true);
+                                        $('#AFFDESTINO').prop('disabled', true);
+                                        $('#RTPPLAZO').prop('readonly', true);
                                     }
                                 }
                             };
@@ -1369,6 +1775,67 @@ function GetGridCatNodoEstado() {
     return gridCatNodoEstado;
 }
 
+
+
+function GetGridCatEstado() {
+    var gridCatEstado =
+        {
+            name: 'gridCatEstado',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'nodclave', caption: 'Nodo estado', size: '100px', resizable: true },
+                { field: 'nodDescripcion', caption: 'Descripción', size: '300px', resizable: true },
+                { field: 'nedurl', caption: 'URL', size: '300px', resizable: true },
+                { field: 'nedtipo', caption: 'Tipo', size: '200px', resizable: true },
+                { field: 'KP_DESCRIPCION', caption: 'Perfil', size: '250px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + "estado del nodo";
+                        w2popup.load({
+                            url: 'PVnodoEstado', showMax: true, title: sTitulo, width: 450, height: 290, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarNodoEstado();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#nodclave").val(_RegistroActual.nodclave);
+                                        $("#nodDescripcion").val(_RegistroActual.nodDescripcion);
+                                        $("#nedurl").val(_RegistroActual.nedurl);
+                                        $("#nedtipo").val(_RegistroActual.nedtipo);
+                                        $("#PERCLAVE").val(_RegistroActual.PERCLAVE);
+                                        if (iOpc === 3) {
+                                            $('#nodclave').prop('readonly', true);
+                                            $('#nodDescripcion').prop('readonly', true);
+                                            $('#nedurl').prop('readonly', true);
+                                            $('#nedtipo').prop('readonly', true);
+                                            $('#PERCLAVE').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatNodoEstado_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatEstado;
+}
+
+
 function GetGridCatNodo() {
     var gridCatNodo =
     {
@@ -1577,8 +2044,7 @@ function GetGridCatTipoInfo() {
     return gridCatTipoInfo;
 }
 
-function
-    GetGridCatEntFed() {
+function GetGridCatEntFed() {
     var gridCatEntFed =
     {
         name: 'gridCatEntFed',
@@ -1588,10 +2054,10 @@ function
         },        
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'edoclave', caption: 'Entidad ID', size: '110px', resizable: true },
-            { field: 'edodescripcion', caption: 'Descripción', size: '300px', resizable: true },
-            { field: 'edofecbaja', caption: 'Fecha baja', size: '140px', resizable: true },
-            { field: 'paidescripcion', caption: 'Pais', size: '300px', resizable: true }
+            { field: 'EDOCLAVE', caption: 'Entidad ID', size: '110px', resizable: true },
+            { field: 'EDODESCRIPCION', caption: 'Descripción', size: '300px', resizable: true },
+            { field: 'EDOFECBAJA', caption: 'Fecha baja', size: '140px', resizable: true },
+            { field: 'PAIDESCRIPCION', caption: 'Pais', size: '300px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems,
@@ -1605,15 +2071,15 @@ function
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#edoclave").val(_RegistroActual.edoclave);
-                                    $("#edodescripcion").val(_RegistroActual.edodescripcion);
-                                    $("#edofecbaja").val(_RegistroActual.edofecbaja);
-                                    $("#paiclave").val(_RegistroActual.paiclave);
+                                    $("#EDOCLAVE").val(_RegistroActual.EDOCLAVE);
+                                    $("#EDODESCRIPCION").val(_RegistroActual.EDODESCRIPCION);
+                                    $("#EDOFECBAJA").val(_RegistroActual.EDOFECBAJA);
+                                    $("#PAIDESCRIPCION").val(_RegistroActual.PAIDESCRIPCION);
                                     if (iOpc === 3) {
-                                        $('#edoclave').prop('readonly', true);
-                                        $('#edodescripcion').prop('readonly', true);
-                                        $('#edofecbaja').prop('readonly', true);
-                                        $('#paiclave').prop('disabled', true);
+                                        $('#EDOCLAVE').prop('readonly', true);
+                                        $('#EDODESCRIPCION').prop('readonly', true);
+                                        $('#EDOFECBAJA').prop('readonly', true);
+                                        $('#PAIDESCRIPCION').prop('disabled', true);
                                     }
                                 }
                             };
