@@ -110,7 +110,7 @@ namespace SFP.SIT.SERV.Dao.SOL
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + "SELECT metclave, METDESCRIPCION, MET_FECBAJA   "
+                + "SELECT metclave, METDESCRIPCION, METFECBAJA   "
                 + " from SIT_SOL_MEDIOENTRADA "
                 + " order by metclave "
                 + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";

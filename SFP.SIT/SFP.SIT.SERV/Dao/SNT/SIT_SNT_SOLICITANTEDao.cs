@@ -182,7 +182,7 @@ namespace SFP.SIT.SERV.Dao.SNT
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " SELECT sntUsuario, sntRFC, sntApePat, sntApeMat, sntNombre, sntcurp, sntCalle, "
+                            + " SELECT sntRFC, sntApePat, sntApeMat, sntNombre, sntcurp, sntCalle, "
                     + " sntNumExt, sntNumInt, sntCol, sntCodPos, sntTel, sntCorEle, sntedoext, sntciudadext, "
                     + " sntSexo, sntfecnac, sntusuario, PAIS.paiclave, paiDescripcion,  "
                     + " SNT.edoclave, edodescripcion,  SNT.munclave, mundescripcion, sntrepleg, "

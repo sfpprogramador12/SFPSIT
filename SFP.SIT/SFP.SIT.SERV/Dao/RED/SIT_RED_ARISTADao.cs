@@ -224,20 +224,19 @@ namespace SFP.SIT.SERV.Dao.RED
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " select ARI.solclave, ariclave, USU.usrClave, usrNOMBRE || ' ' || usrpaterno || ' ' || usrmaterno as KU_USUARIO, NRE_FECLECUSU,   "
-                    + " nodorigen, AORI.KA_DESCRIPCION as ORIGEN, ARI.rtpclave, rtpdescripcion, noddestino, ADES.KA_DESCRIPCION as DESTINO,   "
-                    + " NRE_FECINI, NRE_FECFIN, aridiaslab,   "
-                    + " NRE_FECLECTURA, aridiasnat, arimensaje, arihito,  megclave  "
-                    + " from SIT_RED_ARISTA ARI, SIT_RESP_TIPO TARI, SIT_RED_NODO ORI, SIT_RED_NODO DES, SIT_adm_areahist AORI, SIT_adm_areahist ADES, SIT_ADM_USUARIO USU  "
-                    + " WHERE TARI.rtpclave = ARI.rtpclave  "
-                    + " AND ORI.nodclave = nodorigen  "
-                    + " AND DES.nodclave = noddestino  "
-                    + " AND AORI.ARACLAVE = ORI.ARACLAVE  "
-                    + " AND ADES.ARACLAVE = Des.ARACLAVE  "
-                    + " AND USU.usrClave = ARI.usrClave  "
-                    + " ORDER BY solclave, ariclave "
-            + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                " select ARI.solclave, ARI.ariclave, USU.usrClave, USU.usrNOMBRE || ' ' || USU.usrpaterno || ' ' || USU.usrmaterno as KU_USUARIO, " +
+                " ARI.nodorigen, AORI.ARHDESCRIPCION as ORIGEN, ARI.rtpclave, TARI.rtpdescripcion, ARI.noddestino, ADES.ARHDESCRIPCION as DESTINO,   " +
+                "AORI.ARHFECINI, AORI.ARHFECFIN, ARI.aridiaslab, DES.NODFECLECTURA, ARI.aridiasnat, ARI.arihito " +
+                "from SIT_RED_ARISTA ARI, SIT_RESP_TIPO TARI, SIT_RED_NODO ORI, SIT_RED_NODO DES, SIT_adm_areahist AORI, SIT_adm_areahist ADES, SIT_ADM_USUARIO USU " +
+                "WHERE TARI.rtpclave = ARI.rtpclave " +
+                "AND ORI.nodclave = nodorigen " +
+                "AND DES.nodclave = noddestino " +
+                "AND AORI.ARACLAVE = ORI.ARACLAVE " +
+                "AND ADES.ARACLAVE = Des.ARACLAVE " +
+                "AND USU.usrClave = ORI.usrClave " +
+                "ORDER BY ARI.solclave, ARI.ariclave " +
+                ") a ) SELECT* from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

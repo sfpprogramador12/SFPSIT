@@ -218,14 +218,12 @@ namespace SFP.SIT.SERV.Dao.ADM
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + " SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, usrPUESTO, usrCONTRASEÑA,  "
-                + " ka_claarea_origen,  usrCORREO, usrEXTENSION, a.KA_CLAAREA,  a.KA_SIGLA, KA_DESCRIPCION, usrFECBAJA,  "
-                + " usrINTENTOS, usrbloquearfin, usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO "
-                + " from SIT_ADM_USUARIO u, SIT_ADM_KAREA a "
-                + " where u.KA_CLAAREA_ORIGEN = a.KA_CLAAREA "
-                + " order by  usrPATERNO, usrMATERNO, usrNOMBRE "
-                + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "WITH Resultado AS(select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from(" +
+                " SELECT u.usrclave, u.usrNOMBRE, u.usrPATERNO, u.usrMATERNO, u.usrPUESTO, u.usrCONTRASEÑA, " +
+                " a.ARACLAVE, u.usrCORREO, u.usrEXTENSION, USUA.UARORIGEN, u.usrFECBAJA, " +
+                " u.usrINTENTOS, u.usrbloquearfin, u.usrTITULO, u.usrDESIGNACION, u.usrFECMOD, u.usrAUXCORREO " +
+                " from SIT_ADM_USUARIO u, SIT_ADM_AREA a, SIT_ADM_USUARIOAREA USUA where USUA.ARACLAVE = a.ARACLAVE " +
+                " order by  usrPATERNO, usrMATERNO, usrNOMBRE) a) SELECT* from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

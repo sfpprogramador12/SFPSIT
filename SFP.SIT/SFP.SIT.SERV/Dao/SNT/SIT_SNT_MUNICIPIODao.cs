@@ -105,13 +105,10 @@ namespace SFP.SIT.SERV.Dao.SNT
         /*INICIO*/
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " SELECT MUN.KPA_CLAPAI, KPA_DESCRIPCION, EDO.KE_CLAEST, KE_DESCRIPCION, KMU_CLAMUN, KMU_DESCRIPCION, munfecbaja "
-                + " FROM SIT_SNT_MUNICIPIO MUN, SIT_SNT_PAIS PAIS, SIT_SNT_ESTADO EDO "
-                + " WHERE PAIS.KPA_CLAPAI = MUN.KPA_CLAPAI "
-                + " AND EDO.KE_CLAEST = MUN.KE_CLAEST "
-                + " ORDER BY  KE_CLAEST, KMU_CLAMUN "
-            + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                "SELECT PAIS.PAICLAVE, PAIS.PAIDESCRIPCION, MUN.MUNDESCRIPCION, EDO.EDOCLAVE, EDO.EDODESCRIPCION, MUN.MUNCLAVE, MUN.MUNFECBAJA" +
+                " FROM SIT_SNT_MUNICIPIO MUN, SIT_SNT_PAIS PAIS, SIT_SNT_ESTADO EDO WHERE PAIS.PAICLAVE = MUN.PAICLAVE " +
+                " AND EDO.EDOCLAVE = MUN.EDOCLAVE ORDER BY  MUN.MUNCLAVE, MUN.PAICLAVE ) a ) SELECT * from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

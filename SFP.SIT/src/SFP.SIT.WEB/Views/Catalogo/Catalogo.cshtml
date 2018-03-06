@@ -173,6 +173,7 @@
             $().w2grid(GetGridCatPais());
             $().w2grid(GetGridCatTipoSnt());
             $().w2grid(GetGridCatSolicitante());
+            $().w2grid(GetGridCatSolicitanteTipo());
             $().w2grid(GetGridCatProceso());
             $().w2grid(GetGridCatProcesoPlazos());
             $().w2grid(GetGridCatMedioEntrada());
@@ -242,15 +243,15 @@
                 sObjGrid = 'gridCatDiaLab';
                 sObjForma = 'formDiaLab';
 
-            } else if (sEntidad == 'Módulos') {
+            } else if (sEntidad == 'Módulo') {
                 sObjGrid = 'gridCatModulo';
                 sObjForma = 'formModulo';
 
-            } else if (sEntidad == 'Pérfiles') {
+            } else if (sEntidad == 'Perfil') {
                 sObjGrid = 'gridCatPerfil';
                 sObjForma = 'formPerfil';
 
-            } else if (sEntidad == 'Perfil-Módulo') {
+            } else if (sEntidad == 'Perfil módulo') {
                 sObjGrid = 'gridCatPerfilMod';
                 sObjForma = 'formPerfilMod';
 
@@ -258,7 +259,7 @@
                 sObjGrid = 'gridCatTipoArea';
                 sObjForma = 'formTipoArea';
 
-            } else if (sEntidad == 'Usuario') {
+            } else if (sEntidad == 'Usuario ') {
                 sObjGrid = 'gridCatUsuario';
                 sObjForma = 'formUsuario';
 
@@ -290,7 +291,22 @@
                 sObjGrid = 'gridCatArista';
                 sObjForma = 'formArista';
 
-            } else if (sEntidad == 'Arista comite') {
+            } else if (sEntidad == 'Red arista') {
+                sObjGrid = 'gridCatArista';
+                sObjForma = 'formArista';
+
+            }
+            else if (sEntidad == 'Red nodo') {
+                sObjGrid = 'gridCatNodo';
+                sObjForma = 'formNodo';
+
+            }
+            else if (sEntidad == 'Red nodo estado') {
+                sObjGrid = 'gridCatNodoEstado';
+                sObjForma = 'formNodo';
+            }
+
+            else if (sEntidad == 'Arista comite') {
                 sObjGrid = 'gridCatAristaComite';
                 sObjForma = 'formAristaComite';
 
@@ -334,7 +350,7 @@
                 sObjGrid = 'gridCatMunicipio';
                 sObjForma = 'formMunicipio';
 
-            } else if (sEntidad == 'Ocupacion') {
+            } else if (sEntidad == 'Ocupación') {
                 sObjGrid = 'gridCatOcupacion';
                 sObjForma = 'formOcupacion';
 
@@ -346,11 +362,16 @@
                 sObjGrid = 'gridCatTipoSnt';
                 sObjForma = 'formTipoSnt';
 
-            } else if (sEntidad == 'Solicitantes') {
+            } else if (sEntidad == 'Solicitante') {
                 sObjGrid = 'gridCatSolicitante';
                 sObjForma = 'formSolicitante';
 
-            } else if (sEntidad == 'Proceso') {
+            } else if (sEntidad == 'Solicitante tipo') {
+                sObjGrid = 'gridCatSolicitanteTipo';
+                sObjForma = 'formSolicitante';
+
+            }
+            else if (sEntidad == 'Proceso solicitud') {
                 sObjGrid = 'gridCatProceso';
                 sObjForma = 'formProceso';
 
@@ -358,11 +379,11 @@
                 sObjGrid = 'gridCatProcesoPlazos';
                 sObjForma = 'formProcesoPlazos';
 
-            } else if (sEntidad == 'Medio de entrada') {
+            } else if (sEntidad == 'Medio entrada') {
                 sObjGrid = 'gridCatMedioEntrada';
                 sObjForma = 'formMedioEntrada';
 
-            } else if (sEntidad == 'Modo de entrega') {
+            } else if (sEntidad == 'Medio entrega') {
                 sObjGrid = 'gridCatModoEntrega';
                 sObjForma = 'formModoEntrega';
 
