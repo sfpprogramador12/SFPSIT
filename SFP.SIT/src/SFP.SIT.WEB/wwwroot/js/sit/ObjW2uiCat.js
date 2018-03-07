@@ -833,6 +833,7 @@ function GetGridCatPerfil() {
     return gridCatPerfil;
 }
 
+
 function GetGridCatPerfilMod() {
     var gridCatPerfilMod =
     {
@@ -881,6 +882,106 @@ function GetGridCatPerfilMod() {
     };
     return gridCatPerfilMod;
 }
+
+
+function GetGridCatPerfilNod() {
+    var gridCatPerfilNod =
+        {
+            name: 'gridCatPerfilNod',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'NODCLAVE', caption: 'Clave Nodo', size: '250px', resizable: true },
+                { field: 'PERDESCRIPCION', caption: 'Perfil', size: '250px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems2,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " perfil - módulo ";
+                        w2popup.load({
+                            url: 'PVperfilModulo', showMax: true, title: sTitulo, width: 600, height: 180, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarPerfilModulo();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#NODCLAVE").val(_RegistroActual.NODCLAVE);
+                                        $("#PERDESCRIPCION").val(_RegistroActual.PERDESCRIPCION);
+                                        if (iOpc === 3) {
+                                            $('#NODCLAVE').prop('disabled', true);
+                                            $('#PERDESCRIPCION').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatPerfilMod_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatPerfilNod;
+}
+
+function GetGridCatPerfilClase() {
+    var gridCatPerfilClase =
+        {
+            name: 'gridCatPerfilClase',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'CLADESCRIPCION', caption: 'Perfil', size: '250px', resizable: true },
+                { field: 'PERDESCRIPCION', caption: 'Modulo', size: '250px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems2,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " perfil - módulo ";
+                        w2popup.load({
+                            url: 'PVperfilModulo', showMax: true, title: sTitulo, width: 600, height: 180, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarPerfilModulo();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#CLADESCRIPCION").val(_RegistroActual.CLADESCRIPCION);
+                                        $("#PERDESCRIPCION").val(_RegistroActual.PERDESCRIPCION);
+                                        if (iOpc === 3) {
+                                            $('#CLADESCRIPCION').prop('disabled', true);
+                                            $('#PERDESCRIPCION').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatPerfilMod_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatPerfilClase;
+}
+
 
 function GetGridCatTipoArea() {
     var gridCatTipoArea =
@@ -1019,8 +1120,8 @@ function GetGridCatUsuArea() {
         },
         columns: [
             { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'usrcorreo', caption: 'Usuario', size: '200px', resizable: true },
-            { field: 'KA_DESCRIPCION', caption: 'Area', size: '600px', resizable: true }
+            { field: 'USRCORREO', caption: 'Usuario', size: '200px', resizable: true },
+            { field: 'ARACLAVE', caption: 'Area', size: '600px', resizable: true }
         ],
         toolbar: {
             items: oToolBarItems2,
@@ -1034,11 +1135,11 @@ function GetGridCatUsuArea() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#usrclave").val(_RegistroActual.usrcorreo);
-                                    $("#araclave").val(_RegistroActual.araclave);
+                                    $("#USRCORREO").val(_RegistroActual.USRCORREO);
+                                    $("#ARACLAVE").val(_RegistroActual.ARACLAVE);
                                     if (iOpc === 3) {
-                                        $('#usrclave').prop('disabled', true);
-                                        $('#araclave').prop('disabled', true);
+                                        $('#USRCORREO').prop('disabled', true);
+                                        $('#ARACLAVE').prop('disabled', true);
                                     }
                                 }
                             };
@@ -1056,6 +1157,55 @@ function GetGridCatUsuArea() {
         }
     };
     return gridCatUsuArea;
+}
+
+function GetGridCatUsuPerfil() {
+    var gridCatUsuPerfil =
+        {
+            name: 'gridCatUsuPerfil',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'USRNOMBRE', caption: 'Usuario', size: '200px', resizable: true },
+                { field: 'PERDESCRIPCION', caption: 'Perfil', size: '600px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems2,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " usuario - área";
+                        w2popup.load({
+                            url: 'PVusuArea', showMax: true, title: sTitulo, width: 600, height: 220, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarUsuArea();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#PERDESCRIPCION").val(_RegistroActual.PERDESCRIPCION);
+                                        $("#USRNOMBRE").val(_RegistroActual.USRNOMBRE + " " + _RegistroActual.USRPATERNO + " " + _RegistroActual.USRMATERNO);
+                                        if (iOpc === 3) {
+                                            $('#USRNOMBRE').prop('disabled', true);
+                                            $('#PERDESCRIPCION').prop('disabled', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatUsuArea_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatUsuPerfil;
 }
 
 function GetGridCatDocArista() {

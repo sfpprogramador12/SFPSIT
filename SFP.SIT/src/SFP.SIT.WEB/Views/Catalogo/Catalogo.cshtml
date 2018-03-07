@@ -142,16 +142,18 @@
             $().w2grid(GetGridCatAreaOrganizacion());
             $().w2grid(GetGridCatAreaTipo());
             $().w2grid(GetGridClase());
-
             $().w2grid(GetGridCatConfig());
             $().w2grid(GetGridCatDiaLab());
             $().w2grid(GetGridCatDocArista());
             $().w2grid(GetGridCatModulo());
             $().w2grid(GetGridCatPerfil());            
             $().w2grid(GetGridCatPerfilMod());
+            $().w2grid(GetGridCatPerfilNod());
+            $().w2grid(GetGridCatPerfilClase());
             $().w2grid(GetGridCatTipoArea());                        
             $().w2grid(GetGridCatUsuario());
-            $().w2grid(GetGridCatUsuArea());            
+            $().w2grid(GetGridCatUsuArea()); 
+            $().w2grid(GetGridCatUsuPerfil()); 
             $().w2grid(GetGridCatTipoDoc());
             $().w2grid(GetGridCatDoc());
             $().w2grid(GetGridCatAfd());
@@ -251,11 +253,21 @@
                 sObjGrid = 'gridCatPerfil';
                 sObjForma = 'formPerfil';
 
-            } else if (sEntidad == 'Perfil módulo') {
+            } else if (sEntidad == 'Perfil clases') {
+                sObjGrid = 'gridCatPerfilClase';
+                sObjForma = 'formPerfil';
+
+            }
+            else if (sEntidad == 'Perfil módulo') {
                 sObjGrid = 'gridCatPerfilMod';
                 sObjForma = 'formPerfilMod';
 
-            } else if (sEntidad == 'Tipo de área') {
+            } else if (sEntidad == 'Perfil nodo') {
+                sObjGrid = 'gridCatPerfilNod';
+                sObjForma = 'formPerfilMod';
+
+            }
+            else if (sEntidad == 'Tipo de área') {
                 sObjGrid = 'gridCatTipoArea';
                 sObjForma = 'formTipoArea';
 
@@ -263,11 +275,17 @@
                 sObjGrid = 'gridCatUsuario';
                 sObjForma = 'formUsuario';
 
-            } else if (sEntidad == 'Usuario-Área') {
+            } else if (sEntidad == 'Usuario área') {
                 sObjGrid = 'gridCatUsuArea';
                 sObjForma = 'formUsuArea';
 
-            } else if (sEntidad == 'Doc-Arista') {
+            }
+            else if (sEntidad == 'Usuario perfil') {
+                sObjGrid = 'gridCatUsuPerfil';
+                sObjForma = 'formUsuArea';
+
+            }
+            else if (sEntidad == 'Doc-Arista') {
                 sObjGrid = 'gridCatDocArista';
                 sObjForma = 'formDocArista';
 
