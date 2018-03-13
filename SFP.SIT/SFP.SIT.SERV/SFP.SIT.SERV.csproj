@@ -83,8 +83,15 @@
     <Compile Include="Dao\ADM\SIT_ADM_USRPERFILDao.cs" />
     <Compile Include="Dao\ADM\SIT_ADM_USUARIOAREADao.cs" />
     <Compile Include="Dao\ADM\SIT_ADM_USUARIODao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_ARISTA_RESOLUCIONDao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_ARISTA_COMITEDao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_RESP_COMITERUBRODao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_RESP_RREVISIONDao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_RESP_TIPODao.cs" />
+    <Compile Include="Dao\ARISTA\SIT_RESP_TIPOINFODao.cs" />
     <Compile Include="Dao\ConsultaDao.cs" />
     <Compile Include="Dao\DOC\SIT_DOC_DOCUMENTODao.cs" />
+    <Compile Include="Dao\DOC\SIT_DOC_ARISTADao.cs" />
     <Compile Include="Dao\DOC\SIT_DOC_EXTENSIONDao.cs" />
     <Compile Include="Dao\ProcesoGralDao.cs" />
     <Compile Include="Dao\RED\SIT_RED_AFDDao.cs" />
@@ -210,9 +217,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dao\ARISTA\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

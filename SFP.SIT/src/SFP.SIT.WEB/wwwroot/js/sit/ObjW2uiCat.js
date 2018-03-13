@@ -1640,6 +1640,66 @@ function GetGridCatAristaComite() {
     return gridCatAristaComite;
 }
 
+
+
+function GetGridCatAristaComiteRubro() {
+    var gridCatAristaComiteRubro =
+        {
+            name: 'gridCatAristaComiteRubro',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'CORCLAVE', caption: 'Clave', size: '80px', resizable: true },
+                { field: 'CORDESCRIPCION', caption: 'Descripcion', size: '280px', resizable: true },
+                { field: 'CORFECBAJA', caption: 'Fecha Baja', size: '100px', resizable: true }
+            ],
+            toolbar: {
+                items: oToolBarItems,
+                onClick: function (event) {
+                    w2popup.lock("", true);
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " arista comite";
+                        w2popup.load({
+                            url: 'PVaristaComite', showMax: true, title: sTitulo, width: 1000, height: 300, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarAristaComite();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#CORCLAVE").val(_RegistroActual.CORCLAVE);
+                                        $("#CORDESCRIPCION").val(_RegistroActual.CORDESCRIPCION);
+                                        $("#CORFECBAJA").val(_RegistroActual.CORFECBAJA);
+                                        if (iOpc === 3) {
+                                            $('#CORCLAVE').prop('readonly', true);
+                                            $('#CORDESCRIPCION').prop('readonly', true);
+                                            $('#CORFECBAJA').prop('disabled', true);
+                                        }
+                                    }
+                                    w2popup.unlock();
+                                };
+                            }
+                        });
+
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatAristaComite_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAristaComiteRubro;
+}
+
+
+
+
 function GetGridCatAristaRes() {
     var gridCatAristaRes =
     {
@@ -1757,6 +1817,58 @@ function GetGridCatAristaRev() {
         }
     };
     return gridCatAristaRev;
+}
+
+
+function GetGridCatAristaRecRev() {
+    var gridCatAristaRecRev =
+        {
+            name: 'gridCatAristaRecRev',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'REPCLAVE', caption: 'CLAVE', size: '120px', resizable: true },
+                { field: 'ariclave', caption: 'Arista', size: '100px', resizable: true },
+            ],
+            toolbar: {
+                items: oToolBarItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " arista revisión";
+                        w2popup.load({
+                            url: 'PVaristaRev', showMax: true, title: sTitulo, width: 550, height: 290, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarAristaRev();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#REPCLAVE").val(_RegistroActual.REPCLAVE);
+                                        $("#ariclave").val(_RegistroActual.ariclave);
+                                        $("#rev_expediente").val(_RegistroActual.REV_EXPEDIENTE);
+                                        if (iOpc === 3) {
+                                            $('#REPCLAVE').prop('readonly', true);
+                                            $('#ariclave').prop('readonly', true);
+                                            $('#rev_expediente').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatAristaRev_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAristaRecRev;
 }
 
 function GetGridCatAristaSubCla() {
@@ -2075,10 +2187,10 @@ function GetGridCatTipoArista() {
         },
         columns: [
              { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
-            { field: 'rtpclave', caption: 'Tipo arista', size: '90px', resizable: true },
-            { field: 'rtpdescripcion', caption: 'Descripción', size: '160px', resizable: true },
+            { field: 'RTPCLAVE', caption: 'Tipo arista', size: '90px', resizable: true },
+            { field: 'RTPDESCRIPCION', caption: 'Descripción', size: '260px', resizable: true },
             { field: 'KAR_APLICATIPOINFO', caption: 'Tipo info', size: '90px', resizable: true },
-            { field: 'rtpformato', caption: 'Formato', size: '200px', resizable: true },
+            { field: 'rtpformato', caption: 'Formato', size: '60px', resizable: true },
             { field: 'KAR_RESPUESTA', caption: 'Respuesta', size: '90px', resizable: true },
             { field: 'KAR_TIPO', caption: 'Tipo', size: '90px', resizable: true },
             { field: 'KAR_SIGLA', caption: 'Sigla', size: '90px', resizable: true },
@@ -2099,8 +2211,8 @@ function GetGridCatTipoArista() {
                             event.onComplete = function () {
                                 var iOpc = parseInt($('#txtCmd').val());
                                 if (iOpc > 1) {
-                                    $("#rtpclave").val(_RegistroActual.rtpclave);
-                                    $("#rtpdescripcion").val(_RegistroActual.rtpdescripcion);
+                                    $("#RTPCLAVE").val(_RegistroActual.RTPCLAVE);
+                                    $("#RTPDESCRIPCION").val(_RegistroActual.RTPDESCRIPCION);
                                     $("#kar_aplicatipoinfo").val(_RegistroActual.KAR_APLICATIPOINFO);
                                     $("#rtpformato").val(_RegistroActual.rtpformato);
                                     $("#kar_respuesta").val(_RegistroActual.KAR_RESPUESTA);
@@ -2111,8 +2223,8 @@ function GetGridCatTipoArista() {
                                     $("#rtpforma").val(_RegistroActual.rtpforma);
                                     $("#kar_nivel").val(_RegistroActual.KAR_NIVEL);
                                     if (iOpc === 3) {
-                                        $('#rtpclave').prop('readonly', true);
-                                        $('#rtpdescripcion').prop('readonly', true);
+                                        $('#RTPCLAVE').prop('readonly', true);
+                                        $('#NFODESCRIPCION').prop('readonly', true);
                                         $('#kar_aplicatipoinfo').prop('readonly', true);
                                         $('#rtpformato').prop('readonly', true);
                                         $('#kar_respuesta').prop('readonly', true);
@@ -2140,6 +2252,60 @@ function GetGridCatTipoArista() {
     };
     return gridCatTipoArista;
 }
+
+function GetGridCatAristaTipoInfo(){
+    var gridCatAristaTipoInfo =
+        {
+            name: 'gridCatAristaTipoInfo',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                toolbar: true
+            },
+            columns: [
+                { field: 'recid', caption: '#', size: '50px', resizable: true, style: 'background-color: #eaeaea;' },
+                { field: 'RTPCLAVE', caption: 'Clave Respuesta', size: '90px', resizable: true },
+                { field: 'NFODESCRIPCION', caption: 'Información Descripción', size: '260px', resizable: true },
+                { field: 'KAR_APLICATIPOINFO', caption: 'Tipo info', size: '90px', resizable: true },
+               
+            ],
+            toolbar: {
+                items: oToolBarItems,
+                onClick: function (event) {
+                    if (event.target === "cmdAgregar" || event.target === "cmdEditar" || event.target === "cmdBorrar") {
+                        var sTitulo = AsignarCmd(event.target) + " tipo de arista";
+                        w2popup.load({
+                            url: 'PVtipoArista', showMax: true, title: sTitulo, width: 980, height: 610, model: true,
+                            buttons: '<button class="btn" onclick="w2popup.close();">Cerrar</button> <button class="btn" onclick="GuardarTipoArista();">Ejecutar</button>',
+                            onOpen: function (event) {
+                                event.onComplete = function () {
+                                    var iOpc = parseInt($('#txtCmd').val());
+                                    if (iOpc > 1) {
+                                        $("#RTPCLAVE").val(_RegistroActual.RTPCLAVE);
+                                        $("#NFODESCRIPCION").val(_RegistroActual.NFODESCRIPCION);
+                                        $("#kar_aplicatipoinfo").val(_RegistroActual.KAR_APLICATIPOINFO);
+                                       
+                                        if (iOpc === 3) {
+                                            $('#RTPCLAVE').prop('readonly', true);
+                                            $('#NFODESCRIPCION').prop('readonly', true);
+                                        }
+                                    }
+                                };
+                            }
+                        });
+                    }
+                }
+            },
+            onClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+            },
+            onDblClick: function (event) {
+                _RegistroActual = this.get(event.recid);
+                var el = w2ui['gridCatTipoArista_toolbar']; if (el) el.click('cmdEditar', event);
+            }
+        };
+    return gridCatAristaTipoInfo;
+}
+
 
 function GetGridCatTipoInfo() {
     var gridCatTipoInfo =

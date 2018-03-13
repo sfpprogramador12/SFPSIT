@@ -223,6 +223,60 @@ namespace SFP.SIT.WEB.Controllers
             return View(solBuscar);
         }
 
-        
+
+
+
+        /////* ********************************************
+        ////       EDITOR DEFLUJO
+        ////******************************************** */
+        [HttpGet]
+        public IActionResult FlujoEditor()
+        {
+            ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult FlujoEditor([FromForm] FrmAfdDatosMdl datosSolVM)
+        {
+            datosSolVM.fecini = FechaUtil.AsignarFecha(datosSolVM.sfecini);
+            if (datosSolVM.mvc == ConstantesWeb.FLUJO.AMPLIACION)
+            {
+                // ASGINAMOS EL ESTADO INICIAL 
+                datosSolVM.estado = Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
+
+                // BUSCAR EL NODO DE INICIAL DE LA UNIDAD DE TRANSPARENCIA PARA GENERAR UNA AMPLIACION
+                SIT_RED_NODO redNodo = _solServ.ObtenerNodoFolioEdoPrc(datosSolVM.folio, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR, datosSolVM.prcID);
+                datosSolVM.clanodo = redNodo.nodclave;
+            }
+
+            if (datosSolVM.area == 0)
+                datosSolVM.area = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+
+            string json = JsonConvert.SerializeObject(datosSolVM);
+
+            if (datosSolVM.mvc == ConstantesWeb.FLUJO.RESPONDER || datosSolVM.mvc == ConstantesWeb.FLUJO.AMPLIACION)
+            {
+                Dictionary<Int32, AfdNodoFlujo> dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+                string sForma = dicAfdFlujo[datosSolVM.estado].nedurl;
+
+                return RedirectToAction(sForma, "Estado", new
+                {
+                    iPrc = datosSolVM.prcID,
+                    lNodo = datosSolVM.clanodo,
+                    iArea = datosSolVM.area,
+                    iPerfil = datosSolVM.perfil
+                });
+
+                //new { folio = datosSolVM.folio, tipoPrcActual = datosSolVM.prcID,  nodo = datosSolVM.clanodo, nodoEdo = datosSolVM.estado });
+                ///return RedirectToAction("NodoBase", "Flujo" + _memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO), new { DatosMdl = json });
+            }
+            else
+            {
+                return View("BandejaRuta");
+            }
+        }
+
+
     }
 }

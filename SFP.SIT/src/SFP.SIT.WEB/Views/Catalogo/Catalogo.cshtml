@@ -160,9 +160,12 @@
             $().w2grid(GetGridCatAfdFlujo());
             $().w2grid(GetGridCatArista());
             $().w2grid(GetGridCatAristaComite());
+            $().w2grid(GetGridCatAristaComiteRubro());
             $().w2grid(GetGridCatAristaRes());
             $().w2grid(GetGridCatAristaRev());
+            $().w2grid(GetGridCatAristaRecRev());
             $().w2grid(GetGridCatAristaSubCla());
+            $().w2grid(GetGridCatAristaTipoInfo());
             $().w2grid(GetGridCatComiteRubro());
             $().w2grid(GetGridCatNodo());
             $().w2grid(GetGridCatNodoEstado());
@@ -328,7 +331,14 @@
                 sObjGrid = 'gridCatAristaComite';
                 sObjForma = 'formAristaComite';
 
-            } else if (sEntidad == 'Arista resolución') {
+            }
+        
+            else if (sEntidad == 'Arista comite rubro') {
+            sObjGrid = 'gridCatAristaComiteRubro';
+            sObjForma = 'formAristaComite';
+
+            }
+            else if (sEntidad == 'Arista resolución') {
                 sObjGrid = 'gridCatAristaRes';
                 sObjForma = 'formAristaRes';
 
@@ -336,7 +346,17 @@
                 sObjGrid = 'gridCatAristaRev';
                 sObjForma = 'formAristaRev';
 
-            } else if (sEntidad == 'Arista subclasificar') {
+            } else if (sEntidad == 'Arista recurso revisión') {
+                sObjGrid = 'gridCatAristaRecRev';
+                sObjForma = 'formAristaRev';
+
+            }
+            else if (sEntidad == 'Arista tipo información') {
+                sObjGrid = 'gridCatAristaTipoInfo';
+                sObjForma = 'formAristaRev';
+
+            }
+            else if (sEntidad == 'Arista subclasificar') {
                 sObjGrid = 'gridCatAristaSubCla';
                 sObjForma = 'formAristaSubCla';
 
@@ -348,7 +368,7 @@
                 sObjGrid = 'gridCatNodoEstado';
                 sObjForma = 'formNodoEstado';
 
-            } else if (sEntidad == 'Tipo arista') {
+            } else if (sEntidad == 'Arista tipo') {
                 sObjGrid = 'gridCatTipoArista';
                 sObjForma = 'formTipoArista';
 
