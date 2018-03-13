@@ -147,13 +147,15 @@
 
 <body onload="init()">
     <div id="sample">
-        <div id="myDiagramDiv" style="border: solid 1px black; width: 100%; height: 400px;" ></div>
-        <p>
-            El texto de las cajas y de las fechas es editable
-            Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo
-            La rueda del mouse acerca o aleja la vista del flujo.
-            El texto es editable tanto para los perfiles como para las acciones.
-        </p>
+        <div id="myDiagramDiv" style="border: solid 1px black; width: 100%; height: 600px;" ></div>
+        <p><strong>Instrucciones de Uso</strong></p>
+        <ol start="1">
+            <li>1. El texto de las cajas y de las fechas es editable</li>
+            <li>2. Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
+            <li>3. La rueda del mouse acerca o aleja la vista del flujo.</li>
+            <li>4. El texto es editable tanto para los perfiles como para las acciones.</li>
+            <li>5. Las condicionales DEBEN contener en el texto la palabra COND</li>
+        </ol>
        
         <div>
             <div>
@@ -162,26 +164,36 @@
                 JSON del Flujo:
             </div>
             <br />
-            <textarea id="mySavedModel" style="width:100%;height:300px">
-             { 
-                "class": "go.GraphLinksModel",
-                              "nodeKeyProperty": "id",
-                              "nodeDataArray": [ 
-                            {"id":0, "loc":"-222 152", "text":"Fecha: 12-12-2016\n\nRecibir Solicitud INAI\n", "fecha":"12-12-12", "Perfil": "INAI"},
-                            {"id":1, "loc":"49.46 163.41003", "text":"UT- recibir Solicitud\nDGT\n", "fecha":"13-13-13", "Perfil":"INAI"},
-                            {"id":2, "loc":"333 92.9", "text":"PRUD Recibir\nsolicitud\nDGT"},
-                            {"id":3, "loc":"603 97.9", "text":"Analizar Solicitud\nDGTI"},
-                            {"text":"Analizar Solicitud\nDGTI", "loc":"597.9 195.516875", "id":-5}
-                             ],
-              "linkDataArray": [ 
-                        {"from":1, "to":2, "text":"Asignar\n", "points":[192,163,237,139.4,283.9,127.6,333.0,127.9]},
-                        {"from":2, "to":3, "text":"Turnar\n", "points":[451,117,494.8,108.5,543.2,107.3,603.0,115.9]},
-                        {"from":2, "to":-5, "points":[451.4,137,510.1,145.8,566.9,165.3,621.5,195.7], "text":"Turnar\n"},
-                        {"from":0, "to":1, "points":[-49,186,-16,183,16,183.6,49.4,187.9], "text":"Enviar\n"}
-             ]
-            }
+            <textarea id="mySavedModel" style="width:50%;height:500px; color:blue;">
+{ "class": "go.GraphLinksModel",
+  "nodeKeyProperty": "id",
+  "nodeDataArray": [ 
+        {"id":0, "loc":"-306.2456250000001 86.5752423565785", "text":"Fecha: 12-12-2016\n\nRecibir Solicitud INAI\n", "fecha":"12-12-12", "Perfil":"INAI"},
+        {"id":1, "loc":"27.46512500000003 92.79490499999997", "text":"UT- recibir Solicitud\nDGT\n", "fecha":"13-13-13", "Perfil":"INAI"},
+        {"id":2, "loc":"333 92.9", "text":"PRUD Recibir\nsolicitud\nDGT"},
+        {"id":3, "loc":"603 97.9", "text":"Analizar Solicitud\nDGTI"},
+        {"text":"Analizar Solicitud\nDGTI", "loc":"597.9 195.516875", "id":-5},
+        {"text":"Cond\n", "loc":"66.57112500000002 224.60927999999987", "id":-6},
+        {"text":"Se introduce la forma de \nrespuesta multiple\n", "loc":"143.99107968750002 341.85064593749996", "id":-7},
+        {"text":"Cambio de estado de respuesta \n", "loc":"-224.62276687500025 361.0556446875", "id":-8}
+ ],
+  "linkDataArray": [ 
+        {"from":1, "to":2, "text":"Asignar\n", "points":[188.52999066514474,109.77328556991475,237.86315332225806,98.45056438655953,286.022637422477,99.0217140587994,333.2209415563585,111.85341175494668]},
+        {"from":2, "to":3, "text":"Turnar\n", "points":[451,117,494.8,108.5,543.2,107.3,603,115.9]},
+        {"from":2, "to":-5, "points":[451.4,137,510.1,145.8,566.9,165.3,621.5,195.7], "text":"Turnar\n"},
+        {"from":0, "to":1, "points":[-134.0931640907066,123.85907842974912,-80.04293286123952,119.9853462451639,-27.503986136927786,119.73691505484865,27.4660813813746,123.15013409098145], "text":"Enviar\n"},
+        {"from":1, "to":-6, "text":"transition", "points":[109.58080253234871,163.5,110.7,183.8,109.5,203.16803013943903,102.3,224.6]},
+        {"from":-6, "to":-7, "text":"transition", "points":[119.06582139327692,279.3,151.23767553922474,313.7918114736912,197.4,312.80606698841086,216.86494708017975,341.9384057864718]},
+        {"from":-6, "to":-8, "text":"transition", "points":[65.8959921061923,279.3000911071406,28.888125541691174,314.6,-7.7,321.1341144392794,-63.93977297582276,361.2683081116023]}
+ ]}
             </textarea>
 
+            <script>
+                var ugly = document.getElementById('mySavedModel').value;
+                var obj = JSON.parse(ugly);
+                var pretty = JSON.stringify(obj, undefined, 4);
+                document.getElementById('mySavedModel').value = pretty;
+            </script>
             <svg width="400" height="180">
                 <g>
                     <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
