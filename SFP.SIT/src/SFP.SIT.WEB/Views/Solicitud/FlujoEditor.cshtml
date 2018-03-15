@@ -26,6 +26,8 @@
                 });
         // when the document is modified, add a "*" to the title and enable the "Save" button
         myDiagram.addDiagramListener("Modified", function (e) {
+                save();
+            
             var button = document.getElementById("SaveButton");
             if (button) button.disabled = !myDiagram.isModified;
             var idx = document.title.indexOf("*");
@@ -34,6 +36,7 @@
             } else {
                 if (idx >= 0) document.title = document.title.substr(0, idx);
             }
+            
         });
         // define the Node template
         myDiagram.nodeTemplate =
@@ -149,6 +152,12 @@
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
     }
+    function modal1() {
+        $("#myModalResp").modal('show');
+    }
+    function modal2() {
+        $("#myModalNode").modal('show');
+    }
 </script>
 
 
@@ -162,63 +171,62 @@
                 <div id="myDiagramDiv" style="background-color: rgb(216, 216, 216); margin-top:30px;  border: solid 1px black; width: 100%; height: 600px;"></div>
             </div>
             <div class="col-md-4">
-                <div class="table-responsive">
+                <div class="row">
+                    <button class="btn btn-green" onclick="modal1()">Agregar Nuevo Nodo</button>
+                    <button class="btn btn-blue" onclick="modal2()">Agregar Nueva Respuesta</button>
+                </div>
+                <br />
+                <div class="table-responsive" style="overflow: auto; height: 300px;">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td>Nodo </td>
-                                <td>Descripción</td>
-
+                                <td>ID Respuesta </td>
+                                <td>Descripción </td>
                             </tr>
                         </thead>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
-
-                        </tr>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
-
-                        </tr>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
-
-                        </tr>
+                        <tbody>
+                            <tr><td class="active">1</td><td class="active">Enviar</td></tr>
+                            <tr><td class="active">2</td><td class="active">Responder</td></tr>
+                            <tr><td class="active">3</td><td class="active">Asignar</td></tr>
+                            <tr><td class="active">4</td><td class="active">Turnar</td></tr>
+                            <tr><td class="active">5</td><td class="active">Respuesta Multiple</td></tr>
+                            <tr><td class="active">6</td><td class="active">Publica</td></tr>
+                            <tr><td class="active">7</td><td class="active">Publica a la Vista</td></tr>
+                            <tr><td class="active">8</td><td class="active">Incompetencia parcial del área</td></tr>
+                            <tr><td class="active">9</td><td class="active">Incompetencia parcial del área</td></tr>
+                            <tr><td class="active">10</td><td class="active">Incompetencia parcial del área</td></tr>
+                            <tr><td class="active">11</td><td class="active">Incompetencia total del área</td></tr>
+                            <tr><td class="active">12</td><td class="active">Inexistencia de información en el área</td></tr>
+                            <tr><td class="active">13</td><td class="active">Información reservada</td></tr>
+                            <tr><td class="active">14</td><td class="active">Información reservada parcialmente</td></tr>
+                            <tr><td class="active">15</td><td class="active">Información confidencial</td></tr>
+                        </tbody>
                     </table>
                 </div>
-
-                <div class="table-responsive">
+                <br />
+                <div class="table-responsive" style="overflow: auto; height: 300px;">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td>Nodo </td>
+                                <td>ID Nodo</td>
                                 <td>Descripción</td>
-
                             </tr>
                         </thead>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
+                        <tbody>
+                            <tr><td class="active">1</td><td class="active">INAI_Crear solicitud</td></tr>
+                            <tr><td class="active">2</td><td class="active">INAI_Respuesta solicitud</td></tr>
+                            <tr><td class="active">3</td><td class="active">UT_Recibir solicitud</td></tr>
+                            <tr><td class="active">4</td><td class="active">PRUD_Recibir solicitud</td></tr>
+                            <tr><td class="active">5</td><td class="active">PRUD_Revisar respuesta</td></tr>
+                            <tr><td class="active">6</td><td class="active">PRUD_Notificar</td></tr>
 
-                        </tr>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
-
-                        </tr>
-                        <tr>
-                            <td class="active">Acción</td>
-                            <td class="active">Acción</td>
-
-                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        
-        
+
+
         <h3>Instrucciones de Uso</h3>
         <ol start="1" style="margin-left: 25px; font-size: 1.2em;">
             <li>El texto de las cajas y de las flechas es editable</li>
@@ -227,14 +235,7 @@
             <li>El texto es editable tanto para los perfiles como para las acciones.</li>
             <li>Las condicionales DEBEN contener en el texto la palabra COND</li>
         </ol>
-        <div id="optionTransition" style="margin-top: 10px;     display: inline-block;">
-            <h3>Seleccione el tipo de acción que se dará al nodo del perfil</h3>
-            <select class="form-control">
-                <option value="recibe">Recibir</option>
-                <option value="analizar">Analizar</option>
-                <option value="recervar">Recervar</option>
-            </select>
-        </div>
+
         <div>
             <br />
             <div>
@@ -263,7 +264,7 @@
 {"from":0, "to":1, "points":[-134.0931640907066,123.85907842974912,-80.04293286123952,119.9853462451639,-27.503986136927786,119.73691505484865,27.4660813813746,123.15013409098145], "text":"Enviar\n"},
 {"from":1, "to":-6, "text":"", "points":[104.87709118646906,163.5103831296097,100.4866711777297,185.5389933349152,94.08239844918668,206.0549828398726,81.25921474878311,227.45923651591102]},
 {"from":-6, "to":-7, "text":"Enviar", "points":[83.3128392877111,258.6906321847717,123.54012082094859,301.9265343282398,180.80639911078015,318.87967534974894,206.4303035052004,356.9298591032465]},
-{"from":-6, "to":-8, "text":"transition", "points":[56.66203272946622,260.0603900306292,21.470193232361527,300.9917857031859,-15.737772441655832,312.71938112375466,-70.36814067065032,361.2333860520637]}
+{"from":-6, "to":-8, "text":"Enviar", "points":[56.66203272946622,260.0603900306292,21.470193232361527,300.9917857031859,-15.737772441655832,312.71938112375466,-70.36814067065032,361.2333860520637]}
  ]}
             </textarea>
 
@@ -298,15 +299,15 @@
                     }
                 }
 
-                            /*
-                            $(document).ready(function () {
-                                myDiagram.model.addChangedListener(function () {
-                                    console.log("Vallidando...")
-                                    validarLinks();
-                                    acomodarJSON();
-                                });
-                            });
-                            */
+                                                    /*
+                                                    $(document).ready(function () {
+                                                        myDiagram.model.addChangedListener(function () {
+                                                            console.log("Vallidando...")
+                                                            validarLinks();
+                                                            acomodarJSON();
+                                                        });
+                                                    });
+                                                    */
 
             </script>
             <svg width="400" height="180" style="display: none;">
@@ -319,6 +320,69 @@
 
 
 
+        </div>
+    </div>
+
+
+
+
+
+
+    <div id="myModalNode" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Nuevo Tipo de Respuesta</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">Descripción</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div> <br /> <br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">Forma</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div><br /><br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">Tipo</span>
+                        <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="myModalResp" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Nuevo Estado de Nodo</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">Descripción</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div>
+                    <br /><br />
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">URL</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
