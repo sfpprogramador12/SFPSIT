@@ -1,6 +1,11 @@
 ﻿@using SFP.SIT.SERV.Util
 
 <script type="text/javascript" src="~/js/sit/go.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 
 <script id="code">
@@ -138,6 +143,8 @@
     // Show the diagram's model in JSON format
     function save() {
         document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+        validarLinks();
+        acomodarJSON();
     }
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
@@ -145,56 +152,164 @@
 </script>
 
 
-<body onload="init()">
+<body onload="init()" style="margin-right: 40px; margin-left: 40px; width: 90%; ">
     <div id="sample">
-        <div id="myDiagramDiv" style="border: solid 1px black; width: 100%; height: 600px;" ></div>
-        <p><strong>Instrucciones de Uso</strong></p>
-        <ol start="1">
-            <li>1. El texto de las cajas y de las fechas es editable</li>
-            <li>2. Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
-            <li>3. La rueda del mouse acerca o aleja la vista del flujo.</li>
-            <li>4. El texto es editable tanto para los perfiles como para las acciones.</li>
-            <li>5. Las condicionales DEBEN contener en el texto la palabra COND</li>
+        <div id="d" style="margin-top: 10px;     display: inline-block;">
+            <h1>Editor de Flujo de Solicitudes de Información</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div id="myDiagramDiv" style="background-color: rgb(216, 216, 216); margin-top:30px;  border: solid 1px black; width: 100%; height: 600px;"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Nodo </td>
+                                <td>Descripción</td>
+
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Nodo </td>
+                                <td>Descripción</td>
+
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                        <tr>
+                            <td class="active">Acción</td>
+                            <td class="active">Acción</td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        
+        <h3>Instrucciones de Uso</h3>
+        <ol start="1" style="margin-left: 25px; font-size: 1.2em;">
+            <li>El texto de las cajas y de las flechas es editable</li>
+            <li>Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
+            <li>La rueda del mouse acerca o aleja la vista del flujo.</li>
+            <li>El texto es editable tanto para los perfiles como para las acciones.</li>
+            <li>Las condicionales DEBEN contener en el texto la palabra COND</li>
         </ol>
-       
+        <div id="optionTransition" style="margin-top: 10px;     display: inline-block;">
+            <h3>Seleccione el tipo de acción que se dará al nodo del perfil</h3>
+            <select class="form-control">
+                <option value="recibe">Recibir</option>
+                <option value="analizar">Analizar</option>
+                <option value="recervar">Recervar</option>
+            </select>
+        </div>
         <div>
+            <br />
             <div>
                 <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
                 <button class="btn btn-primary" onclick="load()">Deshacer Cambios</button>
                 JSON del Flujo:
             </div>
             <br />
-            <textarea id="mySavedModel" style="width:50%;height:500px; color:blue;">
-{ "class": "go.GraphLinksModel",
+            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue;">
+                { "class": "go.GraphLinksModel",
   "nodeKeyProperty": "id",
   "nodeDataArray": [ 
-        {"id":0, "loc":"-306.2456250000001 86.5752423565785", "text":"Fecha: 12-12-2016\n\nRecibir Solicitud INAI\n", "fecha":"12-12-12", "Perfil":"INAI"},
-        {"id":1, "loc":"27.46512500000003 92.79490499999997", "text":"UT- recibir Solicitud\nDGT\n", "fecha":"13-13-13", "Perfil":"INAI"},
-        {"id":2, "loc":"333 92.9", "text":"PRUD Recibir\nsolicitud\nDGT"},
-        {"id":3, "loc":"603 97.9", "text":"Analizar Solicitud\nDGTI"},
-        {"text":"Analizar Solicitud\nDGTI", "loc":"597.9 195.516875", "id":-5},
-        {"text":"Cond\n", "loc":"66.57112500000002 224.60927999999987", "id":-6},
-        {"text":"Se introduce la forma de \nrespuesta multiple\n", "loc":"143.99107968750002 341.85064593749996", "id":-7},
-        {"text":"Cambio de estado de respuesta \n", "loc":"-224.62276687500025 361.0556446875", "id":-8}
+{"id":0, "loc":"-306.2456250000001 86.5752423565785", "text":"Fecha: 12-12-2016\n\nRecibir Solicitud INAI\n", "fecha":"12-12-12", "Perfil":"INAI"},
+{"id":1, "loc":"27.46512500000003 92.79490499999997", "text":"UT- recibir Solicitud\nDGT\n", "fecha":"13-13-13", "Perfil":"INAI"},
+{"id":2, "loc":"333 92.9", "text":"PRUD Recibir\nsolicitud\nDGT"},
+{"id":3, "loc":"603 97.9", "text":"Analizar Solicitud\nDGTI"},
+{"text":"Analizar Solicitud\nDGTI", "loc":"597.9 195.516875", "id":-5},
+{"text":"C", "loc":"52.571124999999995 224.60927999999987", "id":-6},
+{"text":"Se introduce la forma de \nrespuesta multiple\n", "loc":"131.99107968750002 356.85064593749996", "id":-7},
+{"text":"Cambio de estado de respuesta \n", "loc":"-224.62276687500025 361.0556446875", "id":-8}
  ],
   "linkDataArray": [ 
-        {"from":1, "to":2, "text":"Asignar\n", "points":[188.52999066514474,109.77328556991475,237.86315332225806,98.45056438655953,286.022637422477,99.0217140587994,333.2209415563585,111.85341175494668]},
-        {"from":2, "to":3, "text":"Turnar\n", "points":[451,117,494.8,108.5,543.2,107.3,603,115.9]},
-        {"from":2, "to":-5, "points":[451.4,137,510.1,145.8,566.9,165.3,621.5,195.7], "text":"Turnar\n"},
-        {"from":0, "to":1, "points":[-134.0931640907066,123.85907842974912,-80.04293286123952,119.9853462451639,-27.503986136927786,119.73691505484865,27.4660813813746,123.15013409098145], "text":"Enviar\n"},
-        {"from":1, "to":-6, "text":"transition", "points":[109.58080253234871,163.5,110.7,183.8,109.5,203.16803013943903,102.3,224.6]},
-        {"from":-6, "to":-7, "text":"transition", "points":[119.06582139327692,279.3,151.23767553922474,313.7918114736912,197.4,312.80606698841086,216.86494708017975,341.9384057864718]},
-        {"from":-6, "to":-8, "text":"transition", "points":[65.8959921061923,279.3000911071406,28.888125541691174,314.6,-7.7,321.1341144392794,-63.93977297582276,361.2683081116023]}
+{"from":1, "to":2, "text":"Asignar\n", "points":[188.52999066514474,109.77328556991475,237.86315332225806,98.45056438655953,286.022637422477,99.0217140587994,333.2209415563585,111.85341175494668]},
+{"from":2, "to":3, "text":"Turnar\n", "points":[451,117,494.8,108.5,543.2,107.3,603,115.9]},
+{"from":2, "to":-5, "points":[451.4,137,510.1,145.8,566.9,165.3,621.5,195.7], "text":"Turnar\n"},
+{"from":0, "to":1, "points":[-134.0931640907066,123.85907842974912,-80.04293286123952,119.9853462451639,-27.503986136927786,119.73691505484865,27.4660813813746,123.15013409098145], "text":"Enviar\n"},
+{"from":1, "to":-6, "text":"", "points":[104.87709118646906,163.5103831296097,100.4866711777297,185.5389933349152,94.08239844918668,206.0549828398726,81.25921474878311,227.45923651591102]},
+{"from":-6, "to":-7, "text":"Enviar", "points":[83.3128392877111,258.6906321847717,123.54012082094859,301.9265343282398,180.80639911078015,318.87967534974894,206.4303035052004,356.9298591032465]},
+{"from":-6, "to":-8, "text":"transition", "points":[56.66203272946622,260.0603900306292,21.470193232361527,300.9917857031859,-15.737772441655832,312.71938112375466,-70.36814067065032,361.2333860520637]}
  ]}
             </textarea>
 
             <script>
-                var ugly = document.getElementById('mySavedModel').value;
-                var obj = JSON.parse(ugly);
-                var pretty = JSON.stringify(obj, undefined, 4);
-                document.getElementById('mySavedModel').value = pretty;
+                function acomodarJSON() {
+                    var ugly = document.getElementById('mySavedModel').value;
+                    var obj = JSON.parse(ugly);
+                    var pretty = JSON.stringify(obj, undefined, 4);
+                    document.getElementById('mySavedModel').value = pretty;
+                }
+                acomodarJSON();
+
+                function validarLinks() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log(jsonToValidate);
+                    var error = 0;
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
+                        if (jsonToValidate.linkDataArray[i].text.includes("Asignar")) { }
+                        else if (jsonToValidate.linkDataArray[i].text.includes("Turnar")) { }
+                        else if (jsonToValidate.linkDataArray[i].text.includes("Enviar")) { }
+                        else if (jsonToValidate.linkDataArray[i].text == "") { }
+
+                        else {
+                            error = 1;
+                            alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre "Turnar", "Asignar" o "Enviar" ' + i);
+                            break;
+                        }
+                    }
+                    if (error == 0) {
+                        alert('¿estás seguro de guardar estos cambios?');
+
+                    }
+                }
+
+                            /*
+                            $(document).ready(function () {
+                                myDiagram.model.addChangedListener(function () {
+                                    console.log("Vallidando...")
+                                    validarLinks();
+                                    acomodarJSON();
+                                });
+                            });
+                            */
+
             </script>
-            <svg width="400" height="180">
+            <svg width="400" height="180" style="display: none;">
                 <g>
                     <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
                           style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
