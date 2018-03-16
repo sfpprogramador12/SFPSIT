@@ -233,7 +233,7 @@
             <li>Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
             <li>La rueda del mouse acerca o aleja la vista del flujo.</li>
             <li>El texto es editable tanto para los perfiles como para las acciones.</li>
-            <li>Las condicionales DEBEN contener en el texto la palabra COND</li>
+            <li>Las condicionales DEBEN contener en el texto la letra C mayúscula</li>
         </ol>
 
         <div>
@@ -269,6 +269,10 @@
             </textarea>
 
             <script>
+                //Cargar en el viewbag para mostrarlo en las tablas
+                var TRespuestas = { "Records": [] };
+                var Nodos = { "Records": [] };
+
                 function acomodarJSON() {
                     var ugly = document.getElementById('mySavedModel').value;
                     var obj = JSON.parse(ugly);
@@ -282,32 +286,50 @@
                     console.log(jsonToValidate);
                     var error = 0;
                     for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        if (jsonToValidate.linkDataArray[i].text.includes("Asignar")) { }
-                        else if (jsonToValidate.linkDataArray[i].text.includes("Turnar")) { }
-                        else if (jsonToValidate.linkDataArray[i].text.includes("Enviar")) { }
-                        else if (jsonToValidate.linkDataArray[i].text == "") { }
-
+                        if (jsonToValidate.linkDataArray[i].text.includes("Asignar")) {
+                            for (var j = 0; j < TRespuestas.Records.length; j++) {
+                                //recorrer los tipos de respuesta y ver si está dentro de TRespuestas
+                            }
+                        }
+                        
                         else {
                             error = 1;
-                            alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre "Turnar", "Asignar" o "Enviar" ' + i);
+                            w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de la derecha ');
                             break;
                         }
                     }
                     if (error == 0) {
-                        alert('¿estás seguro de guardar estos cambios?');
+                        w2alert('¿estás seguro de guardar estos cambios?');
 
                     }
                 }
 
-                                                    /*
-                                                    $(document).ready(function () {
-                                                        myDiagram.model.addChangedListener(function () {
-                                                            console.log("Vallidando...")
-                                                            validarLinks();
-                                                            acomodarJSON();
-                                                        });
-                                                    });
-                                                    */
+
+                function validarEdoNodo() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log(jsonToValidate);
+                    var error = 0;
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
+                        if (jsonToValidate.nodeDataArray[i].text.length > 0) {
+                            for (var j = 0; j < TRespuestas.Records.length; j++) {
+                                //Recorrer los nodos y reemplazar los numeros por el texto correspondiente
+                                // Agregar al JSON de API cada nodo y cada tipo de respuesta para agregarlo a AFDFlujo
+
+                            }
+                        }
+
+                        else {
+                            error = 1;
+                            w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones que estan del lado derecho de la pantalla ');
+                            break;
+                        }
+                    }
+                    if (error == 0) {
+                        w2alert('¿estás seguro de guardar estos cambios?');
+
+                    }
+
+                }
 
             </script>
             <svg width="400" height="180" style="display: none;">
@@ -326,63 +348,66 @@
 
 
 
+        <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
 
-
-    <div id="myModalNode" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Nuevo Tipo de Respuesta</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3">Descripción</span>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                    </div> <br /> <br />
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3">Forma</span>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                    </div><br /><br />
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3">Tipo</span>
-                        <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        <div id="myModalNode" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Nuevo Tipo de Respuesta</h4>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Descripción</span>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        </div> <br /> <br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Forma</span>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        </div><br /><br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Tipo</span>
+                            <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        </form>
 
 
-
-
-    <div id="myModalResp" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Nuevo Estado de Nodo</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3">Descripción</span>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <div id="myModalResp" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Nuevo Estado de Nodo</h4>
                     </div>
-                    <br /><br />
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3">URL</span>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">Descripción</span>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        </div>
+                        <br /><br />
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">URL</span>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        </form>
 </body>
