@@ -158,6 +158,73 @@
     function modal2() {
         $("#myModalNode").modal('show');
     }
+
+
+    var TRespuestas = { "records": [] };
+    var Nodos = { "records": [] };
+    $(document).ready(function () {
+
+
+        function AjaxPostForm1(pUrl, pData, pFunc, pUrlInicio) {
+            //console.log("AJAX::::::::" + pUrl + ":::::::::" + pData);
+
+            $.ajax({
+                url: pUrl,
+                type: "GET",
+                data: pData,
+                success: function (data) {
+                    if (data === undefined) {
+                        w2alert("No existen Información");
+                    } else {
+                        pFunc(data);
+                    }
+                },
+                fail: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401) {
+                        w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                        window.open(pUrlInicio, "_self");
+                    }
+                    else {
+                        w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                    }
+                    w2popup.unlock();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401) {
+                        w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                        window.open(pUrlInicio, "_self");
+                    }
+                    else {
+                        w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                    }
+                    w2popup.unlock();
+                }
+            });
+        }
+
+        function RendertipoResp(data) {
+            //console.log(data);
+            for (var i = 0; i < data.records.length; i++) {
+                TRespuestas.records[i] = { "clave": data.records[i].RTPCLAVE, "descripcion": data.records[i].RTPDESCRIPCION };
+                $("#bodyTipoResp").append("<tr><td class=\"active\">" + data.records[i].RTPCLAVE+"</td><td class=\"active\">" + data.records[i].RTPDESCRIPCION + "</td></tr>");
+            }
+        }
+
+        function RenderNodo(data) {
+            console.log(data);
+            for (var i = 0; i < data.records.length; i++) {
+                Nodos.records[i] = { "clave": data.records[i].NEDCLAVE, "descripcion": data.records[i].NEDDESCRIPCION };
+                $("#bodyNodo").append("<tr><td class=\"active\">" + data.records[i].NEDCLAVE + "</td><td class=\"active\">" + data.records[i].NEDDESCRIPCION + "</td></tr>");
+            }
+        }
+
+
+        var _UrlInicio = "";
+        AjaxPostForm1('/Catalogo/Consulta', $('#frmtipoResp').serialize(), RendertipoResp, _UrlInicio);
+        AjaxPostForm1('/Catalogo/Consulta', $('#frmTipoNodo').serialize(), RenderNodo, _UrlInicio);
+
+    });
+    
 </script>
 
 
@@ -184,22 +251,9 @@
                                 <td>Descripción </td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td class="active">1</td><td class="active">Enviar</td></tr>
-                            <tr><td class="active">2</td><td class="active">Responder</td></tr>
-                            <tr><td class="active">3</td><td class="active">Asignar</td></tr>
-                            <tr><td class="active">4</td><td class="active">Turnar</td></tr>
-                            <tr><td class="active">5</td><td class="active">Respuesta Multiple</td></tr>
-                            <tr><td class="active">6</td><td class="active">Publica</td></tr>
-                            <tr><td class="active">7</td><td class="active">Publica a la Vista</td></tr>
-                            <tr><td class="active">8</td><td class="active">Incompetencia parcial del área</td></tr>
-                            <tr><td class="active">9</td><td class="active">Incompetencia parcial del área</td></tr>
-                            <tr><td class="active">10</td><td class="active">Incompetencia parcial del área</td></tr>
-                            <tr><td class="active">11</td><td class="active">Incompetencia total del área</td></tr>
-                            <tr><td class="active">12</td><td class="active">Inexistencia de información en el área</td></tr>
-                            <tr><td class="active">13</td><td class="active">Información reservada</td></tr>
-                            <tr><td class="active">14</td><td class="active">Información reservada parcialmente</td></tr>
-                            <tr><td class="active">15</td><td class="active">Información confidencial</td></tr>
+                        <tbody id="bodyTipoResp">
+                            <tr><td class=""></td><td class=""></td></tr>
+                           
                         </tbody>
                     </table>
                 </div>
@@ -212,14 +266,8 @@
                                 <td>Descripción</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td class="active">1</td><td class="active">INAI_Crear solicitud</td></tr>
-                            <tr><td class="active">2</td><td class="active">INAI_Respuesta solicitud</td></tr>
-                            <tr><td class="active">3</td><td class="active">UT_Recibir solicitud</td></tr>
-                            <tr><td class="active">4</td><td class="active">PRUD_Recibir solicitud</td></tr>
-                            <tr><td class="active">5</td><td class="active">PRUD_Revisar respuesta</td></tr>
-                            <tr><td class="active">6</td><td class="active">PRUD_Notificar</td></tr>
-
+                        <tbody id="bodyNodo">
+                            <tr><td class=""></td><td class=""></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -269,9 +317,7 @@
             </textarea>
 
             <script>
-                //Cargar en el viewbag para mostrarlo en las tablas
-                var TRespuestas = { "Records": [] };
-                var Nodos = { "Records": [] };
+                
 
                 function acomodarJSON() {
                     var ugly = document.getElementById('mySavedModel').value;
@@ -286,21 +332,27 @@
                     console.log(jsonToValidate);
                     var error = 0;
                     for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        if (jsonToValidate.linkDataArray[i].text.includes("Asignar")) {
-                            for (var j = 0; j < TRespuestas.Records.length; j++) {
-                                //recorrer los tipos de respuesta y ver si está dentro de TRespuestas
+                        for (var j = 0; j < TRespuestas.Records.length; j++) {
+                            // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
+                            // reemplazar los IDS por el texto
+                            // Colocar las propiedades en un El nuevo JSON
+                            if (jsonToValidate.linkDataArray[i].text == TRespuestas.Records[j].clave | jsonToValidate.linkDataArray[i].text == TRespuestas.Records[j].descripcion) {
+                                jsonToValidate.linkDataArray[i].text = TRespuestas.Records[j].descripcion;
+                                jsonToValidate.linkDataArray[i].ID = TRespuestas.Records[j].clave;
+                            }
+                            else {
+                                error = 1;
                             }
                         }
-                        
-                        else {
-                            error = 1;
-                            w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de la derecha ');
-                            break;
-                        }
-                    }
+                    }   
+                    
                     if (error == 0) {
                         w2alert('¿estás seguro de guardar estos cambios?');
-
+                    }
+                    else {
+                        error = 1;
+                        w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de tipo de respuestas de la derecha o agregar una');
+                        break;
                     }
                 }
 
@@ -312,7 +364,7 @@
                     for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
                         if (jsonToValidate.nodeDataArray[i].text.length > 0) {
                             for (var j = 0; j < TRespuestas.Records.length; j++) {
-                                //Recorrer los nodos y reemplazar los numeros por el texto correspondiente
+                                // Recorrer los nodos y reemplazar los numeros por el texto correspondiente
                                 // Agregar al JSON de API cada nodo y cada tipo de respuesta para agregarlo a AFDFlujo
 
                             }
@@ -339,18 +391,13 @@
                     <text x="55" y="50" font-family="Verdana" font-size="15" fill="black">Hello</text>
                 </g>
             </svg>
-
-
-
         </div>
     </div>
 
 
 
 
-        <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
-        @Html.AntiForgeryToken()
-
+    <form id="formaGral" name="formaGral" method="post" action="/Catalogo/PVtipoArista">
         <div id="myModalNode" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -359,18 +406,56 @@
                         <h4 class="modal-title">Nuevo Tipo de Respuesta</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon3">Descripción</span>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                        </div> <br /> <br />
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon3">Forma</span>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                        </div><br /><br />
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon3">Tipo</span>
-                            <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                        </div>
+
+                        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
+                            <tbody>
+                                <tr>
+                                    <td><p>Tipo arista ID:</p></td>
+                                    <td><input id="rtpclave" type="text" style="width:60px" readonly=""></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Sigla :</p></td>
+                                    <td><input id="KAR_SIGLA" type="text" style="width:140px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Descripción :</p></td>
+                                    <td><input id="rtpdescripcion" type="text" style="width:400px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Forma :</p></td>
+                                    <td><input id="rtpforma" type="text" style="width:200px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Formato :</p></td>
+                                    <td><textarea id="rtpformato" cols="55" rows="7"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Tipo Info :</p></td>
+                                    <td><input id="kar_aplicatipoinfo" type="text" style="width:90px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Respuesta :</p></td>
+                                    <td><input id="kar_respuesta" type="text" style="width:90px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Tipo :</p></td>
+                                    <td><input id="kar_tipo" type="text" style="width:90px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Subclasificar :</p></td>
+                                    <td><input id="kar_subclasificar" type="text" style="width:90px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Mostrar Sub :</p></td>
+                                    <td><input id="kar_mostrarsub" type="text" style="width:90px"></td>
+                                </tr>
+                                <tr>
+                                    <td><p>Nivel :</p></td>
+                                    <td><input id="kar_nivel" type="text" style="width:90px"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        @Html.AntiForgeryToken()
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -379,10 +464,10 @@
                 </div>
             </div>
         </div>
-        </form>
+    </form>
 
 
-        <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
+    <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
         <div id="myModalResp" class="modal fade">
             <div class="modal-dialog">
@@ -409,5 +494,21 @@
                 </div>
             </div>
         </div>
-        </form>
+    </form>
+
+
+
+    <form id="frmtipoResp" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="22" name="Entidad" />
+        <input type="hidden" value="100" name="PagMaxReg" />
+        <input type="hidden" value="1" name="PagAct" />
+    </form>
+
+    <form id="frmTipoNodo" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="31" name="Entidad" />
+        <input type="hidden" value="100" name="PagMaxReg" />
+        <input type="hidden" value="1" name="PagAct" />
+    </form>
 </body>

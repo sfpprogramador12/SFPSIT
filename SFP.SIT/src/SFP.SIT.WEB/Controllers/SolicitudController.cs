@@ -233,6 +233,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult FlujoEditor()
         {
             ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+            
+
             return View();
         }
 
