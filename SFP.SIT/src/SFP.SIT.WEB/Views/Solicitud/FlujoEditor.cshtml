@@ -26,7 +26,7 @@
                 });
         // when the document is modified, add a "*" to the title and enable the "Save" button
         myDiagram.addDiagramListener("Modified", function (e) {
-                save();
+                //save();
             
             var button = document.getElementById("SaveButton");
             if (button) button.disabled = !myDiagram.isModified;
@@ -145,9 +145,14 @@
     }
     // Show the diagram's model in JSON format
     function save() {
-        document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-        validarLinks();
-        acomodarJSON();
+        console.log("saving... ");
+        //document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+        //acomodarJSON();
+        //validarLinks();
+        //validarEdoNodo();
+        replaceNumbersToDescriptions();
+        //acomodarJSON();
+        console.log(" done!");
     }
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
@@ -288,32 +293,12 @@
             <br />
             <div>
                 <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
-                <button class="btn btn-primary" onclick="load()">Deshacer Cambios</button>
+                <button class="btn btn-info" onclick="load()">Enviar</button>
                 JSON del Flujo:
             </div>
             <br />
             <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue;">
-                { "class": "go.GraphLinksModel",
-  "nodeKeyProperty": "id",
-  "nodeDataArray": [ 
-{"id":0, "loc":"-306.2456250000001 86.5752423565785", "text":"Fecha: 12-12-2016\n\nRecibir Solicitud INAI\n", "fecha":"12-12-12", "Perfil":"INAI"},
-{"id":1, "loc":"27.46512500000003 92.79490499999997", "text":"UT- recibir Solicitud\nDGT\n", "fecha":"13-13-13", "Perfil":"INAI"},
-{"id":2, "loc":"333 92.9", "text":"PRUD Recibir\nsolicitud\nDGT"},
-{"id":3, "loc":"603 97.9", "text":"Analizar Solicitud\nDGTI"},
-{"text":"Analizar Solicitud\nDGTI", "loc":"597.9 195.516875", "id":-5},
-{"text":"C", "loc":"52.571124999999995 224.60927999999987", "id":-6},
-{"text":"Se introduce la forma de \nrespuesta multiple\n", "loc":"131.99107968750002 356.85064593749996", "id":-7},
-{"text":"Cambio de estado de respuesta \n", "loc":"-224.62276687500025 361.0556446875", "id":-8}
- ],
-  "linkDataArray": [ 
-{"from":1, "to":2, "text":"Asignar\n", "points":[188.52999066514474,109.77328556991475,237.86315332225806,98.45056438655953,286.022637422477,99.0217140587994,333.2209415563585,111.85341175494668]},
-{"from":2, "to":3, "text":"Turnar\n", "points":[451,117,494.8,108.5,543.2,107.3,603,115.9]},
-{"from":2, "to":-5, "points":[451.4,137,510.1,145.8,566.9,165.3,621.5,195.7], "text":"Turnar\n"},
-{"from":0, "to":1, "points":[-134.0931640907066,123.85907842974912,-80.04293286123952,119.9853462451639,-27.503986136927786,119.73691505484865,27.4660813813746,123.15013409098145], "text":"Enviar\n"},
-{"from":1, "to":-6, "text":"", "points":[104.87709118646906,163.5103831296097,100.4866711777297,185.5389933349152,94.08239844918668,206.0549828398726,81.25921474878311,227.45923651591102]},
-{"from":-6, "to":-7, "text":"Enviar", "points":[83.3128392877111,258.6906321847717,123.54012082094859,301.9265343282398,180.80639911078015,318.87967534974894,206.4303035052004,356.9298591032465]},
-{"from":-6, "to":-8, "text":"Enviar", "points":[56.66203272946622,260.0603900306292,21.470193232361527,300.9917857031859,-15.737772441655832,312.71938112375466,-70.36814067065032,361.2333860520637]}
- ]}
+               {"class":"go.GraphLinksModel","nodeKeyProperty":"id","nodeDataArray":[{"id":0,"loc":"-306.245625 22.15341110657846","text":"UA_Corregir respuesta","fecha":"12-12-12","Perfil":"INAI"},{"id":1,"loc":"42.05120000000002 1.6319362499999812","text":"UT- recibir Solicitud\nDGT\n","fecha":"13-13-13","Perfil":"INAI"},{"id":2,"loc":"322.0604437499998 24.831649999999932","text":"UA_Corregir respuesta"},{"id":3,"loc":"610.2930375000003 -112.38258125000007","text":"Analizar Solicitud\nDGTI"},{"text":"Analizar Solicitud\nDGTI","loc":"572.3743687500004 191.87035624999987","id":-5},{"text":"C","loc":"52.571124999999995 224.60927999999987","id":-6},{"text":"PRUD_Notificar","loc":"223.15404843750008 378.7297584375001","id":-7},{"text":"INAI_Respuesta solicitud","loc":"-268.38099187500023 393.8743134374999","id":-8}],"linkDataArray":[{"from":1,"to":2,"text":"Pública","points":[203.35941094293122,20.301292564112476,253.14987570475313,9.938646600648136,301.53286592026717,11.444905086528866,348.7148831422816,25.19080467666297]},{"from":2,"to":3,"text":"Información reservada parcialmente","points":[442.5698658733755,25.053101282610708,489.9925950605543,-7.27924455485474,545.9296472983712,-35.615709787682285,619.3910246423625,-61.52982257608132]},{"from":2,"to":-5,"points":[449.95843353045433,63.53344094371122,511.4243966426165,96.57292942054652,567.9967474268286,139.3739581717164,619.2965853994153,192.00921403016102],"text":"Información confidencial"},{"from":0,"to":1,"points":[-122.65434240428294,35.331181630528654,-67.57866273406835,31.034119649722072,-14.016512666122575,30.374097323738688,42.051705204503605,33.35657747299196],"text":"Enviar\n"},{"from":1,"to":-6,"text":"","points":[116.13000933669869,72.34091481581594,106.52115958758642,122.89439638076968,95.00074200949227,171.22191966243517,76.16071988551647,224.94527149736612]},{"from":-6,"to":-7,"text":"Enviar","points":[84.71834865744196,256.8022743152791,148.69869080221142,309.34299280854486,226.19953979160286,333.4648540600247,270.1538814363473,378.8742303942944]},{"from":-6,"to":-8,"text":"Inexistencia de la información solicitada","points":[54.61160428350184,257.4878764989676,-4.145013059751971,310.3900512553132,-56.39805548124444,329.4940112596667,-142.90861306230306,394.07607154700736]}]}
             </textarea>
 
             <script>
@@ -325,62 +310,119 @@
                     var pretty = JSON.stringify(obj, undefined, 4);
                     document.getElementById('mySavedModel').value = pretty;
                 }
-                acomodarJSON();
+                //acomodarJSON();
 
                 function validarLinks() {
                     var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log("VAL: ");
                     console.log(jsonToValidate);
                     var error = 0;
-                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        for (var j = 0; j < TRespuestas.Records.length; j++) {
-                            // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
-                            // reemplazar los IDS por el texto
-                            // Colocar las propiedades en un El nuevo JSON
-                            if (jsonToValidate.linkDataArray[i].text == TRespuestas.Records[j].clave | jsonToValidate.linkDataArray[i].text == TRespuestas.Records[j].descripcion) {
-                                jsonToValidate.linkDataArray[i].text = TRespuestas.Records[j].descripcion;
-                                jsonToValidate.linkDataArray[i].ID = TRespuestas.Records[j].clave;
-                            }
-                            else {
-                                error = 1;
-                            }
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++)
+                    {
+                        // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
+                        // reemplazar los IDS por el texto
+                        // Colocar las propiedades en un El nuevo JSON
+                        if (checkRespuestaOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), TRespuestas) 
+                                |jsonToValidate.linkDataArray[i].text == "")
+                        {
+                                error = 0;
+                                if (jsonToValidate.linkDataArray[i].text == "") break;
+                                jsonToValidate.linkDataArray[i].text = TRespuestas.records[i].descripcion;  
+                                jsonToValidate.linkDataArray[i].ID = TRespuestas.records[i].clave;
                         }
+                        else
+                        {
+                            error = 1;
+                            console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + TRespuestas.records[i].descripcion );
+                            break;
+                        }
+                        
                     }   
                     
                     if (error == 0) {
                         w2alert('¿estás seguro de guardar estos cambios?');
+                        replaceNumbersToDescriptions();
                     }
                     else {
                         error = 1;
                         w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de tipo de respuestas de la derecha o agregar una');
-                        break;
+                       
                     }
                 }
 
+                function replaceNumbersToDescriptions() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log(jsonToValidate);
+                    /*RECORRIDO DE NODODS*/
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++)
+                    {
+                        var idNodo = jsonToValidate.nodeDataArray[i].text;
+                        //console.log("NOD:" + idNodo);
+                        if (parseInt(idNodo) != NaN & parseInt(idNodo) > 0 ) {
+                            jsonToValidate.nodeDataArray[i].text = Nodos.records[idNodo].descripcion;
+                         }
+                    }
+                    /*RECORRIDO DE RESPUESTAS*/
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
+                        var idResp = jsonToValidate.linkDataArray[i].text;
+                        //console.log("NOD:" + idNodo);
+                        if (parseInt(idResp) != NaN & parseInt(idResp) > 0) {
+                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[idResp].descripcion;
+                        }
+                    }
+                    document.getElementById('mySavedModel').value = JSON.stringify(jsonToValidate);
+
+                    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+
+                    return 0 ;
+                }
+
+                function checkRespuestaOn(palabra, respuestas) { 
+                    for (var j = 0; j < respuestas.records.length; j++) {
+                        if (palabra == respuestas.records[j].descripcion | palabra == respuestas.records[j].clave)
+                            return true;
+                    }
+                    return false;
+                }
 
                 function validarEdoNodo() {
                     var jsonToValidate = JSON.parse(myDiagram.model.toJson());
                     console.log(jsonToValidate);
                     var error = 0;
-                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        if (jsonToValidate.nodeDataArray[i].text.length > 0) {
-                            for (var j = 0; j < TRespuestas.Records.length; j++) {
-                                // Recorrer los nodos y reemplazar los numeros por el texto correspondiente
-                                // Agregar al JSON de API cada nodo y cada tipo de respuesta para agregarlo a AFDFlujo
-
-                            }
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++)
+                    {
+                        // recorrer los tipos de perfil y ver si está dentro de TRespuestas
+                        // reemplazar los IDS por el texto
+                        // Colocar las propiedades en un El nuevo JSON
+                        if (checkPerfilOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), Nodos)
+                            | jsonToValidate.linkDataArray[i].text == "") {
+                            error = 0;
+                            if (jsonToValidate.linkDataArray[i].text == "") break;
+                            jsonToValidate.linkDataArray[i].text = Nodos.records[i].descripcion;
+                            jsonToValidate.linkDataArray[i].ID = Nodos.records[i].clave;
                         }
-
                         else {
                             error = 1;
-                            w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones que estan del lado derecho de la pantalla ');
+                            //console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + Nodos.records[i].descripcion);
                             break;
                         }
                     }
                     if (error == 0) {
                         w2alert('¿estás seguro de guardar estos cambios?');
-
+                    }
+                    else {
+                        error = 1;
+                        w2alert('Una de los perfiles no es valido, DEBE seleccionar entre las opciones de tipo de perfil de la derecha o agregar uno');
                     }
 
+                }
+
+                function checkPerfilOn(palabra, perfiles) {
+                    for (var j = 0; j < perfiles.records.length; j++) {
+                        if (palabra == perfiles.records[j].descripcion | palabra == perfiles.records[j].clave)
+                            return true;
+                    }
+                    return false;
                 }
 
             </script>
@@ -396,105 +438,29 @@
 
 
 
+    <style>
+        .frame {
+            width: 800px;
+            height: 520px;
+            border: 1px solid black;
+            margin: 10%;
+        }
 
-    <form id="formaGral" name="formaGral" method="post" action="/Catalogo/PVtipoArista">
-        <div id="myModalNode" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Nuevo Tipo de Respuesta</h4>
-                    </div>
-                    <div class="modal-body">
+        .frame {
+            zoom: 1.45;
+            -moz-transform: scale(1.45);
+            -moz-transform-origin: 0 0;
+        }
 
-                        <table border="0" style="border-spacing: 10px; margin: 0 auto;">
-                            <tbody>
-                                <tr>
-                                    <td><p>Tipo arista ID:</p></td>
-                                    <td><input id="rtpclave" type="text" style="width:60px" readonly=""></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Sigla :</p></td>
-                                    <td><input id="KAR_SIGLA" type="text" style="width:140px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Descripción :</p></td>
-                                    <td><input id="rtpdescripcion" type="text" style="width:400px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Forma :</p></td>
-                                    <td><input id="rtpforma" type="text" style="width:200px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Formato :</p></td>
-                                    <td><textarea id="rtpformato" cols="55" rows="7"></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Tipo Info :</p></td>
-                                    <td><input id="kar_aplicatipoinfo" type="text" style="width:90px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Respuesta :</p></td>
-                                    <td><input id="kar_respuesta" type="text" style="width:90px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Tipo :</p></td>
-                                    <td><input id="kar_tipo" type="text" style="width:90px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Subclasificar :</p></td>
-                                    <td><input id="kar_subclasificar" type="text" style="width:90px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Mostrar Sub :</p></td>
-                                    <td><input id="kar_mostrarsub" type="text" style="width:90px"></td>
-                                </tr>
-                                <tr>
-                                    <td><p>Nivel :</p></td>
-                                    <td><input id="kar_nivel" type="text" style="width:90px"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        @Html.AntiForgeryToken()
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    </style>
 
-
-    <form id="frmBuscar" asp-controller="Solicitud" method="post" accept-charset="UTF-8">
-        @Html.AntiForgeryToken()
-        <div id="myModalResp" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Nuevo Estado de Nodo</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon3">Descripción</span>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                        </div>
-                        <br /><br />
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon3">URL</span>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    <div id="myModalNode" class="modal fade">
+        <iframe id="node" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
+    </div>
+    
+    <div id="myModalResp" class="modal fade">
+        <iframe id="resp" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
+    </div>
 
 
 
