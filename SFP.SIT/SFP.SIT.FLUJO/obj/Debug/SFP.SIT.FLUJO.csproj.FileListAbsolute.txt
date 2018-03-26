@@ -1,0 +1,17 @@
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.FLUJO.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.FLUJO.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.WINPRC.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.WINPRC.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.SERV.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\Microsoft.SharePoint.Client.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\Microsoft.SharePoint.Client.Runtime.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.SERV.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.SERV.dll.config

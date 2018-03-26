@@ -26,8 +26,8 @@
                 });
         // when the document is modified, add a "*" to the title and enable the "Save" button
         myDiagram.addDiagramListener("Modified", function (e) {
-                //save();
-            
+            //save();
+
             var button = document.getElementById("SaveButton");
             if (button) button.disabled = !myDiagram.isModified;
             var idx = document.title.indexOf("*");
@@ -36,7 +36,7 @@
             } else {
                 if (idx >= 0) document.title = document.title.substr(0, idx);
             }
-            
+
         });
         // define the Node template
         myDiagram.nodeTemplate =
@@ -148,11 +148,12 @@
         console.log("saving... ");
         //document.getElementById("mySavedModel").value = myDiagram.model.toJson();
         //acomodarJSON();
-        //validarLinks();
-        //validarEdoNodo();
+        validarLinks();
+        validarEdoNodo();
         replaceNumbersToDescriptions();
         //acomodarJSON();
         console.log(" done!");
+        return true;
     }
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
@@ -168,7 +169,6 @@
     var TRespuestas = { "records": [] };
     var Nodos = { "records": [] };
     $(document).ready(function () {
-
 
         function AjaxPostForm1(pUrl, pData, pFunc, pUrlInicio) {
             //console.log("AJAX::::::::" + pUrl + ":::::::::" + pData);
@@ -207,22 +207,24 @@
             });
         }
 
+
         function RendertipoResp(data) {
             //console.log(data);
             for (var i = 0; i < data.records.length; i++) {
                 TRespuestas.records[i] = { "clave": data.records[i].RTPCLAVE, "descripcion": data.records[i].RTPDESCRIPCION };
-                $("#bodyTipoResp").append("<tr><td class=\"active\">" + data.records[i].RTPCLAVE+"</td><td class=\"active\">" + data.records[i].RTPDESCRIPCION + "</td></tr>");
+                $("#bodyTipoResp").append("<tr><td class=\"active\">" + data.records[i].RTPCLAVE + "</td><td class=\"active\">" + data.records[i].RTPDESCRIPCION + "</td></tr>");
             }
         }
 
         function RenderNodo(data) {
-            console.log(data);
+            //console.log(data);
             for (var i = 0; i < data.records.length; i++) {
                 Nodos.records[i] = { "clave": data.records[i].NEDCLAVE, "descripcion": data.records[i].NEDDESCRIPCION };
                 $("#bodyNodo").append("<tr><td class=\"active\">" + data.records[i].NEDCLAVE + "</td><td class=\"active\">" + data.records[i].NEDDESCRIPCION + "</td></tr>");
             }
         }
 
+        
 
         var _UrlInicio = "";
         AjaxPostForm1('/Catalogo/Consulta', $('#frmtipoResp').serialize(), RendertipoResp, _UrlInicio);
@@ -258,7 +260,7 @@
                         </thead>
                         <tbody id="bodyTipoResp">
                             <tr><td class=""></td><td class=""></td></tr>
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -291,18 +293,67 @@
 
         <div>
             <br />
+            <script>
+                function LoadingServer() { 
+                    console.log("wait");
+                }
+                function AjaxPostForm2(pUrl, pData, pFunc, pUrlInicio) {
+                    //console.log("AJAX::::::::" + pUrl + ":::::::::" + pData);
+
+                    $.ajax({
+                        url: pUrl,
+                        type: "POST",
+                        data: pData,
+                        success: function (data) {
+                            if (data === undefined) {
+                                w2alert("No existen Información");
+                            } else {
+                                pFunc(data);
+                            }
+                        },
+                        fail: function (xhr, ajaxOptions, thrownError) {
+                            if (xhr.status === 401) {
+                                w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                                window.open(pUrlInicio, "_self");
+                            }
+                            else {
+                                w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                            }
+                            w2popup.unlock();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            if (xhr.status === 401) {
+                                w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                                window.open(pUrlInicio, "_self");
+                            }
+                            else {
+                                w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                            }
+                            w2popup.unlock();
+                        }
+                    });
+                }
+
+                function Enviarflujo() {
+                    if (save()) {
+                        console.log("Enviando JSON a servuidor....");
+                        $('input[name=JSONFlujo]').val(myDiagram.model.toJson());
+                        AjaxPostForm2('/Solicitud/FlujoEditor', $('#frmFlujoEditor').serialize(), LoadingServer, _UrlInicio);
+                    }
+                }
+            </script>
             <div>
                 <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
-                <button class="btn btn-info" onclick="load()">Enviar</button>
-                JSON del Flujo:
+                <button class="btn btn-info" onclick="Enviarflujo()">Enviar</button>
             </div>
             <br />
-            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue;">
-               {"class":"go.GraphLinksModel","nodeKeyProperty":"id","nodeDataArray":[{"id":0,"loc":"-306.245625 22.15341110657846","text":"UA_Corregir respuesta","fecha":"12-12-12","Perfil":"INAI"},{"id":1,"loc":"42.05120000000002 1.6319362499999812","text":"UT- recibir Solicitud\nDGT\n","fecha":"13-13-13","Perfil":"INAI"},{"id":2,"loc":"322.0604437499998 24.831649999999932","text":"UA_Corregir respuesta"},{"id":3,"loc":"610.2930375000003 -112.38258125000007","text":"Analizar Solicitud\nDGTI"},{"text":"Analizar Solicitud\nDGTI","loc":"572.3743687500004 191.87035624999987","id":-5},{"text":"C","loc":"52.571124999999995 224.60927999999987","id":-6},{"text":"PRUD_Notificar","loc":"223.15404843750008 378.7297584375001","id":-7},{"text":"INAI_Respuesta solicitud","loc":"-268.38099187500023 393.8743134374999","id":-8}],"linkDataArray":[{"from":1,"to":2,"text":"Pública","points":[203.35941094293122,20.301292564112476,253.14987570475313,9.938646600648136,301.53286592026717,11.444905086528866,348.7148831422816,25.19080467666297]},{"from":2,"to":3,"text":"Información reservada parcialmente","points":[442.5698658733755,25.053101282610708,489.9925950605543,-7.27924455485474,545.9296472983712,-35.615709787682285,619.3910246423625,-61.52982257608132]},{"from":2,"to":-5,"points":[449.95843353045433,63.53344094371122,511.4243966426165,96.57292942054652,567.9967474268286,139.3739581717164,619.2965853994153,192.00921403016102],"text":"Información confidencial"},{"from":0,"to":1,"points":[-122.65434240428294,35.331181630528654,-67.57866273406835,31.034119649722072,-14.016512666122575,30.374097323738688,42.051705204503605,33.35657747299196],"text":"Enviar\n"},{"from":1,"to":-6,"text":"","points":[116.13000933669869,72.34091481581594,106.52115958758642,122.89439638076968,95.00074200949227,171.22191966243517,76.16071988551647,224.94527149736612]},{"from":-6,"to":-7,"text":"Enviar","points":[84.71834865744196,256.8022743152791,148.69869080221142,309.34299280854486,226.19953979160286,333.4648540600247,270.1538814363473,378.8742303942944]},{"from":-6,"to":-8,"text":"Inexistencia de la información solicitada","points":[54.61160428350184,257.4878764989676,-4.145013059751971,310.3900512553132,-56.39805548124444,329.4940112596667,-142.90861306230306,394.07607154700736]}]}
+            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; display:none;">
+                    {"class":"go.GraphLinksModel","nodeKeyProperty":"id","nodeDataArray":[{"id":0,"loc":"-296.52157500000004 -20.389307643421574","text":"UA_Corregir respuesta","fecha":"12-12-12","Perfil":"INAI"},{"id":1,"loc":"-312.63867500000003 156.87371124999999","text":"INAI_Respuesta solicitud","fecha":"13-13-13","Perfil":"INAI"},{"text":"INAI_Crear solicitud","loc":"-229.52157499999998 -200.38930764342157","id":-3}],"linkDataArray":[{"from":0,"to":1,"points":[-204.2847642881381,18.57740316680077,-202.85082191725567,65.03225182115119,-204.96933969807273,110.00810511383916,-210.85420515399954,156.87703494421189],"text":"La solicitud no es de competencia de la unidad de enlace"},{"from":0,"to":-3,"text":"La solicitud no corresponde al marco de la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental","points":[-206.2869367270264,-20.38770908406764,-211.79182902769045,-77.58028398263653,-214.13865720143394,-111.55923235945184,-213.67015639151325,-161.42250361487342]}]}
+           
             </textarea>
 
             <script>
-                
+
 
                 function acomodarJSON() {
                     var ugly = document.getElementById('mySavedModel').value;
@@ -317,36 +368,33 @@
                     console.log("VAL: ");
                     console.log(jsonToValidate);
                     var error = 0;
-                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++)
-                    {
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
                         // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
                         // reemplazar los IDS por el texto
                         // Colocar las propiedades en un El nuevo JSON
-                        if (checkRespuestaOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), TRespuestas) 
-                                |jsonToValidate.linkDataArray[i].text == "")
-                        {
-                                error = 0;
-                                if (jsonToValidate.linkDataArray[i].text == "") break;
-                                jsonToValidate.linkDataArray[i].text = TRespuestas.records[i].descripcion;  
-                                jsonToValidate.linkDataArray[i].ID = TRespuestas.records[i].clave;
+                        if (checkRespuestaOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), TRespuestas)
+                            | jsonToValidate.linkDataArray[i].text == "") {
+                            error = 0;
+                            if (jsonToValidate.linkDataArray[i].text == "") break;
+                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[i].descripcion;
+                            jsonToValidate.linkDataArray[i].ID = TRespuestas.records[i].clave;
                         }
-                        else
-                        {
+                        else {
                             error = 1;
-                            console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + TRespuestas.records[i].descripcion );
+                            console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + TRespuestas.records[i].descripcion);
                             break;
                         }
-                        
-                    }   
-                    
+
+                    }
+
                     if (error == 0) {
                         w2alert('¿estás seguro de guardar estos cambios?');
                         replaceNumbersToDescriptions();
                     }
                     else {
-                        error = 1;
+                        //error = 1;
                         w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de tipo de respuestas de la derecha o agregar una');
-                       
+
                     }
                 }
 
@@ -354,13 +402,12 @@
                     var jsonToValidate = JSON.parse(myDiagram.model.toJson());
                     console.log(jsonToValidate);
                     /*RECORRIDO DE NODODS*/
-                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++)
-                    {
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
                         var idNodo = jsonToValidate.nodeDataArray[i].text;
                         //console.log("NOD:" + idNodo);
-                        if (parseInt(idNodo) != NaN & parseInt(idNodo) > 0 ) {
-                            jsonToValidate.nodeDataArray[i].text = Nodos.records[idNodo].descripcion;
-                         }
+                        if (parseInt(idNodo) != NaN & parseInt(idNodo) > 0) {
+                            jsonToValidate.nodeDataArray[i].text = Nodos.records[idNodo - 1].descripcion;
+                        }
                     }
                     /*RECORRIDO DE RESPUESTAS*/
                     for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
@@ -374,10 +421,10 @@
 
                     myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
 
-                    return 0 ;
+                    return 0;
                 }
 
-                function checkRespuestaOn(palabra, respuestas) { 
+                function checkRespuestaOn(palabra, respuestas) {
                     for (var j = 0; j < respuestas.records.length; j++) {
                         if (palabra == respuestas.records[j].descripcion | palabra == respuestas.records[j].clave)
                             return true;
@@ -389,21 +436,20 @@
                     var jsonToValidate = JSON.parse(myDiagram.model.toJson());
                     console.log(jsonToValidate);
                     var error = 0;
-                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++)
-                    {
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
                         // recorrer los tipos de perfil y ver si está dentro de TRespuestas
                         // reemplazar los IDS por el texto
                         // Colocar las propiedades en un El nuevo JSON
-                        if (checkPerfilOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), Nodos)
-                            | jsonToValidate.linkDataArray[i].text == "") {
+                        if (checkPerfilOn(jsonToValidate.nodeDataArray[i].text.replace(/\r?\n?/g, ''), Nodos)
+                            | jsonToValidate.nodeDataArray[i].text == "") {
                             error = 0;
-                            if (jsonToValidate.linkDataArray[i].text == "") break;
-                            jsonToValidate.linkDataArray[i].text = Nodos.records[i].descripcion;
-                            jsonToValidate.linkDataArray[i].ID = Nodos.records[i].clave;
+                            if (jsonToValidate.nodeDataArray[i].text == "") break;
+                            jsonToValidate.nodeDataArray[i].text = Nodos.records[i].descripcion;
+                            jsonToValidate.nodeDataArray[i].ID = Nodos.records[i].clave;
                         }
                         else {
                             error = 1;
-                            //console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + Nodos.records[i].descripcion);
+                            console.log("i: " + i + " |" + jsonToValidate.nodeDataArray[i].text + "| " + Nodos.records[i].descripcion);
                             break;
                         }
                     }
@@ -412,14 +458,14 @@
                     }
                     else {
                         error = 1;
-                        w2alert('Una de los perfiles no es valido, DEBE seleccionar entre las opciones de tipo de perfil de la derecha o agregar uno');
+                        w2alert('Uno de los perfiles no es valido, DEBE seleccionar entre las opciones de tipo de perfil de la derecha o agregar uno nuevo');
                     }
 
                 }
 
                 function checkPerfilOn(palabra, perfiles) {
                     for (var j = 0; j < perfiles.records.length; j++) {
-                        if (palabra == perfiles.records[j].descripcion | palabra == perfiles.records[j].clave)
+                        if (palabra == perfiles.records[j].descripcion.replace(/\r?\n?/g, '') | palabra == perfiles.records[j].clave)
                             return true;
                     }
                     return false;
@@ -451,13 +497,12 @@
             -moz-transform: scale(1.45);
             -moz-transform-origin: 0 0;
         }
-
     </style>
 
     <div id="myModalNode" class="modal fade">
         <iframe id="node" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
     </div>
-    
+
     <div id="myModalResp" class="modal fade">
         <iframe id="resp" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
     </div>
@@ -476,5 +521,12 @@
         <input type="hidden" value="31" name="Entidad" />
         <input type="hidden" value="100" name="PagMaxReg" />
         <input type="hidden" value="1" name="PagAct" />
+    </form>
+
+
+    <form id="frmFlujoEditor" asp-controller="Solicitud" asp-action="FlujoEditor" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" value="1" name="JSONFlujo" />
     </form>
 </body>

@@ -26,9 +26,37 @@ using SFP.Persistencia.Util;
 using SFP.SIT.SERV.Dao.RED;
 using SFP.SIT.SERV.Dao.RESP;
 using SFP.SIT.AFD.Model;
-
+using SFP.SIT.FLUJO;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
 namespace SFP.SIT.WEB.Controllers
 {
+    /*PASAR A OTROS ARCHIVOS*/
+    public class NodeDataArray
+    {
+        public int id { get; set; }
+        public string loc { get; set; }
+        public string text { get; set; }
+        public string fecha { get; set; }
+        public string Perfil { get; set; }
+    }
+
+    public class LinkDataArray
+    {
+        public int from { get; set; }
+        public int to { get; set; }
+        public List<double> points { get; set; }
+        public string text { get; set; }
+    }
+
+    public class RootObject
+    {
+        public string @class { get; set; }
+        public string nodeKeyProperty { get; set; }
+        public List<NodeDataArray> nodeDataArray { get; set; }
+        public List<LinkDataArray> linkDataArray { get; set; }
+    }
+
     public class SolicitudController : SitBaseCtlr
     {
         SolicitudSer _solServ;
@@ -239,46 +267,23 @@ namespace SFP.SIT.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult FlujoEditor([FromForm] FrmAfdDatosMdl datosSolVM)
+        public IActionResult FlujoEditor(string JSONFlujo)
         {
-            datosSolVM.fecini = FechaUtil.AsignarFecha(datosSolVM.sfecini);
-            if (datosSolVM.mvc == ConstantesWeb.FLUJO.AMPLIACION)
+            FlujoEditor fe = new FLUJO.FlujoEditor();
+
+            JObject json = JObject.Parse(JSONFlujo);
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            RootObject rt = jss.Deserialize<RootObject>(JSONFlujo);
+
+            for (int i =0; i<rt.nodeDataArray.Capacity; i++)
             {
-                // ASGINAMOS EL ESTADO INICIAL 
-                datosSolVM.estado = Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
-
-                // BUSCAR EL NODO DE INICIAL DE LA UNIDAD DE TRANSPARENCIA PARA GENERAR UNA AMPLIACION
-                SIT_RED_NODO redNodo = _solServ.ObtenerNodoFolioEdoPrc(datosSolVM.folio, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR, datosSolVM.prcID);
-                datosSolVM.clanodo = redNodo.nodclave;
+                fe.createViews(rt.nodeDataArray[i].text);
             }
-
-            if (datosSolVM.area == 0)
-                datosSolVM.area = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-
-            string json = JsonConvert.SerializeObject(datosSolVM);
-
-            if (datosSolVM.mvc == ConstantesWeb.FLUJO.RESPONDER || datosSolVM.mvc == ConstantesWeb.FLUJO.AMPLIACION)
-            {
-                Dictionary<Int32, AfdNodoFlujo> dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-                string sForma = dicAfdFlujo[datosSolVM.estado].nedurl;
-
-                return RedirectToAction(sForma, "Estado", new
-                {
-                    iPrc = datosSolVM.prcID,
-                    lNodo = datosSolVM.clanodo,
-                    iArea = datosSolVM.area,
-                    iPerfil = datosSolVM.perfil
-                });
-
-                //new { folio = datosSolVM.folio, tipoPrcActual = datosSolVM.prcID,  nodo = datosSolVM.clanodo, nodoEdo = datosSolVM.estado });
-                ///return RedirectToAction("NodoBase", "Flujo" + _memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO), new { DatosMdl = json });
-            }
-            else
-            {
-                return View("BandejaRuta");
-            }
+            //fe.createClasses("Edonew.cshtml"); 
+            
+            return View();     
         }
-
 
     }
 }

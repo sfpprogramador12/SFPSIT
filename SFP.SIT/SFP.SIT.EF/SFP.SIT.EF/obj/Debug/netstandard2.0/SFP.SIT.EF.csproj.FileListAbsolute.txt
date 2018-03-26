@@ -1,0 +1,9 @@
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\bin\Debug\netstandard2.0\SFP.SIT.EF.deps.json
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\bin\Debug\netstandard2.0\SFP.SIT.EF.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\bin\Debug\netstandard2.0\SFP.SIT.EF.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.AssemblyInfoInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.AssemblyInfo.cs
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.EF\SFP.SIT.EF\obj\Debug\netstandard2.0\SFP.SIT.EF.pdb

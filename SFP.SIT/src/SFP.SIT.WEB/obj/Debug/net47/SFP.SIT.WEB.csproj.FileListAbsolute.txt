@@ -358,6 +358,7 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.pdb
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WEB.pdb
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Select.Html.dep
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WEB.exe.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WEB.deps.json
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WEB.exe
@@ -408,7 +409,6 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Mic
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.AspNetCore.StaticFiles.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.AspNetCore.WebUtilities.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.CodeAnalysis.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Extensions.Caching.Abstractions.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Extensions.Caching.Memory.dll
@@ -440,7 +440,6 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Mic
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Extensions.WebEncoders.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Net.Http.Headers.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.VisualStudio.Web.BrowserLink.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Win32.Primitives.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Newtonsoft.Json.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\NUglify.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\IKVM.OpenJDK.Beans.dll
@@ -477,43 +476,44 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Ser
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Serilog.Sinks.File.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Serilog.Sinks.Literate.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Serilog.Sinks.RollingFile.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.AppContext.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Buffers.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Collections.Immutable.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Diagnostics.DiagnosticSource.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Numerics.Vectors.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Reflection.Metadata.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Text.Encoding.CodePages.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Text.Encodings.Web.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Threading.Tasks.Extensions.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Security.Cryptography.Algorithms.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Win32.Primitives.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.AppContext.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Collections.NonGeneric.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.ComponentModel.Primitives.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.ComponentModel.TypeConverter.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Console.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Diagnostics.DiagnosticSource.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Diagnostics.FileVersionInfo.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Diagnostics.StackTrace.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Diagnostics.Tracing.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Globalization.Calendars.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.Compression.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.Compression.ZipFile.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.FileSystem.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.FileSystem.Primitives.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Linq.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Linq.Expressions.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Net.Http.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Net.Sockets.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Numerics.Vectors.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Reflection.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Reflection.Metadata.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.Extensions.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.InteropServices.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Runtime.InteropServices.RuntimeInformation.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Security.Cryptography.Algorithms.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Security.Cryptography.Encoding.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Security.Cryptography.Primitives.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Security.Cryptography.X509Certificates.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Text.Encoding.CodePages.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Text.Encodings.Web.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Text.RegularExpressions.dll
-C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Threading.Tasks.Extensions.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Threading.Thread.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Xml.ReaderWriter.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.Xml.XmlDocument.dll
@@ -538,3 +538,6 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.AssemblyInfo.cs
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.exe
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe.config
