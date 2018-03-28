@@ -427,7 +427,7 @@ namespace SFP.SIT.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult crearReporte(string formato, string rep, string status, string area, string tipsol, string tipres, string folio, string fecsolini, string fecsolfin, string semaforo)
+        public ActionResult crearReporte(string rep, string status, string area, string tipsol, string tipres, string folio, string fecsolini, string fecsolfin, string semaforo, string formato)
         {
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
             dicParam.Add(ReporteDao.COL_NUM_REPORTE, rep);
@@ -452,8 +452,8 @@ namespace SFP.SIT.WEB.Controllers
             if (fecsolfin != "undefined")
                 dicParam.Add(ReporteDao.COL_FECSOL_FIN, fecsolfin);
 
-            if (semaforo != "undefined")
-                dicParam.Add(ReporteDao.COL_SEMAFORO, semaforo);
+            //if (semaforo != "undefined")
+            //    dicParam.Add(ReporteDao.COL_SEMAFORO, semaforo);
 
 
             /// CAMBIAR AREA
@@ -473,7 +473,7 @@ namespace SFP.SIT.WEB.Controllers
             string sFile = sNombre; ////// Server.MapPath("\\reporte\\") + sNombre;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            if (formato == "pdf")
+            if (formato == "0")
             {
                 try
                 {
@@ -513,21 +513,24 @@ namespace SFP.SIT.WEB.Controllers
                     worksheet.Cells[1, 6].Value = "Semaforo";
                     worksheet.Cells[1, 7].Value = "Descripción";
 
-                    //Add values
-                    worksheet.Cells["A2"].Value = 1000;
-                    worksheet.Cells["B2"].Value = "62354784";
-                    worksheet.Cells["C2"].Value = "M";
-                    worksheet.Cells["D2"].Value = 5000;
+                    int cont=0;
+                    for (var j = 0; j < 20; j++)
+                    {
+                        foreach (DataRow drDatos in dtReporte.Rows)
+                        {
+                            worksheet.Cells["A" + cont + 2].Value = cont + 1;
+                            worksheet.Cells["B" + cont + 2].Value = drDatos["solclave"].ToString();
+                            DateTime Fecha = (DateTime)drDatos["segfecini"];
+                            worksheet.Cells["C" + cont + 2].Value = Fecha.ToString("dd/MM/yyyy hh:mm");
+                            worksheet.Cells["D" + cont + 2].Value = drDatos["sotdescripcion"].ToString();
+                            worksheet.Cells["E" + cont + 2].Value = drDatos["segdiassemaforo"].ToString();
+                            worksheet.Cells["F" + cont + 2].Value = "Verde";
+                            worksheet.Cells["G" + cont + 2].Value = drDatos["soldes"].ToString();
+                            //worksheet.Cells["H" + cont + 2].Value = 5000;
+                        }
+                        cont++;
+                    }
 
-                    worksheet.Cells["A3"].Value = 1001;
-                    worksheet.Cells["B3"].Value = "Graham";
-                    worksheet.Cells["C3"].Value = "M";
-                    worksheet.Cells["D3"].Value = 10000;
-
-                    worksheet.Cells["A4"].Value = 1002;
-                    worksheet.Cells["B4"].Value = "Jenny";
-                    worksheet.Cells["C4"].Value = "F";
-                    worksheet.Cells["D4"].Value = 5000;
 
                     package.Save(); //Save the workbook.
                 }
