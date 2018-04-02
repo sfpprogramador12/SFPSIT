@@ -40,7 +40,11 @@
         </div>
         <div class="w2ui-field">
             <label>Tipo de Solicitud:</label>
-            <div><select id="TipoSolicitud" name="TipoSolicitud" style="float: left;width:400px;"> </select></div>
+            <div>
+                <select id="TipoSolicitud" name="TipoSolicitud" style="float: left;width:400px;">
+                    
+                </select>
+            </div>
         </div>
         <div class="w2ui-field">
             <label>Tipo de Respuesta:</label>
@@ -105,6 +109,9 @@
         $(function () {
 
             SelectAddElemClear("TipoSolicitud", _TipoSolicitud.records, true);
+            //Subtipos de Solicitud
+            $('#TipoSolicitud').append($('<optgroup label="DATOS PERSONALES"><option value="ACCESO">ACCESO</option><option value="RECTIFICACIÓN">RECTIFICACIÓN</option><option value="OPOSICIÓN">OPOSICIÓN</option><option value="CANCELACIÓN">CANCELACIÓN</option></optgroup>'));
+
             SelectAddElemClear("Area", _Areas.records, true);
             SelectAddElemClear("TipoProceso", _TipoProceso.records, true);
             SelectAddElemClearText("TipoArista", _TipoResp.records, true);
