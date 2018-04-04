@@ -118,7 +118,7 @@ namespace SFP.SIT.SERV.Dao.ADM
         public SIT_ADM_USUARIO dmlSelectExisteUsr(string sCorreo)
         {
             string sSQL = " SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, usrPUESTO, usrFECBAJA, "
-                    + " usrCONTRASEÑA, ARACLAVE_origen, usrCORREO, usrEXTENSION, usrINTENTOS, usrbloquearfin, "
+                    + " usrCONTRASEÑA, usrCORREO, usrEXTENSION, usrINTENTOS, usrbloquearfin, "
                     + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO "
                     + " FROM SIT_ADM_USUARIO WHERE usrCORREO = :P0 ";
 
