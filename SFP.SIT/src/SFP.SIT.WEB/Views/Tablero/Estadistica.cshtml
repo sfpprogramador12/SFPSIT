@@ -363,7 +363,7 @@
         function dibujarTabla(){
             borrarGraficas();
 
-            var result = "<table id='tablaDatos' border=1>";
+            var result = "<div class='table-responsive'> <table class='table' id='tablaDatos' border=1>";
 
             result += "<tr>";
             result += "<th></th>";
@@ -381,7 +381,7 @@
                 }
                 result += "</tr>";
             }
-            result += "</table>";
+            result += "</table></div>";
             $('#divTabla').append(result);
         }
 

@@ -360,6 +360,11 @@
                                 $('#btnAmpliacion').show();
                         }
 
+                        if ($("#cboPerfil").val() == "P3") {
+                            $("#btnSolicitudEditar").css("display", "block");
+                        }
+
+
                         w2ui['gridSolBuscar'].set(record.recid, { nodfeclectura:"LEIDO"});
                         AjaxPostForm('Solicitante', $('#frmBandejaEntrada').serialize(), SolDatosAdicionales, _UrlInicio);
 
