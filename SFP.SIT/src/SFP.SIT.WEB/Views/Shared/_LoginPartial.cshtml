@@ -14,16 +14,20 @@
                 <li class="dropdown-header">Perfiles</li>
             </ul>
         </li>
-        
-        
+
+
         <li style="display:none;">
             <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">
                 @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CBOPERFILAREA).Value)
             </select>
         </li>
-            
+
         <li>
             <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario" target="_blank"></a>
+        </li>
+
+        <li>
+            <a asp-controller="Chat" asp-action="Index" class="glyphicon glyphicon-envelope btn-lg" data-toggle="tooltip" title="Chat" target="_blank"></a>
         </li>
 
         <li>

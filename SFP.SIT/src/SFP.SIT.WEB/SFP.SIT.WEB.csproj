@@ -23,6 +23,7 @@
     <PackageReference Include="BundlerMinifier.Core" Version="2.2.306" />
     <PackageReference Include="ClosedXML" Version="0.91.0" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

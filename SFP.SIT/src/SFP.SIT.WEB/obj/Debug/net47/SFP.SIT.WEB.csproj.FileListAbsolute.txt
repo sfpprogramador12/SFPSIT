@@ -548,3 +548,9 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Exc
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\FastMember.Signed.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.Packaging.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\EPPlus.Core.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Owin.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Owin.Security.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Owin.dll

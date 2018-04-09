@@ -173,6 +173,25 @@ namespace SFP.SIT.SERV.Dao.ADM
         }
 
 
+        /*
+        // BUSQUEDA DE USUARIOS ACTIVOS
+       */
+        public List<SIT_ADM_USUARIO> dmlSelectEncontrarUsuariosActivos(Dictionary<string, object> dicParametros)
+        {
+            string sqlQuery = "SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, "
+                    + " usrCORREO, usrACTIVO "
+                    + " FROM SIT_ADM_USUARIO WHERE usrACTIVO is NOT null";
+
+            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
+                    ConsultaDML(sqlQuery, dicParametros[DButil.SIT_ADM_USUARIO_COL.USRCLAVE].ToString()));
+
+
+            if (lstAdmUsuMdl.Count > 0)
+                return lstAdmUsuMdl;
+            else
+                return null;
+        }
+
 
 
         public Object dmlUpdContraseña(SIT_ADM_USUARIO admUsr)

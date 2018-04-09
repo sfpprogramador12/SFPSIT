@@ -109,6 +109,47 @@ namespace SFP.SIT.WEB.Services
             return UsrMdl;
         }
 
+
+        public List<UsuarioViewModel> EncontrarUsuarios(Dictionary<string, object> dicParam)
+        {
+            UsuarioViewModel UsrMdl = new UsuarioViewModel();
+            SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
+            List<SIT_ADM_USUARIO> admUsrMdl = admUsuDao.dmlSelectEncontrarUsuariosActivos(dicParam) as List<SIT_ADM_USUARIO>;
+            List<UsuarioViewModel> respuesta = new List<UsuarioViewModel>();
+            if (admUsrMdl != null)
+            {
+                foreach (SIT_ADM_USUARIO admPerfil in admUsrMdl)
+                {
+                    respuesta.Add(new UsuarioViewModel() {
+                        AdmUsuMdl = admPerfil
+                    });   
+                }
+
+            }
+            return respuesta;
+        }
+
+        /*encuentra los mensajes salientes y entrantes de un usuario*/
+        public List<UsuarioViewModel> MensajesUsuario(Dictionary<string, object> dicParam)
+        {
+            UsuarioViewModel UsrMdl = new UsuarioViewModel();
+            SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
+            List<SIT_ADM_USUARIO> admUsrMdl = admUsuDao.dmlSelectEncontrarUsuariosActivos(dicParam) as List<SIT_ADM_USUARIO>;
+            List<UsuarioViewModel> respuesta = new List<UsuarioViewModel>();
+            if (admUsrMdl != null)
+            {
+                foreach (SIT_ADM_USUARIO admPerfil in admUsrMdl)
+                {
+                    respuesta.Add(new UsuarioViewModel()
+                    {
+                        AdmUsuMdl = admPerfil
+                    });
+                }
+
+            }
+            return respuesta;
+        }
+
         public Object CambiarContraseña(SIT_ADM_USUARIO admUsr)
         {            
             return  (int )new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdContraseña(admUsr) ; 
