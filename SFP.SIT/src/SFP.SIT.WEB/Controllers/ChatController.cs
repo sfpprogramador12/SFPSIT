@@ -32,7 +32,8 @@ namespace SFP.SIT.WEB.Controllers
 
         }
 
-        [AllowAnonymous]
+        [HttpGet]
+        
         public IActionResult Index()
         {
             //enviar lista de usuarios disponibles
@@ -49,29 +50,25 @@ namespace SFP.SIT.WEB.Controllers
             List<UsuarioViewModel> UsersConnected = (List<UsuarioViewModel>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuarios), dicParam);
 
             ViewBag.ConnectedUsers = JsonTransform.convertJson(UsersConnected as List<UsuarioViewModel>);
+            ViewBag.YourId = currentUserId;
+            //ViewBag.YourId = UsersConnected.;
             return View();
             
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public IActionResult Getmessages()
         {
-            //enviar lista de usuarios disponibles
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string currentUserId = identity.Name.ToString();
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
             dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, currentUserId);
-            List<UsuarioViewModel> Messages = (List<UsuarioViewModel>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.MensajesUsuario), dicParam);
+            UsuarioViewModel Messages = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.MensajesUsuario), dicParam);
 
-            var ConnectedUsers = JsonTransform.convertJson(Messages as List<UsuarioViewModel>);
-            return null;
+            var ConnectedUsers = JsonTransform.convertJson(Messages as UsuarioViewModel);
+            return Json(ConnectedUsers);
             //return ConnectedUsers;
         }
 

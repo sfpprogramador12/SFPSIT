@@ -159,7 +159,7 @@ namespace SFP.SIT.SERV.Dao.ADM
         {
             string sqlQuery = "SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, usrPUESTO, usrFECBAJA, "
                     + " usrCONTRASEÑA, usrCORREO, usrEXTENSION, usrINTENTOS, usrbloquearfin, "
-                    + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO "
+                    + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO, usrActivo "
                     + " FROM SIT_ADM_USUARIO WHERE USRCLAVE = :P0  AND usrFECBAJA is null";
 
             List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
@@ -192,7 +192,23 @@ namespace SFP.SIT.SERV.Dao.ADM
                 return null;
         }
 
+        /*
+        // BUSQUEDA DE USUARIO A TRAVES DE SU CLAVE 
+       */
+        public SIT_ADM_USUARIO dmlSelectUsuarioConversations(Dictionary<string, object> dicParametros)
+        {
+            string sqlQuery = "SELECT  usrClave, usrActivo" 
+                    + " FROM SIT_ADM_USUARIO WHERE USRCLAVE = :P0  AND usrFECBAJA is null";
 
+            List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
+                    ConsultaDML(sqlQuery, dicParametros[DButil.SIT_ADM_USUARIO_COL.USRCLAVE].ToString()));
+
+
+            if (lstAdmUsuMdl.Count > 0)
+                return lstAdmUsuMdl[0];
+            else
+                return null;
+        }
 
         public Object dmlUpdContraseña(SIT_ADM_USUARIO admUsr)
         {
