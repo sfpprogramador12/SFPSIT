@@ -14,6 +14,7 @@ using SFP.Persistencia.Servicio;
 using SFP.SIT.WEB.Injection;
 using SFP.Persistencia.Model;
 using SFP.SIT.WEB.Util;
+using SFP.SIT.SERV.Model.ADM;
 
 namespace SFP.SIT.WEB.Controllers
 {
@@ -72,12 +73,24 @@ namespace SFP.SIT.WEB.Controllers
             //return ConnectedUsers;
         }
 
-        /**/
+        /*rECIVE EL json DE LA CONVERSACION Y LO GUARDA EN AMBOS REGISTROS (EMISOR, RECEPTOR)*/
         [HttpPost]
-        public FileResult SendMessage()
+        public IActionResult SendMessage(string conversation, string to)
         {
-            FileContentResult result = null;
-            return result;
+            var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
+            string currentUserId = identity.Name.ToString();
+
+            SIT_ADM_USUARIO usrMdl = new SIT_ADM_USUARIO() {
+                 usractivo = conversation,
+                 usrclave = Int32.Parse(to)
+            };
+
+            Dictionary<string, object> dicParam = new Dictionary<string, object>();
+            dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, Int32.Parse(to));
+            int ires = (int)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.UpdateConversation), usrMdl);
+            //usrMdl.usrclave =  Int32.Parse(currentUserId);
+            //ires = (int)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.UpdateConversation), usrMdl);
+            return Json(ires);
         }
 
 

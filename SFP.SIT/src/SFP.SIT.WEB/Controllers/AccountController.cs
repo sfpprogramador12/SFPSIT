@@ -126,7 +126,7 @@ namespace SFP.SIT.WEB.Controllers
                         new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(usrMdl.usuariosCompartidos) ),
                         new Claim(ConstantesWeb.Usuario.USUARIOBASE, Convert.ToString(usrMdl.AdmUsuMdl.usrclave) ),
                         new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea ),
-
+                        new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(usrMdl.AdmUsuMdl.usractivo) ),
                     };
 
                     ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));

@@ -27,7 +27,23 @@
         </li>
 
         <li>
+            
             <a asp-controller="Chat" asp-action="Index" class="glyphicon glyphicon-envelope btn-lg" data-toggle="tooltip" title="Chat" target="_blank"></a>
+            <div id="newMess" style="
+                display:none; width: 34px; height: 17px; font-size: 9px; color:  white; background-color:  red; border: 1px solid white; padding: 3px; position: relative; margin: -20px 0px 0px -9px;
+            ">Nuevo</div>
+            <script>
+                var mensajes = @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.USUARIOACTIVO).Value) ;
+                var jsonmensajes = JSON.parse(mensajes);
+                var NotificacionId = 0;
+                //console.log(jsonmensajes);
+                for (var i = 0; i < jsonmensajes.messages.length; i++){
+                    if (jsonmensajes.messages[i].stat == "n" & jsonmensajes.messages[i].to == @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value)) {
+                        document.getElementById("newMess").style.display = "block";
+                        NotificacionId = jsonmensajes.messages[i].from ;
+                    }
+                }
+            </script>
         </li>
 
         <li>

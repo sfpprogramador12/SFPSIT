@@ -45,6 +45,7 @@ namespace SFP.SIT.WEB.Util
             public const string CBOPERFILAREA = "UsuPerfilArea";
             public const string SHAREDUSERS = "SharedUsers";
             public const string USUARIOBASE = "UsuBase";
+            public const string USUARIOACTIVO = "UsuActivo";
         }
 
         

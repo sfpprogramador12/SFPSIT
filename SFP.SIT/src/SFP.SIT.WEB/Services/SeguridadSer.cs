@@ -151,15 +151,26 @@ namespace SFP.SIT.WEB.Services
             return  (int)new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdContraseña(admUsr) ; 
         }
 
+        public Object UpdateConversation(SIT_ADM_USUARIO admUsr)
+        {
+            return (int)new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdConversation(admUsr);
+        }
+
         /*
          *Obtiene el id y el nombre de los usuarios que se pueden personificar      
         */
         public Dictionary<int, string> GetUsuariosCompartidos(string userClave)
         {
             Dictionary<int, string> users = new Dictionary<int, string>();
-
-            foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave)) {
-                users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + " " + actual.usrmaterno);
+            try
+            {
+                foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave))
+                {
+                    users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + " " + actual.usrmaterno);
+                }
+            }
+            catch (Exception e) {
+                
             }
 
             return users;

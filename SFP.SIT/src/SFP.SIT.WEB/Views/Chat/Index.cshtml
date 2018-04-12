@@ -166,15 +166,17 @@
                 <script>
                     var yourName = "";
                     for (var i = 0; i < users.records.length; i++){
-                        if (users.records[i].AdmUsuMdl.usrclave == @ViewBag.YourId) yourName = users.records[i].UsuarioNombre;
-
+                        var NotificacionMensaje = "";
+                        if (users.records[i].AdmUsuMdl.usrclave == @ViewBag.YourId) { yourName = users.records[i].UsuarioNombre; continue; }
+                        if (users.records[i].AdmUsuMdl.usrclave == NotificacionId) { NotificacionMensaje = "Tiene un nuevo mensaje"; }
+                        
                         var s = '<div class="media conversation" id="' + users.records[i].AdmUsuMdl.usrclave+'" >'+
                                 '<a class="pull-left" href="#">'+
                                 '<img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 50px; height: 50px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">'+
                                 '</a>'+
                                 '<div class="media-body">'+
                                 '<h5 class="media-heading @ViewBag.YourId">' + users.records[i].UsuarioNombre +'</h5>'+
-                                '<small>' + users.records[i].UsuarioNombre +'</small>'+
+                            '<small id="newMessagenotif" class="" style="color:red;">' + NotificacionMensaje +'</small>'+
                                 '</div>'+
                             '</div>';
                         $(".conversation-wrap").append(s);
@@ -187,7 +189,6 @@
 
             <div class="message-wrap col-lg-8">
                 <div class="msg-wrap">
-
                     <div class="alert alert-info msg-date">
                         <strong>Mensajes Recibidos</strong>
                     </div>
@@ -204,7 +205,6 @@
                 </div>
                 <div class="send-wrap " style="display: none;">
                     <textarea class="form-control send-message" rows="3" placeholder="Escribe tu respuesta ..."></textarea>
-
                 </div>
                 <div class="btn-panel">
                      <a href="#" class=" col-lg-4 text-right btn   send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> Enviar Mensaje</a>
@@ -213,35 +213,49 @@
         </div>
     </div>
     
+    <form id="formConversacion" asp-controller="Chat" asp-action="SendMessage" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="conversation" name="conversation" value="">
+        <input type="hidden" id="to" name="to" value="">
+        <input type="hidden" id="stat" name="stat" value="n" />
+    </form>
+
     <script>
         function newConversation() {
             console.log("new Conversation");
             $(".send-wrap").css("display", "block");
+            conversacion = { "messages": [] };
         }
         var toName = "";
         var toId = 0;
-        function renderMessage(messages) {
+        var conversacion = "";
+        var yourId = @Html.Raw(ViewBag.YourId);
+        var mensajesTotales = 0;
+
+        function renderMessage(mess) {
             var idTo = 1000;
-            var yourId = @Html.Raw(ViewBag.YourId);
-            
-
-            if (messages == "1" | messages == undefined) { newConversation(); }
-            for (var i = 0; i < messages.length; i++) {
-
+            $(".media.msg").remove();
+            var m = JSON.parse(mess);
+            conversacion = m;
+            console.log(m);
+            if (mess == "1" | mess == undefined) { newConversation(); return; }
+            mensajesTotales = m.messages.length;
+            for (var i = 0; i < m.messages.length; i++) {
+                $(".send-wrap").css("display", "block");
                 var Name = "";
-                if (messages[i].to == yourId) {
+                if (m.messages[i].from == yourId) {
                     Name = yourName;
                 } else {
                     Name = toName;
                 }
-                var message = messages[i].mess;
-                var date = messages[i].date;
-                mesageBody = '<div class="media msg">' +
+                var message = m.messages[i].mess;
+                var date = m.messages[i].date;
+                var mesageBody = '<div class="media msg">' +
                     '<a class="pull-left" href="#">' +
                     '<img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">' +
                     '</a>' +
                     '<div class="media-body">' +
-                    '<small class="pull-right time"><i class="fa fa-clock-o"></i> '+date+'</small>' +
+                    '<small class="pull-right time"><i class="fa fa-clock-o"></i> '+ date +'</small>' +
                     '<h5 class="media-heading">' + Name + '</h5>' +
                     '<small class="col-lg-10">' + message + '</small>' +
                     '</div>' +
@@ -251,7 +265,7 @@
         }
 
         function showMessagesFromUserId(id) {
-            console.log("Obteniendo mensajes");
+            console.log("Obteniendo mensajes....");
 
             var trackingJSON = JSON.stringify(id);
             var urlAjax = "/chat/Getmessages";
@@ -265,17 +279,83 @@
                 complete: function () { console.log(""); },
                 success: function (data) {
                     var json = JSON.parse(data);
-                    console.log(json);
-                    console.log("ajax worked: " + json.records.AdmUsuMdl.usractivo);
                     renderMessage(json.records.AdmUsuMdl.usractivo);
+                    //var m = JSON.parse(json.records.AdmUsuMdl.usractivo);
+                    //buscarNuevosMensajes(m); 
                 },
                 error: function (data) { console.log("ajax error"); },
                 dataType: 'json'
             });
         }
 
+        function SendMessageTo(id) {
+            for (var i = 0; i < conversacion.messages.length; i++) {
+                conversacion.messages[i].stat = "v"
+            }
+            conversacion.messages.push({ "to": id, "from": yourId, "mess": $(".send-message").val(), "stat": "n" });
+
+            var data = { "to": id, "conversacion": conversacion };
+            var trackingJSON = JSON.stringify(data);
+            var urlAjax = "/chat/SendMessage";
+            console.log("enviando mensaje  ..... " + trackingJSON);
+            $("#conversation").val(JSON.stringify(conversacion));
+            $("#to").val(id);
+            _Forma = $("#formConversacion").serialize();
 
 
+            
+            $.ajax({
+                type: "POST",
+                url: urlAjax,
+                data: _Forma,
+                beforeSend: function () { console.log("Loading..."); },
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log("enviado");
+                    //renderMessage(json.records.AdmUsuMdl.usractivo);
+                    //var m = JSON.parse(json.records.AdmUsuMdl.usractivo);
+                    //buscarNuevosMensajes(m);
+                },
+                error: function (data) { console.log("ajax error"); },
+                dataType: 'json'
+            });
+            
+        }
+
+        function buscarNuevosMensajes(m) {
+            sleep(10000);
+            if (m.messages.length > mensajesTotales) {
+                $("#newMessagenotif").text("Tienes un nuevo mensaje");
+            } 
+        }
+
+        function getDate() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = mm + '/' + dd + '/' + yyyy;
+            return today;
+
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function hideNotification() {
+            $("#newMess").css("display", "none");
+            $("#newMessagenotif").text("");
+        }
 
         $(document).ready(function () {
             /**
@@ -284,23 +364,33 @@
             */
 
             $(".conversation").click(function (event) {
-                toId = event.target.id;
-                showMessagesFromUserId(event.target.id);
-                toName = $(".media-heading." + event.target.id).text();
+                toId = jQuery(this).attr("id");
+                //console.log("id to send:" + jQuery(this).attr("id"))
+                showMessagesFromUserId(yourId);
+                hideNotification();
+                //setInterval(showMessagesFromUserId(yourId), 50000);
             });
 
             $(".send-message-btn").click(function (event) {
                 // se obtiene el id del destinatario y el mensaje
                 console.log("enviando");
-                var messages = [{ "to": "1000", "from": 10000, "mess": $(".send-message").val(), "date":"01/01/2018" }];
-                renderMessage(messages);
+                var mesageBody = '<div class="media msg">' +
+                    '<a class="pull-left" href="#">' +
+                    '<img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">' +
+                    '</a>' +
+                    '<div class="media-body">' +
+                    '<small class="pull-right time"><i class="fa fa-clock-o"></i> ' + getDate() + '</small>' +
+                    '<h5 class="media-heading">' + yourName + '</h5>' +
+                    '<small class="col-lg-10">' + $(".send-message").val() + '</small>' +
+                    '</div>' +
+                    '</div>';
+                $(".msg-wrap").append(mesageBody);
+
+                
+                SendMessageTo(toId);
+
                 $(".send-message").val("");
 
-                //scroll hast abajo
-                var container = document.getElementsByClassName('msg-wrap');
-                var childrenCount = document.getElementsByClassName("msg-wrap").childNodes.length;
-                var rowToScrollTo = document.getElementsByClassName('msg-wrap').childNodes[childrenCount - 1];;
-                container.scrollTop = rowToScrollTo.offsetTop;
             });
         });
     </script>

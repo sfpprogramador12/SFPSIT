@@ -139,7 +139,7 @@ namespace SFP.SIT.SERV.Dao.ADM
 
             string sqlQuery = "SELECT usrclave, usrNOMBRE, usrPATERNO, usrMATERNO, usrPUESTO, usrFECBAJA, "
                     + " usrCONTRASEÑA, usrCORREO, usrEXTENSION, usrINTENTOS, usrbloquearfin, "
-                    + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO "
+                    + " usrTITULO, usrDESIGNACION, usrFECMOD, usrAUXCORREO, USRACTIVO "
                     + " FROM SIT_ADM_USUARIO WHERE usrCORREO = :P0 and usrCONTRASEÑA = :P1 AND usrFECBAJA is null";
 
             List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
@@ -197,7 +197,7 @@ namespace SFP.SIT.SERV.Dao.ADM
        */
         public SIT_ADM_USUARIO dmlSelectUsuarioConversations(Dictionary<string, object> dicParametros)
         {
-            string sqlQuery = "SELECT  usrClave, usrActivo" 
+            string sqlQuery = "SELECT  usrClave, usrActivo"
                     + " FROM SIT_ADM_USUARIO WHERE USRCLAVE = :P0  AND usrFECBAJA is null";
 
             List<SIT_ADM_USUARIO> lstAdmUsuMdl = CrearListaMDL<SIT_ADM_USUARIO>(
@@ -216,6 +216,14 @@ namespace SFP.SIT.SERV.Dao.ADM
 
             string sqlQuery = " UPDATE SIT_ADM_USUARIO SET usrCONTRASEÑA = :P0 WHERE usrclave = :P1 ";
             return EjecutaDML(sqlQuery, sContraseñaMD5, admUsr.usrclave);
+        }
+
+        public Object dmlUpdConversation(SIT_ADM_USUARIO admUsr)
+        {
+            //String sContraseñaMD5 = EncriptarUtil.ObtenerMD5Hash(admUsr.usrcontraseña);
+
+            string sqlQuery = "UPDATE SIT_ADM_USUARIO SET usrActivo = :P1 WHERE usrclave = :P0 ";
+            return EjecutaDML(sqlQuery, admUsr.usractivo, admUsr.usrclave );
         }
 
 
