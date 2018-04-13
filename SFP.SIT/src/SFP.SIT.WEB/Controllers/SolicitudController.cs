@@ -285,5 +285,19 @@ namespace SFP.SIT.WEB.Controllers
             return View();     
         }
 
+
+        /////* ********************************************
+        ////       EDITOR DEFLUJO de HISTORIAL DE AREAS
+        ////******************************************** */
+        [HttpGet]
+        public IActionResult AreasHistorial()
+        {
+            ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+
+
+            return View();
+        }
+
+
     }
 }

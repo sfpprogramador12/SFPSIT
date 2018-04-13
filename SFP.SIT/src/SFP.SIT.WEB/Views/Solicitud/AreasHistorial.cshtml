@@ -1,0 +1,532 @@
+﻿@using SFP.SIT.SERV.Util
+
+<script type="text/javascript" src="~/js/sit/go.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
+
+<script id="code">
+    function init() {
+        if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+        var $ = go.GraphObject.make;  // for conciseness in defining templates
+        myDiagram =
+            $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+                {
+                    // start everything in the middle of the viewport
+                    initialContentAlignment: go.Spot.Center,
+                    // have mouse wheel events zoom in and out instead of scroll up and down
+                    "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
+                    // support double-click in background creating a new node
+                    "clickCreatingTool.archetypeNodeData": { text: "new node" },
+                    // enable undo & redo
+                    "undoManager.isEnabled": true
+                });
+        // when the document is modified, add a "*" to the title and enable the "Save" button
+        myDiagram.addDiagramListener("Modified", function (e) {
+            //save();
+
+            var button = document.getElementById("SaveButton");
+            if (button) button.disabled = !myDiagram.isModified;
+            var idx = document.title.indexOf("*");
+            if (myDiagram.isModified) {
+                if (idx < 0) document.title += "*";
+            } else {
+                if (idx >= 0) document.title = document.title.substr(0, idx);
+            }
+
+        });
+        // define the Node template
+        myDiagram.nodeTemplate =
+            $(go.Node, "Auto",
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                // define the node's outer shape, which will surround the TextBlock
+                $(go.Shape, "RoundedRectangle",
+                    {
+                        parameter1: 20,  // the corner has a large radius
+                        fill: $(go.Brush, "Linear", { 0: "rgb(0, 242, 113)", 1: "rgb(0, 242, 113)" }),
+                        stroke: null,
+                        portId: "",  // this Shape is the Node's port, not the whole Node
+                        fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                        toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                        cursor: "pointer"
+                    }),
+                $(go.TextBlock,
+                    {
+                        font: "bold 11pt helvetica, bold arial, sans-serif",
+                        editable: true  // editing the text automatically updates the model data
+                    },
+                    new go.Binding("text").makeTwoWay())
+            );
+        // unlike the normal selection Adornment, this one includes a Button
+        myDiagram.nodeTemplate.selectionAdornmentTemplate =
+            $(go.Adornment, "Spot",
+                $(go.Panel, "Auto",
+                    $(go.Shape, { fill: null, stroke: "blue", strokeWidth: 2 }),
+                    $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
+                ),
+                // the button to create a "next" node, at the top-right corner
+                $("Button",
+                    {
+                        alignment: go.Spot.TopRight,
+                        click: addNodeAndLink  // this function is defined below
+                    },
+                    $(go.Shape, "PlusLine", { width: 6, height: 6 })
+                ) // end button
+            ); // end Adornment
+        // clicking the button inserts a new node to the right of the selected node,
+        // and adds a link to that new node
+        function addNodeAndLink(e, obj) {
+            var adornment = obj.part;
+            var diagram = e.diagram;
+            diagram.startTransaction("Add State");
+            // get the node data for which the user clicked the button
+            var fromNode = adornment.adornedPart;
+            var fromData = fromNode.data;
+            // create a new "State" data object, positioned off to the right of the adorned Node
+            var toData = { text: "new" };
+            var p = fromNode.location.copy();
+            p.x += 200;
+            toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
+            // add the new node data to the model
+            var model = diagram.model;
+            model.addNodeData(toData);
+            // create a link data from the old node data to the new node data
+            var linkdata = {
+                from: model.getKeyForNodeData(fromData),  // or just: fromData.id
+                to: model.getKeyForNodeData(toData),
+                text: "transition"
+            };
+            // and add the link data to the model
+            model.addLinkData(linkdata);
+            // select the new Node
+            var newnode = diagram.findNodeForData(toData);
+            diagram.select(newnode);
+            diagram.commitTransaction("Add State");
+            // if the new node is off-screen, scroll the diagram to show the new node
+            diagram.scrollToRect(newnode.actualBounds);
+        }
+        // replace the default Link template in the linkTemplateMap
+        myDiagram.linkTemplate =
+            $(go.Link,  // the whole link panel
+                {
+                    curve: go.Link.Bezier, adjusting: go.Link.Stretch,
+                    reshapable: true, relinkableFrom: true, relinkableTo: true,
+                    toShortLength: 3
+                },
+                new go.Binding("points").makeTwoWay(),
+                new go.Binding("curviness"),
+                $(go.Shape,  // the link shape
+                    { strokeWidth: 1.5 }),
+                $(go.Shape,  // the arrowhead
+                    { toArrow: "standard", stroke: null }),
+                $(go.Panel, "Auto",
+                    $(go.Shape,  // the label background, which becomes transparent around the edges
+                        {
+                            fill: $(go.Brush, "Radial",
+                                { 0: "rgb(240, 240, 240)", 0.3: "rgb(240, 240, 240)", 1: "rgba(240, 240, 240, 0)" }),
+                            stroke: null
+                        }),
+                    $(go.TextBlock, "transition",  // the label text
+                        {
+                            textAlign: "center",
+                            font: "9pt helvetica, arial, sans-serif",
+                            margin: 4,
+                            editable: true  // enable in-place editing
+                        },
+                        // editing the text automatically updates the model data
+                        new go.Binding("text").makeTwoWay())
+                )
+            );
+        // read in the JSON data from the "mySavedModel" element
+        load();
+    }
+    // Show the diagram's model in JSON format
+    function save() {
+        console.log("saving... ");
+        //document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+        //acomodarJSON();
+        validarLinks();
+        validarEdoNodo();
+        replaceNumbersToDescriptions();
+        //acomodarJSON();
+        console.log(" done!");
+        return true;
+    }
+    function load() {
+        myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+    }
+    function modal1() {
+        $("#myModalResp").modal('show');
+    }
+    function modal2() {
+        $("#myModalNode").modal('show');
+    }
+
+
+    var TRespuestas = { "records": [] };
+    var Nodos = { "records": [] };
+    $(document).ready(function () {
+
+        function AjaxPostForm1(pUrl, pData, pFunc, pUrlInicio) {
+            //console.log("AJAX::::::::" + pUrl + ":::::::::" + pData);
+
+            $.ajax({
+                url: pUrl,
+                type: "GET",
+                data: pData,
+                success: function (data) {
+                    if (data === undefined) {
+                        w2alert("No existen Información");
+                    } else {
+                        pFunc(data);
+                    }
+                },
+                fail: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401) {
+                        w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                        window.open(pUrlInicio, "_self");
+                    }
+                    else {
+                        w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                    }
+                    w2popup.unlock();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (xhr.status === 401) {
+                        w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                        window.open(pUrlInicio, "_self");
+                    }
+                    else {
+                        w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                    }
+                    w2popup.unlock();
+                }
+            });
+        }
+
+
+        function RendertipoResp(data) {
+            //console.log(data);
+            for (var i = 0; i < data.records.length; i++) {
+                TRespuestas.records[i] = { "clave": data.records[i].RTPCLAVE, "descripcion": data.records[i].RTPDESCRIPCION };
+                $("#bodyTipoResp").append("<tr><td class=\"active\">" + data.records[i].RTPCLAVE + "</td><td class=\"active\">" + data.records[i].RTPDESCRIPCION + "</td></tr>");
+            }
+        }
+
+        function RenderNodo(data) {
+            //console.log(data);
+            for (var i = 0; i < data.records.length; i++) {
+                Nodos.records[i] = { "clave": data.records[i].NEDCLAVE, "descripcion": data.records[i].NEDDESCRIPCION };
+                $("#bodyNodo").append("<tr><td class=\"active\">" + data.records[i].NEDCLAVE + "</td><td class=\"active\">" + data.records[i].NEDDESCRIPCION + "</td></tr>");
+            }
+        }
+
+        
+
+        var _UrlInicio = "";
+        //AjaxPostForm1('/Catalogo/Consulta', $('#frmtipoResp').serialize(), RendertipoResp, _UrlInicio);
+        //AjaxPostForm1('/Catalogo/Consulta', $('#frmTipoNodo').serialize(), RenderNodo, _UrlInicio);
+
+    });
+    
+</script>
+
+
+<body onload="init()" style="margin-right: 40px; margin-left: 40px; width: 90%; ">
+    <div id="sample">
+        <div id="d" style="margin-top: 10px; display: inline-block;">
+            <h1>Editor de Historial de Áreas</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div id="myDiagramDiv" style="background-color: rgb(216, 216, 216); margin-top:30px;  border: solid 1px black; width: 100%; height: 600px;"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <button class="btn btn-green" onclick="modal1()">Agregar Nuevo Nodo</button>
+                    <button class="btn btn-blue" onclick="modal2()">Agregar Nueva Respuesta</button>
+                </div>
+                <br />
+                <div class="table-responsive" style="overflow: auto; height: 300px;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>ID Respuesta </td>
+                                <td>Descripción </td>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTipoResp">
+                            <tr><td class=""></td><td class=""></td></tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="table-responsive" style="overflow: auto; height: 300px;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>ID Nodo</td>
+                                <td>Descripción</td>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyNodo">
+                            <tr><td class=""></td><td class=""></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <h3>Instrucciones de Uso</h3>
+        <ol start="1" style="margin-left: 25px; font-size: 1.2em;">
+            <li>El texto de las cajas y de las flechas es editable</li>
+            <li>Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
+            <li>La rueda del mouse acerca o aleja la vista del flujo.</li>
+            <li>El texto es editable tanto para los perfiles como para las acciones.</li>
+            <li>Las condicionales DEBEN contener en el texto la letra C mayúscula</li>
+        </ol>
+
+        <div>
+            <br />
+            <script>
+                function LoadingServer() { 
+                    console.log("wait");
+                }
+                function AjaxPostForm2(pUrl, pData, pFunc, pUrlInicio) {
+                    //console.log("AJAX::::::::" + pUrl + ":::::::::" + pData);
+
+                    $.ajax({
+                        url: pUrl,
+                        type: "POST",
+                        data: pData,
+                        success: function (data) {
+                            if (data === undefined) {
+                                w2alert("No existen Información");
+                            } else {
+                                pFunc(data);
+                            }
+                        },
+                        fail: function (xhr, ajaxOptions, thrownError) {
+                            if (xhr.status === 401) {
+                                w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                                window.open(pUrlInicio, "_self");
+                            }
+                            else {
+                                w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                            }
+                            w2popup.unlock();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            if (xhr.status === 401) {
+                                w2alert("La sesión de usuario no existe, se redirecciona a la página principal");
+                                window.open(pUrlInicio, "_self");
+                            }
+                            else {
+                                w2alert("Existe un error en el sistema, favor de avisar al área de la DGTI");
+                            }
+                            w2popup.unlock();
+                        }
+                    });
+                }
+
+                function Enviarflujo() {
+                    if (save()) {
+                        console.log("Enviando JSON a servuidor....");
+                        $('input[name=JSONFlujo]').val(myDiagram.model.toJson());
+                        //AjaxPostForm2('/Solicitud/FlujoEditor', $('#frmFlujoEditor').serialize(), LoadingServer, _UrlInicio);
+                    }
+                }
+            </script>
+            <div>
+                <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
+                <button class="btn btn-info" onclick="Enviarflujo()">Enviar</button>
+            </div>
+            <br />
+            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; display:none;">
+                    {"class":"go.GraphLinksModel","nodeKeyProperty":"id","nodeDataArray":[{"id":0,"loc":"-296.52157500000004 -20.389307643421574","text":"UA_Corregir respuesta","fecha":"12-12-12","Perfil":"INAI"},{"id":1,"loc":"-312.63867500000003 156.87371124999999","text":"INAI_Respuesta solicitud","fecha":"13-13-13","Perfil":"INAI"},{"text":"INAI_Crear solicitud","loc":"-229.52157499999998 -200.38930764342157","id":-3}],"linkDataArray":[{"from":0,"to":1,"points":[-204.2847642881381,18.57740316680077,-202.85082191725567,65.03225182115119,-204.96933969807273,110.00810511383916,-210.85420515399954,156.87703494421189],"text":"La solicitud no es de competencia de la unidad de enlace"},{"from":0,"to":-3,"text":"La solicitud no corresponde al marco de la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental","points":[-206.2869367270264,-20.38770908406764,-211.79182902769045,-77.58028398263653,-214.13865720143394,-111.55923235945184,-213.67015639151325,-161.42250361487342]}]}
+           
+            </textarea>
+
+            <script>
+
+
+                function acomodarJSON() {
+                    var ugly = document.getElementById('mySavedModel').value;
+                    var obj = JSON.parse(ugly);
+                    var pretty = JSON.stringify(obj, undefined, 4);
+                    document.getElementById('mySavedModel').value = pretty;
+                }
+                //acomodarJSON();
+
+                function validarLinks() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log("VAL: ");
+                    console.log(jsonToValidate);
+                    var error = 0;
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
+                        // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
+                        // reemplazar los IDS por el texto
+                        // Colocar las propiedades en un El nuevo JSON
+                        if (checkRespuestaOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), TRespuestas)
+                            | jsonToValidate.linkDataArray[i].text == "") {
+                            error = 0;
+                            if (jsonToValidate.linkDataArray[i].text == "") break;
+                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[i].descripcion;
+                            jsonToValidate.linkDataArray[i].ID = TRespuestas.records[i].clave;
+                        }
+                        else {
+                            error = 1;
+                            console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + TRespuestas.records[i].descripcion);
+                            break;
+                        }
+
+                    }
+
+                    if (error == 0) {
+                        w2alert('¿estás seguro de guardar estos cambios?');
+                        replaceNumbersToDescriptions();
+                    }
+                    else {
+                        //error = 1;
+                        w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de tipo de respuestas de la derecha o agregar una');
+
+                    }
+                }
+
+                function replaceNumbersToDescriptions() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log(jsonToValidate);
+                    /*RECORRIDO DE NODODS*/
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
+                        var idNodo = jsonToValidate.nodeDataArray[i].text;
+                        //console.log("NOD:" + idNodo);
+                        if (parseInt(idNodo) != NaN & parseInt(idNodo) > 0) {
+                            jsonToValidate.nodeDataArray[i].text = Nodos.records[idNodo - 1].descripcion;
+                        }
+                    }
+                    /*RECORRIDO DE RESPUESTAS*/
+                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
+                        var idResp = jsonToValidate.linkDataArray[i].text;
+                        //console.log("NOD:" + idNodo);
+                        if (parseInt(idResp) != NaN & parseInt(idResp) > 0) {
+                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[idResp].descripcion;
+                        }
+                    }
+                    document.getElementById('mySavedModel').value = JSON.stringify(jsonToValidate);
+
+                    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+
+                    return 0;
+                }
+
+                function checkRespuestaOn(palabra, respuestas) {
+                    for (var j = 0; j < respuestas.records.length; j++) {
+                        if (palabra == respuestas.records[j].descripcion | palabra == respuestas.records[j].clave)
+                            return true;
+                    }
+                    return false;
+                }
+
+                function validarEdoNodo() {
+                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
+                    console.log(jsonToValidate);
+                    var error = 0;
+                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
+                        // recorrer los tipos de perfil y ver si está dentro de TRespuestas
+                        // reemplazar los IDS por el texto
+                        // Colocar las propiedades en un El nuevo JSON
+                        if (checkPerfilOn(jsonToValidate.nodeDataArray[i].text.replace(/\r?\n?/g, ''), Nodos)
+                            | jsonToValidate.nodeDataArray[i].text == "") {
+                            error = 0;
+                            if (jsonToValidate.nodeDataArray[i].text == "") break;
+                            jsonToValidate.nodeDataArray[i].text = Nodos.records[i].descripcion;
+                            jsonToValidate.nodeDataArray[i].ID = Nodos.records[i].clave;
+                        }
+                        else {
+                            error = 1;
+                            console.log("i: " + i + " |" + jsonToValidate.nodeDataArray[i].text + "| " + Nodos.records[i].descripcion);
+                            break;
+                        }
+                    }
+                    if (error == 0) {
+                        w2alert('¿estás seguro de guardar estos cambios?');
+                    }
+                    else {
+                        error = 1;
+                        w2alert('Uno de los perfiles no es valido, DEBE seleccionar entre las opciones de tipo de perfil de la derecha o agregar uno nuevo');
+                    }
+
+                }
+
+                function checkPerfilOn(palabra, perfiles) {
+                    for (var j = 0; j < perfiles.records.length; j++) {
+                        if (palabra == perfiles.records[j].descripcion.replace(/\r?\n?/g, '') | palabra == perfiles.records[j].clave)
+                            return true;
+                    }
+                    return false;
+                }
+
+            </script>
+            <svg width="400" height="180" style="display: none;">
+                <g>
+                    <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
+                          style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
+                    <text x="55" y="50" font-family="Verdana" font-size="15" fill="black">Hello</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+
+
+    <style>
+        .frame {
+            width: 800px;
+            height: 520px;
+            border: 1px solid black;
+            margin: 10%;
+        }
+
+        .frame {
+            zoom: 1.45;
+            -moz-transform: scale(1.45);
+            -moz-transform-origin: 0 0;
+        }
+    </style>
+
+    <div id="myModalNode" class="modal fade">
+        <iframe id="node" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
+    </div>
+
+    <div id="myModalResp" class="modal fade">
+        <iframe id="resp" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
+    </div>
+
+
+
+    <form id="frmtipoResp" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="22" name="Entidad" />
+        <input type="hidden" value="100" name="PagMaxReg" />
+        <input type="hidden" value="1" name="PagAct" />
+    </form>
+
+    <form id="frmTipoNodo" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="31" name="Entidad" />
+        <input type="hidden" value="100" name="PagMaxReg" />
+        <input type="hidden" value="1" name="PagAct" />
+    </form>
+
+
+    <form id="frmFlujoEditor" asp-controller="Solicitud" asp-action="FlujoEditor" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" value="1" name="JSONFlujo" />
+    </form>
+</body>

@@ -1054,6 +1054,7 @@ namespace SFP.SIT.SESAI.Servicio
         public List<SIT_ADM_USUARIO> dmlSelectUsuario( )
         {
             List<SIT_ADM_USUARIO> lstDatos = new List<SIT_ADM_USUARIO>();
+            /*
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 3,  usrnombre = "LUIS", usrpaterno = "GÓMEZ", usrmaterno = "RIVERA", usrpuesto = "SUBDIRECTOR EN DESARROLLO DE TECNOLOGÍA WEB", usrcontraseña = "lgomezr", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "lgomezr@funcionpublica.gob.mx", usrextension = "0", usrtitulo = "", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()   });
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 92, usrnombre = "ALEJANDRO", usrpaterno = "DURAN", usrmaterno = "ZARATE", usrpuesto = "DIRECTOR GENERAL ADJUNTO DE PROCEDIMIENTOS Y SERVICIOS LEGALES", usrcontraseña = "aduranz", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "aduranz@funcionpublica.gob.mx", usrextension = "2382", usrtitulo = "Lic.", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()  });
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 93, usrnombre = "NAOMI CLAUDIA", usrpaterno = "ASATANI", usrmaterno = "KIMURA", usrpuesto = "DIRECTOR DE INNOVACIÓN JURÍDICA", usrcontraseña = "ncasatani", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "ncasatani@funciojnpublica.gob.mx", usrextension = "0", usrtitulo = "Lic.", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()  });
@@ -1435,7 +1436,7 @@ namespace SFP.SIT.SESAI.Servicio
             {
                 lstDatos[iIdxUsu].usrcontraseña = EncriptarUtil.ObtenerMD5Hash(lstDatos[iIdxUsu].usrcontraseña);
             }
-
+            */
             return lstDatos;
         }
 
