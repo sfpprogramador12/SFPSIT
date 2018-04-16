@@ -160,10 +160,16 @@ namespace SFP.Persistencia.Dao
                         }
                         else if (propActual.PropertyType == typeof(DateTime))
                         {
-                            if (dtDatos.Rows[iIdx][nombreCampos[iIdxCol]].ToString() == "")
-                                propActual.SetValue(objMdl, DateTime.MinValue);
-                            else
-                                propActual.SetValue(objMdl, Convert.ToDateTime(dtDatos.Rows[iIdx][nombreCampos[iIdxCol]]));
+                            try
+                            {
+                                if (dtDatos.Rows[iIdx][nombreCampos[iIdxCol]].ToString() == "")
+                                    propActual.SetValue(objMdl, DateTime.MinValue);
+                                else
+                                    propActual.SetValue(objMdl, Convert.ToDateTime(dtDatos.Rows[iIdx][nombreCampos[iIdxCol]]));
+                            }
+                            catch (Exception e) {
+                                Console.Out.WriteLine("The timestamp is not valid");
+                            }
                         }
                         else if (propActual.PropertyType == typeof(Byte))
                         {
@@ -182,7 +188,7 @@ namespace SFP.Persistencia.Dao
             }
             catch (Exception ex)
             {
-                Console.Out.WriteLine(" Error en el dato :  " + ex.Message);
+                //Console.Out.WriteLine(" Error en el dato :  " + ex.Message);
                 throw new System.ArgumentException("ERROR EN ELTIPO DE DATO", "original");
             }
 

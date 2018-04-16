@@ -77,10 +77,27 @@ namespace SFP.SIT.WEB.Controllers
             DateTime dteFecAclaracion = new DateTime();
             CalcularPlazoNeg calcularPlazoNeg = new CalcularPlazoNeg(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>);
 
-            SIT_RED_NODO redNodo = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
+            SIT_SOL_SOLICITUD solSolicitud = new SIT_SOL_SOLICITUD();
+            SIT_RED_NODO redNodo = new SIT_RED_NODO();
 
-            SIT_SOL_SOLICITUD solSolicitud = _sitDmlDbSer.operEjecutar<SIT_SOL_SOLICITUDDao>(nameof(SIT_SOL_SOLICITUDDao.dmlSelectID),
-                new SIT_SOL_SOLICITUD { solclave = (long)redNodo.solclave }) as SIT_SOL_SOLICITUD;
+            try
+            {
+                redNodo = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
+
+                solSolicitud = _sitDmlDbSer.operEjecutar<SIT_SOL_SOLICITUDDao>(nameof(SIT_SOL_SOLICITUDDao.dmlSelectID),
+                    new SIT_SOL_SOLICITUD { solclave = (long)redNodo.solclave }) as SIT_SOL_SOLICITUD;
+            }
+            catch (Exception e)
+            {
+                solSolicitud.solfecrec = new DateTime();
+                solSolicitud.solclave = 0;
+                solSolicitud.sotclave = 0;
+                solSolicitud.solfecrec = new DateTime();
+                redNodo = new SIT_RED_NODO();
+                redNodo.araclave = 0;
+                redNodo.nedclave = 1;
+            }
+            
 
 
             edoActVM.folio = solSolicitud.solclave;

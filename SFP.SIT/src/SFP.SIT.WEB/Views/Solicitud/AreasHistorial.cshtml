@@ -147,11 +147,7 @@
     function save() {
         console.log("saving... ");
         //document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-        //acomodarJSON();
-        validarLinks();
-        validarEdoNodo();
-        replaceNumbersToDescriptions();
-        //acomodarJSON();
+        acomodarJSON();            
         console.log(" done!");
         return true;
     }
@@ -246,50 +242,58 @@
             </div>
             <div class="col-md-4">
                 <div class="row">
-                    <button class="btn btn-green" onclick="modal1()">Agregar Nuevo Nodo</button>
-                    <button class="btn btn-blue" onclick="modal2()">Agregar Nueva Respuesta</button>
-                </div>
-                <br />
-                <div class="table-responsive" style="overflow: auto; height: 300px;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td>ID Respuesta </td>
-                                <td>Descripción </td>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyTipoResp">
-                            <tr><td class=""></td><td class=""></td></tr>
+                    <div class="col-md-6">
+                        Fecha de Inicio:<br>
+                        <input type="date" name="bday" max="1990-12-31"><br><br>
+                    </div>
+                    <div class="col-md-6">
+                        Fecha Final:
+                        <input type="date" name="bday" min="2000-01-02"><br><br>
+                    </div>
+                    </div>
+                    <br />
+                    <div class="table-responsive" style="overflow: auto; height: 300px;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Sigla </td>
+                                    <td>Descripción </td>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyTipoResp">
+                                <tr><td class=""></td><td class=""></td></tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="table-responsive" style="overflow: auto; height: 300px;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <td>ID Nivel</td>
+                                    <td>Nivel</td>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyNodo">
+                                <tr><td class=""></td><td class=""></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <br />
-                <div class="table-responsive" style="overflow: auto; height: 300px;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td>ID Nodo</td>
-                                <td>Descripción</td>
-                            </tr>
-                        </thead>
-                        <tbody id="bodyNodo">
-                            <tr><td class=""></td><td class=""></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
 
-
-        <h3>Instrucciones de Uso</h3>
-        <ol start="1" style="margin-left: 25px; font-size: 1.2em;">
-            <li>El texto de las cajas y de las flechas es editable</li>
-            <li>Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
-            <li>La rueda del mouse acerca o aleja la vista del flujo.</li>
-            <li>El texto es editable tanto para los perfiles como para las acciones.</li>
-            <li>Las condicionales DEBEN contener en el texto la letra C mayúscula</li>
-        </ol>
+        <div class="hidden">
+            <h3>Instrucciones de Uso</h3>
+            <ol start="1" style="margin-left: 25px; font-size: 1.2em;">
+                <li>El texto de las cajas y de las flechas es editable</li>
+                <li>Al hacer doble click en el fondo del diagrama, se crea un nuevo nodo</li>
+                <li>La rueda del mouse acerca o aleja la vista del flujo.</li>
+                <li>El texto es editable tanto para los perfiles como para las acciones.</li>
+                <li>Las condicionales DEBEN contener en el texto la letra C mayúscula</li>
+            </ol>
+        </div>
 
         <div>
             <br />
@@ -347,16 +351,167 @@
                 <button class="btn btn-info" onclick="Enviarflujo()">Enviar</button>
             </div>
             <br />
-            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; display:none;">
-                    {"class":"go.GraphLinksModel","nodeKeyProperty":"id","nodeDataArray":[{"id":0,"loc":"-296.52157500000004 -20.389307643421574","text":"UA_Corregir respuesta","fecha":"12-12-12","Perfil":"INAI"},{"id":1,"loc":"-312.63867500000003 156.87371124999999","text":"INAI_Respuesta solicitud","fecha":"13-13-13","Perfil":"INAI"},{"text":"INAI_Crear solicitud","loc":"-229.52157499999998 -200.38930764342157","id":-3}],"linkDataArray":[{"from":0,"to":1,"points":[-204.2847642881381,18.57740316680077,-202.85082191725567,65.03225182115119,-204.96933969807273,110.00810511383916,-210.85420515399954,156.87703494421189],"text":"La solicitud no es de competencia de la unidad de enlace"},{"from":0,"to":-3,"text":"La solicitud no corresponde al marco de la Ley Federal de Transparencia y Acceso a la Información Pública Gubernamental","points":[-206.2869367270264,-20.38770908406764,-211.79182902769045,-77.58028398263653,-214.13865720143394,-111.55923235945184,-213.67015639151325,-161.42250361487342]}]}
-           
+            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; ">
+                {
+    "class": "go.GraphLinksModel",
+    "nodeKeyProperty": "id",
+    "nodeDataArray": [
+        {
+            "text": "SFP\n",
+            "loc": "-199.5215750000001 -257.09999999999997",
+            "id": 100
+        },
+        {
+            "text": "SECODAM\n",
+            "loc": "-238.5215749999998 -95.1",
+            "id": -2
+        },
+        {
+            "text": "UAJ",
+            "loc": "-290.5215749999998 24.1",
+            "id": -4
+        },
+        {
+            "text": "UDA",
+            "loc": "-425.5215749999998 24.1",
+            "id": -5
+        },
+        {
+            "text": "Secretario",
+            "loc": "-559.5215749999998 24.1",
+            "id": -6
+        },
+        {
+            "text": "DGII\n",
+            "loc": "92.47842500000019 24.1",
+            "id": -7
+        },
+        {
+            "text": "UUT",
+            "loc": "-61.521574999999814 24.1",
+            "id": -8
+        },
+        {
+            "text": "DGCS",
+            "loc": "-170.5215749999998 24.1",
+            "id": -9
+        }
+    ],
+    "linkDataArray": [
+        {
+            "from": -3,
+            "to": 100,
+            "text": "",
+            "points": [
+                -176.53670700413235,
+                -202.260329840707,
+                -181.81135639682577,
+                -151.26691053303202,
+                -160.93573165510574,
+                -112.67142318053233,
+                -172.08523063431318,
+                -95.02165826198811
+            ]
+        },
+        {
+            "from": -2,
+            "to": -4,
+            "text": " ",
+            "points": [
+                -198.03923592288092,
+                -40.56961858141981,
+                -207.15395624606637,
+                -13.720372074487122,
+                -221.79252258551284,
+                9.622026642191521,
+                -244.29073065916918,
+                28.220056241985606
+            ]
+        },
+        {
+            "from": -2,
+            "to": -5,
+            "text": " ",
+            "points": [
+                -225.56843302199616,
+                -41.99169527226563,
+                -270.2354834118176,
+                -9.060444825710608,
+                -318.34845745149784,
+                18.300682069426383,
+                -371.65756733844637,
+                38.053018826115135
+            ]
+        },
+        {
+            "from": -2,
+            "to": -6,
+            "text": " ",
+            "points": [
+                -233.39791967179136,
+                -47.992016968827144,
+                -307.97841336453286,
+                -12.720713539984864,
+                -385.2969369032219,
+                16.588129390202837,
+                -467.0380520190466,
+                37.75240401357834
+            ]
+        },
+        {
+            "from": -2,
+            "to": -7,
+            "text": " ",
+            "points": [
+                -141.9940872204673,
+                -53.15969772984797,
+                -61.368860123083344,
+                -27.27574941797179,
+                17.2076555220202,
+                4.842370297366695,
+                93.50074763937285,
+                45.94809058106368
+            ]
+        },
+        {
+            "from": -2,
+            "to": -8,
+            "text": " ",
+            "points": [
+                -147.09375112778642,
+                -46.35085777920166,
+                -111.13879459862453,
+                -28.159702969149723,
+                -78.96293891732101,
+                -4.6242424399624555,
+                -51.84699033833937,
+                26.585868505826493
+            ]
+        },
+        {
+            "from": -2,
+            "to": -9,
+            "text": " ",
+            "points": [
+                -166.84585235188928,
+                -40.662280794277045,
+                -151.07867618385083,
+                -22.69275146427605,
+                -141.26753774865483,
+                -2.0163241128843445,
+                -139.73855093802445,
+                22.613153833853275
+            ]
+        }
+    ]
+}
             </textarea>
 
             <script>
 
 
                 function acomodarJSON() {
-                    var ugly = document.getElementById('mySavedModel').value;
+                    var ugly = myDiagram.model.toJson(); // document.getElementById('mySavedModel').value;
                     var obj = JSON.parse(ugly);
                     var pretty = JSON.stringify(obj, undefined, 4);
                     document.getElementById('mySavedModel').value = pretty;
@@ -499,13 +654,7 @@
         }
     </style>
 
-    <div id="myModalNode" class="modal fade">
-        <iframe id="node" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
-    </div>
-
-    <div id="myModalResp" class="modal fade">
-        <iframe id="resp" class="frame" src="http://localhost:15709/Estado/UTrecibirSol?iPrc=1&lNodo=28&iArea=110&iPerfil=3"></iframe>
-    </div>
+ 
 
 
 
