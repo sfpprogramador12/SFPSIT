@@ -97,11 +97,11 @@ namespace SFP.SIT.SERV.Dao.ADM
  
         /*INICIO*/
 
-        public List<ComboMdl> dmlSelectComboFecActual(DateTime dtFecha)
+        public List<SIT_ADM_AREAHIST> dmlSelectComboFecActual(DateTime dtFecha)
         {
-            String sqlQuery = " Select araClave as ID, arhDESCRIPCION as DESCRIP FROM SIT_adm_areahist where :P0 " +
-                " between arhFecIni AND arhFecFin ORDER BY arhDESCRIPCION";
-            return CrearListaMDL<ComboMdl>(ConsultaDML(sqlQuery, dtFecha));
+            String sqlQuery = "Select * "+
+                " FROM SIT_adm_areahist where '"+dtFecha.ToString("d")+"' between arhFecIni AND arhFecFin ORDER BY anlClave ";
+            return CrearListaMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, dtFecha.ToString("d") ) as DataTable);
         }
 
         public SIT_ADM_AREAHIST dmlSelectAreaActual(int araClave)

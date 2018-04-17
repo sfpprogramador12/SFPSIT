@@ -29,6 +29,8 @@ using SFP.SIT.AFD.Model;
 using SFP.SIT.FLUJO;
 using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
+using SFP.SIT.SERV.Model.ADM;
+
 namespace SFP.SIT.WEB.Controllers
 {
     /*PASAR A OTROS ARCHIVOS*/
@@ -293,11 +295,28 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult AreasHistorial()
         {
             ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
-
-
             return View();
         }
 
+
+        [HttpPost]
+        public string FlujoAreas(string fechaF)
+        {
+            string sRes = "";
+            fechaF = fechaF.Replace('-', '/');
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            //sRes = _sitDmlDbSer.operEjecutar<SIT_ADM_AREADao>(nameof(SIT_ADM_AREADao), cmd, SIT_ADM_AREA).ToString();
+            DateTime date = Convert.ToDateTime(fechaF);
+            date = date.Date;
+
+
+            //sRes = _sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date.ToString("d")).ToString();
+
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date));
+            sRes = _catViewMdl.lstAreaHist.ToString();
+            return sRes;
+        
+        }
 
     }
 }

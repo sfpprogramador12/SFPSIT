@@ -154,12 +154,7 @@
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
     }
-    function modal1() {
-        $("#myModalResp").modal('show');
-    }
-    function modal2() {
-        $("#myModalNode").modal('show');
-    }
+    
 
 
     var TRespuestas = { "records": [] };
@@ -243,12 +238,11 @@
             <div class="col-md-4">
                 <div class="row">
                     <div class="col-md-6">
-                        Fecha de Inicio:<br>
-                        <input type="date" name="bday" max="1990-12-31"><br><br>
+                        Fecha:<br>
+                        <input id="date" type="date" name="" value="2012-01-01" max="2012-12-01"><br><br>
                     </div>
                     <div class="col-md-6">
-                        Fecha Final:
-                        <input type="date" name="bday" min="2000-01-02"><br><br>
+                        <button class="btn btn-blue btn-default"  id="buscar" onclick="ObtenerDiagrama()" >Buscar</button><br><br>
                     </div>
                     </div>
                     <br />
@@ -348,163 +342,84 @@
             </script>
             <div>
                 <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
-                <button class="btn btn-info" onclick="Enviarflujo()">Enviar</button>
+                <button class="btn btn-info" onclick="Enviarflujo()">Validar</button>
             </div>
             <br />
             <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; ">
-                {
-    "class": "go.GraphLinksModel",
-    "nodeKeyProperty": "id",
-    "nodeDataArray": [
-        {
-            "text": "SFP\n",
-            "loc": "-199.5215750000001 -257.09999999999997",
-            "id": 100
-        },
-        {
-            "text": "SECODAM\n",
-            "loc": "-238.5215749999998 -95.1",
-            "id": -2
-        },
-        {
-            "text": "UAJ",
-            "loc": "-290.5215749999998 24.1",
-            "id": -4
-        },
-        {
-            "text": "UDA",
-            "loc": "-425.5215749999998 24.1",
-            "id": -5
-        },
-        {
-            "text": "Secretario",
-            "loc": "-559.5215749999998 24.1",
-            "id": -6
-        },
-        {
-            "text": "DGII\n",
-            "loc": "92.47842500000019 24.1",
-            "id": -7
-        },
-        {
-            "text": "UUT",
-            "loc": "-61.521574999999814 24.1",
-            "id": -8
-        },
-        {
-            "text": "DGCS",
-            "loc": "-170.5215749999998 24.1",
-            "id": -9
-        }
-    ],
-    "linkDataArray": [
-        {
-            "from": -3,
-            "to": 100,
-            "text": "",
-            "points": [
-                -176.53670700413235,
-                -202.260329840707,
-                -181.81135639682577,
-                -151.26691053303202,
-                -160.93573165510574,
-                -112.67142318053233,
-                -172.08523063431318,
-                -95.02165826198811
-            ]
-        },
-        {
-            "from": -2,
-            "to": -4,
-            "text": " ",
-            "points": [
-                -198.03923592288092,
-                -40.56961858141981,
-                -207.15395624606637,
-                -13.720372074487122,
-                -221.79252258551284,
-                9.622026642191521,
-                -244.29073065916918,
-                28.220056241985606
-            ]
-        },
-        {
-            "from": -2,
-            "to": -5,
-            "text": " ",
-            "points": [
-                -225.56843302199616,
-                -41.99169527226563,
-                -270.2354834118176,
-                -9.060444825710608,
-                -318.34845745149784,
-                18.300682069426383,
-                -371.65756733844637,
-                38.053018826115135
-            ]
-        },
-        {
-            "from": -2,
-            "to": -6,
-            "text": " ",
-            "points": [
-                -233.39791967179136,
-                -47.992016968827144,
-                -307.97841336453286,
-                -12.720713539984864,
-                -385.2969369032219,
-                16.588129390202837,
-                -467.0380520190466,
-                37.75240401357834
-            ]
-        },
-        {
-            "from": -2,
-            "to": -7,
-            "text": " ",
-            "points": [
-                -141.9940872204673,
-                -53.15969772984797,
-                -61.368860123083344,
-                -27.27574941797179,
-                17.2076555220202,
-                4.842370297366695,
-                93.50074763937285,
-                45.94809058106368
-            ]
-        },
-        {
-            "from": -2,
-            "to": -8,
-            "text": " ",
-            "points": [
-                -147.09375112778642,
-                -46.35085777920166,
-                -111.13879459862453,
-                -28.159702969149723,
-                -78.96293891732101,
-                -4.6242424399624555,
-                -51.84699033833937,
-                26.585868505826493
-            ]
-        },
-        {
-            "from": -2,
-            "to": -9,
-            "text": " ",
-            "points": [
-                -166.84585235188928,
-                -40.662280794277045,
-                -151.07867618385083,
-                -22.69275146427605,
-                -141.26753774865483,
-                -2.0163241128843445,
-                -139.73855093802445,
-                22.613153833853275
-            ]
-        }
-    ]
-}
+               {
+                "class": "go.GraphLinksModel",
+                "nodeKeyProperty": "id",
+                "nodeDataArray": [
+                    {
+                        "text": "SFP\n",
+                        "loc": "-199.5215750000001 -257.09999999999997",
+                        "id": 100
+                    },
+                    {
+                        "text": "SECODAM\n",
+                        "loc": "-238.5215749999998 -95.1",
+                        "id": 1
+                    },
+                    {
+                        "text": "Secretario",
+                        "loc": "-559.5215749999998 24.1",
+                        "id": 2
+                    },
+                    {
+                        "text": "DGTI\n",
+                        "loc": "-527.5215749999999 149.1",
+                        "id": 3
+                    }
+                ],
+                "linkDataArray": [
+                    {
+                        "from": 100,
+                        "to": 1,
+                        "text": "",
+                        "points": [
+                            -176.53670700413235,
+                            -202.260329840707,
+                            -176.81135639682577,
+                            -151.26691053303202,
+                            -176.93573165510574,
+                            -112.67142318053233,
+                            -176.08523063431318,
+                            -95.02165826198811
+                        ]
+                    },
+                    {
+                        "from": 1,
+                        "to": 2,
+                        "text": " ",
+                        "points": [
+                            -233.39791967179136,
+                            -47.992016968827144,
+                            -307.97841336453286,
+                            -12.720713539984864,
+                            -385.2969369032219,
+                            16.588129390202837,
+                            -467.0380520190466,
+                            37.75240401357834
+                        ]
+                    },
+                    {
+                        "from": 2,
+                        "to": 3,
+                        "text": "",
+                        "points": [
+                            -504.78573782058766,
+                            63.03468194791611,
+                            -493.66282800255135,
+                            91.03587817095911,
+                            -489.50332147081053,
+                            119.4006577613506,
+                            -494.4885609679912,
+                            149.1051826063305
+                        ]
+                    }
+                ]
+            }
+          
             </textarea>
 
             <script>
@@ -638,26 +553,7 @@
     </div>
 
 
-
-    <style>
-        .frame {
-            width: 800px;
-            height: 520px;
-            border: 1px solid black;
-            margin: 10%;
-        }
-
-        .frame {
-            zoom: 1.45;
-            -moz-transform: scale(1.45);
-            -moz-transform-origin: 0 0;
-        }
-    </style>
-
  
-
-
-
     <form id="frmtipoResp" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
         <input type="hidden" value="22" name="Entidad" />
@@ -673,9 +569,25 @@
     </form>
 
 
-    <form id="frmFlujoEditor" asp-controller="Solicitud" asp-action="FlujoEditor" method="post" accept-charset="UTF-8">
+    <form id="frmFlujoEditor" asp-controller="Solicitud" asp-action="FlujoAreas" method="post" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
-
-        <input type="hidden" value="1" name="JSONFlujo" />
+        <input type="hidden" value="01/01/2018" name="fechaF" id="fechaF"/>
     </form>
 </body>
+
+
+
+<script>
+        function ObtenerDiagrama()
+        {
+            var fecha = document.getElementById("date").value;
+            fecha = fecha.replace("-", "/")
+            fecah = fecha.replace("-", "/")
+            $("#fechaF").val(fecha);
+            AjaxPostForm2('/Solicitud/FlujoAreas', $('#frmFlujoEditor').serialize(), RenderDiagrama, _UrlInicio);
+        }
+
+        function RenderDiagrama(datos) { 
+            //console.log(datos);
+        }
+</script>
