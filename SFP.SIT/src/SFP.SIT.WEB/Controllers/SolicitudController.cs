@@ -295,6 +295,12 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult AreasHistorial()
         {
             ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            DateTime date = Convert.ToDateTime("01/01/2018");
+            date = date.Date;
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date));
+            string sRes = _catViewMdl.lstAreaHist.ToString();
+            ViewBag.Areas = sRes;
             return View();
         }
 
