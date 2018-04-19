@@ -104,6 +104,14 @@ namespace SFP.SIT.SERV.Dao.ADM
             return CrearListaMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, dtFecha.ToString("d") ) as DataTable);
         }
 
+
+        public List<SIT_ADM_AREAHIST> dmlSelectAreaHijos(string data)
+        {
+            String sqlQuery = "Select * " +
+                " FROM SIT_adm_areahist where arhreporta = "+ data.Split('|')[1]+" and '" + data.Split('|')[0] + "' between arhFecIni AND arhFecFin ORDER BY anlClave ";
+            return CrearListaMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, data.Split('|')[0]) as DataTable);
+        }
+
         public SIT_ADM_AREAHIST dmlSelectAreaActual(int araClave)
         {            
             String sqlQuery = " Select * FROM SIT_adm_areahist where araclave = :P0  " +

@@ -4,155 +4,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<script type="text/javascript" src="~/js/sit/Jstree.js"></script>
+
 
 
 <script id="code">
-    function init() {
-        if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
-        var $ = go.GraphObject.make;  // for conciseness in defining templates
-        myDiagram =
-            $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
-                {
-                    // start everything in the middle of the viewport
-                    initialContentAlignment: go.Spot.Center,
-                    // have mouse wheel events zoom in and out instead of scroll up and down
-                    "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
-                    // support double-click in background creating a new node
-                    "clickCreatingTool.archetypeNodeData": { text: "new node" },
-                    // enable undo & redo
-                    "undoManager.isEnabled": true
-                });
-        // when the document is modified, add a "*" to the title and enable the "Save" button
-        myDiagram.addDiagramListener("Modified", function (e) {
-            //save();
-
-            var button = document.getElementById("SaveButton");
-            if (button) button.disabled = !myDiagram.isModified;
-            var idx = document.title.indexOf("*");
-            if (myDiagram.isModified) {
-                if (idx < 0) document.title += "*";
-            } else {
-                if (idx >= 0) document.title = document.title.substr(0, idx);
-            }
-
-        });
-        // define the Node template
-        myDiagram.nodeTemplate =
-            $(go.Node, "Auto",
-                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                // define the node's outer shape, which will surround the TextBlock
-                $(go.Shape, "RoundedRectangle",
-                    {
-                        parameter1: 20,  // the corner has a large radius
-                        fill: $(go.Brush, "Linear", { 0: "rgb(0, 242, 113)", 1: "rgb(0, 242, 113)" }),
-                        stroke: null,
-                        portId: "",  // this Shape is the Node's port, not the whole Node
-                        fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-                        toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-                        cursor: "pointer"
-                    }),
-                $(go.TextBlock,
-                    {
-                        font: "bold 11pt helvetica, bold arial, sans-serif",
-                        editable: true  // editing the text automatically updates the model data
-                    },
-                    new go.Binding("text").makeTwoWay())
-            );
-        // unlike the normal selection Adornment, this one includes a Button
-        myDiagram.nodeTemplate.selectionAdornmentTemplate =
-            $(go.Adornment, "Spot",
-                $(go.Panel, "Auto",
-                    $(go.Shape, { fill: null, stroke: "blue", strokeWidth: 2 }),
-                    $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
-                ),
-                // the button to create a "next" node, at the top-right corner
-                $("Button",
-                    {
-                        alignment: go.Spot.TopRight,
-                        click: addNodeAndLink  // this function is defined below
-                    },
-                    $(go.Shape, "PlusLine", { width: 6, height: 6 })
-                ) // end button
-            ); // end Adornment
-        // clicking the button inserts a new node to the right of the selected node,
-        // and adds a link to that new node
-        function addNodeAndLink(e, obj) {
-            var adornment = obj.part;
-            var diagram = e.diagram;
-            diagram.startTransaction("Add State");
-            // get the node data for which the user clicked the button
-            var fromNode = adornment.adornedPart;
-            var fromData = fromNode.data;
-            // create a new "State" data object, positioned off to the right of the adorned Node
-            var toData = { text: "new" };
-            var p = fromNode.location.copy();
-            p.x += 200;
-            toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
-            // add the new node data to the model
-            var model = diagram.model;
-            model.addNodeData(toData);
-            // create a link data from the old node data to the new node data
-            var linkdata = {
-                from: model.getKeyForNodeData(fromData),  // or just: fromData.id
-                to: model.getKeyForNodeData(toData),
-                text: ""
-            };
-            // and add the link data to the model
-            model.addLinkData(linkdata);
-            // select the new Node
-            var newnode = diagram.findNodeForData(toData);
-            diagram.select(newnode);
-            diagram.commitTransaction("Add State");
-            // if the new node is off-screen, scroll the diagram to show the new node
-            diagram.scrollToRect(newnode.actualBounds);
-        }
-        // replace the default Link template in the linkTemplateMap
-        myDiagram.linkTemplate =
-            $(go.Link,  // the whole link panel
-                {
-                    curve: go.Link.Bezier, adjusting: go.Link.Stretch,
-                    reshapable: true, relinkableFrom: true, relinkableTo: true,
-                    toShortLength: 3
-                },
-                new go.Binding("points").makeTwoWay(),
-                new go.Binding("curviness"),
-                $(go.Shape,  // the link shape
-                    { strokeWidth: 1.5 }),
-                $(go.Shape,  // the arrowhead
-                    { toArrow: "standard", stroke: null }),
-                $(go.Panel, "Auto",
-                    $(go.Shape,  // the label background, which becomes transparent around the edges
-                        {
-                            fill: $(go.Brush, "Radial",
-                                { 0: "rgb(240, 240, 240)", 0.3: "rgb(240, 240, 240)", 1: "rgba(240, 240, 240, 0)" }),
-                            stroke: null
-                        }),
-                    $(go.TextBlock, "transition",  // the label text
-                        {
-                            textAlign: "center",
-                            font: "9pt helvetica, arial, sans-serif",
-                            margin: 4,
-                            editable: true  // enable in-place editing
-                        },
-                        // editing the text automatically updates the model data
-                        new go.Binding("text").makeTwoWay())
-                )
-            );
-        // read in the JSON data from the "mySavedModel" element
-        load();
-    }
-    // Show the diagram's model in JSON format
-    function save() {
-        console.log("saving... ");
-        //document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-        acomodarJSON();            
-        console.log(" done!");
-        return true;
-    }
-    function load() {
-        myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-    }
-    
 
 
     var TRespuestas = { "records": [] };
@@ -202,17 +59,11 @@
                 TRespuestas.records[i] = { "araclave": data.records[i].araclave, "arhsiglas": data.records[i].arhsiglas, "descripcion": data.records[i].arhdescripcion };
                 $("#bodyTipoResp").append("<tr><td class=\"active\">" + data.records[i].araclave + "</td><td class=\"active\">" + data.records[i].arhsiglas + "</td>" + "</td><td class=\"active\">" + data.records[i].arhdescripcion + "</td>" + "<td class='active'>" + "<button  class=\"btn btn- blue btn-default\"  id=\"buscar\" onclick=\"editarArea()\" >Editar</button></td></tr>" );
             }
-        } 
-
-        function RenderNodo(data) {
-            //console.log(data);
-            for (var i = 0; i < data.records.length; i++) {
-                Nodos.records[i] = { "clave": data.records[i].NEDCLAVE, "descripcion": data.records[i].NEDDESCRIPCION };
-                $("#bodyNodo").append("<tr><td class=\"active\">" + data.records[i].NEDCLAVE + "</td><td class=\"active\">" + data.records[i].NEDDESCRIPCION + "</td></tr>");
-            }
         }
 
-        
+
+
+
 
         var _UrlInicio = "";
         //AjaxPostForm1('/Catalogo/Consulta', $('#frmtipoResp').serialize(), RendertipoResp, _UrlInicio);
@@ -221,18 +72,18 @@
         console.log(datosHistorial);
         RenderAreas(datosHistorial);
     });
-    
+
 </script>
 
 
-<body onload="init()" style="margin-right: 40px; margin-left: 40px; width: 90%; ">
+<body style="margin-right: 40px; margin-left: 40px; width: 90%; ">
     <div id="sample">
         <div id="d" style="margin-top: 10px; display: inline-block;">
             <h1>Editor de Historial de Áreas</h1>
         </div>
         <div class="row">
             <div class="col-md-8">
-                <div id="myDiagramDiv" style="background-color: rgb(216, 216, 216); margin-top:30px;  border: solid 1px black; width: 100%; height: 600px;"></div>
+                <div id="jstree_demo" class="demo"></div>
             </div>
             <div class="col-md-4">
                 <div class="row">
@@ -348,81 +199,6 @@
                 <button class="btn btn-info" onclick="Enviarflujo()">Validar</button>
             </div>
             <br />
-            <textarea id="mySavedModel" style="width:50%;height:1000px; color:blue; ">
-                             {
-                                "class": "go.GraphLinksModel",
-                                "nodeKeyProperty": "id",
-                                "nodeDataArray": [
-                                    {
-                                        "text": "SFP\n",
-                                        "loc": "-199.5215750000001 -257.09999999999997",
-                                        "id": 100
-                                    },
-                                    {
-                                        "text": "SECODAM\n",
-                                        "loc": "-238.5215749999998 -95.1",
-                                        "id": 1
-                                    },
-                                    {
-                                        "text": "Secretario",
-                                        "loc": "-559.5215749999998 24.1",
-                                        "id": 2
-                                    },
-                                    {
-                                        "text": "DGTI\n",
-                                        "loc": "-527.5215749999999 149.1",
-                                        "id": 3
-                                    }
-                                ],
-                                "linkDataArray": [
-                                    {
-                                        "from": 100,
-                                        "to": 1,
-                                        "text": "",
-                                        "points": [
-                                            -176.53670700413235,
-                                            -202.260329840707,
-                                            -176.81135639682577,
-                                            -151.26691053303202,
-                                            -176.93573165510574,
-                                            -112.67142318053233,
-                                            -176.08523063431318,
-                                            -95.02165826198811
-                                        ]
-                                    },
-                                    {
-                                        "from": 1,
-                                        "to": 2,
-                                        "text": " ",
-                                        "points": [
-                                            -233.39791967179136,
-                                            -47.992016968827144,
-                                            -307.97841336453286,
-                                            -12.720713539984864,
-                                            -385.2969369032219,
-                                            16.588129390202837,
-                                            -467.0380520190466,
-                                            37.75240401357834
-                                        ]
-                                    },
-                                    {
-                                        "from": 2,
-                                        "to": 3,
-                                        "text": "",
-                                        "points": [
-                                            -504.78573782058766,
-                                            63.03468194791611,
-                                            -504.66282800255135,
-                                            91.03587817095911,
-                                            -504.50332147081053,
-                                            119.4006577613506,
-                                            -504.4885609679912,
-                                            149.1051826063305
-                                        ]
-                                    }
-                                ]
-                       }
-            </textarea>
 
             <script>
 
@@ -432,115 +208,6 @@
                     var obj = JSON.parse(ugly);
                     var pretty = JSON.stringify(obj, undefined, 4);
                     document.getElementById('mySavedModel').value = pretty;
-                }
-                //acomodarJSON();
-
-                function validarLinks() {
-                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
-                    console.log("VAL: ");
-                    console.log(jsonToValidate);
-                    var error = 0;
-                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        // recorrer los tipos de respuesta y ver si está dentro de TRespuestas
-                        // reemplazar los IDS por el texto
-                        // Colocar las propiedades en un El nuevo JSON
-                        if (checkRespuestaOn(jsonToValidate.linkDataArray[i].text.replace(/\r?\n?/g, ''), TRespuestas)
-                            | jsonToValidate.linkDataArray[i].text == "") {
-                            error = 0;
-                            if (jsonToValidate.linkDataArray[i].text == "") break;
-                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[i].descripcion;
-                            jsonToValidate.linkDataArray[i].ID = TRespuestas.records[i].clave;
-                        }
-                        else {
-                            error = 1;
-                            console.log("i: " + i + " |" + jsonToValidate.linkDataArray[i].text + "| " + TRespuestas.records[i].descripcion);
-                            break;
-                        }
-
-                    }
-
-                    if (error == 0) {
-                        w2alert('¿estás seguro de guardar estos cambios?');
-                        replaceNumbersToDescriptions();
-                    }
-                    else {
-                        //error = 1;
-                        w2alert('Una de las acciones del perfil no es valida, DEBE seleccionar entre las opciones de tipo de respuestas de la derecha o agregar una');
-
-                    }
-                }
-
-                function replaceNumbersToDescriptions() {
-                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
-                    console.log(jsonToValidate);
-                    /*RECORRIDO DE NODODS*/
-                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
-                        var idNodo = jsonToValidate.nodeDataArray[i].text;
-                        //console.log("NOD:" + idNodo);
-                        if (parseInt(idNodo) != NaN & parseInt(idNodo) > 0) {
-                            jsonToValidate.nodeDataArray[i].text = Nodos.records[idNodo - 1].descripcion;
-                        }
-                    }
-                    /*RECORRIDO DE RESPUESTAS*/
-                    for (var i = 0; i < jsonToValidate.linkDataArray.length; i++) {
-                        var idResp = jsonToValidate.linkDataArray[i].text;
-                        //console.log("NOD:" + idNodo);
-                        if (parseInt(idResp) != NaN & parseInt(idResp) > 0) {
-                            jsonToValidate.linkDataArray[i].text = TRespuestas.records[idResp].descripcion;
-                        }
-                    }
-                    document.getElementById('mySavedModel').value = JSON.stringify(jsonToValidate);
-
-                    myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-
-                    return 0;
-                }
-
-                function checkRespuestaOn(palabra, respuestas) {
-                    for (var j = 0; j < respuestas.records.length; j++) {
-                        if (palabra == respuestas.records[j].descripcion | palabra == respuestas.records[j].clave)
-                            return true;
-                    }
-                    return false;
-                }
-
-                function validarEdoNodo() {
-                    var jsonToValidate = JSON.parse(myDiagram.model.toJson());
-                    console.log(jsonToValidate);
-                    var error = 0;
-                    for (var i = 0; i < jsonToValidate.nodeDataArray.length; i++) {
-                        // recorrer los tipos de perfil y ver si está dentro de TRespuestas
-                        // reemplazar los IDS por el texto
-                        // Colocar las propiedades en un El nuevo JSON
-                        if (checkPerfilOn(jsonToValidate.nodeDataArray[i].text.replace(/\r?\n?/g, ''), Nodos)
-                            | jsonToValidate.nodeDataArray[i].text == "") {
-                            error = 0;
-                            if (jsonToValidate.nodeDataArray[i].text == "") break;
-                            jsonToValidate.nodeDataArray[i].text = Nodos.records[i].descripcion;
-                            jsonToValidate.nodeDataArray[i].ID = Nodos.records[i].clave;
-                        }
-                        else {
-                            error = 1;
-                            console.log("i: " + i + " |" + jsonToValidate.nodeDataArray[i].text + "| " + Nodos.records[i].descripcion);
-                            break;
-                        }
-                    }
-                    if (error == 0) {
-                        w2alert('¿estás seguro de guardar estos cambios?');
-                    }
-                    else {
-                        error = 1;
-                        w2alert('Uno de los perfiles no es valido, DEBE seleccionar entre las opciones de tipo de perfil de la derecha o agregar uno nuevo');
-                    }
-
-                }
-
-                function checkPerfilOn(palabra, perfiles) {
-                    for (var j = 0; j < perfiles.records.length; j++) {
-                        if (palabra == perfiles.records[j].descripcion.replace(/\r?\n?/g, '') | palabra == perfiles.records[j].clave)
-                            return true;
-                    }
-                    return false;
                 }
 
             </script>
@@ -577,25 +244,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="$('#myModalResp').modal('hide');" >Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="$('#myModalResp').modal('hide');">Guardar</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
 
-    <form id="frmtipoResp" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
+    <form id="frmHijos" asp-controller="Solicitud" asp-action="FlujoAreasTraerHijos" method="get" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
-        <input type="hidden" value="22" name="Entidad" />
-        <input type="hidden" value="100" name="PagMaxReg" />
-        <input type="hidden" value="1" name="PagAct" />
-    </form>
-
-    <form id="frmTipoNodo" asp-controller="Catalogo" asp-action="Consulta" method="get" accept-charset="UTF-8">
-        @Html.AntiForgeryToken()
-        <input type="hidden" value="31" name="Entidad" />
-        <input type="hidden" value="100" name="PagMaxReg" />
-        <input type="hidden" value="1" name="PagAct" />
+        <input type="hidden" value="01/01/2018" name="fechaF" />
+        <input type="hidden" value="0" name="id" />
     </form>
 
 
@@ -603,29 +262,109 @@
         @Html.AntiForgeryToken()
         <input type="hidden" value="01/01/2018" name="fechaF" id="fechaF" />
     </form>
+
+   
 </body>
 
 
 
 <script>
-        function ObtenerDiagrama()
+    function ObtenerDiagrama() {
+        var fecha = document.getElementById("date").value;
+        fecha = fecha.replace("-", "/")
+        fecah = fecha.replace("-", "/")
+        $("#fechaF").val(fecha);
+        AjaxPostForm2('/Solicitud/FlujoAreas', $('#frmFlujoEditor').serialize(), RenderDiagrama, _UrlInicio);
+    }
+
+    function RenderDiagrama(datos) {
+        //console.log(datos);
+    }
+
+    function editarArea() {
+        $("#myModalResp").modal('show');
+
+    }
+
+
+
+
+    //
+    var datosR = [
         {
-            var fecha = document.getElementById("date").value;
-            fecha = fecha.replace("-", "/")
-            fecah = fecha.replace("-", "/")
-            $("#fechaF").val(fecha);
-            AjaxPostForm2('/Solicitud/FlujoAreas', $('#frmFlujoEditor').serialize(), RenderDiagrama, _UrlInicio);
+            "id": 0, "text": "Secretaria de la Función Pública", "children":
+            [{ "id": 2, "text": "Child node 1" }, { "id": 3, "text": "Child node 2" }]
         }
+    ];
 
-        function RenderDiagrama(datos) { 
-            //console.log(datos);
-        }
+    var datosHistorial =  @Html.Raw(ViewBag.Areas);
+    function construirJSON(id) {
+        var arrayResp = [];
 
-        function editarArea() { 
-            $("#myModalResp").modal('show');
+        //se pide al servidor la información
+        $.ajax({
+            url: '/Solicitud/FlujoAreasTraerHijos',
+            type: "POST",
+            data: $('#frmHijos').serialize(),
+            success: function (data) {
+                if (data === undefined) {
+                    return "";
+                } else {
+                    for (var i = 0; i < data.length; i++) {
+                        arrayResp[i].id = data.records[i].araclave;
+                        arrayResp[i].text = data.records[i].arhdescripcion; 
+                        arrayResp[i].children = construirJSON(arrayResp[i].id);
+                    }
+                }
+                return arrayResp;
+            }
+           
+        });
 
-        }
-        function cerrarModal(){
+        
+    }
+    datosR[0].children = construirJSON(0);
 
-        }
+
+
+    $('#jstree_demo').jstree({
+        "core": {
+            "animation": 0,
+            "check_callback": true,
+            "themes": { "stripes": true },
+            'data': function (node, cb) {
+                if (node.id === "#") {
+                    cb(datosR);
+                }
+                else {
+                    cb(["Child"]);
+                }
+            }
+        },
+        "types": {
+            "#": {
+                "max_children": 1,
+                "max_depth": 4,
+                "valid_children": ["root"]
+            },
+            "root": {
+                "icon": "/static/3.3.5/assets/images/tree_icon.png",
+                "valid_children": ["default"]
+            },
+            "default": {
+                "valid_children": ["default", "file"]
+            },
+            "file": {
+                "icon": "glyphicon glyphicon-file",
+                "valid_children": []
+            }
+        },
+        "plugins": [
+            "contextmenu", "dnd", "search",
+            "state", "types", "wholerow"
+        ]
+    });
+
+
+
 </script>

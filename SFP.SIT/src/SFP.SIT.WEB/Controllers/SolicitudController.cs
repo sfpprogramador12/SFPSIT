@@ -311,17 +311,34 @@ namespace SFP.SIT.WEB.Controllers
             string sRes = "";
             fechaF = fechaF.Replace('-', '/');
             AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
-            //sRes = _sitDmlDbSer.operEjecutar<SIT_ADM_AREADao>(nameof(SIT_ADM_AREADao), cmd, SIT_ADM_AREA).ToString();
             DateTime date = Convert.ToDateTime(fechaF);
             date = date.Date;
-
-
-            //sRes = _sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date.ToString("d")).ToString();
 
             _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date));
             sRes = _catViewMdl.lstAreaHist.ToString();
             return sRes;
         
+        }
+
+
+        [HttpPost]
+        public string FlujoAreasTraerHijos(string fechaF, string id)
+        {
+            string sRes = "";
+            fechaF = fechaF.Replace('-', '/');
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            DateTime date = Convert.ToDateTime(fechaF);
+            date = date.Date;
+            string dataP = date.ToString("d") + "|" + id; 
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectAreaHijos), dataP));
+            sRes = _catViewMdl.lstAreaHist.ToString();
+            return sRes;
+
+        }
+
+        [HttpGet]
+        public string ARHGetParent(string id) {
+            return "[{'text' : 'Root', 'id' : '1', 'children' : true}]";
         }
 
     }
