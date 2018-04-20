@@ -19,21 +19,15 @@ using SFP.SIT.SERV.Dao.ADM;
 using SFP.SIT.SERV.Util;
 using SFP.SIT.SERV.Dao.REP;
 using SFP.Persistencia.Model;
-using ClosedXML;
-using System.IO;
-using OfficeOpenXml;
 
 namespace SFP.SIT.WEB.Controllers
 {
     public class ReporteController : SitBaseCtlr
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-
-        public ReporteController(ICacheWebSIT memCache, IHttpContextAccessor httpContextAccessor, ILogger<ReporteController> logger, IHostingEnvironment app, IHostingEnvironment hostingEnvironment) 
+        public ReporteController(ICacheWebSIT memCache, IHttpContextAccessor httpContextAccessor, ILogger<ReporteController> logger, IHostingEnvironment app) 
             : base(memCache, httpContextAccessor, logger, app)
         {
             _iUsuario = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value);
-            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Reporte
@@ -218,7 +212,18 @@ namespace SFP.SIT.WEB.Controllers
                     {
                         //parrafo = new PdfBoxParrafo(70, posY, iParrafoWidth, drDatos["soldes"].ToString()); /*Cambiar  DE NUEVO A TEXTO ORIGINAL*/
                         parrafo = new PdfBoxParrafo(70, posY, iParrafoWidth, "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
-                            "dada la respuestacon numaria preoria licenciatura etc del la funcionaria");
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionariadada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria" +
+                            "dada la respuestacon numero 0002700250316 se solicita la escolaridad primaria secundaria preparatoria licenciatura etc del la funcionaria");
                         iParrafoY = 0;
                         List<String> lstLineas1 = parrafo.getLines();
                         foreach (string element in lstLineas1)
@@ -370,7 +375,23 @@ namespace SFP.SIT.WEB.Controllers
 
                     parrafo = new PdfBoxParrafo(70, posY, iParrafoWidth, "La solicitud no es de competencia de la unidad de enlace" +
                         "La solicitud no es de competencia de la unidad de enlace" +
-                        "La solicide la unidad de enlace"); /*Cambiar  DE NUEVO A TEXTO ORIGINAL*/
+                        "La solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud n no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud noo es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud no de enlace" +
+                        "La solici no es de competencia de la unidad de enlaceLa solicitud no no es de competencia de la unidad de enlaceLa solicitud notud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace" +
+                        "La solicitud no es de competencia de la unidad de enlaceLa solicitud no es de competencia de la unidad de enlace|||||||"); /*Cambiar  DE NUEVO A TEXTO ORIGINAL*/
                     iParrafoY = 0;
                     List<String> lstLineas = parrafo.getLines();
                     foreach (string element in lstLineas)
@@ -427,7 +448,7 @@ namespace SFP.SIT.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult crearReporte(string rep, string status, string area, string tipsol, string tipres, string folio, string fecsolini, string fecsolfin, string semaforo, string formato)
+        public ActionResult crearReporte(string rep, string status, string area, string tipsol, string tipres, string folio, string fecsolini, string fecsolfin, string semaforo)
         {
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
             dicParam.Add(ReporteDao.COL_NUM_REPORTE, rep);
@@ -452,8 +473,8 @@ namespace SFP.SIT.WEB.Controllers
             if (fecsolfin != "undefined")
                 dicParam.Add(ReporteDao.COL_FECSOL_FIN, fecsolfin);
 
-            //if (semaforo != "undefined")
-            //    dicParam.Add(ReporteDao.COL_SEMAFORO, semaforo);
+            if (semaforo != "undefined")
+                dicParam.Add(ReporteDao.COL_SEMAFORO, semaforo);
 
 
             /// CAMBIAR AREA
@@ -473,71 +494,19 @@ namespace SFP.SIT.WEB.Controllers
             string sFile = sNombre; ////// Server.MapPath("\\reporte\\") + sNombre;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            if (formato == "0")
+            try
             {
-                try
-                {
-                    PDDocument document = new PDDocument();
-                    //crearPaginaReport1(escudoPath, document, dtReporte, "SOLICITUDES DE ACCESO A LA INFORMACIÓN RECIBIDAS EN LA SFP");
-                    crearPaginaReport1("", document, dtReporte, "SOLICITUDES DE ACCESO A LA INFORMACIÓN RECIBIDAS EN LA SFP");
-                    document.save(bos);
-                    document.close();
-                }
-                catch (COSVisitorException ex)
-                {
-                    System.Console.WriteLine(ex.ToString());
-                }
-                return File(bos.toByteArray(), "application/pdf", "Reporte.pdf");
+                PDDocument document = new PDDocument();
+                //crearPaginaReport1(escudoPath, document, dtReporte, "SOLICITUDES DE ACCESO A LA INFORMACIÓN RECIBIDAS EN LA SFP");
+                crearPaginaReport1("", document, dtReporte, "SOLICITUDES DE ACCESO A LA INFORMACIÓN RECIBIDAS EN LA SFP");
+                document.save(bos);
+                document.close();
             }
-            else
+            catch (COSVisitorException ex)
             {
-                string sWebRootFolder = _hostingEnvironment.WebRootPath;
-                string sFileName = @"demo.xlsx";
-                string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, sFileName);
-                FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
-                if (file.Exists)
-                {
-                    file.Delete();
-                    file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
-                }
-                using (ExcelPackage package = new ExcelPackage(file))
-                {
-                    // add a new worksheet to the empty workbook
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Employee");
-                    //First add the headers
-                    worksheet.Cells[1, 1].Value = "No.";
-                    worksheet.Cells[1, 2].Value = "Folio";
-                    worksheet.Cells[1, 3].Value = "Fecha de Recepción";
-                    worksheet.Cells[1, 4].Value = "Tipo de Solicitud";
-                    worksheet.Cells[1, 5].Value = "Días Transcurridos";
-                    worksheet.Cells[1, 6].Value = "Semaforo";
-                    worksheet.Cells[1, 7].Value = "Descripción";
-
-                    int cont=0;
-                    for (var j = 0; j < 20; j++)
-                    {
-                        foreach (DataRow drDatos in dtReporte.Rows)
-                        {
-                            worksheet.Cells["A" + cont + 2].Value = cont + 1;
-                            worksheet.Cells["B" + cont + 2].Value = drDatos["solclave"].ToString();
-                            DateTime Fecha = (DateTime)drDatos["segfecini"];
-                            worksheet.Cells["C" + cont + 2].Value = Fecha.ToString("dd/MM/yyyy hh:mm");
-                            worksheet.Cells["D" + cont + 2].Value = drDatos["sotdescripcion"].ToString();
-                            worksheet.Cells["E" + cont + 2].Value = drDatos["segdiassemaforo"].ToString();
-                            worksheet.Cells["F" + cont + 2].Value = "Verde";
-                            worksheet.Cells["G" + cont + 2].Value = drDatos["soldes"].ToString();
-                            //worksheet.Cells["H" + cont + 2].Value = 5000;
-                        }
-                        cont++;
-                    }
-
-
-                    package.Save(); //Save the workbook.
-                }
-                return Redirect(URL);
-                //return URL;
-                //return File(bos.toByteArray(), "application/pdf", "Reporte.pdf");
+                System.Console.WriteLine(ex.ToString());
             }
+            return File(bos.toByteArray(), "application/pdf", "Reporte.pdf");
         }
 
         private void agregarEncabezado(PDDocument document, PDPageContentStream contentStream, PDFont font, String sTitulo, String sEscudo)

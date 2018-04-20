@@ -216,6 +216,10 @@
 
     function Inicializar()
     {
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
         $('#solclave').val(_solclave);
         SelectAddElemReserva("resReserva_repclave", _HistorialReserva);
     };
@@ -272,11 +276,11 @@
     }
 
 
-    function Grabar() {
-        if (Validar() === true) {
-            submit();
-        }
-    }
+    ////function Grabar() {
+    ////    if (Validar() === true) {
+    ////        submit();
+    ////    }
+    ////}
 
     function GrabarIFrame() {
         if (Validar() === true) {
@@ -298,7 +302,7 @@
 
     function submit()
     {
-        _Inicio = true;
+        _Inicio = false;
         $("#resRespuesta_rtpclave").val(@Constantes.Respuesta.INFO_RESERVADA_PARCIAL);
         document.ReservadaForm.submit();
     }

@@ -23,8 +23,8 @@ namespace SFP.SIT.SERV.Dao.RED
 	 	 public Object dmlAgregar(SIT_RED_NODO oDatos)
 	 	 {
 	 	 	  iSecuencia = SecuenciaDML("SEC_SIT_RED_NODO"); 
-	 	 	  String  sSQL = " INSERT INTO SIT_RED_NODO( perclave, nodfeclectura, nodusrausencia, usrclave, prcclave, solclave, araclave, nodcapa, nodatendido, nedclave, nodfeccreacion, nodclave) VALUES (  :P0, :P1, :P2, :P3, :P4, :P5, :P6, :P7, :P8, :P9, :P10, :P11) ";  
-	 	 	  EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, iSecuencia  ); 
+	 	 	  String  sSQL = " INSERT INTO SIT_RED_NODO( perclave, nodfeclectura, nodusrausencia, usrclave, prcclave, solclave, araclave, nodcapa, nodatendido, nedclave, nodfeccreacion, nodclave, nodregresar) VALUES (  :P0, :P1, :P2, :P3, :P4, :P5, :P6, :P7, :P8, :P9, :P10, :P11, :P12) ";  
+	 	 	  EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, iSecuencia, oDatos.nodregresar); 
 	 	 	  return iSecuencia; 
 	 	 }
  
@@ -32,12 +32,12 @@ namespace SFP.SIT.SERV.Dao.RED
 	 	 public int dmlImportar( List<SIT_RED_NODO> lstDatos)
 	 	 {
 	 	 	 int iTotReg = 0; 
-	 	 	  String  sSQL = " INSERT INTO SIT_RED_NODO( perclave, nodfeclectura, nodusrausencia, usrclave, prcclave, solclave, araclave, nodcapa, nodatendido, nedclave, nodfeccreacion, nodclave) VALUES (  :P0, :P1, :P2, :P3, :P4, :P5, :P6, :P7, :P8, :P9, :P10, :P11) ";  
-	 	 	  foreach (SIT_RED_NODO oDatos in lstDatos) 
+	 	 	  String  sSQL = " INSERT INTO SIT_RED_NODO( perclave, nodfeclectura, nodusrausencia, usrclave, prcclave, solclave, araclave, nodcapa, nodatendido, nedclave, nodfeccreacion, nodclave) VALUES (  :P0, :P1, :P2, :P3, :P4, :P5, :P6, :P7, :P8, :P9, :P10, :P11, :P12) ";
+            foreach (SIT_RED_NODO oDatos in lstDatos) 
 	 	 	  { 
 	 	 	 	  iSecuencia = SecuenciaDML("SEC_SIT_RED_NODO"); 
-	 	 	 	  EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, iSecuencia  ); 
-	 	 	 	  iTotReg++; 
+	 	 	 	  EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, iSecuencia, oDatos.nodregresar);
+                iTotReg++; 
 	 	 	  } 
 	 	 	  return iTotReg; 
 	 	 }
@@ -45,8 +45,8 @@ namespace SFP.SIT.SERV.Dao.RED
  
 	 	 public int dmlEditar(SIT_RED_NODO oDatos)
 	 	 {
-	 	 	  String  sSQL = " UPDATE SIT_RED_NODO SET  perclave = :P0, nodfeclectura = :P1, nodusrausencia = :P2, usrclave = :P3, prcclave = :P4, solclave = :P5, araclave = :P6, nodcapa = :P7, nodatendido = :P8, nedclave = :P9, nodfeccreacion = :P10 WHERE  nodclave = :P11 ";  
-	 	 	  return (int) EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, oDatos.nodclave ); 
+	 	 	  String  sSQL = " UPDATE SIT_RED_NODO SET  perclave = :P0, nodfeclectura = :P1, nodusrausencia = :P2, usrclave = :P3, prcclave = :P4, solclave = :P5, araclave = :P6, nodcapa = :P7, nodatendido = :P8, nedclave = :P9, nodfeccreacion = :P10, nodregresar = :P11 WHERE  nodclave = :P12 ";  
+	 	 	  return (int) EjecutaDML ( sSQL,  oDatos.perclave, oDatos.nodfeclectura, oDatos.nodusrausencia, oDatos.usrclave, oDatos.prcclave, oDatos.solclave, oDatos.araclave, oDatos.nodcapa, oDatos.nodatendido, oDatos.nedclave, oDatos.nodfeccreacion, oDatos.nodregresar, oDatos.nodclave ); 
 	 	 }
  
  
@@ -122,12 +122,22 @@ namespace SFP.SIT.SERV.Dao.RED
             return EjecutaDML(sqlQuery, dtoDatos.nodatendido, dtoDatos.solclave, dtoDatos.nodclave);
         }
 
+        public Object dmlUpdateNodoRegresar(SIT_RED_NODO dtoDatos)
+        {
+            String sqlQuery = " update  SIT_RED_NODO"
+                    + " SET  nodregresar = :P0 "
+                    + " where   nodclave = :P1 ";
+
+            return EjecutaDML(sqlQuery, dtoDatos.nodregresar,  dtoDatos.nodclave);
+        }
+
+
         public SIT_RED_NODO dmlSelectNodoFolioEstadoPrc(Object oDatos)
         {
             Dictionary<string, Object> dicParam = (Dictionary<string, Object>)oDatos;
 
             String sSQL = "SELECT solclave, nodclave, ARACLAVE, nodfeccreacion, nedclave, "
-                    + " nod_tip, nod_til, nod_ttp, nod_ttl, nod_holgura, prcclave, nodatendido, nodcapa "
+                    + " nod_tip, nod_til, nod_ttp, nod_ttl, nod_holgura, prcclave, nodatendido, nodcapa, nodregresar "
                     + " from SIT_RED_NODO WHERE solclave = :P0 and nedclave = :P1 "
                     + " and prcclave = :P2 ORDER BY nodfeccreacion ";
 
@@ -202,14 +212,15 @@ namespace SFP.SIT.SERV.Dao.RED
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
-                "SELECT solclave, NOD.prcclave, PRCDESCRIPCION, NOD.ARACLAVE, NEDDESCRIPCION, nodclave,  nodfeccreacion,  " +
-                "NOE.nedclave, nodatendido, nodcapa " +
-                "from SIT_RED_NODO NOD, SIT_ADM_AREA AREA, SIT_RED_NODOESTADO NOE, SIT_SOL_PROCESO PRC " +
-                "WHERE AREA.ARACLAVE = NOD.ARACLAVE " +
-                "AND NOE.nedclave = NOD.nedclave " +
-                "AND PRC.prcclave = NOD.prcclave " +
-                "ORDER BY solclave, nodclave ) a ) SELECT * from Resultado WHERE recid between :P0 and :P1 ";
+            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
+                            + " SELECT solclave, NOD.prcclave, KRP_DESCRIPCION, NOD.KA_CLAAREA, KA_DESCRIPCION, nodclave,  nodfeccreacion,  "
+                + " NOE.nedclave, KNE_DESCRIPCION, nodatendido, nodcapa, nod_holgura, nod_tip, nod_til, nod_ttp, nod_ttl "
+                + " from SIT_RED_NODO NOD, SIT_ADM_KAREA AREA, SIT_RED_NODOESTADO NOE, SIT_SOL_PROCESO PRC "
+                + " WHERE AREA.KA_CLAAREA = NOD.KA_CLAAREA "
+                + " AND NOE.nedclave = NOD.nedclave "
+                + " AND PRC.prcclave = NOD.prcclave "
+                + " ORDER BY solclave, nodclave "
+            + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

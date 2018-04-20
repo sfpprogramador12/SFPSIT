@@ -27,7 +27,7 @@ namespace SFP.SIT.SERV.Model.ADM
 	 	 public SIT_ADM_USUARIO () {} 
  
 	 	 public SIT_ADM_USUARIO (
-	 	  string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
+           string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
 	 	 	 )
 	 	 {
 	 	 	 this.usractivo = usractivo;

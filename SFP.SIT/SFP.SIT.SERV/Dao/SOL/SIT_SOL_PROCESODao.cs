@@ -107,7 +107,7 @@ namespace SFP.SIT.SERV.Dao.SOL
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + "SELECT PRCCLAVE, PRCDESCRIPCION  from SIT_SOL_PROCESO order by PRCCLAVE "
+                            + "SELECT prcclave, KRP_DESCRIPCION  from SIT_SOL_PROCESO order by prcclave "
             + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }

@@ -70,20 +70,23 @@ namespace SFP.SIT.SERV.Util
         {
             public const string PREFIJO = "Edo";
 
-            public const int INAI_CREAR_SOLICITUD = 1;
-            public const int UT_SOLICITUD_RECIBIR = 2;
-            public const int PRUD_SOLICITUD_RECIBIR = 3;
-            public const int UA_SOLICITUD_RECIBIR = 4;
-            public const int UT_RESPUESTA_ANALIZAR = 5;
-            public const int UA_RESPUESTA_MODIFICAR = 6;
-            public const int INAI_RESPUESTA_FINAL = 7;
-            public const int CT_SESION = 8;
-            public const int UT_REQ_RIA = 9;
-            public const int RESPUESTA_RIA = 10;
-            public const int SOLICITAR_RIA = 11;
-            public const int CT_RESPUESTA_COMITE = 12;
-            public const int UA_LEER_MENSAJE = 13;
-            public const int INAI_RECURSO_REVISION = 14;
+            public const int INDEFINIDO = 0;
+
+            public const int INAI_SOLICITUD = 1;
+            public const int INAI_RESPUESTA = 2;
+            public const int INAI_RECURSO_REVISION = 11;
+
+            public const int UT_RECIBIR_SOLICITUD = 3;
+
+            public const int PRUD_RECIBIR_SOLICITUD = 4;
+            public const int PRUD_REVISARRESP_SOLICITUD = 5;
+            public const int PRUD_NOTIFICAR = 6;
+
+            public const int UA_ANALIZAR_SOLICITUD = 7;
+            public const int UA_CORREGIR_SOLICITUD = 8;
+            public const int UA_INFO_COMITE_SOLICITUD = 9;
+
+            public const int CT_SESION_SOLICITUD = 10;
         }
 
         public static class NodoEstadoTipo
@@ -194,7 +197,6 @@ namespace SFP.SIT.SERV.Util
             public const int SI = 1;
         }
 
-
         public static class RespuestaEstado
         {
             public const int TURNAR = 1;
@@ -204,7 +206,8 @@ namespace SFP.SIT.SERV.Util
             public const int RIA = 5;
             public const int RESPONDER = 6;
             public const int ACEPTADA = 7;
-            public const int NEGAR = 8;
+            public const int CORREGIR = 8;
+            public const int NEGAR = 9;
         }
 
         public static class RespuestaTipo

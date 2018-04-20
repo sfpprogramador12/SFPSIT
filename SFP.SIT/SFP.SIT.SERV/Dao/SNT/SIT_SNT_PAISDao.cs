@@ -124,9 +124,9 @@ namespace SFP.SIT.SERV.Dao.SNT
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " SELECT PAICLAVE, PAIDESCRIPCION, PAIFECBAJA   "
+                            + " SELECT KPA_CLAPAI, KPA_DESCRIPCION, paifecbaja   "
                 + " from SIT_SNT_PAIS "
-                + " order by PAIDESCRIPCION "
+                + " order by KPA_DESCRIPCION "
             + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
