@@ -69,7 +69,7 @@
         //AjaxPostForm1('/Catalogo/Consulta', $('#frmtipoResp').serialize(), RendertipoResp, _UrlInicio);
         //AjaxPostForm1('/Catalogo/Consulta', $('#frmTipoNodo').serialize(), RenderNodo, _UrlInicio);
         var datosHistorial = @Html.Raw(ViewBag.Areas);
-        console.log(datosHistorial);
+        //console.log(datosHistorial);
         RenderAreas(datosHistorial);
     });
 
@@ -83,7 +83,7 @@
         </div>
         <div class="row">
             <div class="col-md-8">
-                <div id="jstree_demo" class="demo"></div>
+                <div style="overflow: auto; height: 800px;" id="jstree_demo" class="demo"></div>
             </div>
             <div class="col-md-4">
                 <div class="row">
@@ -195,8 +195,7 @@
                 }
             </script>
             <div>
-                <button class="btn btn-primary" id="SaveButton" onclick="save()">Guardar cambios</button>
-                <button class="btn btn-info" onclick="Enviarflujo()">Validar</button>
+                <button style="width:200px; height:50px;" class="btn btn-green" id="SaveButton" onclick="save()">Guardar cambios</button>
             </div>
             <br />
 
@@ -251,10 +250,33 @@
     </div><!-- /.modal -->
 
 
+    <div class="modal fade" id="myModalSave">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="msgSave0">
+                        Guardando Cambios ...
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/throbber.gif" alt="Alternate Text" />
+                    </h4>
+                    <h4 class="modal-title" id="msgSave1" style="display:none">
+                        Datos Guardados Exitosamente
+                    </h4>
+                </div>
+               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                    
+                </div>
+            </div>
+       </div>
+    </div>
+
+
     <form id="frmHijos" asp-controller="Solicitud" asp-action="FlujoAreasTraerHijos" method="get" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
-        <input type="hidden" value="01/01/2018" name="fechaF" />
-        <input type="hidden" value="0" name="id" />
+        <input type="hidden" value="01/01/2012" name="fechaF" />
+        <input type="hidden" value="0" name="id" id="id" />
     </form>
 
 
@@ -263,7 +285,7 @@
         <input type="hidden" value="01/01/2018" name="fechaF" id="fechaF" />
     </form>
 
-   
+
 </body>
 
 
@@ -273,98 +295,133 @@
         var fecha = document.getElementById("date").value;
         fecha = fecha.replace("-", "/")
         fecah = fecha.replace("-", "/")
+        location.reload();
         $("#fechaF").val(fecha);
-        AjaxPostForm2('/Solicitud/FlujoAreas', $('#frmFlujoEditor').serialize(), RenderDiagrama, _UrlInicio);
+        //AjaxPostForm2('/Solicitud/FlujoAreas', $('#frmFlujoEditor').serialize(), RenderDiagrama, _UrlInicio);
     }
 
     function RenderDiagrama(datos) {
         //console.log(datos);
     }
 
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     function editarArea() {
         $("#myModalResp").modal('show');
-
     }
 
 
+    function save() { 
 
+        $("#myModalSave").modal('show');
+        sleep(2500).then(() => {
+            $("#msgSave0").css("display", "none");
+            $("#msgSave1").css("display", "block");
+        });
+
+        sleep(1000).then(() => {
+            $("#msgSave0").css("display", "block");
+            $("#msgSave1").css("display", "none");
+        });
+    }
 
     //
     var datosR = [
         {
-            "id": 0, "text": "Secretaria de la Función Pública", "children":
-            [{ "id": 2, "text": "Child node 1" }, { "id": 3, "text": "Child node 2" }]
+            "id": 0, "text": "Secretaria de la Función Pública", "children": []
         }
     ];
+    var cont = 0;
 
     var datosHistorial =  @Html.Raw(ViewBag.Areas);
     function construirJSON(id) {
+        $("#id").val(id);
         var arrayResp = [];
-
+        console.log("searching hijos de " + id);
         //se pide al servidor la información
         $.ajax({
             url: '/Solicitud/FlujoAreasTraerHijos',
             type: "POST",
             data: $('#frmHijos').serialize(),
-            success: function (data) {
-                if (data === undefined) {
-                    return "";
-                } else {
-                    for (var i = 0; i < data.length; i++) {
-                        arrayResp[i].id = data.records[i].araclave;
-                        arrayResp[i].text = data.records[i].arhdescripcion; 
-                        arrayResp[i].children = construirJSON(arrayResp[i].id);
+            success: function (data)
+            {
+                var arrayResp =
+                    {
+                        "id": 0, "text": ""
+                    };
+               
+                var datos = JSON.parse(data);
+                console.log(datos);
+                if (datos.records.length > 0) {
+                    for (var i = 0; i < datos.records.length; i++) {
+                        arrayResp = {};
+                        arrayResp.id = datos.records[i].araclave;
+                        if (datos.records[i].arhdescripcion.length < 40)
+                            arrayResp.text = datos.records[i].arhdescripcion;
+                        else
+                            arrayResp.text = datos.records[i].arhsiglas;
+                        arrayResp.children = [{ "id": 600, "text": "Comisión de Avalúos de Bienes Nacionales" }, { "id": 101, "text": "Unidad de Desarrollo Administrativo" }, { "id": 102, "text": "Unidad de Asuntos Jurídicos", "children": [{ "id": 600, "text": "Comisión de Avalúos de Bienes Nacionales" }] }];//construirJSON(datos.records[i].araclave);
+                        addChildrens(arrayResp); 
                     }
                 }
-                return arrayResp;
+                //tempChild = arrayResp;
             }
            
         });
-
-        
+        //return tempChild;
     }
-    datosR[0].children = construirJSON(0);
+    construirJSON(1);
 
+    function addChildrens(data) {
+        datosR[0].children[cont] = data;
+        cont++;
+    }
 
+    $(document).ready(function () {
 
-    $('#jstree_demo').jstree({
-        "core": {
-            "animation": 0,
-            "check_callback": true,
-            "themes": { "stripes": true },
-            'data': function (node, cb) {
-                if (node.id === "#") {
-                    cb(datosR);
+        console.log("renderizado: " + JSON.stringify(datosR));
+        $('#jstree_demo').jstree({
+            "core": {
+                "animation": 0,
+                "check_callback": true,
+                "themes": { "stripes": true },
+                'data': function (node, cb) {
+                    if (node.id === "#") {
+                        datosF = [{ "id": 1, "text": "Root node", "children": [{ "id": 2, "text": "Child node 1" }, { "id": 3, "text": "Child node 2" }] }];
+                        cb(datosR);
+                    }
+                    else {
+                        cb(["Child"]);
+                    }
                 }
-                else {
-                    cb(["Child"]);
+            },
+            "types": {
+                "#": {
+                    "max_children": 1,
+                    "max_depth": 4,
+                    "valid_children": ["root"]
+                },
+                "root": {
+                    "icon": "/static/3.3.5/assets/images/tree_icon.png",
+                    "valid_children": ["default"]
+                },
+                "default": {
+                    "valid_children": ["default", "file"]
+                },
+                "file": {
+                    "icon": "glyphicon glyphicon-file",
+                    "valid_children": []
                 }
-            }
-        },
-        "types": {
-            "#": {
-                "max_children": 1,
-                "max_depth": 4,
-                "valid_children": ["root"]
             },
-            "root": {
-                "icon": "/static/3.3.5/assets/images/tree_icon.png",
-                "valid_children": ["default"]
-            },
-            "default": {
-                "valid_children": ["default", "file"]
-            },
-            "file": {
-                "icon": "glyphicon glyphicon-file",
-                "valid_children": []
-            }
-        },
-        "plugins": [
-            "contextmenu", "dnd", "search",
-            "state", "types", "wholerow"
-        ]
-    });
-
+            "plugins": [
+                "contextmenu", "dnd", "search",
+                "state", "types", "wholerow"
+            ]
+        });
+    }
+    );
 
 
 </script>
