@@ -66,7 +66,7 @@ namespace SFP.SIT.AFD.MIGRAR
             }
             catch (Exception ex)
             {
-                _sMsjError = ex.ToString();
+                MsjError = ex.ToString();
                 throw new Exception("Error en el método AccionCrearNodoAristaSeg " + ex.ToString());
             }
             return true;

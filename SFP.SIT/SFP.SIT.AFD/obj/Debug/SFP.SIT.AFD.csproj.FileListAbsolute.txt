@@ -43,6 +43,10 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CoreCompileInputs.cache
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.dll
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csprojResolveAssemblyReference.cache
+C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CoreCompileInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.SIT.AFD.dll.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.SIT.AFD.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.SIT.AFD.pdb
@@ -55,9 +59,5 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.Persisten
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.Persistencia.dll.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.SIT.SERV.pdb
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\bin\Debug\SFP.SIT.SERV.dll.config
-C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csprojResolveAssemblyReference.cache
-C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CoreCompileInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.pdb
-C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete
-C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete

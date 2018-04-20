@@ -107,7 +107,7 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVasignar(FrmRespAsignarVM respAsignar)
         {                        
             Dictionary<string, object> dicDatos = dicGlobalResponder(respAsignar.nodclave, Constantes.RespuestaEstado.PROPUESTA, respAsignar.resRespuesta, 
-                Constantes.Respuesta.ASIGNAR,  respAsignar.solfecsolticks, PersistenciaConst.OPERACION.INSERTAR,
+                Constantes.Respuesta.ASIGNAR,  respAsignar.solfecsolticks, PersistenciaConst.Operacion.INSERTAR,
                 ProcesoGralDao.PARAM_RESP_ASIGNAR);
 
             respAsignar.resAsignar.araclave = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
@@ -152,7 +152,7 @@ namespace SFP.SIT.WEB.Controllers
                 resRespuesta.repoficio = "S/N";
 
                 Dictionary<string, object> dicDatos = dicGlobalResponder(turnarClaNodo, Constantes.RespuestaEstado.PROPUESTA, resRespuesta,
-                    Constantes.Respuesta.TURNAR, turnarfecsolticks, PersistenciaConst.OPERACION.INSERTAR, ProcesoGralDao.PARAM_RESP_TURNAR);
+                    Constantes.Respuesta.TURNAR, turnarfecsolticks, PersistenciaConst.Operacion.INSERTAR, ProcesoGralDao.PARAM_RESP_TURNAR);
 
                 // DATOS DE LA RESPUESTA..
                 dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, DocResp);
