@@ -113,7 +113,32 @@ namespace SFP.SIT.SERV.Dao.RESP
             return (int)EjecutaDML(sSQL, oDatos.repcantidad, oDatos.megclave,  oDatos.repoficio, oDatos.repedofec, oDatos.rtpclave, oDatos.repclave);
         }
 
+
+        public List<SIT_RESP_RESPUESTA> dmlSelectRespNodoRtpDif(Int64 nodClave, int rtpClave, int sdoClave)
+        {
+            String sSQL = " SELECT  RR.rtpclave, RR.repclave "
+                + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR "
+                + " WHERE RNR.nodClave = :P0 "
+                + " AND RNR.REPCLAVE = RR.REPCLAVE "
+                + " AND RTPCLAVE <> :P1 AND SDOCLAVE = :P2 ";
+
+            return CrearListaMDL<SIT_RESP_RESPUESTA>(ConsultaDML(sSQL, nodClave, rtpClave, sdoClave) as DataTable);
+        }
+
+
+        public List<SIT_RESP_RESPUESTA> dmlSelectRespNodoRtpIgual(Int64 nodClave, int rtpClave, int sdoClave)
+        {
+            String sSQL = " SELECT  RR.rtpclave, RR.repclave "
+                + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR "
+                + " WHERE RNR.nodClave = :P0 "
+                + " AND RNR.REPCLAVE = RR.REPCLAVE "
+                + " AND RTPCLAVE = :P1 AND SDOCLAVE = :P2 ";
+
+            return CrearListaMDL<SIT_RESP_RESPUESTA>(ConsultaDML(sSQL, nodClave, rtpClave, sdoClave) as DataTable);
+        }
+
+
         /*FIN*/
- 
-	 }
+
+    }
 }

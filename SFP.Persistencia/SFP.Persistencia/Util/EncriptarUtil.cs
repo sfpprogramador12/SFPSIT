@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SFP.Persistencia.Util
 {
-    public class EncriptarUtil
+    public static class EncriptarUtil
     {
         public static string checkMD5(string filename)
         {

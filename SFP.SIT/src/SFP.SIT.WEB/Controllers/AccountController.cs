@@ -107,13 +107,6 @@ namespace SFP.SIT.WEB.Controllers
                     // EL USAURIO EXISTE..
                     _appLog.usuario = usrMdl.UsuarioNombre;
 
-                    /* Traer usuarios que comparte y guardarlos en el context*/
-                    usrMdl.usuarioBase = new Dictionary<int, string>() {
-                            { usrMdl.AdmUsuMdl.usrclave, usrMdl.UsuarioNombre }
-                        };
-
-                    usrMdl.usuariosCompartidos = (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), usrMdl.AdmUsuMdl.usrclave.ToString());
-
                     List<Claim> userClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, Convert.ToString(usrMdl.AdmUsuMdl.usrclave)),
@@ -123,11 +116,16 @@ namespace SFP.SIT.WEB.Controllers
                         new Claim(ConstantesWeb.Usuario.PERFILES,JsonTransform.Serializar(usrMdl.lstPerfil)),
                         new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(usrMdl.lstModulo)),
                         new Claim(ConstantesWeb.Usuario.CORREO, usrMdl.AdmUsuMdl.usrcorreo ),
-                        new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(usrMdl.usuariosCompartidos) ),
-                        new Claim(ConstantesWeb.Usuario.USUARIOBASE, Convert.ToString(usrMdl.AdmUsuMdl.usrclave) ),
-                        new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea ),
-                        new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(usrMdl.AdmUsuMdl.usractivo) ),
+                        new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea )
                     };
+
+                    /* Traer usuarios que comparte y guardarlos en el context*/
+                    usrMdl.usuarioBase = new Dictionary<int, string>() {
+                            { usrMdl.AdmUsuMdl.usrclave, usrMdl.UsuarioNombre }
+                        };
+                    usrMdl.usuariosCompartidos =  (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), usrMdl.AdmUsuMdl.usrclave.ToString());
+                    HttpContext.SetDataToSession<UsuarioViewModel>("User", usrMdl);
+                    
 
                     ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
                     await HttpContext.Authentication.SignInAsync("SitCookieMiddlewareInstance", principal,
@@ -150,7 +148,7 @@ namespace SFP.SIT.WEB.Controllers
         [HttpGet]
         //[ValidateAntiForgeryToken]
         // <-- Solo administradores pueden acceder a esta parte
-        public async Task<IActionResult> ImpersonateUser(String userId, String userBase)
+        public async Task<IActionResult> ImpersonateUser(String userId)
         {
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string currentUserId = identity.Name.ToString();
@@ -169,16 +167,6 @@ namespace SFP.SIT.WEB.Controllers
             dicParam.Add(SeguridadSer.PARAM_IP, Request.HttpContext.Connection.RemoteIpAddress.ToString());
             UsuarioViewModel impersonatedUser  = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
 
-            // EL USAURIO EXISTE..
-            _appLog.usuario = impersonatedUser.UsuarioNombre;
-
-            /* Traer usuarios que comparte y guardarlos en el context*/
-            impersonatedUser.usuarioBase = new Dictionary<int, string>() {
-                            { impersonatedUser.AdmUsuMdl.usrclave, impersonatedUser.UsuarioNombre }
-                        };
-
-            impersonatedUser.usuariosCompartidos = (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), userBase.ToString());
-
 
             List<Claim> userClaims = new List<Claim>
             {
@@ -190,8 +178,8 @@ namespace SFP.SIT.WEB.Controllers
                 new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(impersonatedUser.lstModulo)),
                 new Claim(ConstantesWeb.Usuario.CORREO, impersonatedUser.AdmUsuMdl.usrcorreo ),
                 new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, impersonatedUser.sCboPerfilArea ),
-                new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(impersonatedUser.usuariosCompartidos) ),
-                new Claim(ConstantesWeb.Usuario.USUARIOBASE, userBase)
+                new Claim(ConstantesWeb.Usuario.USUARIOBASE, currentUserId)
+                        
             };
 
             ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));

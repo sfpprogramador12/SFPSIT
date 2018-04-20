@@ -9,26 +9,13 @@ namespace SFP.Persistencia
         protected DbTransaction _transaction;
         protected String _sDataAdapter;
 
-        protected String _sMsjError;
+        public String MsjError { set; get; }
 
         public BaseFunc(DbConnection cn, DbTransaction transaction, String sDataAdapter)
         {
             _cn = cn;
             _transaction = transaction;
             _sDataAdapter = sDataAdapter;
-        }
-
-        public String MsjError
-        {
-            get
-            {
-                return _sMsjError;
-            }
-
-            set
-            {
-                this._sMsjError = value;
-            }
         }
 
         protected T ObtenerObjeto<T>(string sNombreClase)

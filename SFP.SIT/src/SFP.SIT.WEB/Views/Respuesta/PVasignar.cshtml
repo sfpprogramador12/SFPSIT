@@ -10,7 +10,6 @@
     -------------------------------------------- *@
 <div id="dialog-form" style="width: 100%; height: 100%; ">
     <div rel="body">
-
         @using (Html.BeginForm("PVasignar", controlName, FormMethod.Post, new { id = "FormAsignar", name = "FormAsignar" }))
         {
         @Html.AntiForgeryToken()
@@ -44,14 +43,17 @@
 </div>
 <iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
 
-<script>
-
+<script>    
     function Inicializar() {
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
         SelectAddElemClear("resAsignar_usrclave", _TranspTurnar.records, true);
     }
 
     function submit() {
-        _Inicio = true;
+        _Inicio = false;
         $("#btnAccion").hide();
         $("#solclave").val(_solclave);
         $("#proclave").val(_proclave);
@@ -63,17 +65,17 @@
     }
 
 
-    function Grabar() {
-        if (Validar() === true) {
-            $('#avanzar').val(1);
-            submit();
-        }
-    }
+    //function Grabar() {
+    //    if (Validar() === true) {
+    //        $('#avanzar').val(1);
+    //        submit();
+    //    }
+    //}
 
     function GrabarIFrame() {
         if (Validar() === true) {
             $('#avanzar').val(0);
-            var formaActual = document.PublicaForm;
+            var formaActual = document.FormAsignar;
             formaActual.target = "iframeAux";
             submit();
         }

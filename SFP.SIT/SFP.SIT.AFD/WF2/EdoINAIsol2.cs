@@ -67,15 +67,13 @@ namespace SFP.SIT.AFD.WF2
                 nodatendido = AfdConstantes.NODO.FINALIZADO,
                 nodclave = _afdEdoDataMdl.ID_EstadoActual,
                 nodfeccreacion = _afdEdoDataMdl.solicitud.solfecsol,
-                nedclave = Constantes.NodoEstado.INAI_CREAR_SOLICITUD,
+                nedclave = Constantes.NodoEstado.INAI_SOLICITUD,
                 usrclave = _afdEdoDataMdl.usrClaveDestino,                
             };
 
             oResultado = _nodoDao.dmlAgregar(nodoINAI);
             nodoINAI.nodclave = _nodoDao.iSecuencia;
-
             _afdEdoDataMdl.AFDnodoActMdl = nodoINAI;
-            //////////////////////////////////////////// _afdEdoDataMdl.ID_EstadoActual = Constantes.NodoEstado.UT_RECIBIR_SOL;
 
             // Aqui voy a crear el Nodo de la UT
             _afdEdoDataMdl.ID_Capa = _afdEdoDataMdl.ID_Capa + 1;

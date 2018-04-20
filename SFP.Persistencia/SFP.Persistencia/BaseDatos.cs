@@ -1,4 +1,5 @@
 ﻿using Oracle.ManagedDataAccess.Client;
+using SFP.Persistencia.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,14 +12,15 @@ namespace SFP.Persistencia
 {
     public class BaseDatos : BaseFunc, IBaseDb
     {
-        private string _sQuery;
-        private TipoBaseDatos _TipoBd;
+        public string _sQuery { set; get; }
+        private TipoBaseDatos _TipoBd { set; get; }
+
         protected string _prefijoParam;
         private enum TipoBaseDatos { ORACLE, MSSQL };
         public BaseDatos(DbConnection cn, DbTransaction transaction, String sDataAdapter)
             : base(cn, transaction, sDataAdapter)
         {
-            if (cn.GetType() == typeof(OracleConnection))
+            if ( cn is OracleConnection )
             {
                 _TipoBd = TipoBaseDatos.ORACLE;
                 _prefijoParam = "#";
@@ -33,7 +35,7 @@ namespace SFP.Persistencia
         protected int SecuenciaDML(String sSecuencia)
         {
             int iID = -1;
-            if (_cn.GetType() == typeof(OracleConnection))
+            if (_cn is OracleConnection)
             {
                 DataSet ds = new DataSet();
                 try
@@ -42,7 +44,7 @@ namespace SFP.Persistencia
                     {
                         oDataAdapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
                         // Create the commands.
-                        oDataAdapter.SelectCommand = new OracleCommand("SELECT " + sSecuencia + ".nextval as NEXTVAL FROM dual", (OracleConnection)_cn); ;
+                        oDataAdapter.SelectCommand = new OracleCommand("SELECT " + sSecuencia + ".nextval as NEXTVAL FROM dual", (OracleConnection)_cn);
                         oDataAdapter.Fill(ds);
 
                         DataTable dtDatos = ds.Tables[0];
@@ -54,12 +56,12 @@ namespace SFP.Persistencia
                 }
                 catch (Exception ex)
                 {
-                    _sMsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
-                    throw new Exception("Error al ejecutar la instrucción de SQL : " + ex.ToString());
+                    MsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
+                    throw new PesistenciaException("Error al ejecutar la instrucción de SQL : " + ex.ToString());
                 }
             }
             else
-                throw new Exception("Solo habilitado para ORACLE");
+                throw new PesistenciaException("Solo habilitado para ORACLE");
 
             return iID;
         }
@@ -73,14 +75,14 @@ namespace SFP.Persistencia
             {
                 oDbCmd = obtenerCommand(psQuery, aoParametros);
                 if (_transaction != null)
-                    oDbCmd.Transaction = (DbTransaction)_transaction;
+                    oDbCmd.Transaction = _transaction;
 
                 iRegistros = oDbCmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                _sMsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
-                throw new Exception("Error al ejecutar la instrucción de SQL : " + ex.ToString());
+                MsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
+                throw new PesistenciaException("Error al ejecutar la instrucción de SQL : " + ex.ToString());
             }
             finally
             {
@@ -93,7 +95,7 @@ namespace SFP.Persistencia
         // SOLO FUNCIONA PARA MSQLSERVER 
         public bool EjecutarBulkCopy(DataTable dtDatos, string sTabla)
         {
-            if (_cn.GetType() == typeof(SqlConnection))
+            if (_cn is SqlConnection)
             {
                 using (SqlBulkCopy bulkCopy = new SqlBulkCopy((SqlConnection)_cn, SqlBulkCopyOptions.KeepIdentity, (SqlTransaction)_transaction))
                 {
@@ -102,7 +104,7 @@ namespace SFP.Persistencia
                 }
             }
             else
-                throw new Exception("Solo habilitado para MSSQL server ");
+                throw new PesistenciaException("Solo habilitado para MSSQL server ");
 
             return true;
         }
@@ -139,8 +141,8 @@ namespace SFP.Persistencia
             }
             catch (Exception ex)
             {
-                _sMsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
-                throw new Exception("Error al ejecutar la instrucción de SQL : " + ex.ToString());
+                MsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
+                throw new PesistenciaException("Error al ejecutar la instrucción de SQL : " + ex.ToString());
             }
             return dtResultado;
         }
@@ -162,21 +164,23 @@ namespace SFP.Persistencia
             }
             catch (Exception ex)
             {
-                _sMsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
-                throw new Exception("Error al ejecutar la instrucción de SQL : " + ex.ToString());
+                MsjError = "Error al ejecutar la instrucción de SQL : " + _sQuery;
+                throw new PesistenciaException("Error al ejecutar la instrucción de SQL : " + ex.ToString());
             }
             return ds.Tables[0];
         }
         private void ReemplazarPrimero(ref StringBuilder sbOrigen, string sBuscar, string sReemplazar)
         {
-            int iPosicion = sbOrigen.ToString().IndexOf(sBuscar);
+            String sOriBuscar = sbOrigen.ToString();
+            
+            int iPosicion = string.CompareOrdinal(sOriBuscar, sBuscar);
 
             if (iPosicion > -1)
                 sbOrigen.Replace(sBuscar, sReemplazar, iPosicion, sBuscar.Length);
         }
         private DbCommand obtenerCommand(string sQuery, params Object[] aoParametros)
         {
-            DbCommand oDbCmd = null; 
+            DbCommand oDbCmd; 
 
             if (_TipoBd == TipoBaseDatos.ORACLE)
                 oDbCmd = AgregarParametroOracle(sQuery, aoParametros);
@@ -187,6 +191,70 @@ namespace SFP.Persistencia
 
             return oDbCmd;
         }
+
+       
+        private void OracleTipoDato(object oDato, ref OracleCommand oracleCmd, ref StringBuilder sbQuery, int iElem)
+        {
+
+            if (oDato is int)
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int32).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, oDato.ToString());
+            }
+
+            else if ((oDato is UInt32) ||
+                (oDato is long))
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int64).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, oDato.ToString());
+            }
+            else if (oDato is DateTime)
+            {
+                DateTime dtFechaParam = (DateTime)oDato;
+
+                if (dtFechaParam.Equals(DateTime.MinValue))
+                {
+                    oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Date).Value = DBNull.Value;
+                    ReemplazarPrimero(ref sbQuery, ":P" + iElem, " null ");
+                }
+                else if (dtFechaParam.TimeOfDay.TotalSeconds < 1)
+                {
+                    oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Date).Value = oDato;
+                    ReemplazarPrimero(ref sbQuery, ":P" + iElem, " TO_DATE('" + dtFechaParam.ToString("yyyy/MM/dd") + "', 'yyyy/mm/dd') ");
+                }
+                else
+                {
+                    oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.TimeStamp).Value = oDato;
+                    ReemplazarPrimero(ref sbQuery, ":P" + iElem, " TO_TIMESTAMP('" + dtFechaParam.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture) + "', 'MM/DD/YYYY HH24:MI:SS') ");
+                }
+            }
+            else if (oDato is Byte)
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Blob).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, "byte[]");
+
+            }
+            else if (oDato is short)
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int16).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, oDato.ToString());
+
+            }
+            else if (oDato is Single)
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Single).Value = oDato;
+                Single sDato = (Single)oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, sDato.ToString("N4"));
+            }
+            else if (oDato is Double)
+            {
+                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Double).Value = oDato;
+                Double dDato = (Double)oDato;
+                ReemplazarPrimero(ref sbQuery, ":P" + iElem, dDato.ToString("N4"));
+            }
+        }
+
+
         private DbCommand AgregarParametroOracle(string sQuery, params Object[] aoParametros)
         {
             OracleCommand oracleCmd = new OracleCommand(sQuery, (OracleConnection)_cn);
@@ -207,95 +275,93 @@ namespace SFP.Persistencia
                         oracleCmd.Parameters.Add(":P" + iElem, DBNull.Value);
                         ReemplazarPrimero(ref sbQuery, ":P" + iElem, "null");
                     }
-
-                    else if (aoParametros[iElem].GetType() == typeof(string))
+                    else if (aoParametros[iElem] is string)
                     {
                         oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Varchar2).Value = aoParametros[iElem];
                         ReemplazarPrimero(ref sbQuery, ":P" + iElem, "'" + aoParametros[iElem] + "'");
 
                     }
-                    else if (aoParametros[iElem].GetType() == typeof(int))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int32).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, aoParametros[iElem].ToString());
-                    }
-
-                    else if (aoParametros[iElem].GetType() == typeof(UInt32))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int64).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, aoParametros[iElem].ToString());
-                    }
-
-                    else if (aoParametros[iElem].GetType() == typeof(long))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int64).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, aoParametros[iElem].ToString());
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(DateTime))
-                    {
-                        if (((DateTime)(aoParametros[iElem])).Equals(DateTime.MinValue))
-                        {
-                            oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Date).Value = DBNull.Value;
-                            ReemplazarPrimero(ref sbQuery, ":P" + iElem, " null ");
-                        }
-                        else
-                        {
-                            DateTime FechaActual = (DateTime)aoParametros[iElem];
-                            if (FechaActual.TimeOfDay.TotalSeconds == 0)
-                            {
-                                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Date).Value = aoParametros[iElem];
-                                ReemplazarPrimero(ref sbQuery, ":P" + iElem, " TO_DATE('" + FechaActual.ToString("yyyy/MM/dd") + "', 'yyyy/mm/dd') ");
-                            }
-                            else
-                            {
-                                oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.TimeStamp).Value = aoParametros[iElem];
-                                ReemplazarPrimero(ref sbQuery, ":P" + iElem, " TO_TIMESTAMP('" + FechaActual.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture) + "', 'MM/DD/YYYY HH24:MI:SS') ");
-                            }
-                        }
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Char))
+                    else if (aoParametros[iElem] is Char)
                     {
                         oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Char).Value = aoParametros[iElem];
                         ReemplazarPrimero(ref sbQuery, ":P" + iElem, aoParametros[iElem].ToString());
                     }
-                    else if (aoParametros[iElem].GetType() == typeof(Byte))
+                    else
                     {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Blob).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, "byte[]");
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(short))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Int16).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, aoParametros[iElem].ToString());
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Single))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Single).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, string.Format("0.00", aoParametros[iElem].ToString()));
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Double))
-                    {
-                        oracleCmd.Parameters.Add(":P" + iElem, OracleDbType.Double).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, ":P" + iElem, string.Format("0.00", aoParametros[iElem].ToString()));
-
-                    }
-                    _sQuery = sbQuery.ToString();
+                        OracleTipoDato(aoParametros[iElem], ref oracleCmd, ref sbQuery, iElem);
+                    }                    
                 }
+                _sQuery = sbQuery.ToString();
             }
             return oracleCmd;
         }
+
+        //FALTA IMPLEMENTAR un tipo de tipo boolen  ( aoParametros[iElem] IS Boolean)
+        //FALTA IMPLEMENTAR un tipo de tipo boolen  ( aoParametros[iElem] IS Byte)
+        /*  TAMBIEN REIVSAR EL TIPO DATE
+                        ElseIf TypeOf aoParametros(iElem) Is Date Then
+                            sqlCmd.Parameters.AddWithValue("@P" & iElem, SqlDbType.Date).Value = aoParametros(iElem)
+                            sbQuery.Replace("@P" & iElem, " Convert(datetime,'" & CDate(aoParametros(iElem)).ToString("yyyyMMdd") & "',112)")
+        */
+
+        private void MSsqlTipoDato(object oDato, ref SqlCommand sqlCmd, ref StringBuilder sbQuery, int iElem)
+        {
+            if (oDato is int)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Int).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, oDato.ToString());
+
+            }
+            else if (oDato is long)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Float).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, oDato.ToString());
+            }
+            else if (oDato is DateTime)
+            {
+                // if si el valor es el minimo signific que lleva NULL
+                if (((DateTime)oDato).Equals((DateTime.MinValue)))
+                {
+                    sqlCmd.Parameters.AddWithValue("@P" + iElem, DBNull.Value).Value = DBNull.Value;
+                    ReemplazarPrimero(ref sbQuery, "@P" + iElem, "null");
+                }
+                else
+                {
+                    sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.DateTime).Value = oDato;
+                    ReemplazarPrimero(ref sbQuery, "@P" + iElem, " Convert(datetime,'" + ((DateTime)oDato).Date.ToString("yyyyMMdd") + "',112)");
+                }
+            }
+            else if (oDato is Char)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Char).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, oDato.ToString());
+
+            }
+
+            else if (oDato is short)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.SmallInt).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, oDato.ToString());
+
+            }
+            else if (oDato is Single)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Float).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, string.Format(oDato.ToString()));
+
+            }
+            else if (oDato is Double)
+            {
+                sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Real).Value = oDato;
+                ReemplazarPrimero(ref sbQuery, "@P" + iElem, string.Format(oDato.ToString()));
+            }
+        }
+
+
         private DbCommand AgregarParametroMsSql(string sQuery, params Object[] aoParametros)
         {
-
             /*  Acutalziar esta rutina
              *  http://stackoverflow.com/questions/4233536/c-sharp-store-functions-in-a-dictionary   */
-
-            string[] asDatos;
-
             SqlCommand sqlCmd;
 
             if ( _transaction != null)
@@ -306,8 +372,6 @@ namespace SFP.Persistencia
             int iTotElem;
             Int16 iElem;
             StringBuilder sbQuery = new StringBuilder(sQuery);
-
-            asDatos = sQuery.Split(new string[] { "@P" }, StringSplitOptions.None);
 
             iTotElem = aoParametros.Length;
 
@@ -322,75 +386,16 @@ namespace SFP.Persistencia
                         sqlCmd.Parameters.AddWithValue("@P" + iElem, DBNull.Value).Value = DBNull.Value;
                         ReemplazarPrimero(ref sbQuery, "@P" + iElem, "null");
                     }
-                    else if (aoParametros[iElem].GetType() == typeof(string))
+
+                    else if (aoParametros[iElem] is string)
                     {
                         sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Text).Value = aoParametros[iElem];
                         ReemplazarPrimero(ref sbQuery, "@P" + iElem, "'" + aoParametros[iElem] + "'");
-
                     }
-                    else if (aoParametros[iElem].GetType() == typeof(int))
+                    else
                     {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Int).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, aoParametros[iElem].ToString());
-
+                        MSsqlTipoDato(aoParametros[iElem], ref sqlCmd, ref sbQuery, iElem);
                     }
-                    else if (aoParametros[iElem].GetType() == typeof(long))
-                    {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Float).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, aoParametros[iElem].ToString());
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(DateTime))
-                    {
-                        // if si el valor es el minimo signific que lleva NULL
-
-                        if (((DateTime)aoParametros[iElem]).Equals((DateTime.MinValue)))
-                        {
-                            sqlCmd.Parameters.AddWithValue("@P" + iElem, DBNull.Value).Value = DBNull.Value;
-                            ReemplazarPrimero(ref sbQuery, "@P" + iElem, "null");
-                        }
-                        else
-                        {
-                            sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.DateTime).Value = aoParametros[iElem];
-                            ReemplazarPrimero(ref sbQuery, "@P" + iElem, " Convert(datetime,'" + ((DateTime)aoParametros[iElem]).Date.ToString("yyyyMMdd") + "',112)");
-                        }
-                    }
-                    /*                    
-                                    ElseIf TypeOf aoParametros(iElem) Is Date Then
-                                        sqlCmd.Parameters.AddWithValue("@P" & iElem, SqlDbType.Date).Value = aoParametros(iElem)
-                                        sbQuery.Replace("@P" & iElem, " Convert(datetime,'" & CDate(aoParametros(iElem)).ToString("yyyyMMdd") & "',112)")
-                    */
-                    else if (aoParametros[iElem].GetType() == typeof(Char))
-                    {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Char).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, aoParametros[iElem].ToString());
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Byte))
-                    {
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(short))
-                    {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.SmallInt).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, aoParametros[iElem].ToString());
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Single))
-                    {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Float).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, string.Format(aoParametros[iElem].ToString()));
-
-                    }
-                    else if (aoParametros[iElem].GetType() == typeof(Double))
-                    {
-                        sqlCmd.Parameters.AddWithValue("@P" + iElem, SqlDbType.Real).Value = aoParametros[iElem];
-                        ReemplazarPrimero(ref sbQuery, "@P" + iElem, string.Format( aoParametros[iElem].ToString()));
-
-                    }
-                    //else if (aoParametros[iElem].GetType() == typeof(Boolean))
-                    //{
-
-                    //}
 
                     _sQuery = sbQuery.ToString();
                 }

@@ -143,8 +143,10 @@ namespace SFP.SIT.SERV.Dao.RED
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = "WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( SELECT * " +
-                "from SIT_RED_NODOESTADO NOE ORDER BY  nedclave ) a ) SELECT * from Resultado WHERE recid between :P0 and :P1 ";
+            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
+                + " SELECT nedclave, KNE_DESCRIPCION, PER.KP_CLAPERFIL, KP_DESCRIPCION, nedurl, KNE_TIPO "
+                + " from SIT_RED_NODOESTADO NOE, SIT_ADM_KPERFIL PER WHERE PER.KP_CLAPERFIL = NOE.KP_CLAPERFIL ORDER BY  nedclave"
+                + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

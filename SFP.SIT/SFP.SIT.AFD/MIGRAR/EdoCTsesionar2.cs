@@ -27,7 +27,7 @@ namespace SFP.SIT.AFD.MIGRAR
             {
                 // CREAR NODO UT y MARCARLO COMO FINALIZADO
                 SIT_RED_NODO nodoUT = new SIT_RED_NODO { prcclave= iClaveProceso, solclave= _afdEdoDataMdl.solClave, araclave= _afdEdoDataMdl.ID_AreaUT,
-                    nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.FINALIZADO, nodclave= Constantes.NodoEstado.UT_REQ_RIA,
+                    nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.FINALIZADO, nodclave= Constantes.NodoEstado.INDEFINIDO,
                     nodfeccreacion= _afdEdoDataMdl.FechaRecepcion, nedclave= Constantes.General.ID_PENDIENTE,
                     usrclave = _afdEdoDataMdl.usrClaveDestino};
                 _nodoDao.dmlAgregar(nodoUT);
@@ -47,7 +47,7 @@ namespace SFP.SIT.AFD.MIGRAR
 
                 // CREAR NODO UA PARA REQUERIMIENTO
                 SIT_RED_NODO nodoUA = new SIT_RED_NODO { prcclave= iClaveProceso, solclave= _afdEdoDataMdl.solClave, araclave= _afdEdoDataMdl.ID_AreaDestino,
-                    nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.EN_PROCESO, nodclave= Constantes.NodoEstado.SOLICITAR_RIA,
+                    nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.EN_PROCESO, nodclave= Constantes.NodoEstado.INDEFINIDO,
                     nodfeccreacion= _afdEdoDataMdl.FechaRecepcion, nedclave= Constantes.General.ID_PENDIENTE,
                     usrclave = _afdEdoDataMdl.usrClaveDestino};
 

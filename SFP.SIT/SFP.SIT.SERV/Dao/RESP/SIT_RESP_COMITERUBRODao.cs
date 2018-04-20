@@ -104,20 +104,12 @@ namespace SFP.SIT.SERV.Dao.RESP
 	 	 	 	 return 0;
  
 	 	 }
-
-
-        /*INICIO*/
-
-        public DataTable dmlSelectGrid(BasePagMdl baseMdl)
-        {
-            String sqlQuery = "  WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
-                "SELECT * from SIT_RESP_COMITERUBRO RUBRO" +
-                " ) a ) SELECT* from Resultado WHERE recid between :P0 and :P1 ";
-            return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
-        }
-
-
-        /*FIN*/
-
-    }
+ 
+ 
+/*INICIO*/
+ 
+ 
+/*FIN*/
+ 
+	 }
 }

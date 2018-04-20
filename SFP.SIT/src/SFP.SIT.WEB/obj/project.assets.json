@@ -15,76 +15,6 @@
           "lib/net452/dotnet-bundle.exe": {}
         }
       },
-      "ClosedXML/0.91.0": {
-        "type": "package",
-        "dependencies": {
-          "DocumentFormat.OpenXml": "2.7.2",
-          "ExcelNumberFormat": "1.0.3",
-          "FastMember.Signed": "1.1.0"
-        },
-        "compile": {
-          "lib/net452/ClosedXML.dll": {}
-        },
-        "runtime": {
-          "lib/net452/ClosedXML.dll": {}
-        }
-      },
-      "DocumentFormat.OpenXml/2.7.2": {
-        "type": "package",
-        "dependencies": {
-          "System.IO.Packaging": "4.0.0"
-        },
-        "compile": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        },
-        "runtime": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        }
-      },
-      "EPPlus.Core/1.5.4": {
-        "type": "package",
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "PresentationCore",
-          "System",
-          "System.Core",
-          "System.Data",
-          "System.Drawing",
-          "System.Security",
-          "System.Web",
-          "System.Xml"
-        ],
-        "compile": {
-          "lib/net46/EPPlus.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net46/EPPlus.Core.dll": {}
-        }
-      },
-      "ExcelNumberFormat/1.0.3": {
-        "type": "package",
-        "compile": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        },
-        "runtime": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        }
-      },
-      "FastMember.Signed/1.1.0": {
-        "type": "package",
-        "frameworkAssemblies": [
-          "System.Data"
-        ],
-        "compile": {
-          "lib/net40/FastMember.Signed.dll": {}
-        },
-        "runtime": {
-          "lib/net40/FastMember.Signed.dll": {}
-        }
-      },
-      "jQuery/1.6.4": {
-        "type": "package"
-      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -123,53 +53,6 @@
             "assetType": "native",
             "rid": "win7-x86"
           }
-        }
-      },
-      "Microsoft.AspNet.SignalR/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.JS": "2.2.3",
-          "Microsoft.AspNet.SignalR.SystemWeb": "2.2.3"
-        },
-        "frameworkAssemblies": [
-          "System"
-        ]
-      },
-      "Microsoft.AspNet.SignalR.Core/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Microsoft.Owin.Security": "2.1.0",
-          "Newtonsoft.Json": "6.0.4",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.JS/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "jQuery": "1.6.4"
-        }
-      },
-      "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.Core": "2.2.3",
-          "Microsoft.Owin.Host.SystemWeb": "2.1.0"
-        },
-        "frameworkAssemblies": [
-          "System"
-        ],
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.1.1": {
@@ -1343,53 +1226,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-        "type": "package",
-        "compile": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        },
-        "runtime": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        }
-      },
-      "Microsoft.Owin/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        }
-      },
-      "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        }
-      },
-      "Microsoft.Owin.Security/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        }
-      },
       "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -1489,15 +1325,6 @@
         },
         "runtime": {
           "lib/net40/NUglify.dll": {}
-        }
-      },
-      "Owin/1.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net40/Owin.dll": {}
-        },
-        "runtime": {
-          "lib/net40/Owin.dll": {}
         }
       },
       "Pdfbox/1.1.1": {
@@ -1987,22 +1814,6 @@
         },
         "runtime": {
           "lib/net46/System.IO.FileSystem.Primitives.dll": {}
-        }
-      },
-      "System.IO.Packaging/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.IO.FileSystem.Primitives": "4.0.1"
-        },
-        "frameworkAssemblies": [
-          "WindowsBase",
-          "mscorlib"
-        ],
-        "compile": {
-          "ref/net46/System.IO.Packaging.dll": {}
-        },
-        "runtime": {
-          "lib/net46/System.IO.Packaging.dll": {}
         }
       },
       "System.Linq/4.3.0": {
@@ -2566,19 +2377,6 @@
           "bin/placeholder/SFP.SIT.AFD.dll": {}
         }
       },
-      "SFP.SIT.FLUJO/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "SFP.Persistencia": "1.0.0",
-          "SFP.SIT.SERV": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SFP.SIT.FLUJO.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SFP.SIT.FLUJO.dll": {}
-        }
-      },
       "SFP.SIT.SERV/1.0.0": {
         "type": "project",
         "dependencies": {
@@ -2606,76 +2404,6 @@
           "lib/net452/dotnet-bundle.exe": {}
         }
       },
-      "ClosedXML/0.91.0": {
-        "type": "package",
-        "dependencies": {
-          "DocumentFormat.OpenXml": "2.7.2",
-          "ExcelNumberFormat": "1.0.3",
-          "FastMember.Signed": "1.1.0"
-        },
-        "compile": {
-          "lib/net452/ClosedXML.dll": {}
-        },
-        "runtime": {
-          "lib/net452/ClosedXML.dll": {}
-        }
-      },
-      "DocumentFormat.OpenXml/2.7.2": {
-        "type": "package",
-        "dependencies": {
-          "System.IO.Packaging": "4.0.0"
-        },
-        "compile": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        },
-        "runtime": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        }
-      },
-      "EPPlus.Core/1.5.4": {
-        "type": "package",
-        "frameworkAssemblies": [
-          "Microsoft.CSharp",
-          "PresentationCore",
-          "System",
-          "System.Core",
-          "System.Data",
-          "System.Drawing",
-          "System.Security",
-          "System.Web",
-          "System.Xml"
-        ],
-        "compile": {
-          "lib/net46/EPPlus.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net46/EPPlus.Core.dll": {}
-        }
-      },
-      "ExcelNumberFormat/1.0.3": {
-        "type": "package",
-        "compile": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        },
-        "runtime": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        }
-      },
-      "FastMember.Signed/1.1.0": {
-        "type": "package",
-        "frameworkAssemblies": [
-          "System.Data"
-        ],
-        "compile": {
-          "lib/net40/FastMember.Signed.dll": {}
-        },
-        "runtime": {
-          "lib/net40/FastMember.Signed.dll": {}
-        }
-      },
-      "jQuery/1.6.4": {
-        "type": "package"
-      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -2683,53 +2411,6 @@
         },
         "native": {
           "runtimes/win7-x86/native/libuv.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.JS": "2.2.3",
-          "Microsoft.AspNet.SignalR.SystemWeb": "2.2.3"
-        },
-        "frameworkAssemblies": [
-          "System"
-        ]
-      },
-      "Microsoft.AspNet.SignalR.Core/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Microsoft.Owin.Security": "2.1.0",
-          "Newtonsoft.Json": "6.0.4",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.JS/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "jQuery": "1.6.4"
-        }
-      },
-      "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.Core": "2.2.3",
-          "Microsoft.Owin.Host.SystemWeb": "2.1.0"
-        },
-        "frameworkAssemblies": [
-          "System"
-        ],
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.1.1": {
@@ -3903,53 +3584,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-        "type": "package",
-        "compile": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        },
-        "runtime": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        }
-      },
-      "Microsoft.Owin/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        }
-      },
-      "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        }
-      },
-      "Microsoft.Owin.Security/2.1.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        }
-      },
       "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -4049,15 +3683,6 @@
         },
         "runtime": {
           "lib/net40/NUglify.dll": {}
-        }
-      },
-      "Owin/1.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net40/Owin.dll": {}
-        },
-        "runtime": {
-          "lib/net40/Owin.dll": {}
         }
       },
       "Pdfbox/1.1.1": {
@@ -4527,22 +4152,6 @@
         },
         "runtime": {
           "lib/net46/System.IO.FileSystem.Primitives.dll": {}
-        }
-      },
-      "System.IO.Packaging/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.IO.FileSystem.Primitives": "4.0.1"
-        },
-        "frameworkAssemblies": [
-          "WindowsBase",
-          "mscorlib"
-        ],
-        "compile": {
-          "ref/net46/System.IO.Packaging.dll": {}
-        },
-        "runtime": {
-          "lib/net46/System.IO.Packaging.dll": {}
         }
       },
       "System.Linq/4.3.0": {
@@ -5042,19 +4651,6 @@
           "bin/placeholder/SFP.SIT.AFD.dll": {}
         }
       },
-      "SFP.SIT.FLUJO/1.0.0": {
-        "type": "project",
-        "dependencies": {
-          "SFP.Persistencia": "1.0.0",
-          "SFP.SIT.SERV": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SFP.SIT.FLUJO.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SFP.SIT.FLUJO.dll": {}
-        }
-      },
       "SFP.SIT.SERV/1.0.0": {
         "type": "project",
         "dependencies": {
@@ -5082,94 +4678,6 @@
         "lib/netcoreapp1.0/dotnet-bundle.runtimeconfig.json"
       ]
     },
-    "ClosedXML/0.91.0": {
-      "sha512": "NTeVzHFtldUmQ/2h/ve/r2ohT7M0EjTZuWYphfFtWF3UJKXhYP0Q3G1OB7arZREaFUqSVlS+aM2aEJVLLUOLWg==",
-      "type": "package",
-      "path": "closedxml/0.91.0",
-      "files": [
-        "closedxml.0.91.0.nupkg.sha512",
-        "closedxml.nuspec",
-        "lib/net452/ClosedXML.dll",
-        "lib/net452/ClosedXML.pdb",
-        "lib/net452/ClosedXML.xml"
-      ]
-    },
-    "DocumentFormat.OpenXml/2.7.2": {
-      "sha512": "tWT7iu0ab9PNoMTWjv24rt+qnyqvcnPOYs167vPnk4aegAYSAxoUjwNW+VxY8xoLtJntQ/JlWTi7Vt+8TghLlQ==",
-      "type": "package",
-      "path": "documentformat.openxml/2.7.2",
-      "files": [
-        "documentformat.openxml.2.7.2.nupkg.sha512",
-        "documentformat.openxml.nuspec",
-        "lib/net35/DocumentFormat.OpenXml.dll",
-        "lib/net35/DocumentFormat.OpenXml.xml",
-        "lib/net40/DocumentFormat.OpenXml.dll",
-        "lib/net40/DocumentFormat.OpenXml.xml",
-        "lib/net46/DocumentFormat.OpenXml.dll",
-        "lib/net46/DocumentFormat.OpenXml.xml",
-        "lib/netstandard1.3/DocumentFormat.OpenXml.dll",
-        "lib/netstandard1.3/DocumentFormat.OpenXml.xml"
-      ]
-    },
-    "EPPlus.Core/1.5.4": {
-      "sha512": "QGa4Qxm+9ND+tlgsa9bWWQrBZ096shez5DDhkUE5OsPqdQIO8kfMq2dAOBkOE1JrB0ZSFeIIspBoIsb9kCx3iA==",
-      "type": "package",
-      "path": "epplus.core/1.5.4",
-      "files": [
-        "epplus.core.1.5.4.nupkg.sha512",
-        "epplus.core.nuspec",
-        "lib/net40/EPPlus.Core.dll",
-        "lib/net40/EPPlus.Core.xml",
-        "lib/net45/EPPlus.Core.dll",
-        "lib/net45/EPPlus.Core.xml",
-        "lib/net46/EPPlus.Core.dll",
-        "lib/net46/EPPlus.Core.xml",
-        "lib/netstandard1.3/EPPlus.Core.dll",
-        "lib/netstandard1.3/EPPlus.Core.xml",
-        "lib/netstandard2.0/EPPlus.Core.dll",
-        "lib/netstandard2.0/EPPlus.Core.xml"
-      ]
-    },
-    "ExcelNumberFormat/1.0.3": {
-      "sha512": "ZPF7p4+qUJA6KKHoCTbzCEFZ0G4U8g3lusma5MFNy+NSqR165Z16Z5c1vRE/pKfQxVNGkGHfJtj/xmArenwj/w==",
-      "type": "package",
-      "path": "excelnumberformat/1.0.3",
-      "files": [
-        "excelnumberformat.1.0.3.nupkg.sha512",
-        "excelnumberformat.nuspec",
-        "lib/net20/ExcelNumberFormat.dll",
-        "lib/net20/ExcelNumberFormat.xml",
-        "lib/netstandard1.0/ExcelNumberFormat.dll",
-        "lib/netstandard1.0/ExcelNumberFormat.xml"
-      ]
-    },
-    "FastMember.Signed/1.1.0": {
-      "sha512": "KtHizZHsSlc61wbRoiO08ccU8DE0ibXPEkH3zg2sUIW8/q/KNNLPsPAvf2UHjj+XYwYw0lK2vHBnJu30pyWRYA==",
-      "type": "package",
-      "path": "fastmember.signed/1.1.0",
-      "files": [
-        "fastmember.signed.1.1.0.nupkg.sha512",
-        "fastmember.signed.nuspec",
-        "lib/net35/FastMember.Signed.dll",
-        "lib/net40/FastMember.Signed.dll",
-        "lib/netstandard1.3/FastMember.Signed.dll"
-      ]
-    },
-    "jQuery/1.6.4": {
-      "sha512": "8RzoZQFeFYL/cINRXksLWyl8D5TKctZ/2G8hrlOLLM5OgFNI9h3t3l5tB+BBbsBUxaPUageVe0p9ruU5jrFeow==",
-      "type": "package",
-      "path": "jquery/1.6.4",
-      "files": [
-        "Content/Scripts/jquery-1.6.4-vsdoc.js",
-        "Content/Scripts/jquery-1.6.4.js",
-        "Content/Scripts/jquery-1.6.4.min.js",
-        "Tools/install.ps1",
-        "Tools/jquery-1.6.4-vsdoc-para.js",
-        "Tools/uninstall.ps1",
-        "jquery.1.6.4.nupkg.sha512",
-        "jquery.nuspec"
-      ]
-    },
     "Libuv/1.9.1": {
       "sha512": "uqX2Frwf9PW8MaY7PRNY6HM5BpW1D8oj1EdqzrmbEFD5nH63Yat3aEjN/tws6Tw6Fk7LwmLBvtUh32tTeTaHiA==",
       "type": "package",
@@ -5186,49 +4694,6 @@
         "runtimes/win7-arm/native/libuv.dll",
         "runtimes/win7-x64/native/libuv.dll",
         "runtimes/win7-x86/native/libuv.dll"
-      ]
-    },
-    "Microsoft.AspNet.SignalR/2.2.3": {
-      "sha512": "/Bphrxwg1CIad+Bk/VOKmDLcXl9r2KLVXWeNQ3kK/uiTmRg/lsr+8fSiKC3RgQ/O3LGsR94r4P3u1g7kPAfOLg==",
-      "type": "package",
-      "path": "microsoft.aspnet.signalr/2.2.3",
-      "files": [
-        "microsoft.aspnet.signalr.2.2.3.nupkg.sha512",
-        "microsoft.aspnet.signalr.nuspec",
-        "readme.txt"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.Core/2.2.3": {
-      "sha512": "PxIYHxQmYLvVFFQIf5p/e2HeSKWN35GXQp9oQVOtB0JO0ODhuMaQ32ghEEfnrW8H++MMpLdQfh4dqBmbu4XEkg==",
-      "type": "package",
-      "path": "microsoft.aspnet.signalr.core/2.2.3",
-      "files": [
-        "lib/net45/Microsoft.AspNet.SignalR.Core.dll",
-        "lib/net45/Microsoft.AspNet.SignalR.Core.xml",
-        "microsoft.aspnet.signalr.core.2.2.3.nupkg.sha512",
-        "microsoft.aspnet.signalr.core.nuspec"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.JS/2.2.3": {
-      "sha512": "x26hzI8QD4x4Kicd7LapeL4Gjdqreoj4b3PJoh0OrqsOym7+ThtJ0UncRmHQC6EqgIMpd7hTaoyrANpANKNSww==",
-      "type": "package",
-      "path": "microsoft.aspnet.signalr.js/2.2.3",
-      "files": [
-        "content/Scripts/jquery.signalR-2.2.3.js",
-        "content/Scripts/jquery.signalR-2.2.3.min.js",
-        "microsoft.aspnet.signalr.js.2.2.3.nupkg.sha512",
-        "microsoft.aspnet.signalr.js.nuspec"
-      ]
-    },
-    "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-      "sha512": "OmJUAy/1/ao28zczg+Xf2TXEh6ijJBsUBbXYthQoV6mIWuKpo+sTUYYH1GADNonJJ3y9/PIlk2LZOddeC27M2w==",
-      "type": "package",
-      "path": "microsoft.aspnet.signalr.systemweb/2.2.3",
-      "files": [
-        "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.XML",
-        "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll",
-        "microsoft.aspnet.signalr.systemweb.2.2.3.nupkg.sha512",
-        "microsoft.aspnet.signalr.systemweb.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Antiforgery/1.1.1": {
@@ -6246,53 +5711,6 @@
         "runtime.json"
       ]
     },
-    "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-      "sha512": "DfceS96ustwfL8EOJNNRtpk6b0RylhjNpgeeemuvi9X4GYks2UTeAimjSrdFEfuqRo5ibZ4Sd0gJIeDr9gMa6Q==",
-      "type": "package",
-      "path": "microsoft.office.interop.excel/15.0.4795.1000",
-      "files": [
-        "lib/net20/Microsoft.Office.Interop.Excel.dll",
-        "microsoft.office.interop.excel.15.0.4795.1000.nupkg.sha512",
-        "microsoft.office.interop.excel.nuspec"
-      ]
-    },
-    "Microsoft.Owin/2.1.0": {
-      "sha512": "lk0kK64mlmcmtWX8YOYkZsnZKDoGEzMZhe8e1bcP+FFcgD4f2QfKwvu5Z8Bh8WS0VO7Rgk+DJ0hwW0k+S/UGMg==",
-      "type": "package",
-      "path": "microsoft.owin/2.1.0",
-      "files": [
-        "lib/net40/Microsoft.Owin.XML",
-        "lib/net40/Microsoft.Owin.dll",
-        "lib/net45/Microsoft.Owin.XML",
-        "lib/net45/Microsoft.Owin.dll",
-        "microsoft.owin.2.1.0.nupkg.sha512",
-        "microsoft.owin.nuspec"
-      ]
-    },
-    "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-      "sha512": "S+YOPgtQuXlKGh1OZCVzvmz++2ibNeACzDlMpeXFN1QBUf9l+gstfV0f5hTbhmkDBE8LrSCBWu+9Rrte+ivNhg==",
-      "type": "package",
-      "path": "microsoft.owin.host.systemweb/2.1.0",
-      "files": [
-        "lib/net40/Microsoft.Owin.Host.SystemWeb.dll",
-        "lib/net40/Microsoft.Owin.Host.SystemWeb.xml",
-        "lib/net45/Microsoft.Owin.Host.SystemWeb.dll",
-        "lib/net45/Microsoft.Owin.Host.SystemWeb.xml",
-        "microsoft.owin.host.systemweb.2.1.0.nupkg.sha512",
-        "microsoft.owin.host.systemweb.nuspec"
-      ]
-    },
-    "Microsoft.Owin.Security/2.1.0": {
-      "sha512": "4n1V0p+O6W1L0xHUM8Cjp2Y+MmmUkiCZv6PvRNIDCJD9zlerBJa2HECo9lUiWC+KuasQJ3QxB1FmipNBxdXXIQ==",
-      "type": "package",
-      "path": "microsoft.owin.security/2.1.0",
-      "files": [
-        "lib/net45/Microsoft.Owin.Security.XML",
-        "lib/net45/Microsoft.Owin.Security.dll",
-        "microsoft.owin.security.2.1.0.nupkg.sha512",
-        "microsoft.owin.security.nuspec"
-      ]
-    },
     "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
       "sha512": "ReQDEilnQwTqeFbqI0KbcDaq/eFo1edPQD8f2PI0zNMPaMovwocYYnAVZ4dD11J47iJGciKlDJurN43rz8pcfg==",
       "type": "package",
@@ -6390,16 +5808,6 @@
         "lib/net40/NUglify.xml",
         "lib/netstandard1.3/NUglify.dll",
         "lib/netstandard1.3/NUglify.xml"
-      ]
-    },
-    "Owin/1.0.0": {
-      "sha512": "OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
-      "type": "package",
-      "path": "owin/1.0.0",
-      "files": [
-        "lib/net40/Owin.dll",
-        "owin.1.0.0.nupkg.sha512",
-        "owin.nuspec"
       ]
     },
     "Pdfbox/1.1.1": {
@@ -7815,21 +7223,6 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
-      ]
-    },
-    "System.IO.Packaging/4.0.0": {
-      "sha512": "taPqPWcAj/h6e/c+zIWIVe1ddJtpV6acC6g9GpolxUcIwUaH6zc0ZbFS8kkVzBkuWv76pMalKeTzfmHtfT1pXA==",
-      "type": "package",
-      "path": "system.io.packaging/4.0.0",
-      "files": [
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/net46/System.IO.Packaging.dll",
-        "lib/netstandard1.3/System.IO.Packaging.dll",
-        "ref/net46/System.IO.Packaging.dll",
-        "ref/netstandard1.3/System.IO.Packaging.dll",
-        "system.io.packaging.4.0.0.nupkg.sha512",
-        "system.io.packaging.nuspec"
       ]
     },
     "System.Linq/4.3.0": {
@@ -9912,11 +9305,6 @@
       "path": "../../SFP.SIT.AFD/SFP.SIT.AFD.csproj",
       "msbuildProject": "../../SFP.SIT.AFD/SFP.SIT.AFD.csproj"
     },
-    "SFP.SIT.FLUJO/1.0.0": {
-      "type": "project",
-      "path": "../../SFP.SIT.FLUJO/SFP.SIT.FLUJO.csproj",
-      "msbuildProject": "../../SFP.SIT.FLUJO/SFP.SIT.FLUJO.csproj"
-    },
     "SFP.SIT.SERV/1.0.0": {
       "type": "project",
       "path": "../../SFP.SIT.SERV/SFP.SIT.SERV.csproj",
@@ -9926,9 +9314,6 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7": [
       "BundlerMinifier.Core >= 2.2.306",
-      "ClosedXML >= 0.91.0",
-      "EPPlus.Core >= 1.5.4",
-      "Microsoft.AspNet.SignalR >= 2.2.3",
       "Microsoft.AspNetCore.Authentication.Cookies >= 1.1.1",
       "Microsoft.AspNetCore.Diagnostics >= 1.1.1",
       "Microsoft.AspNetCore.Mvc >= 1.1.2",
@@ -9942,11 +9327,9 @@
       "Microsoft.Extensions.Logging.Console >= 1.1.1",
       "Microsoft.Extensions.Logging.Debug >= 1.1.1",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.1",
-      "Microsoft.Office.Interop.Excel >= 15.0.4795.1000",
       "Microsoft.VisualStudio.Web.BrowserLink >= 1.1.0",
       "Pdfbox >= 1.1.1",
       "SFP.SIT.AFD >= 1.0.0",
-      "SFP.SIT.FLUJO >= 1.0.0",
       "SFP.SIT.SERV >= 1.0.0",
       "Select.HtmlToPdf >= 2.4.0.1",
       "Serilog.Extensions.Logging >= 1.3.1",
@@ -9956,28 +9339,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\programador12\\.nuget\\packages\\": {},
+    "C:\\Users\\mlaudino\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
+      "projectUniqueName": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
       "projectName": "SFP.SIT.WEB",
-      "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
-      "packagesPath": "C:\\Users\\programador12\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\obj\\",
+      "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
+      "packagesPath": "C:\\Users\\mlaudino\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\programador12\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mlaudino\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
@@ -9991,14 +9371,11 @@
       "frameworks": {
         "net47": {
           "projectReferences": {
-            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.FLUJO\\SFP.SIT.FLUJO.csproj": {
-              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.FLUJO\\SFP.SIT.FLUJO.csproj"
+            "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj": {
+              "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj"
             },
-            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj": {
-              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj"
-            },
-            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
-              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
+            "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
+              "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
             }
           }
         }
@@ -10015,18 +9392,6 @@
           "BundlerMinifier.Core": {
             "target": "Package",
             "version": "[2.2.306, )"
-          },
-          "ClosedXML": {
-            "target": "Package",
-            "version": "[0.91.0, )"
-          },
-          "EPPlus.Core": {
-            "target": "Package",
-            "version": "[1.5.4, )"
-          },
-          "Microsoft.AspNet.SignalR": {
-            "target": "Package",
-            "version": "[2.2.3, )"
           },
           "Microsoft.AspNetCore.Authentication.Cookies": {
             "target": "Package",
@@ -10079,10 +9444,6 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": {
             "target": "Package",
             "version": "[1.1.1, )"
-          },
-          "Microsoft.Office.Interop.Excel": {
-            "target": "Package",
-            "version": "[15.0.4795.1000, )"
           },
           "Microsoft.VisualStudio.Web.BrowserLink": {
             "target": "Package",

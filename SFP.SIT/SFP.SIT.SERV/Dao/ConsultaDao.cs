@@ -1,5 +1,6 @@
 ﻿using SFP.Persistencia.Dao;
 using SFP.SIT.SERV.Dao.RESP;
+using SFP.SIT.SERV.Model._Consultas;
 using SFP.SIT.SERV.Model.RED;
 using SFP.SIT.SERV.Model.RESP;
 using SFP.SIT.SERV.Util;
@@ -192,12 +193,136 @@ namespace SFP.SIT.SERV.Dao
             return sInstr;
         }
 
+        /* 
+         * CONSULTAS PARAS LAS RESPUESTAS
+         */
+
         public List<SIT_RESP_RESPUESTA> dmlSelectRespEdo(SIT_RED_NODORESP nodoResp)
         {
-            String sSQL = " select * from SIT_RESP_RESPUESTA WHERE repclave in ( select repclave from SIT_RED_NODORESP where nodclave = 64 and sdoclave = 3)	 ";
+            String sSQL = " select * from SIT_RESP_RESPUESTA WHERE repclave in ( select repclave from SIT_RED_NODORESP where nodclave = :P0 and sdoclave = :P1)	 ";
 
-            return CrearListaMDL<SIT_RESP_RESPUESTA>(ConsultaDML(sSQL, nodoResp.nodclave, nodoResp.sdoclave) as DataTable);
+            return CrearListaMDL<SIT_RESP_RESPUESTA>(ConsultaDML(sSQL, nodoResp.nodclave, nodoResp.sdoclave));
         }
+
+        
+        public List<NodoRespDetalle> dmlSelectRespNodoAnterior(Int64 iNodo)
+        {
+
+            String sSQL = " SELECT AU.USRCLAVE, USRNOMBRE, USRPATERNO, USRMATERNO , ARHDESCRIPCION,  nodorigen,RR.RTPCLAVE, REPEDOFEC, REPOFICIO, DOCCLAVE, REPCANTIDAD, RTPDESCRIPCION, RTPFORMA, RR.repclave, NR.sdoClave, rn.nodclave     "
+                + " FROM SIT_RED_NODO RN, SIT_ADM_USUARIO AU, SIT_ADM_AREAHIST AH, SIT_RED_ARISTA RA, SIT_RED_NODORESP NR, SIT_RESP_RESPUESTA RR, SIT_RESP_TIPO RT "
+                + " WHERE RN.nodclave = nodorigen "
+                + " AND RN.USRCLAVE = AU.USRCLAVE "
+                + " AND RN.ARACLAVE = AH.ARACLAVE "
+                + " AND :P0 BETWEEN arhfecini and arhfecfin "
+                + " AND noddestino = :P1 "
+                + " AND NR.nodclave = :P2"
+                + " AND RR.repclave = NR.repclave "
+                + " AND RT.RTPCLAVE = RR.RTPCLAVE "
+                + " AND sdoclave not in (8) "
+                + " UNION ALL "
+                + " SELECT AU.USRCLAVE, USRNOMBRE, USRPATERNO, USRMATERNO , ARHDESCRIPCION, 0, 0, null, ' ', 0, 0, 'PENDIENTE', ' ', REPCLAVE, 0, rn.nodclave     "
+                + " FROM SIT_RED_NODO RN, SIT_ADM_USUARIO AU, SIT_ADM_AREAHIST AH, SIT_RED_NODORESP NR "
+                + " WHERE  RN.USRCLAVE = AU.USRCLAVE  AND RN.ARACLAVE = AH.ARACLAVE "
+                + " AND :P3 BETWEEN arhfecini and arhfecfin "
+                + " AND RN.nodclave in (SELECT nodDestino FROM SIT_RED_ARISTA RD, SIT_RED_NODO RN WHERE nodOrigen = :P4 and rn.nodclave = nodOrigen and nodatendido = 0) "
+                + " AND NR.nodclave = RN.nodclave and SDOCLAVE = 3 "
+                + " order by 1,2,3,4,5 ";
+
+
+            DateTime dtDiaActual = DateTime.Now;
+            return CrearListaMDL<NodoRespDetalle>(ConsultaDML(sSQL, dtDiaActual, iNodo, iNodo, dtDiaActual,  iNodo));
+        }
+
+
+        public DataTable dmlSelectRespuestaTranspuesta(Int64 repClave)
+        {
+            DataTable dtRespuesta = new DataTable();
+            dtRespuesta.Columns.Add("titulo", typeof(string));
+            dtRespuesta.Columns.Add("valor", typeof(string));
+
+            String sSQL = " SELECT R.RTPCLAVE, R.REPEDOFEC, ME.MEGDESCRIPCION,  R.REPOFICIO, R.DOCCLAVE, R.REPCANTIDAD,  RG.graContenido "
+                + "  FROM SIT_RESP_GRAL RG,  SIT_RESP_RESPUESTA R "
+                + "  LEFT JOIN SIT_SOL_MODOENTREGA ME ON ME.megclave = R.megclave  "
+                + "  LEFT JOIN SIT_DOC_DOCUMENTO DOC ON DOC.docclave = R.docclave "
+                + "  WHERE RG.REPCLAVE = R.REPCLAVE "
+                + "  AND R.REPCLAVE = :P0 ";
+
+            DataTable dtRes = ConsultaDML(sSQL, repClave);
+
+            int iTipoRespuesta = 0;
+
+            foreach (DataRow drDatos in dtRes.Rows)
+            {
+                dtRespuesta.Rows.Add("Fecha de respuesta", ((DateTime)drDatos["REPEDOFEC"]).ToString("dd/MM/yyyy"));
+                dtRespuesta.Rows.Add("Modo de Entrega", drDatos["MEGDESCRIPCION"].ToString());
+                dtRespuesta.Rows.Add("Documento", drDatos["REPOFICIO"].ToString());
+                dtRespuesta.Rows.Add("DocClave", drDatos["DOCCLAVE"].ToString());
+                dtRespuesta.Rows.Add("Cantidad", drDatos["REPCANTIDAD"].ToString());
+
+                if (drDatos["graContenido"].ToString().Length > 0)
+                {
+                    dtRespuesta.Rows.Add("Descripcion", drDatos["graContenido"].ToString());
+                }
+                    
+                iTipoRespuesta =  Convert.ToInt32(drDatos["RTPCLAVE"]);
+            }
+
+            if (iTipoRespuesta == Constantes.Respuesta.INEXISTENCIA_EN_AREA)
+            {
+                sSQL = " SELECT inxResponsable, inxCargo FROM SIT_RESP_INEXISTENCIA WHERE repClave = :P0 ";
+                dtRes = ConsultaDML(sSQL, repClave);
+
+
+                foreach (DataRow drDatos in dtRes.Rows)
+                {
+                    dtRespuesta.Rows.Add("Responsable", drDatos["inxResponsable"].ToString());
+                    dtRespuesta.Rows.Add("Cargo", drDatos["inxCargo"].ToString());
+                }
+            }
+            else if (iTipoRespuesta == Constantes.Respuesta.INFO_RESERVADA || iTipoRespuesta == Constantes.Respuesta.INFO_RESERVADA_PARCIAL)
+            {
+                sSQL = " select ArhDescripcion, rsvExpediente, rsvTipoReserva, rsvTipoClasif, rsvPlazo, rsvFecIni, rsvFecfin, sdoDescripcion "
+                    + " from SIT_RESP_RESERVA RSV, SIT_ADM_AREAHIST AH, SIT_RESP_ESTADO EDO  "
+                    + "  where repclave = :P0  "
+                    + "  AND AH.araClave = RSV.araClave "
+                    + "  AND :P1 between arhFecini amd arhFecfin "
+                    + "  and EDO.sdoclave = RSV.sdoclave ";
+
+                dtRes = ConsultaDML(sSQL, repClave, DateTime.Now);
+
+
+                foreach (DataRow drDatos in dtRes.Rows)
+                {
+                    dtRespuesta.Rows.Add("Área", drDatos["ArhDescripcion"].ToString());
+                    dtRespuesta.Rows.Add("Expediente", drDatos["rsvExpediente"].ToString());
+                    dtRespuesta.Rows.Add("Tipo de Reserva", drDatos["rsvTipoReserva"].ToString());
+                    dtRespuesta.Rows.Add("Tipo de Clasif.", drDatos["rsvTipoClasif"].ToString());
+                    dtRespuesta.Rows.Add("Plazo", drDatos["rsvPlazo"].ToString());
+                    dtRespuesta.Rows.Add("Fecha de inicial", ((DateTime)drDatos["rsvFecIni"]).ToString("dd/MM/yyyy"));
+                    dtRespuesta.Rows.Add("Fecha de final", ((DateTime)drDatos["rsvFecfin"]).ToString("dd/MM/yyyy"));
+                    dtRespuesta.Rows.Add("Descripcion", drDatos["sdoDescripcion"].ToString());                    
+                }
+            }
+
+            sSQL = " Select detClave, detdescripcion, docNombre, RD.docClave  "
+                + " FROM SIT_RESP_DETALLE RD LEFT JOIN SIT_DOC_DOCUMENTO DOC ON DOC.docclave = RD.docclave "
+                + "  WHERE repclave = :P0 ";
+
+            dtRes = ConsultaDML(sSQL, repClave);
+
+            foreach (DataRow drDatos in dtRes.Rows)
+            {
+                dtRespuesta.Rows.Add(drDatos["detClave"].ToString(), drDatos["detdescripcion"].ToString());
+                if (drDatos["docClave"].ToString() != "")
+                {
+                    dtRespuesta.Rows.Add("docClave", drDatos["docClave"].ToString());
+                    dtRespuesta.Rows.Add("docNombre", drDatos["docNombre"].ToString());
+                }
+            }
+
+            return dtRespuesta;
+        }
+
     }
 }
 

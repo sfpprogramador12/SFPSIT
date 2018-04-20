@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETFramework,Version=v4.7/win7-x86",
-    "signature": "44d9c31a8493e251fa9de129aae93dff1b9688ac"
+    "signature": "3ec62dd79eb1f3dfcbd30569bb9bc29fcb0cce91"
   },
   "compilationOptions": {
     "defines": [
@@ -24,9 +24,6 @@
       "SFP.SIT.WEB/1.0.0": {
         "dependencies": {
           "BundlerMinifier.Core": "2.2.306",
-          "ClosedXML": "0.91.0",
-          "EPPlus.Core": "1.5.4",
-          "Microsoft.AspNet.SignalR": "2.2.3",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.1.1",
           "Microsoft.AspNetCore.Diagnostics": "1.1.1",
           "Microsoft.AspNetCore.Mvc": "1.1.2",
@@ -40,11 +37,9 @@
           "Microsoft.Extensions.Logging.Console": "1.1.1",
           "Microsoft.Extensions.Logging.Debug": "1.1.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.1",
-          "Microsoft.Office.Interop.Excel": "15.0.4795.1000",
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0",
           "Pdfbox": "1.1.1",
           "SFP.SIT.AFD": "1.0.0",
-          "SFP.SIT.FLUJO": "1.0.0",
           "SFP.SIT.SERV": "1.0.0",
           "Select.HtmlToPdf": "2.4.0.1",
           "Serilog.Extensions.Logging": "1.3.1",
@@ -53,7 +48,6 @@
           "System.Text.Encoding": "4.3.0",
           "Microsoft.CSharp.Reference": "4.0.0.0",
           "mscorlib": "4.0.0.0",
-          "PresentationCore": "4.0.0.0",
           "System.ComponentModel.Composition": "4.0.0.0",
           "System.ComponentModel.DataAnnotations": "4.0.0.0",
           "System.Core": "4.0.0.0",
@@ -64,11 +58,8 @@
           "System.Numerics": "4.0.0.0",
           "System.Runtime.Serialization": "4.0.0.0",
           "System.Security": "4.0.0.0",
-          "System.Web": "4.0.0.0",
-          "System.Web.Extensions": "4.0.0.0",
           "System.Xml": "4.0.0.0",
           "System.Xml.Linq": "4.0.0.0",
-          "WindowsBase": "4.0.0.0",
           "System.Collections.Concurrent.Reference": "0.0.0.0",
           "System.Collections.Reference": "0.0.0.0",
           "System.ComponentModel.Annotations": "0.0.0.0",
@@ -127,11 +118,6 @@
           ".NETFramework/v4.7/mscorlib.dll": {}
         }
       },
-      "PresentationCore/4.0.0.0": {
-        "compile": {
-          ".NETFramework/v4.7/PresentationCore.dll": {}
-        }
-      },
       "System.ComponentModel.Composition/4.0.0.0": {
         "compile": {
           ".NETFramework/v4.7/System.ComponentModel.Composition.dll": {}
@@ -182,16 +168,6 @@
           ".NETFramework/v4.7/System.Security.dll": {}
         }
       },
-      "System.Web/4.0.0.0": {
-        "compile": {
-          ".NETFramework/v4.7/System.Web.dll": {}
-        }
-      },
-      "System.Web.Extensions/4.0.0.0": {
-        "compile": {
-          ".NETFramework/v4.7/System.Web.Extensions.dll": {}
-        }
-      },
       "System.Xml/4.0.0.0": {
         "compile": {
           ".NETFramework/v4.7/System.Xml.dll": {}
@@ -200,11 +176,6 @@
       "System.Xml.Linq/4.0.0.0": {
         "compile": {
           ".NETFramework/v4.7/System.Xml.Linq.dll": {}
-        }
-      },
-      "WindowsBase/4.0.0.0": {
-        "compile": {
-          ".NETFramework/v4.7/WindowsBase.dll": {}
         }
       },
       "System.Collections.Concurrent.Reference/0.0.0.0": {
@@ -431,74 +402,9 @@
           "lib/net452/dotnet-bundle.exe": {}
         }
       },
-      "ClosedXML/0.91.0": {
-        "dependencies": {
-          "DocumentFormat.OpenXml": "2.7.2",
-          "ExcelNumberFormat": "1.0.3",
-          "FastMember.Signed": "1.1.0"
-        },
-        "compile": {
-          "lib/net452/ClosedXML.dll": {}
-        }
-      },
-      "DocumentFormat.OpenXml/2.7.2": {
-        "dependencies": {
-          "System.IO.Packaging": "4.0.0"
-        },
-        "compile": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        }
-      },
-      "EPPlus.Core/1.5.4": {
-        "compile": {
-          "lib/net46/EPPlus.Core.dll": {}
-        }
-      },
-      "ExcelNumberFormat/1.0.3": {
-        "compile": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        }
-      },
-      "FastMember.Signed/1.1.0": {
-        "compile": {
-          "lib/net40/FastMember.Signed.dll": {}
-        }
-      },
-      "jQuery/1.6.4": {},
       "Libuv/1.9.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
-        }
-      },
-      "Microsoft.AspNet.SignalR/2.2.3": {
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.JS": "2.2.3",
-          "Microsoft.AspNet.SignalR.SystemWeb": "2.2.3"
-        }
-      },
-      "Microsoft.AspNet.SignalR.Core/2.2.3": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Microsoft.Owin.Security": "2.1.0",
-          "Newtonsoft.Json": "9.0.1",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.JS/2.2.3": {
-        "dependencies": {
-          "jQuery": "1.6.4"
-        }
-      },
-      "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.Core": "2.2.3",
-          "Microsoft.Owin.Host.SystemWeb": "2.1.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.1.1": {
@@ -1340,37 +1246,6 @@
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
-      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-        "compile": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        }
-      },
-      "Microsoft.Owin/2.1.0": {
-        "dependencies": {
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        }
-      },
-      "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        }
-      },
-      "Microsoft.Owin.Security/2.1.0": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        }
-      },
       "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "1.1.1",
@@ -1443,11 +1318,6 @@
       "NUglify/1.5.1": {
         "compile": {
           "lib/net40/NUglify.dll": {}
-        }
-      },
-      "Owin/1.0.0": {
-        "compile": {
-          "lib/net40/Owin.dll": {}
         }
       },
       "Pdfbox/1.1.1": {
@@ -1644,14 +1514,6 @@
           "ref/net46/System.IO.FileSystem.Primitives.dll": {}
         }
       },
-      "System.IO.Packaging/4.0.0": {
-        "dependencies": {
-          "System.IO.FileSystem.Primitives": "4.3.0"
-        },
-        "compile": {
-          "ref/net46/System.IO.Packaging.dll": {}
-        }
-      },
       "System.Linq/4.3.0": {
         "compile": {
           "ref/net463/System.Linq.dll": {}
@@ -1809,15 +1671,6 @@
           "SFP.SIT.AFD.dll": {}
         }
       },
-      "SFP.SIT.FLUJO/1.0.0": {
-        "dependencies": {
-          "SFP.Persistencia": "1.0.0",
-          "SFP.SIT.SERV": "1.0.0"
-        },
-        "compile": {
-          "SFP.SIT.WINPRC.exe": {}
-        }
-      },
       "SFP.SIT.SERV/1.0.0": {
         "dependencies": {
           "SFP.Persistencia": "1.0.0"
@@ -1831,9 +1684,6 @@
       "SFP.SIT.WEB/1.0.0": {
         "dependencies": {
           "BundlerMinifier.Core": "2.2.306",
-          "ClosedXML": "0.91.0",
-          "EPPlus.Core": "1.5.4",
-          "Microsoft.AspNet.SignalR": "2.2.3",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.1.1",
           "Microsoft.AspNetCore.Diagnostics": "1.1.1",
           "Microsoft.AspNetCore.Mvc": "1.1.2",
@@ -1847,11 +1697,9 @@
           "Microsoft.Extensions.Logging.Console": "1.1.1",
           "Microsoft.Extensions.Logging.Debug": "1.1.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.1",
-          "Microsoft.Office.Interop.Excel": "15.0.4795.1000",
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0",
           "Pdfbox": "1.1.1",
           "SFP.SIT.AFD": "1.0.0",
-          "SFP.SIT.FLUJO": "1.0.0",
           "SFP.SIT.SERV": "1.0.0",
           "Select.HtmlToPdf": "2.4.0.1",
           "Serilog.Extensions.Logging": "1.3.1",
@@ -1860,7 +1708,6 @@
           "System.Text.Encoding": "4.3.0",
           "Microsoft.CSharp.Reference": "4.0.0.0",
           "mscorlib": "4.0.0.0",
-          "PresentationCore": "4.0.0.0",
           "System.ComponentModel.Composition": "4.0.0.0",
           "System.ComponentModel.DataAnnotations": "4.0.0.0",
           "System.Core": "4.0.0.0",
@@ -1871,11 +1718,8 @@
           "System.Numerics": "4.0.0.0",
           "System.Runtime.Serialization": "4.0.0.0",
           "System.Security": "4.0.0.0",
-          "System.Web": "4.0.0.0",
-          "System.Web.Extensions": "4.0.0.0",
           "System.Xml": "4.0.0.0",
           "System.Xml.Linq": "4.0.0.0",
-          "WindowsBase": "4.0.0.0",
           "System.Collections.Concurrent.Reference": "0.0.0.0",
           "System.Collections.Reference": "0.0.0.0",
           "System.ComponentModel.Annotations": "0.0.0.0",
@@ -1933,77 +1777,12 @@
           "lib/net452/dotnet-bundle.exe": {}
         }
       },
-      "ClosedXML/0.91.0": {
-        "dependencies": {
-          "DocumentFormat.OpenXml": "2.7.2",
-          "ExcelNumberFormat": "1.0.3",
-          "FastMember.Signed": "1.1.0"
-        },
-        "runtime": {
-          "lib/net452/ClosedXML.dll": {}
-        }
-      },
-      "DocumentFormat.OpenXml/2.7.2": {
-        "dependencies": {
-          "System.IO.Packaging": "4.0.0"
-        },
-        "runtime": {
-          "lib/net46/DocumentFormat.OpenXml.dll": {}
-        }
-      },
-      "EPPlus.Core/1.5.4": {
-        "runtime": {
-          "lib/net46/EPPlus.Core.dll": {}
-        }
-      },
-      "ExcelNumberFormat/1.0.3": {
-        "runtime": {
-          "lib/net20/ExcelNumberFormat.dll": {}
-        }
-      },
-      "FastMember.Signed/1.1.0": {
-        "runtime": {
-          "lib/net40/FastMember.Signed.dll": {}
-        }
-      },
-      "jQuery/1.6.4": {},
       "Libuv/1.9.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
         },
         "native": {
           "runtimes/win7-x86/native/libuv.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR/2.2.3": {
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.JS": "2.2.3",
-          "Microsoft.AspNet.SignalR.SystemWeb": "2.2.3"
-        }
-      },
-      "Microsoft.AspNet.SignalR.Core/2.2.3": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Microsoft.Owin.Security": "2.1.0",
-          "Newtonsoft.Json": "9.0.1",
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {}
-        }
-      },
-      "Microsoft.AspNet.SignalR.JS/2.2.3": {
-        "dependencies": {
-          "jQuery": "1.6.4"
-        }
-      },
-      "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-        "dependencies": {
-          "Microsoft.AspNet.SignalR.Core": "2.2.3",
-          "Microsoft.Owin.Host.SystemWeb": "2.1.0"
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.1.1": {
@@ -2845,37 +2624,6 @@
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
-      "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-        "runtime": {
-          "lib/net20/Microsoft.Office.Interop.Excel.dll": {}
-        }
-      },
-      "Microsoft.Owin/2.1.0": {
-        "dependencies": {
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.dll": {}
-        }
-      },
-      "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {}
-        }
-      },
-      "Microsoft.Owin.Security/2.1.0": {
-        "dependencies": {
-          "Microsoft.Owin": "2.1.0",
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Owin.Security.dll": {}
-        }
-      },
       "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "1.1.1",
@@ -2948,11 +2696,6 @@
       "NUglify/1.5.1": {
         "runtime": {
           "lib/net40/NUglify.dll": {}
-        }
-      },
-      "Owin/1.0.0": {
-        "runtime": {
-          "lib/net40/Owin.dll": {}
         }
       },
       "Pdfbox/1.1.1": {
@@ -3157,14 +2900,6 @@
           "lib/net46/System.IO.FileSystem.Primitives.dll": {}
         }
       },
-      "System.IO.Packaging/4.0.0": {
-        "dependencies": {
-          "System.IO.FileSystem.Primitives": "4.3.0"
-        },
-        "runtime": {
-          "lib/net46/System.IO.Packaging.dll": {}
-        }
-      },
       "System.Linq/4.3.0": {
         "runtime": {
           "lib/net463/System.Linq.dll": {}
@@ -3341,15 +3076,6 @@
           "SFP.SIT.AFD.dll": {}
         }
       },
-      "SFP.SIT.FLUJO/1.0.0": {
-        "dependencies": {
-          "SFP.Persistencia": "1.0.0",
-          "SFP.SIT.SERV": "1.0.0"
-        },
-        "runtime": {
-          "SFP.SIT.WINPRC.exe": {}
-        }
-      },
       "SFP.SIT.SERV/1.0.0": {
         "dependencies": {
           "SFP.Persistencia": "1.0.0"
@@ -3373,82 +3099,12 @@
       "path": "bundlerminifier.core/2.2.306",
       "hashPath": "bundlerminifier.core.2.2.306.nupkg.sha512"
     },
-    "ClosedXML/0.91.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-NTeVzHFtldUmQ/2h/ve/r2ohT7M0EjTZuWYphfFtWF3UJKXhYP0Q3G1OB7arZREaFUqSVlS+aM2aEJVLLUOLWg==",
-      "path": "closedxml/0.91.0",
-      "hashPath": "closedxml.0.91.0.nupkg.sha512"
-    },
-    "DocumentFormat.OpenXml/2.7.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-tWT7iu0ab9PNoMTWjv24rt+qnyqvcnPOYs167vPnk4aegAYSAxoUjwNW+VxY8xoLtJntQ/JlWTi7Vt+8TghLlQ==",
-      "path": "documentformat.openxml/2.7.2",
-      "hashPath": "documentformat.openxml.2.7.2.nupkg.sha512"
-    },
-    "EPPlus.Core/1.5.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-QGa4Qxm+9ND+tlgsa9bWWQrBZ096shez5DDhkUE5OsPqdQIO8kfMq2dAOBkOE1JrB0ZSFeIIspBoIsb9kCx3iA==",
-      "path": "epplus.core/1.5.4",
-      "hashPath": "epplus.core.1.5.4.nupkg.sha512"
-    },
-    "ExcelNumberFormat/1.0.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-ZPF7p4+qUJA6KKHoCTbzCEFZ0G4U8g3lusma5MFNy+NSqR165Z16Z5c1vRE/pKfQxVNGkGHfJtj/xmArenwj/w==",
-      "path": "excelnumberformat/1.0.3",
-      "hashPath": "excelnumberformat.1.0.3.nupkg.sha512"
-    },
-    "FastMember.Signed/1.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-KtHizZHsSlc61wbRoiO08ccU8DE0ibXPEkH3zg2sUIW8/q/KNNLPsPAvf2UHjj+XYwYw0lK2vHBnJu30pyWRYA==",
-      "path": "fastmember.signed/1.1.0",
-      "hashPath": "fastmember.signed.1.1.0.nupkg.sha512"
-    },
-    "jQuery/1.6.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-8RzoZQFeFYL/cINRXksLWyl8D5TKctZ/2G8hrlOLLM5OgFNI9h3t3l5tB+BBbsBUxaPUageVe0p9ruU5jrFeow==",
-      "path": "jquery/1.6.4",
-      "hashPath": "jquery.1.6.4.nupkg.sha512"
-    },
     "Libuv/1.9.1": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-uqX2Frwf9PW8MaY7PRNY6HM5BpW1D8oj1EdqzrmbEFD5nH63Yat3aEjN/tws6Tw6Fk7LwmLBvtUh32tTeTaHiA==",
       "path": "libuv/1.9.1",
       "hashPath": "libuv.1.9.1.nupkg.sha512"
-    },
-    "Microsoft.AspNet.SignalR/2.2.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-/Bphrxwg1CIad+Bk/VOKmDLcXl9r2KLVXWeNQ3kK/uiTmRg/lsr+8fSiKC3RgQ/O3LGsR94r4P3u1g7kPAfOLg==",
-      "path": "microsoft.aspnet.signalr/2.2.3",
-      "hashPath": "microsoft.aspnet.signalr.2.2.3.nupkg.sha512"
-    },
-    "Microsoft.AspNet.SignalR.Core/2.2.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PxIYHxQmYLvVFFQIf5p/e2HeSKWN35GXQp9oQVOtB0JO0ODhuMaQ32ghEEfnrW8H++MMpLdQfh4dqBmbu4XEkg==",
-      "path": "microsoft.aspnet.signalr.core/2.2.3",
-      "hashPath": "microsoft.aspnet.signalr.core.2.2.3.nupkg.sha512"
-    },
-    "Microsoft.AspNet.SignalR.JS/2.2.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-x26hzI8QD4x4Kicd7LapeL4Gjdqreoj4b3PJoh0OrqsOym7+ThtJ0UncRmHQC6EqgIMpd7hTaoyrANpANKNSww==",
-      "path": "microsoft.aspnet.signalr.js/2.2.3",
-      "hashPath": "microsoft.aspnet.signalr.js.2.2.3.nupkg.sha512"
-    },
-    "Microsoft.AspNet.SignalR.SystemWeb/2.2.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-OmJUAy/1/ao28zczg+Xf2TXEh6ijJBsUBbXYthQoV6mIWuKpo+sTUYYH1GADNonJJ3y9/PIlk2LZOddeC27M2w==",
-      "path": "microsoft.aspnet.signalr.systemweb/2.2.3",
-      "hashPath": "microsoft.aspnet.signalr.systemweb.2.2.3.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/1.1.1": {
       "type": "package",
@@ -3989,34 +3645,6 @@
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
     },
-    "Microsoft.Office.Interop.Excel/15.0.4795.1000": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-DfceS96ustwfL8EOJNNRtpk6b0RylhjNpgeeemuvi9X4GYks2UTeAimjSrdFEfuqRo5ibZ4Sd0gJIeDr9gMa6Q==",
-      "path": "microsoft.office.interop.excel/15.0.4795.1000",
-      "hashPath": "microsoft.office.interop.excel.15.0.4795.1000.nupkg.sha512"
-    },
-    "Microsoft.Owin/2.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-lk0kK64mlmcmtWX8YOYkZsnZKDoGEzMZhe8e1bcP+FFcgD4f2QfKwvu5Z8Bh8WS0VO7Rgk+DJ0hwW0k+S/UGMg==",
-      "path": "microsoft.owin/2.1.0",
-      "hashPath": "microsoft.owin.2.1.0.nupkg.sha512"
-    },
-    "Microsoft.Owin.Host.SystemWeb/2.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-S+YOPgtQuXlKGh1OZCVzvmz++2ibNeACzDlMpeXFN1QBUf9l+gstfV0f5hTbhmkDBE8LrSCBWu+9Rrte+ivNhg==",
-      "path": "microsoft.owin.host.systemweb/2.1.0",
-      "hashPath": "microsoft.owin.host.systemweb.2.1.0.nupkg.sha512"
-    },
-    "Microsoft.Owin.Security/2.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-4n1V0p+O6W1L0xHUM8Cjp2Y+MmmUkiCZv6PvRNIDCJD9zlerBJa2HECo9lUiWC+KuasQJ3QxB1FmipNBxdXXIQ==",
-      "path": "microsoft.owin.security/2.1.0",
-      "hashPath": "microsoft.owin.security.2.1.0.nupkg.sha512"
-    },
     "Microsoft.VisualStudio.Web.BrowserLink/1.1.0": {
       "type": "package",
       "serviceable": true,
@@ -4051,13 +3679,6 @@
       "sha512": "sha512-iYV/OtSs+HgyE/RilY7UvGXYec6r0OJenWlPIdX/IivedVpSSdzxvPvUIyWpiV/6ad7VjantH0/6oaOhAZbaoQ==",
       "path": "nuglify/1.5.1",
       "hashPath": "nuglify.1.5.1.nupkg.sha512"
-    },
-    "Owin/1.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
-      "path": "owin/1.0.0",
-      "hashPath": "owin.1.0.0.nupkg.sha512"
     },
     "Pdfbox/1.1.1": {
       "type": "package",
@@ -4303,13 +3924,6 @@
       "sha512": "sha512-6QOb2XFLch7bEc4lIcJH49nJN2HV+OC3fHDgsLVsBVBk3Y4hFAnOBGzJ2lUu7CyDDFo9IBWkSsnbkT6IBwwiMw==",
       "path": "system.io.filesystem.primitives/4.3.0",
       "hashPath": "system.io.filesystem.primitives.4.3.0.nupkg.sha512"
-    },
-    "System.IO.Packaging/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-taPqPWcAj/h6e/c+zIWIVe1ddJtpV6acC6g9GpolxUcIwUaH6zc0ZbFS8kkVzBkuWv76pMalKeTzfmHtfT1pXA==",
-      "path": "system.io.packaging/4.0.0",
-      "hashPath": "system.io.packaging.4.0.0.nupkg.sha512"
     },
     "System.Linq/4.3.0": {
       "type": "package",
@@ -4594,11 +4208,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "SFP.SIT.FLUJO/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "SFP.SIT.SERV/1.0.0": {
       "type": "project",
       "serviceable": false,
@@ -4610,11 +4219,6 @@
       "sha512": ""
     },
     "mscorlib/4.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PresentationCore/4.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4669,27 +4273,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Web/4.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "System.Web.Extensions/4.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
     "System.Xml/4.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
     },
     "System.Xml.Linq/4.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "WindowsBase/4.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

@@ -363,7 +363,7 @@
         function dibujarTabla(){
             borrarGraficas();
 
-            var result = "<div class='table-responsive'> <table class='table' id='tablaDatos' border=1>";
+            var result = "<table id='tablaDatos' border=1>";
 
             result += "<tr>";
             result += "<th></th>";
@@ -381,7 +381,7 @@
                 }
                 result += "</tr>";
             }
-            result += "</table></div>";
+            result += "</table>";
             $('#divTabla').append(result);
         }
 
@@ -506,9 +506,5 @@
                 dibujarGrafica();
             }
         }
-
-        $(document).ready(function (){
-            $("#menu3").removeClass("boton_hover");
-        });
     </script>
 }

@@ -1054,7 +1054,6 @@ namespace SFP.SIT.SESAI.Servicio
         public List<SIT_ADM_USUARIO> dmlSelectUsuario( )
         {
             List<SIT_ADM_USUARIO> lstDatos = new List<SIT_ADM_USUARIO>();
-            /*
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 3,  usrnombre = "LUIS", usrpaterno = "GÓMEZ", usrmaterno = "RIVERA", usrpuesto = "SUBDIRECTOR EN DESARROLLO DE TECNOLOGÍA WEB", usrcontraseña = "lgomezr", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "lgomezr@funcionpublica.gob.mx", usrextension = "0", usrtitulo = "", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()   });
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 92, usrnombre = "ALEJANDRO", usrpaterno = "DURAN", usrmaterno = "ZARATE", usrpuesto = "DIRECTOR GENERAL ADJUNTO DE PROCEDIMIENTOS Y SERVICIOS LEGALES", usrcontraseña = "aduranz", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "aduranz@funcionpublica.gob.mx", usrextension = "2382", usrtitulo = "Lic.", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()  });
             lstDatos.Add(new SIT_ADM_USUARIO { usrclave = 93, usrnombre = "NAOMI CLAUDIA", usrpaterno = "ASATANI", usrmaterno = "KIMURA", usrpuesto = "DIRECTOR DE INNOVACIÓN JURÍDICA", usrcontraseña = "ncasatani", usrfecbaja = new DateTime(2017, 07, 29) , usrcorreo = "ncasatani@funciojnpublica.gob.mx", usrextension = "0", usrtitulo = "Lic.", usrintentos = 0, usrbloquearfin = new DateTime(), usrdesignacion = " ", usrauxcorreo = " ", usrfecmod = new DateTime(2017, 07, 11), usractivo = new DateTime()  });
@@ -1436,7 +1435,7 @@ namespace SFP.SIT.SESAI.Servicio
             {
                 lstDatos[iIdxUsu].usrcontraseña = EncriptarUtil.ObtenerMD5Hash(lstDatos[iIdxUsu].usrcontraseña);
             }
-            */
+
             return lstDatos;
         }
 
@@ -2488,9 +2487,6 @@ namespace SFP.SIT.SESAI.Servicio
             List<SIT_RESP_TIPO> lstDatos = new List<SIT_RESP_TIPO>();
 
             // Tipo: 1 IN           
-
-
-
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 0, rtpdescripcion = "SIN RESPUESTA", rtpformato = sTextoDoc(0), rtpforma = "N/A", rtptipo = Constantes.RespuestaTipo.INTERNA,rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 1, rtpdescripcion = "La solicitud no es de competencia de la unidad de enlace", rtpformato = sTextoDoc(0), rtpforma = "N/A", rtptipo = Constantes.RespuestaTipo.INAI,rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 2, rtpdescripcion = "No se dará trámite a la solicitud", rtpformato = sTextoDoc(0), rtpforma = "N/A", rtptipo = Constantes.RespuestaTipo.INAI,rtpreporta = 0, rtpplazo = 0 });
@@ -2513,17 +2509,17 @@ namespace SFP.SIT.SESAI.Servicio
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 19, rtpdescripcion = "Responder", rtpformato = sTextoDoc(0), rtpforma = "PVresponder", rtptipo = Constantes.RespuestaTipo.INTERNA,rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 20, rtpdescripcion = "Asignar", rtpformato = sTextoDoc(0), rtpforma = "PVasignar", rtptipo = Constantes.RespuestaTipo.INTERNA,rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 21, rtpdescripcion = "Turnar", rtpformato = sTextoDoc(0), rtpforma = "PVturnar", rtptipo = Constantes.RespuestaTipo.INTERNA,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 22, rtpdescripcion = "Respuesta Múltiple", rtpformato = sTextoDoc(0), rtpforma = "N/A", rtptipo = Constantes.RespuestaTipo.INTERNA_NOVISIBLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 23, rtpdescripcion = "Pública", rtpformato = sTextoDoc(0), rtpforma = "PVpublica", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });            
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 24, rtpdescripcion = "Pública a la vista", rtpformato = sTextoDoc(0), rtpforma = "PVpublica", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 25, rtpdescripcion = "Incompetencia parcial del área", rtpformato = sTextoDoc(0), rtpforma = "PVincompArea", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 26, rtpdescripcion = "Incompetencia total del área", rtpformato = sTextoDoc(0), rtpforma = "PVincompArea", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 27, rtpdescripcion = "Inexistencia de información en el área", rtpformato = sTextoDoc(0), rtpforma = "PVinexistencia", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 28, rtpdescripcion = "Información reservada", rtpformato = sTextoDoc(0), rtpforma = "PVreservada", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 29, rtpdescripcion = "Información reservada parcialmente", rtpformato = sTextoDoc(0), rtpforma = "PVreservadaParcial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 30, rtpdescripcion = "Información confidencial", rtpformato = sTextoDoc(0), rtpforma = "PVconfidencial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 31, rtpdescripcion = "Información confidencial parcialmente", rtpformato = sTextoDoc(0), rtpforma = "PVconfidencialParcial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 0 });
-            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 32, rtpdescripcion = "Ampliación de plazo", rtpformato = sTextoDoc(0), rtpforma = "PVampliacionPlazo", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 0, rtpplazo = 3 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 22, rtpdescripcion = "Respuesta Múltiple", rtpformato = sTextoDoc(0), rtpforma = "PVmultiple", rtptipo = Constantes.RespuestaTipo.INTERNA_NOVISIBLE,rtpreporta = 0, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 23, rtpdescripcion = "Pública", rtpformato = sTextoDoc(0), rtpforma = "PVpublica", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });            
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 24, rtpdescripcion = "Pública a la vista", rtpformato = sTextoDoc(0), rtpforma = "PVpublica", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 25, rtpdescripcion = "Incompetencia parcial del área", rtpformato = sTextoDoc(0), rtpforma = "PVincompAreaParcial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 26, rtpdescripcion = "Incompetencia total del área", rtpformato = sTextoDoc(0), rtpforma = "PVincompArea", rtptipo = Constantes.RespuestaTipo.INTERNA, rtpreporta = 0, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 27, rtpdescripcion = "Inexistencia de información en el área", rtpformato = sTextoDoc(0), rtpforma = "PVinexistencia", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 28, rtpdescripcion = "Información reservada", rtpformato = sTextoDoc(0), rtpforma = "PVreservada", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 29, rtpdescripcion = "Información reservada parcialmente", rtpformato = sTextoDoc(0), rtpforma = "PVreservadaParcial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 30, rtpdescripcion = "Información confidencial", rtpformato = sTextoDoc(0), rtpforma = "PVconfidencial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 31, rtpdescripcion = "Información confidencial parcialmente", rtpformato = sTextoDoc(0), rtpforma = "PVconfidencialParcial", rtptipo = Constantes.RespuestaTipo.INTERNA_MULTIPLE,rtpreporta = 22, rtpplazo = 0 });
+            lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 32, rtpdescripcion = "Ampliación de plazo", rtpformato = sTextoDoc(0), rtpforma = "PVampliacionPlazo", rtptipo = Constantes.RespuestaTipo.INTERNA, rtpreporta = 0, rtpplazo = 3 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 33, rtpdescripcion = "Para sesión del Comité", rtpformato = sTextoDoc(0), rtpforma = "PVparaComite", rtptipo = Constantes.RespuestaTipo.INTERNA,rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 34, rtpdescripcion = "Corregir", rtpformato = sTextoDoc(0), rtpforma = "Pvcorregir", rtptipo = Constantes.RespuestaTipo.INTERNA, rtpreporta = 0, rtpplazo = 0 });
             lstDatos.Add(new SIT_RESP_TIPO { rtpclave = 35, rtpdescripcion = "Requerimiento de Información Adicional", rtpformato = sTextoDoc(0), rtpforma = "PVria", rtptipo = Constantes.RespuestaTipo.INTERNA, rtpreporta = 0, rtpplazo = 2 });
@@ -2669,6 +2665,8 @@ namespace SFP.SIT.SESAI.Servicio
             lstDatos.Add(new SIT_RESP_ESTADO { sdoclave = 5, sdodescripcion = "RIA" }); 
             lstDatos.Add(new SIT_RESP_ESTADO { sdoclave = 6, sdodescripcion = "Responder" }); 
             lstDatos.Add(new SIT_RESP_ESTADO { sdoclave = 7, sdodescripcion = "Aceptada" });
+            lstDatos.Add(new SIT_RESP_ESTADO { sdoclave = 8, sdodescripcion = "Corregir" });
+            lstDatos.Add(new SIT_RESP_ESTADO { sdoclave = 9, sdodescripcion = "Negar" });
             return lstDatos;
         }
 
@@ -2772,12 +2770,13 @@ namespace SFP.SIT.SESAI.Servicio
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 2, neddescripcion = "INAI_Respuesta solicitud", nedurl = "SIN_CLASE", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 3, neddescripcion = "UT_Recibir solicitud", nedurl = "UTrecibirSol", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 4, neddescripcion = "PRUD_Recibir solicitud", nedurl = "PRUDrecibirSol", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
-            lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 5, neddescripcion = "PRUD_Revisar respuesta", nedurl = "PRUDrevisarResp", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
+            lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 5, neddescripcion = "PRUD_Revisar respuesta", nedurl = "PRUDrevisarRespSol", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 6, neddescripcion = "PRUD_Notificar", nedurl = "PRUDnotificar", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 7, neddescripcion = "UA_Analizar solicitud", nedurl = "UAanalizarSol", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });            
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 8, neddescripcion = "UA_Corregir respuesta", nedurl = "UAcorregirResp", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 9, neddescripcion = "UA_Información cómite", nedurl = "UAinfoComite", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
             lstDatos.Add(new SIT_RED_NODOESTADO { nedclave = 10, neddescripcion = "CT_Sesión", nedurl = "CTsesion", nedtipo = Constantes.NodoEstadoTipo.NINGUNO });
+
             
 
             return lstDatos;
@@ -2886,7 +2885,8 @@ namespace SFP.SIT.SESAI.Servicio
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 4, rtpclave = 21, affdestino = 7 });
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 7, rtpclave = 21, affdestino = 7 });
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 7, rtpclave = 22, affdestino = 5 });
-            lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 7, rtpclave = 35, affdestino = 5 });
+            lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 7, rtpclave = 26, affdestino = 5 });
+            lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 7, rtpclave = 35, affdestino = 5 });            
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 5, rtpclave = 19, affdestino = 2 });
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 5, rtpclave = 33, affdestino = 10 });
             lstDatos.Add(new SIT_RED_AFDFLUJO { afdclave = 2, afforigen = 5, rtpclave = 34, affdestino = 8 });
@@ -3093,8 +3093,10 @@ namespace SFP.SIT.SESAI.Servicio
         {
             List<SIT_SOL_SOLICITUDTIPO> lstDatos = new List<SIT_SOL_SOLICITUDTIPO>();
             lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 1, sotdescripcion = "INFORMACIÓN PÚBLICA" });
-            lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 2, sotdescripcion = "DATOS PERSONALES (ACCESO, RECTIFICACIÓN, CANCELACIÓN U OPOSICIÓN)" });
-                        
+            lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 2, sotdescripcion = "DATOS PERSONALES - ACCESO" });
+            lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 3, sotdescripcion = "DATOS PERSONALES - RECTIFICACIÓN" });
+            lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 4, sotdescripcion = "DATOS PERSONALES - CANCELACIÓN" });
+            lstDatos.Add(new SIT_SOL_SOLICITUDTIPO { sotclave = 5, sotdescripcion = "DATOS PERSONALES - OPOSICIÓN" });
             return lstDatos;
         }
 
@@ -3102,8 +3104,12 @@ namespace SFP.SIT.SESAI.Servicio
         {
             List<SIT_SOL_PROCESO> lstDatos = new List<SIT_SOL_PROCESO>();
             lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 1, prcdescripcion = "SOLICITUD" });
-            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 2, prcdescripcion = "ACLARACION" });
-            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 3, prcdescripcion = "RECURSO" });
+            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 2, prcdescripcion = "RIA SOLICITUD" });
+            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 3, prcdescripcion = "RECURSO REVISION" });
+            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 4, prcdescripcion = "RIA RECURSO REVISION" });
+            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 5, prcdescripcion = "DATOS PERSONALES" });
+            lstDatos.Add(new SIT_SOL_PROCESO { prcclave = 6, prcdescripcion = "RIA DATOS PERSONALES" });
+
             return lstDatos;
         }
 
