@@ -202,8 +202,38 @@ function EventoslstTipoRespuestaUT()
 
 function ckEditorDefinir(sHeight) {
     /* EDITOR */
+
+    var editor = CKEDITOR.instances['txtCkEditor'];
+    if (editor) {
+        editor.destroy(true);
+    }
+
+
     CKEDITOR.config.height = sHeight;
     CKEDITOR.replace('txtCkEditor', {
+        toolbar: [
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt'],
+            ['Undo', 'Redo'],
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Maximize'],
+            ['Table', 'HorizontalRule', 'SpecialChar'],
+            ['Styles', 'BGColor']
+        ]
+    });
+}
+
+function ckEditorDefinirObj(objeto, altura) {
+    /* EDITOR */
+
+    var editor = CKEDITOR.instances[objeto];
+    if (editor) {
+        editor.destroy(true);
+    }
+
+    CKEDITOR.config.height = altura;
+    CKEDITOR.replace(objeto, {
         toolbar: [
             ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt'],
             ['Undo', 'Redo'],

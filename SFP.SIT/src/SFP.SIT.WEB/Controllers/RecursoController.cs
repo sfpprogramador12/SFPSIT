@@ -127,7 +127,7 @@ namespace SFP.SIT.WEB.Controllers
                 afdDataMdl.lstProcesoPlazos = _memCacheSIT.ObtenerDato(CacheWebSIT.LST_SOL_PROCESOPLAZOS) as List<SIT_SOL_PROCESOPLAZOS>;
                 afdDataMdl.FechaRecepcion = FechaUtil.AsignarFecha(fecRecepcion);
                 afdDataMdl.ID_AreaUT = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-                afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
+                afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.UT_RECIBIR_SOLICITUD;
                 afdDataMdl.ID_ClaAfd = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO);
                 afdDataMdl.Observacion = actos;
 

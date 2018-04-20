@@ -85,10 +85,16 @@
         </div>
     }
 </div>
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
 
 <script>
     function Inicializar()
     {
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
         ckEditorDefinir(290);
         $('#solclave').val(_solclave);
         FormatoSugerido();
@@ -117,25 +123,45 @@
             return false;
         }            
         $('#resRespGral_gracontenido').val(editorData);
-
        
         return true;
     }
 
 
-    function Grabar()
-    {     
-        _Inicio = true;
-        $('#nodclave').val(_nodclave);
-        $('#solfecsolticks').val(_solfecsolticks );
-        
-        if (Validar())
-        { 
-            $("#btnAccion").hide();
-            document.ResponderForm.submit();
-        }
-        return false;                                 
+    function submit() {
+        _Inicio = false;
+        $("#solclave").val(_solclave);
+        $("#proclave").val(_proclave);
+        $("#nodclave").val(_nodclave);
+        $("#araclave").val(_araclave);
+        $("#solfecsol").val(_solfecsolticks);
+
+        _rtpClave = @Constantes.Respuesta.RESPONDER;
+        $("#btnAccion").hide();
+        document.ResponderForm.submit();
     }
+
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            var formaActual = document.ResponderForm;
+            formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+
+    ////function Grabar()
+    ////{     
+    ////    _Inicio = true;
+    ////    $('#nodclave').val(_nodclave);
+    ////    $('#solfecsolticks').val(_solfecsolticks );
+        
+    ////    if (Validar())
+    ////    { 
+    ////        $("#btnAccion").hide();
+    ////        document.ResponderForm.submit();
+    ////    }
+    ////    return false;                                 
+    ////}
 
 
     function DocRemoverResp(datos)

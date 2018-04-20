@@ -31,13 +31,13 @@ namespace SFP.SIT.AFD.MIGRAR
             // CREAR DE FORMA ANTICIPADA EL NODO DE UT ANALIZAR
             if (_afdEdoDataMdl.rtpclave == Constantes.Respuesta.TURNAR)
             {
-                SIT_RED_NODO nodoNvoUTanalizar = ExisteNodo(_afdEdoDataMdl.solClave, Constantes.NodoEstado.UT_RESPUESTA_ANALIZAR, _afdEdoDataMdl.ID_AreaUT, _afdEdoDataMdl.ID_Capa + 1);
+                SIT_RED_NODO nodoNvoUTanalizar = ExisteNodo(_afdEdoDataMdl.solClave, Constantes.NodoEstado.UT_RECIBIR_SOLICITUD, _afdEdoDataMdl.ID_AreaUT, _afdEdoDataMdl.ID_Capa + 1);
                 if (nodoNvoUTanalizar == null)
                 {
                     // CREAR NODO ACTUAL SIGUIENTE DE LA UTanalizar que es la barrera
                    
                     nodoNvoUTanalizar = new SIT_RED_NODO { prcclave= iClaveProceso, solclave= _afdEdoDataMdl.solClave, araclave= _afdEdoDataMdl.ID_AreaUT,
-                        nodcapa= _afdEdoDataMdl.ID_Capa + 1, nodatendido= AfdConstantes.NODO.INDETERMINADO, nodclave= Constantes.NodoEstado.UT_RESPUESTA_ANALIZAR,
+                        nodcapa= _afdEdoDataMdl.ID_Capa + 1, nodatendido= AfdConstantes.NODO.INDETERMINADO, nodclave= Constantes.NodoEstado.UT_RECIBIR_SOLICITUD,
                         nodfeccreacion= _afdEdoDataMdl.FechaRecepcion, nedclave= Constantes.General.ID_PENDIENTE,
                         usrclave = _afdEdoDataMdl.usrClaveDestino};
 

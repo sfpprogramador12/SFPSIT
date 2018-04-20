@@ -77,14 +77,12 @@ namespace SFP.SIT.AFD.Model
 
         // CONJUNTO DE RESPUESTAS
         public SIT_RESP_RESPUESTA oRespRespuesta { set; get; }
-        public int repEdoActual { set; get; }
-             
+        public int repEdoActual { set; get; }             
         public String Observacion { set; get; }
         public DateTime FechaRecepcion { set; get; }
         public List<SIT_SOL_PROCESOPLAZOS > lstProcesoPlazos { set; get; }
-        //public List<Tuple<int, string,int>> lstPersonasTurnar{ set; get; }
         public Dictionary<Int64, char> dicDiaNoLaboral { set; get; }
-        ////////public Dictionary<int, int> dicPerfilArea { set; get; }
+
         public SIT_SNT_SOLICITANTE solicitante { set; get; }
         public SIT_SOL_SOLICITUD  solicitud { set; get; }
         public SIT_RESP_RREVISION  recRevisionMdl { set; get; }
