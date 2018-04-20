@@ -107,7 +107,7 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVasignar(FrmRespAsignarVM respAsignar)
         {                        
             Dictionary<string, object> dicDatos = dicGlobalResponder(respAsignar.nodclave, Constantes.RespuestaEstado.PROPUESTA, respAsignar.resRespuesta, 
-                Constantes.Respuesta.ASIGNAR,  respAsignar.solfecsolticks, PersistenciaConst.OPERACION.INSERTAR,
+                Constantes.Respuesta.ASIGNAR,  respAsignar.solfecsolticks, PersistenciaConst.Operacion.INSERTAR,
                 ProcesoGralDao.PARAM_RESP_ASIGNAR);
 
             respAsignar.resAsignar.araclave = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);

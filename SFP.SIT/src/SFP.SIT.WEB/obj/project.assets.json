@@ -9339,25 +9339,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mlaudino\\.nuget\\packages\\": {},
+    "C:\\Users\\programador12\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
+      "projectUniqueName": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
       "projectName": "SFP.SIT.WEB",
-      "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
-      "packagesPath": "C:\\Users\\mlaudino\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.WEB\\obj\\",
+      "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\SFP.SIT.WEB.csproj",
+      "packagesPath": "C:\\Users\\programador12\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.WEB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\mlaudino\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\programador12\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
@@ -9371,11 +9374,11 @@
       "frameworks": {
         "net47": {
           "projectReferences": {
-            "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj": {
-              "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj"
+            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj": {
+              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.AFD\\SFP.SIT.AFD.csproj"
             },
-            "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
-              "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
+            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
+              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
             }
           }
         }

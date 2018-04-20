@@ -160,7 +160,7 @@ namespace SFP.SIT.AFD.Servicio
             }
             catch (Exception ex)
             {
-                _sMsjError = ex.ToString();
+                MsjError = ex.ToString();
                 throw new Exception("Error en el método AccionBase " + ex.ToString());
             }
 
@@ -245,7 +245,7 @@ namespace SFP.SIT.AFD.Servicio
                 }
                 catch (Exception ex)
                 {
-                    _sMsjError = ex.ToString();
+                    MsjError = ex.ToString();
                     throw new Exception("Error al grabar al grabar un documento " + ex.ToString());
                 }
             }
