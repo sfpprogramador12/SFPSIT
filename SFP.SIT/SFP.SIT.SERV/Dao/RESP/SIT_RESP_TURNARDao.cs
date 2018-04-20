@@ -93,12 +93,17 @@ namespace SFP.SIT.SERV.Dao.RESP
 	 	 	 	 return 0;
  
 	 	 }
- 
- 
-/*INICIO*/
- 
- 
-/*FIN*/
- 
-	 }
+
+
+        /*INICIO*/
+
+            public List<SIT_RESP_TURNAR> dmlSelectTurnarResp( long repClave)
+            {
+                String sSQL = " SELECT * FROM SIT_RESP_TURNAR WHERE repclave = :P0 ";
+                return CrearListaMDL<SIT_RESP_TURNAR>(ConsultaDML(sSQL, repClave) as DataTable);
+            }
+
+        /*FIN*/
+
+    }
 }

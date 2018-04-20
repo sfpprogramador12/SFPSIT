@@ -1,0 +1,174 @@
+﻿@model FrmRespPublicaVM
+@{
+    String controlName = ViewBag.controlName;
+    Layout = null;
+}
+<div id="divResponder" style="width:99%; float:left; ">
+    <div id="divGridUArespuesta" style="width:99%; height:440px; margin-top:15px;margin-left:5px;"></div>
+</div>
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+<script>
+    var _GridResp = @Html.Raw( ViewBag.GridResp);
+
+    function Inicializar()
+    {
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
+
+        var gridUArespuesta = {
+            name: 'gridUArespuesta',
+            method: 'GET', // need this to avoid 412 error on Safari
+            show: {
+                lineNumbers: true,
+                toolbar: true
+            },
+            columns: [
+                { field: 'rtpdescripcion', caption: 'Tipo de respuesta', size: '250px', sortable: true },
+                { field: 'dattitulo', caption: 'Número de oficio', size: '130px', sortable: true },
+                {
+                    field: 'docclave', caption: 'Doc', size: '60px', sortable: true,
+                    render: function (registro) {
+                        if (registro.docclave !== 0) {
+                            datosHTML = '<a class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px" href=Documento?id=' + registro.docclave + '></a>';
+                        }
+                        else
+                            datosHTML = "";
+                        return datosHTML;
+                    }
+                },
+                { field: 'repcantidad', caption: 'Cantidad', size: '80px', sortable: true },
+                { field: 'megdescripcion', caption: 'Modo de entrega', size: '190px' },
+                { field: 'datdescripcion', caption: 'Descripción respecto a la respuesta', size: '450px' }
+            ],
+            toolbar:
+                {
+                    items: oToolBarItems,
+                    onClick: function (event) {
+                        AjaxValidarSesion(_UrlSesionActiva, _UrlInicio);
+                        $("#divResMultiple").html("");
+
+                        var iOpc = 0;
+                        if (event.target === "cmdAgregar") {
+                            event.onComplete = function () {
+                                $("#divTopListaTiulo").html("Seleccionar una respuesta :");
+                                $("#divlstAccion").show();
+                                $("#myModal").modal();
+
+                                SelectAddElemClearLimite("lstAccion", _ListaSubAccion, _solfecsol, _FechaAct);
+
+                                $('#lstAccion').change(function () {
+                                    if ($('#lstAccion').val() != null) {
+                                        _PaginaActual = _UrlRespuesta + AristaClick(_ListaSubAccion, parseInt($('#lstAccion').val())) + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave + "&araclave=" + _araclave + "&araclave=" + "&solFecTics=" + _solfecsolticks + "&Oper=1";
+                                        $("#divResMultiple").load(_PaginaActual, function () {
+                                            Inicializar();
+                                            document.getElementById("btnAnalizarGrabar").onclick = function () { GrabarIFrame() };
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                        else if (event.target === "cmdEditar") {
+                            var iIdx = parseInt(w2ui.gridUArespuesta.getSelection()[0]);
+                            $("#divlstAccion").hide();
+                            $("#divTopListaTiulo").html("Editar " + w2ui.gridUArespuesta.records[iIdx].rtpdescripcion);
+                            $("#myModal").modal();
+
+                            var urlForma = _UrlRespuesta + w2ui.gridUArespuesta.records[iIdx].rtpforma + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave + "&repclave=" + w2ui.gridUArespuesta.records[iIdx].repclave + "&araclave=" + _araclave + "&solfecsol=" + _solfecsolticks + "&Oper=2";
+
+                            $("#divResMultiple").load(urlForma, function () {
+                                Inicializar();
+                                document.getElementById("btnAnalizarGrabar").onclick = function () { GrabarIFrame() };
+                            });
+                        }
+                        else if (event.target === "cmdBorrar") {
+                            var sel = w2ui.gridUArespuesta.getSelection();
+                            if (sel.length == 1) {
+                                var registro = $.extend(true, {}, w2ui.gridUArespuesta.get(sel[0]));
+                            }
+                            w2confirm('¿Esta usted seguro de borrar este registro ? <br/> <br/>' + registro.datdescripcion, function btn(answer) {
+                                if (answer == "Yes") {
+                                    $('#repclave').val(registro.repclave);
+                                    $('#rtpclave').val(registro.rtpclave);
+                                    $('#nodClave').val(_nodclave);
+                                    _FormaBorrar = $('#frmBorrar').serialize();
+                                    var urlForma = _UrlRespuesta + "PVborrar";
+                                    AjaxPostForm(urlForma, _FormaBorrar, ActualizarGrid, _UrlInicio);
+                                }
+                            });
+                        }
+                    }
+                }
+        }
+
+
+        /* DATOS DEL GRID */
+        if (w2ui['gridUArespuesta'] === undefined) {
+            $("#divGridUArespuesta").w2grid(gridUArespuesta);
+        }
+
+        else {
+            w2ui['gridUArespuesta'].destroy();
+            $("#divGridUArespuesta").w2grid(gridUArespuesta);
+        }
+
+        $("#tb_gridUArespuesta_toolbar_item_w2ui-reload").hide();
+        $("#tb_gridUArespuesta_toolbar_item_w2ui-column-on-off").hide();
+        $("#tb_gridUArespuesta_toolbar_item_w2ui-search").hide();
+
+        for (var iIdx = 0; iIdx < _GridResp.records.length; iIdx++) {
+            w2ui.gridUArespuesta.add([{
+                recid: iIdx, rtpclave: _GridResp.records[iIdx].rtpclave,
+                repclave: _GridResp.records[iIdx].repclave, rtpdescripcion: _GridResp.records[iIdx].rtpdescripcion, docfolio: _GridResp.records[iIdx].docfolio,
+                docclave: _GridResp.records[iIdx].docclave, repcantidad: _GridResp.records[iIdx].repcantidad,
+                megdescripcion: _GridResp.records[iIdx].megdescripcion, datdescripcion: _GridResp.records[iIdx].datdescripcion,
+                rtpforma: _GridResp.records[iIdx].rtpforma, dattitulo: _GridResp.records[iIdx].dattitulo
+            }]);
+        }
+
+
+
+        //ckEditorDefinir(_EditorHeight);
+        //$('#solclave').val(_solclave);
+        //FormatoSugerido();
+
+        //$('#btnImprimir').click(function () {
+        //    $('#oficio').val($('#txtCkEditor').val());
+        //    document.ImprimirForm.submit();
+        //});
+    };
+
+
+    ////function Validar() {
+    ////    //if ($('#respRespuesta_megclave').val() == undefined || $('#respRespuesta_megclave').val() == null) {
+    ////    //    w2alert("Seleccione un modo de entrega");
+    ////    //    return false;
+    ////    //}
+
+    ////    //var editorData = CKEDITOR.instances.txtCkEditor.getData();
+    ////    //if (editorData.length < 2) {
+    ////    //    w2alert("El texto de la respuesta no puede ir en blanco")
+    ////    //    return false;
+    ////    //}
+
+    ////    return true;
+    ////}
+
+    ////function submit() {
+    ////    //_Inicio = true;
+    ////    //$('#nodclave').val(_nodclave);
+    ////    //$('#solfecsolticks').val(_solfecsolticks);
+    ////    //$('#respGeneral_gracontenido').val(CKEDITOR.instances.txtCkEditor.getData());
+    ////    //document.PublicaForm.submit();
+    ////}
+
+
+    function DocRemoverResp(datos)
+    {
+        window.location.reload();
+        //$("#divDocContenido").hide();
+    }
+
+</script>

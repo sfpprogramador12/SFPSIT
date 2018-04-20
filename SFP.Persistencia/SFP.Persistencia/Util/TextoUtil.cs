@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SFP.Persistencia.Util
 {
@@ -31,49 +28,68 @@ namespace SFP.Persistencia.Util
         {
             return detectTextEncoding(File.ReadAllBytes(filename));
         }
-        
 
-        public static Encoding detectTextEncoding(byte[] b)
+
+        // First check the low hanging fruit by checking if a
+        // BOM/signature exists (sourced from http://www.unicode.org/faq/utf_bom.html#bom4)
+
+        // Encoding GetEncoding utf-32BE  GetString b, 4, b.Length - 4
+        // UTF-32, big-endian 
+        //
+        // Encoding UTF32 GetString  b, 4, b.Length - 4
+        //    UTF-32, little-endian
+        //
+        // Encoding BigEndianUnicode GetString b, 2, b.Length - 2
+        // UTF-16, big-endian
+        //
+        // Encoding Unicode GetString b, 2, b.Length - 2 
+        // UTF-16, little-endian
+        //
+        // Encoding UTF8 GetString b, 3, b.Length - 3 
+        // UTF-8
+        //
+        // Encoding UTF7 GetString b, 3, b.Length - 3
+        // UTF-7
+
+        private static Encoding EncodingDetectFaseA(ref byte[] b)
         {
-            //String text;
-            int taster;
-
-            if (b.Length > 1000)
-                taster = 1000;
-            else
-                taster = b.Length;
-
-            //byte[] b = new byte[stDatos.Length];
-            //stDatos.Read(b, 0, (int)stDatos.Length);
-
-            //////////////// First check the low hanging fruit by checking if a
-            //////////////// BOM/signature exists (sourced from http://www.unicode.org/faq/utf_bom.html#bom4)
+            //UTF-32, big-endian 
             if (b.Length >= 4 && b[0] == 0x00 && b[1] == 0x00 && b[2] == 0xFE && b[3] == 0xFF)
-            { /*text = Encoding.GetEncoding("utf-32BE").GetString(b, 4, b.Length - 4); */ return Encoding.GetEncoding("utf-32BE"); }  // UTF-32, big-endian 
+            {
+                //UTF - 32, little - endian
+                return Encoding.GetEncoding("utf-32BE");
+            }
             else if (b.Length >= 4 && b[0] == 0xFF && b[1] == 0xFE && b[2] == 0x00 && b[3] == 0x00)
-            { /*text = Encoding.UTF32.GetString(b, 4, b.Length - 4); */
+            {
                 return Encoding.UTF32;
-            }    // UTF-32, little-endian
+            }
             else if (b.Length >= 2 && b[0] == 0xFE && b[1] == 0xFF)
-            { /*text = Encoding.BigEndianUnicode.GetString(b, 2, b.Length - 2); */
+            {
                 return Encoding.BigEndianUnicode;
-            }     // UTF-16, big-endian
+            }
             else if (b.Length >= 2 && b[0] == 0xFF && b[1] == 0xFE)
-            { /*text = Encoding.Unicode.GetString(b, 2, b.Length - 2); */
+            {
                 return Encoding.Unicode;
-            }              // UTF-16, little-endian
+            }
             else if (b.Length >= 3 && b[0] == 0xEF && b[1] == 0xBB && b[2] == 0xBF)
-            { /*text = Encoding.UTF8.GetString(b, 3, b.Length - 3); */
+            {
                 return Encoding.UTF8;
-            } // UTF-8
-            else if (b.Length >= 3 && b[0] == 0x2b && b[1] == 0x2f && b[2] == 0x76) { /*text = Encoding.UTF7.GetString(b, 3, b.Length - 3); */ return Encoding.UTF7; } // UTF-7
+            }
+            else if (b.Length >= 3 && b[0] == 0x2b && b[1] == 0x2f && b[2] == 0x76)
+            {
+                return Encoding.UTF7;
+            }
+            else
+                return null;
+        }
 
 
+        private static Encoding EncodingDetectFaseB(ref byte[] b, int taster)
+        {
             //////////// If the code reaches here, no BOM/signature was found, so now
             //////////// we need to 'taste' the file to see if can manually discover
             //////////// the encoding. A high taster value is desired for UTF-8
             if (taster == 0 || taster > b.Length) taster = b.Length;    // Taster size can't be bigger than the filesize obviously.
-
 
             // Some text files are encoded in UTF8, but have no BOM/signature. Hence
             // the below manually checks for a UTF8 pattern. This code is based off
@@ -93,66 +109,164 @@ namespace SFP.Persistencia.Util
                 if (b[i] >= 0xF0 && b[i] <= 0xF4 && b[i + 1] >= 0x80 && b[i + 1] < 0xC0 && b[i + 2] >= 0x80 && b[i + 2] < 0xC0 && b[i + 3] >= 0x80 && b[i + 3] < 0xC0) { i += 4; utf8 = true; continue; }
                 utf8 = false; break;
             }
-            if (utf8 == true)
+
+            if (utf8)
             {
-                //text = Encoding.UTF8.GetString(b);
                 return Encoding.UTF8;
             }
 
+            return null;
+        }
 
+        private static Encoding EncodingDetectFaseC(ref byte[] b, int taster)
+        {
             // The next check is a heuristic attempt to detect UTF-16 without a BOM.
             // We simply look for zeroes in odd or even byte places, and if a certain
             // threshold is reached, the code is 'probably' UF-16.          
-            double threshold = 0.1; // proportion of chars step 2 which must be zeroed to be diagnosed as utf-16. 0.1 = 10%
+            // proportion of chars step 2 which must be zeroed to be diagnosed as utf-16. 0.1 = 10%
+            double threshold = 0.1;
             int count = 0;
             for (int n = 0; n < taster; n += 2) if (b[n] == 0) count++;
+
+            // (big-endian)
             if (((double)count) / taster > threshold)
-            { //text = Encoding.BigEndianUnicode.GetString(b); 
+            {
                 return Encoding.BigEndianUnicode;
             }
             count = 0;
             for (int n = 1; n < taster; n += 2) if (b[n] == 0) count++;
+
+            // (little-endian)
             if (((double)count) / taster > threshold)
             {
-                //text = Encoding.Unicode.GetString(b);
                 return Encoding.Unicode;
-            } // (little-endian)
+            }
+
+            return null;
+        }
+
+        private static Boolean EvalCharSET(ref byte[] b, ref  int n)
+        {
+            Boolean bRes = false;
+
+            if ((b[n + 0] == 'c' || b[n + 0] == 'C') 
+                && (b[n + 1] == 'h' || b[n + 1] == 'H') 
+                && (b[n + 2] == 'a' || b[n + 2] == 'A') 
+                && (b[n + 3] == 'r' || b[n + 3] == 'R') 
+                && (b[n + 4] == 's' || b[n + 4] == 'S') 
+                && (b[n + 5] == 'e' || b[n + 5] == 'E') 
+                && (b[n + 6] == 't' || b[n + 6] == 'T') 
+                && (b[n + 7] == '='))
+            {
+                n += 8;
+                bRes = true;
+            }
+
+            return bRes;
+
+        }
 
 
+        private static Boolean EvalEncondig(ref byte[] b, ref int n)
+        {
+            if (    
+                (b[n + 0] == 'e' || b[n + 0] == 'E') && 
+                (b[n + 1] == 'n' || b[n + 1] == 'N') && 
+                (b[n + 2] == 'c' || b[n + 2] == 'C') && 
+                (b[n + 3] == 'o' || b[n + 3] == 'O') && 
+                (b[n + 4] == 'd' || b[n + 4] == 'D') && 
+                (b[n + 5] == 'i' || b[n + 5] == 'I') && 
+                (b[n + 6] == 'n' || b[n + 6] == 'N') && 
+                (b[n + 7] == 'g' || b[n + 7] == 'G') && 
+                (b[n + 8] == '=') )
+            {
+                n += 9;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        private static int Avanzar(ref byte[] b, int taster, int n)
+        {
+            while (n < taster && (b[n] == '_' || b[n] == '-' || (b[n] >= '0' && b[n] <= '9') || (b[n] >= 'a' && b[n] <= 'z') || (b[n] >= 'A' && b[n] <= 'Z')))
+            { n++; }
+            return n;
+        }
+
+
+        private static Encoding EncodingDetectFaseD(ref byte[] b, int taster)
+        {
             // Finally, a long shot - let's see if we can find "charset=xyz" or
             // "encoding=xyz" to identify the encoding:
+
             for (int n = 0; n < taster - 9; n++)
-            {
-                if (
-                    ((b[n + 0] == 'c' || b[n + 0] == 'C') && (b[n + 1] == 'h' || b[n + 1] == 'H') && (b[n + 2] == 'a' || b[n + 2] == 'A') && (b[n + 3] == 'r' || b[n + 3] == 'R') && (b[n + 4] == 's' || b[n + 4] == 'S') && (b[n + 5] == 'e' || b[n + 5] == 'E') && (b[n + 6] == 't' || b[n + 6] == 'T') && (b[n + 7] == '=')) ||
-                    ((b[n + 0] == 'e' || b[n + 0] == 'E') && (b[n + 1] == 'n' || b[n + 1] == 'N') && (b[n + 2] == 'c' || b[n + 2] == 'C') && (b[n + 3] == 'o' || b[n + 3] == 'O') && (b[n + 4] == 'd' || b[n + 4] == 'D') && (b[n + 5] == 'i' || b[n + 5] == 'I') && (b[n + 6] == 'n' || b[n + 6] == 'N') && (b[n + 7] == 'g' || b[n + 7] == 'G') && (b[n + 8] == '='))
-                    )
-                {
-                    if (b[n + 0] == 'c' || b[n + 0] == 'C') n += 8; else n += 9;
-                    if (b[n] == '"' || b[n] == '\'') n++;
+            {                
+                if ( EvalCharSET( ref b, ref n)  || EvalEncondig(ref b, ref n) )
+                {                    
+
+                    if (b[n] == '"' || b[n] == '\'')
+                    {
+                        n++;
+                    }                        
+
                     int oldn = n;
-                    while (n < taster && (b[n] == '_' || b[n] == '-' || (b[n] >= '0' && b[n] <= '9') || (b[n] >= 'a' && b[n] <= 'z') || (b[n] >= 'A' && b[n] <= 'Z')))
-                    { n++; }
+                    n = Avanzar(ref b, taster, n);
                     byte[] nb = new byte[n - oldn];
                     Array.Copy(b, oldn, nb, 0, n - oldn);
+
                     try
                     {
                         string internalEnc = Encoding.ASCII.GetString(nb);
-                        // text = Encoding.GetEncoding(internalEnc).GetString(b);
                         return Encoding.GetEncoding(internalEnc);
                     }
                     catch { break; }    // If C# doesn't recognize the name of the encoding, break.
                 }
             }
-
-
-            // If all else fails, the encoding is probably (though certainly not
-            // definitely) the user's local codepage! One might present to the user a
-            // list of alternative encodings as shown here: http://stackoverflow.com/questions/8509339/what-is-the-most-common-encoding-of-each-language
-            // A full list can be found using Encoding.GetEncodings();
-            // text = Encoding.Default.GetString(b);
-            return Encoding.Default;
+            return null;
         }
 
+            public static Encoding detectTextEncoding(byte[] b)
+        {            
+            int taster;
+
+            if (b.Length > 1000)
+                taster = 1000;
+            else
+                taster = b.Length;
+
+
+            Encoding eTipoEncoding = EncodingDetectFaseA(ref b);
+
+            if (eTipoEncoding == null)
+            {
+                eTipoEncoding = EncodingDetectFaseB(ref b, taster);
+                if (eTipoEncoding == null)
+                {
+                    eTipoEncoding = EncodingDetectFaseC(ref b, taster);
+                    if (eTipoEncoding == null)
+                    {
+                        eTipoEncoding = EncodingDetectFaseD(ref b, taster);
+                    }
+                }
+            }
+
+            if (eTipoEncoding == null)
+            {
+                // If all else fails, the encoding is probably (though certainly not
+                // definitely) the user's local codepage! One might present to the user a
+                // list of alternative encodings as shown here: http://stackoverflow.com/questions/8509339/what-is-the-most-common-encoding-of-each-language
+                // A full list can be found using Encoding GetEncodings
+                // Encoding_Default
+                return Encoding.Default;
+            }            
+            else
+            {
+                return eTipoEncoding;
+            }
+        }
     }
 }

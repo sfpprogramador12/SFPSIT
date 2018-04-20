@@ -110,17 +110,22 @@ namespace SFP.SIT.SERV.Dao.RESP
 
         public Dictionary<int, string> dmlSelectRespTipo(int iTipo)
         {
-            String sSQL = " select Rtpclave, Rtpdescripcion  from SIT_RESP_TIPO where RTPTIPO = :P0 ";
+            String sSQL = " select Rtpclave, Rtpdescripcion from SIT_RESP_TIPO where RTPTIPO = :P0 ";
             DataTable dtDatos = (DataTable)ConsultaDML(sSQL, iTipo);
             Dictionary<int, string> dicRespTipo = new Dictionary<int, string>();
 
             foreach (DataRow drDatos in dtDatos.Rows)
                 dicRespTipo.Add(Convert.ToInt32(drDatos[0].ToString()), drDatos[1].ToString());
-            return dicRespTipo;
-
-
-            /*FIN*/
-
+            return dicRespTipo;        
         }
+
+        public List<SIT_RESP_TIPO> dmlSelectRespTipoLst(int iTipo)
+        {
+            String sSQL = " select * from SIT_RESP_TIPO where RTPTIPO = :P0 ";
+            return CrearListaMDL<SIT_RESP_TIPO>(ConsultaDML(sSQL, iTipo) as DataTable);
+        }
+
+        /*FIN*/
     }
+
 }

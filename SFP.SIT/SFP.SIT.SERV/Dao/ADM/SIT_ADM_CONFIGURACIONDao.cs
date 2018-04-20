@@ -116,7 +116,7 @@ namespace SFP.SIT.SERV.Dao.ADM
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + " SELECT * from SIT_ADM_CONFIGURACION "
+                + " SELECT cfgclave, cfgclave, cfgvalor, cfgfecbaja from SIT_ADM_CONFIGURACION "
                 + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
 
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);

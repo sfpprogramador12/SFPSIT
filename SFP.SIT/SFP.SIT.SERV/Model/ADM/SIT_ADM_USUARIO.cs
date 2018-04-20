@@ -7,7 +7,7 @@ namespace SFP.SIT.SERV.Model.ADM
 {
 	 public class SIT_ADM_USUARIO
 	 {
-	 	 public string usractivo  { set; get; } 
+	 	 public DateTime usractivo  { set; get; } 
 	 	 public string usrauxcorreo  { set; get; } 
 	 	 public DateTime usrfecmod  { set; get; } 
 	 	 public string usrdesignacion  { set; get; } 
@@ -27,11 +27,7 @@ namespace SFP.SIT.SERV.Model.ADM
 	 	 public SIT_ADM_USUARIO () {} 
  
 	 	 public SIT_ADM_USUARIO (
-<<<<<<< HEAD
-           string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
-=======
-	 	  string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
->>>>>>> parent of 1d90231... Se agregan los cambios de Mak
+	 	  DateTime usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
 	 	 	 )
 	 	 {
 	 	 	 this.usractivo = usractivo;

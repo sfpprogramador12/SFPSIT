@@ -167,12 +167,15 @@
         </div>
     }
 </div>
-
-
 <iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
 
 <script>
     function Inicializar() {
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
+
         $('#solclave').val(_solclave);
     }
 
@@ -197,16 +200,16 @@
         return true;
     }
 
-    function Grabar() {
-        if (Validar() === true) {
-            _Inicio = true;
-            document.InexistenciaForm.submit();
-        }
-    }
+    ////function Grabar() {
+    ////    if (Validar() === true) {
+    ////        _Inicio = true;
+    ////        document.InexistenciaForm.submit();
+    ////    }
+    ////}
   
     function GrabarIFrame() {
         if (Validar() === true) {
-            _Inicio = true;
+            _Inicio = false;
             var formaActual = document.InexistenciaForm;
             formaActual.target = "iframeAux";
             formaActual.submit();

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using SFP.SIT.SERV.Model._Consultas;
 using SFP.SIT.SERV.Model.RED;
 using SFP.SIT.WEB.Models;
 using System;
@@ -352,5 +353,7 @@ namespace SFP.SIT.WEB.Util
             return JsonConvert.SerializeObject(dtDatos);
             //return JsonConvert.SerializeObject(dtDatos, Formatting.Indented);
         }
+
+        
     }
 }

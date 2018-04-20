@@ -25,7 +25,7 @@ namespace SFP.Persistencia.Util
             return sMetodo;
         }
 
-        public static class OPERACION
+        public static class Operacion
         {
             public const int INSERTAR = 1;
             public const int EDITAR = 2;

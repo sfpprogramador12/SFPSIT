@@ -46,9 +46,9 @@ namespace SFP.SIT.AFD.Core
 
         ////////public object EjecutarOperacion(Object oDatos)
         ////////{
-        ////////    Dictionary<String, Object> dicParam = (Dictionary<String, Object>)oDatos;
+        ////////Dictionary<String, Object> dicParam = (Dictionary<String, Object>)oDatos;
            
-        ////////    return dicOperacion[(int)dicParam[PARAM_OPERACION]].DynamicInvoke(oDatos);
+        ////////return dicOperacion[(int)dicParam[PARAM_OPERACION]].DynamicInvoke(oDatos);
         ////////}
 
 
@@ -61,7 +61,7 @@ namespace SFP.SIT.AFD.Core
 
             // Inicializar los PARAMETRO SDE BUSQUEDA
             dicParam.Add( DButil.SIT_RED_AFDFLUJO_COL.AFDCLAVE, iFlujoTrabajoID);
-            dicParam.Add( DButil.SIT_RED_AFDFLUJO_COL.AFFORIGEN, Constantes.NodoEstado.INAI_CREAR_SOLICITUD); // SIEMPRE ES UNO Y ES CREAR SOLICITUD..
+            dicParam.Add( DButil.SIT_RED_AFDFLUJO_COL.AFFORIGEN, Constantes.NodoEstado.INAI_SOLICITUD); // SIEMPRE ES UNO Y ES CREAR SOLICITUD..
 
 
             SIT_RED_AFDFLUJODao SIT_RED_AFDFLUJODao = new SIT_RED_AFDFLUJODao(_cn, _transaction, _sDataAdapter);
@@ -115,16 +115,6 @@ namespace SFP.SIT.AFD.Core
 
         public Object Accion(AfdEdoDataMdl afdDataMdl)
         {
-            ////// 17/nov/2017 
-            ////// Sera necesaior revisar el estado de los MENSAJES
-
-            //////if (afdDataMdl.dicAfdFlujo[afdDataMdl.ID_EstadoActual].dicAccionEstado.ContainsKey(Constantes.Respuesta.CREAR_MENSAJE) == true)
-            //////{
-            //////    afdDataMdl.ID_EstadoMensaje = afdDataMdl.dicAfdFlujo[afdDataMdl.ID_EstadoActual].dicAccionEstado[Constantes.Respuesta.CREAR_MENSAJE];
-            //////}
-
-            ///return NodoEjecutarProceso( ref afdDataMdl);
-            ///
             Type type = Type.GetType(afdDataMdl.dicAfdFlujo[afdDataMdl.ID_EstadoActual].clase);
             Object objNodo = Activator.CreateInstance(type, _cn, _transaction, _sDataAdapter);
             AfdNodoBase oNodoBase = (AfdNodoBase)objNodo;
@@ -132,16 +122,5 @@ namespace SFP.SIT.AFD.Core
 
             return objNodo.GetType().GetMethod("Accion").Invoke(objNodo, new[] { afdDataMdl });
         }
-
-
-        ////////private Object NodoEjecutarProceso(ref AfdEdoDataMdl afdDataMdl)
-        ////////{
-        ////////    Type type = Type.GetType(afdDataMdl.dicAfdFlujo[afdDataMdl.ID_EstadoActual].clase);
-        ////////    Object objNodo = Activator.CreateInstance(type, _cn, _transaction, _sDataAdapter);
-        ////////    AfdNodoBase oNodoBase = (AfdNodoBase)objNodo;
-        ////////    oNodoBase.AsignarID(afdDataMdl.ID_EstadoActual);
-
-        ////////    return objNodo.GetType().GetMethod("Accion").Invoke(objNodo, new[] { afdDataMdl } );
-        ////////}
     }
 }

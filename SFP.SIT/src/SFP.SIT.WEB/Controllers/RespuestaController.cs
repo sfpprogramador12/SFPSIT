@@ -21,14 +21,12 @@ using SFP.SIT.AFD.Model;
 using SFP.SIT.SERV.Util;
 using SFP.SIT.SERV.Model.ADM;
 using SFP.SIT.SERV.Model.RED;
-using SFP.SIT.SERV.Dao.RED;
 using SFP.SIT.SERV.Dao.DOC;
-using SFP.SIT.SERV.Model.SOL;
 using System.IO;
-using Newtonsoft.Json;
 using SFP.Persistencia.Model;
 using System.Data;
 using SFP.Persistencia.Util;
+using SFP.SIT.SERV.Dao.SOL;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,34 +44,6 @@ namespace SFP.SIT.WEB.Controllers
             _solServ = new SolicitudSer(_sitDmlDbSer);
         }
 
-        /*********************************************
-               FUNCIONES GENERALES PARA LOS NODOS
-        ******************************************** */
-        public AfdEdoDataMdl NodoActualIni(Int64 folio, Int32 tipoArista, Int64 nodo)
-        {
-            AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
-
-            afdDataMdl.solClave = folio;
-            afdDataMdl.ID_AreaInai = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.INAI);
-            afdDataMdl.ID_AreaUT = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-
-            afdDataMdl.usrClaveOrigen = _iUsuario;
-            afdDataMdl.FechaRecepcion = DateTime.Now;
-            afdDataMdl.rtpclave = tipoArista;
-            afdDataMdl.dicDiaNoLaboral = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>;
-            afdDataMdl.lstProcesoPlazos = _memCacheSIT.ObtenerDato(CacheWebSIT.LST_SOL_PROCESOPLAZOS) as List<SIT_SOL_PROCESOPLAZOS>;
-            afdDataMdl.SharePointCxn = _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl;
-
-            // BUSCAR DATOS PARA PROCESAR LA ACCION
-            afdDataMdl.AFDnodoActMdl = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
-
-            afdDataMdl.ID_EstadoActual = (int)afdDataMdl.AFDnodoActMdl.nedclave;
-            afdDataMdl.AFDseguimientoMdl = _solServ.ObtenerSeguimiento(afdDataMdl.solClave, (int)afdDataMdl.AFDnodoActMdl.prcclave);
-            afdDataMdl.solicitud = _solServ.ObtenerSolicitudID(afdDataMdl.solClave);
-            afdDataMdl.ID_ClaAfd = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO);
-            afdDataMdl.ID_Capa = afdDataMdl.AFDnodoActMdl.nodcapa;
-            return afdDataMdl;
-        }
 
         [HttpPost]
         public string PVborrar(Int64 repclave, int rtpclave, int nodclave)
@@ -94,51 +64,57 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVasignar()
         {
             ViewBag.controlName = "Respuesta";
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.ASIGNAR;
 
             _appLog.opdesc = "PVasignar ";
             _appLog.data = "";
             return View();
         }
 
-        [HttpPost]
-        public IActionResult PVasignar(FrmRespAsignarVM respAsignar)
+
+
+        private Dictionary<string, object> dicGlobalResponder(long nodClave, int iRespEdo, SIT_RESP_RESPUESTA oRespRespuesta, int rtpClave, long lSolticks, 
+            int iOper, string sEntidad)
         {
-            respAsignar.resRespuesta.rtpclave = Constantes.Respuesta.ASIGNAR;
-            respAsignar.resRespuesta.repedofec = DateTime.Now;
-            respAsignar.Oper = 1; // INSERTAR
-            respAsignar.resAsignar.araclave = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
 
             SIT_RED_NODORESP oNodoResp = new SIT_RED_NODORESP();
-            oNodoResp.nodclave = respAsignar.nodclave;
-            oNodoResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
+            oNodoResp.nodclave = nodClave;
+            oNodoResp.sdoclave = iRespEdo;
 
-            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
             // DATOS DE LA RESPUESTA..
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, respAsignar.resRespuesta);           
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_TURNAR, respAsignar.resAsignar);
-            dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);        
-           
+            oRespRespuesta.repedofec = DateTime.Now;
+            oRespRespuesta.rtpclave = rtpClave;
+
+            dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, oRespRespuesta);
+            dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);
+
             //// DATOS GENERALES A AGRUPAR....
-            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, respAsignar.nodclave);
-            dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(respAsignar.solfecsolticks));
+            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, nodClave);
+            dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(lSolticks));
             dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-            dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, respAsignar.Oper);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-            dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_ASIGNAR);
+            dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, iOper);
+            dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, iRespEdo);
+            dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, sEntidad);
+            dicDatos.Add(ProcesoGralDao.PARAM_RUTA_ARCHIVOS, _app.ContentRootPath + "\\" + ConstantesWeb.Carpetas.ARCHIVO);
 
-            AfdEdoDataMdl afdDataMdl = NodoActualIni(respAsignar.solclave, Constantes.Respuesta.ASIGNAR, respAsignar.nodclave);
-            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-            afdDataMdl.dicAuxRespuesta = dicDatos;            
-            afdDataMdl.usrClaveDestino = respAsignar.resAsignar.usrclave;
-            afdDataMdl.usrClaveOrigen = _iUsuario;
-            afdDataMdl.usrClaveAusencia = _iUsuario;  // Aqui cambiar de acuerdo a la página WEB
-            afdDataMdl.ID_PerfilDestino = Constantes.Perfil.PRUT;
+            return dicDatos;
+        }
 
-            afdDataMdl.ID_AreaUT = (int)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;            
-            string oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
 
-            return RedirectToAction("BandejaEntrada", "Solicitud");
+        [HttpPost]
+        public IActionResult PVasignar(FrmRespAsignarVM respAsignar)
+        {                        
+            Dictionary<string, object> dicDatos = dicGlobalResponder(respAsignar.nodclave, Constantes.RespuestaEstado.PROPUESTA, respAsignar.resRespuesta, 
+                Constantes.Respuesta.ASIGNAR,  respAsignar.solfecsolticks, PersistenciaConst.OPERACION.INSERTAR,
+                ProcesoGralDao.PARAM_RESP_ASIGNAR);
+
+            respAsignar.resAsignar.araclave = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+            dicDatos.Add(ProcesoGralDao.PARAM_RESP_TURNAR, respAsignar.resAsignar);
+
+            long oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
+            return Content("Operacion = " + oResultado);
         }
 
         /*********************************************
@@ -149,6 +125,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVturnar()
         {
             ViewBag.controlName = "Respuesta";
+            ViewBag.perClave = Constantes.Perfil.UA;
+            ViewBag.rtpClave = Constantes.Respuesta.TURNAR;
 
             _appLog.opdesc = "PVturnar ";
             _appLog.data = "";
@@ -156,79 +134,52 @@ namespace SFP.SIT.WEB.Controllers
         }
 
         [HttpPost]
-        //////[ValidateInput(false)]
-        public IActionResult PVturnar(Int64 turnarFolio, Int64 turnarClaNodo, string turnarAreas, int turnarTipoArista, IFormFile ArchivoTurnar)
+        public IActionResult PVturnar(Int64 turnarFolio, Int64 turnarClaNodo, string turnarAreas, int turnarTipoArista, IFormFile ArchivoTurnar, long turnarfecsolticks)
         {
             AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
             List<Tuple<int, string, int>> lstTurnar = JsonTransform.ValidarAreas(turnarAreas);
+            long oResultado = 0;
 
             if (lstTurnar != null)
             {
-                ///VERIFICAR::: qeu tanto se necestia...
-                afdDataMdl = NodoActualIni(turnarFolio, turnarTipoArista, turnarClaNodo);
-
-
-                SIT_RESP_RESPUESTA resRespuesta = new SIT_RESP_RESPUESTA();
-                resRespuesta.repedofec = DateTime.Now;
-                resRespuesta.rtpclave = Constantes.Respuesta.TURNAR;
-                resRespuesta.repclave = 0;
-
-
-                SIT_RED_NODORESP nodoResp = new SIT_RED_NODORESP();
-                nodoResp.nodclave = afdDataMdl.AFDnodoActMdl.nodclave;
-                nodoResp.sdoclave =  Constantes.RespuestaEstado.PROPUESTA;
-
-
-                Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-                // DATOS DE LA RESPUESTA..
-                dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, resRespuesta);
-                dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, nodoResp);
-
                 DocContenidoMdl DocResp = null;
                 if (ArchivoTurnar != null)
                 {
                     DocResp = DocumentoConvertir(ArchivoTurnar, "S/N");
                 }
-                dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, DocResp);
 
-                //// DATOS GENERALES A AGRUPAR....
-                dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, afdDataMdl.AFDnodoActMdl.nodclave);
-                dicDatos.Add(ProcesoGralDao.PARAM_FECHA, afdDataMdl.solicitud.solfecsol);
-                dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-                dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, 1);
-                dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-                dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_TURNAR);
+                SIT_RESP_RESPUESTA resRespuesta = new SIT_RESP_RESPUESTA();
+                resRespuesta.repoficio = "S/N";
+
+                Dictionary<string, object> dicDatos = dicGlobalResponder(turnarClaNodo, Constantes.RespuestaEstado.PROPUESTA, resRespuesta,
+                    Constantes.Respuesta.TURNAR, turnarfecsolticks, PersistenciaConst.OPERACION.INSERTAR, ProcesoGralDao.PARAM_RESP_TURNAR);
+
+                // DATOS DE LA RESPUESTA..
+                dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, DocResp);
                 dicDatos.Add(ProcesoGralDao.PARAM_LISTA_TURNAR, lstTurnar);
 
-
-                ////afdDataMdl.lstPersonasTurnar = lstTurnar;
-                ////if (afdDataMdl.lstPersonasTurnar.Count > 1)
-
-
-                if (lstTurnar.Count > 1)
-                    afdDataMdl.AFDseguimientoMdl.segmultiple = 1;
-
-
-                afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-                afdDataMdl.dicAuxRespuesta = dicDatos;
-                ///  afdDataMdl.usrClaveDestino = respAsignar.resAsignar.usrclave; cambio por cada turno
-                afdDataMdl.usrClaveOrigen = _iUsuario;
-                afdDataMdl.usrClaveAusencia = _iUsuario;  // Aqui cambiar de acuerdo a la página WEB
-                afdDataMdl.ID_PerfilDestino = Constantes.Perfil.UA;
-                
-                afdDataMdl.ID_AreaUT = (int)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
-                object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
-
+                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);                
             }
-
-            _appLog.opdesc = "PVturnar - AfdServicio.OPE_TURNAR ";
-            _appLog.data = afdDataMdl.Datos();
-
-            return RedirectToAction("BandejaEntrada", "Solicitud");
+            return Content("Operacion = " + oResultado);
         }
 
         /*********************************************
-               RESPUESTA PUBLICA
+               RESPUESTA MULTIPLE
+        ******************************************** */
+        [HttpGet]
+        public IActionResult PVmultiple(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
+        {
+            List<NodoRespuestaMdl> lstRespuesta = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespuestaNodo), nodclave) as List<NodoRespuestaMdl>;
+            ViewBag.GridResp = JsonTransform.convertJson(lstRespuesta);
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.RESPUESTA_MULTIPLE;
+
+            return View();
+        }
+        
+
+        /*********************************************
+                RESPUESTA PUBLICA
         ******************************************** */
         [HttpGet]
         // aqui mne falta el nodo....
@@ -240,6 +191,9 @@ namespace SFP.SIT.WEB.Controllers
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.PUBLICA;
+
 
             FrmRespPublicaVM frmResponder = new FrmRespPublicaVM();
             frmResponder.solclave = solclave;
@@ -319,25 +273,25 @@ namespace SFP.SIT.WEB.Controllers
 
             long oResultado = 0;
 
-            if (publicaVM.avanzar == 0)
-            {
+            ////if (publicaVM.avanzar == 0)
+            ////{
                 // SOLO GUARDAMOS EL ITEM
                 oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
-            }
-            else
-            {
-                // AQUI OBTENEMOS LOS DATOS DEL NODO
-                AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
-                afdDataMdl = NodoActualIni(publicaVM.solclave, (int)publicaVM.respRespuesta.rtpclave, publicaVM.nodclave);
-                afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-                afdDataMdl.oRespRespuesta = publicaVM.respRespuesta;
-                afdDataMdl.ID_AreaDestino = afdDataMdl.ID_AreaUT;
-                afdDataMdl.usrClaveDestino = (int)afdDataMdl.AFDseguimientoMdl.usrclave;
-                dicDatos.Add(RespuestaSer.PARAM_AFDEDODATADML, afdDataMdl);
+            //}
+            //else
+            //{
+            //    // AQUI OBTENEMOS LOS DATOS DEL NODO
+            //    AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
+            //    afdDataMdl = NodoActualIni(publicaVM.solclave, (int)publicaVM.respRespuesta.rtpclave, publicaVM.nodclave);
+            //    afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            //    afdDataMdl.oRespRespuesta = publicaVM.respRespuesta;
+            //    afdDataMdl.ID_AreaDestino = afdDataMdl.ID_AreaUT;
+            //    afdDataMdl.usrClaveDestino = (int)afdDataMdl.AFDseguimientoMdl.usrclave;
+            //    dicDatos.Add(RespuestaSer.PARAM_AFDEDODATADML, afdDataMdl);
 
-                //GUARDADMOS LA RESPUESTA Y AVANZAMOS
-                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<RespuestaSer>(nameof(RespuestaSer.GrabarRespAvanzar), dicDatos);
-            }
+            //    //GUARDADMOS LA RESPUESTA Y AVANZAMOS
+            //    oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<RespuestaSer>(nameof(RespuestaSer.GrabarRespAvanzar), dicDatos);
+            //}
             return RedirectToAction("BandejaEntrada", "Solicitud");
         }
 
@@ -433,6 +387,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVreservada(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             FrmRespReservadaVM frmReservada = ObtenerDatosReservada(solclave, proclave, nodclave, araclave, repclave, solFecTics, Oper);
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INFO_RESERVADA;
 
             _appLog.opdesc = "PVreservada";
             _appLog.data = "";
@@ -544,6 +500,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVreservadaParcial(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             FrmRespReservadaVM frmReservada = ObtenerDatosReservada(solclave, proclave, nodclave, araclave, repclave, solFecTics, Oper);
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INFO_CONFIDENCIAL_PARCIAL;
 
             _appLog.opdesc = "PVreservada";
             _appLog.data = "";
@@ -557,6 +515,9 @@ namespace SFP.SIT.WEB.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult PVresponder(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
+            ViewBag.perClave = Constantes.Perfil.INAI;
+            ViewBag.rtpClave = Constantes.Respuesta.RESPONDER;
+
             FrmRespFinal frmResponder = new FrmRespFinal();
             frmResponder.solclave = solclave;
             frmResponder.proclave = proclave;
@@ -597,42 +558,21 @@ namespace SFP.SIT.WEB.Controllers
         
         [HttpPost]
         public IActionResult PVresponder(FrmRespFinal frmRespINAI, IFormFile docResolucion)
-        {
+        {            
             if (frmRespINAI.resRespuesta.repoficio.Trim() == "")
                 frmRespINAI.resRespuesta.repoficio = "S/N";
 
             frmRespINAI.docDocumento = DocumentoConvertir(docResolucion, frmRespINAI.resRespuesta.repoficio);
-            frmRespINAI.resRespuesta.rtpclave = frmRespINAI.rtpclaveAux;
-            frmRespINAI.resRespuesta.repedofec = DateTime.Now;
 
-            SIT_RED_NODORESP oNodoResp = new SIT_RED_NODORESP();
-            oNodoResp.nodclave = frmRespINAI.nodclave;
-            oNodoResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
-            
-            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-            // DATOS DE LA RESPUESTA..
-            dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_GENERAL);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, frmRespINAI.resRespuesta);
+            Dictionary<string, object> dicDatos = dicGlobalResponder(frmRespINAI.nodclave, Constantes.RespuestaEstado.PROPUESTA, frmRespINAI.resRespuesta,
+                frmRespINAI.rtpclaveAux, frmRespINAI.solfecsolticks, frmRespINAI.Oper, ProcesoGralDao.PARAM_RESP_GENERAL);
+
             dicDatos.Add(ProcesoGralDao.PARAM_RESP_GENERAL, frmRespINAI.resRespGral);
             dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, frmRespINAI.docDocumento);
-            dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);
 
-            // DATOS GENERALES A AGRUPAR....
-            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, frmRespINAI.nodclave);
-            dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(frmRespINAI.solfecsolticks));
-            dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-            dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, frmRespINAI.Oper);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-
-            AfdEdoDataMdl afdDataMdl = NodoActualIni(frmRespINAI.solclave, Constantes.Respuesta.RESPONDER, frmRespINAI.nodclave);
-            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-            afdDataMdl.dicAuxRespuesta = dicDatos;
-            afdDataMdl.usrClaveDestino = _iUsuario;
-            afdDataMdl.usrClaveOrigen = _iUsuario;
-            afdDataMdl.usrClaveAusencia = _iUsuario;  // Aqui cambiar de acuerdo a la página WEB
-            afdDataMdl.ID_PerfilDestino = Constantes.Perfil.INAI;
-            string oResultado =  _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
-            return RedirectToAction("BandejaEntrada", "Solicitud");
+            long oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
+           
+            return Content("Operacion = " + oResultado);
         }
 
         /*********************************************
@@ -643,6 +583,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVconfidencial(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             ViewBag.controlName = "Respuesta";
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INFO_CONFIDENCIAL;
 
             // SERA NECESARIO BUSCAR
             FrmRespConfidencialVM frmConfidencial = new FrmRespConfidencialVM();
@@ -825,6 +767,8 @@ namespace SFP.SIT.WEB.Controllers
         [HttpGet]
         public IActionResult PVconfidencialParcial(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INFO_CONFIDENCIAL_PARCIAL;
 
             return PVconfidencial(solclave, proclave, nodclave, araclave, repclave, solFecTics, Oper);
 
@@ -850,6 +794,9 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVinexistencia(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             ViewBag.controlName = "Respuesta";
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INEXISTENCIA_EN_AREA;
+
 
             Dictionary<int, String> dicModoEntrega = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_SOL_MODOENTREGA_VISIBLE) as Dictionary<int, String>;
             var selectList = new SelectList(dicModoEntrega, "Key", "Value");
@@ -1023,6 +970,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVincompetencia(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             FrmRespIncompVM incompVM = new FrmRespIncompVM();
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INCOMPETENCIA_TOTAL;
 
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
@@ -1127,6 +1076,9 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVincompAreaParcial(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             FrmRespIncompVM incompVM = new FrmRespIncompVM();
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INCOMPETENCIA_PARCIAL_AREA;
+
 
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
@@ -1173,6 +1125,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVincompArea(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)
         {
             FrmRespIncompVM incompVM = new FrmRespIncompVM();
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.INCOMPETENCIA_TOTAL_AREA;
 
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
@@ -1222,56 +1176,13 @@ namespace SFP.SIT.WEB.Controllers
                 incompVM.respDoc = DocumentoConvertir(docResolucion, incompVM.respRespuesta.repoficio);
             }
 
-            // OBTENER ESTE DATO DE LA FORMA DE CAPTURA.....
-            // OBTENER ESTE DATO DE LA FORMA DE CAPTURA.....
-            // OBTENER ESTE DATO DE LA FORMA DE CAPTURA.....
-            // OBTENER ESTE DATO DE LA FORMA DE CAPTURA.....
-            // OBTENER ESTE DATO DE LA FORMA DE CAPTURA.....
-            ////incompVM.respRespuesta.rtpclave = Constantes.Respuesta.INCOMPETENCIA_TOTAL;
-            incompVM.respRespuesta.repedofec = DateTime.Now;
+            Dictionary<string, object> dicDatos = dicGlobalResponder(incompVM.nodclave, Constantes.RespuestaEstado.PROPUESTA, incompVM.respRespuesta,
+                (int) incompVM.respRespuesta.rtpclave, incompVM.solfecsolticks, incompVM.Oper, ProcesoGralDao.PARAM_RESP_GENERAL);
 
-            SIT_RED_NODORESP oNodoResp = new SIT_RED_NODORESP();
-            oNodoResp.nodclave = incompVM.nodclave;
-            oNodoResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
-
-            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, incompVM.nodclave);
-            dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(incompVM.solfecsol));
-
-            // DATOS DE LA RESPUESTA..
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, incompVM.respRespuesta);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_GENERAL, incompVM.respGeneral);
-            dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);
-            dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-            dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, incompVM.Oper);
             dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, incompVM.respDoc);
-            dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_GENERAL);
-            dicDatos.Add(ProcesoGralDao.PARAM_RUTA_ARCHIVOS, _app.ContentRootPath + "\\" + ConstantesWeb.Carpetas.ARCHIVO);
-
-            long oResultado = 0;
-
-            if (incompVM.avanzar == 0)
-            {
-                // SOLO GUARDAMOS EL ITEM
-                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
-            }
-            else
-            {
-                // AQUI OBTENEMOS LOS DATOS DEL NODO
-                AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
-                afdDataMdl = NodoActualIni(incompVM.solclave, (int)incompVM.respRespuesta.rtpclave, incompVM.nodclave);
-                afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-                afdDataMdl.oRespRespuesta = incompVM.respRespuesta;
-                afdDataMdl.ID_AreaDestino = afdDataMdl.ID_AreaUT;
-                afdDataMdl.usrClaveDestino = (int)afdDataMdl.AFDseguimientoMdl.usrclave;
-
-                dicDatos.Add(RespuestaSer.PARAM_AFDEDODATADML, afdDataMdl);
-
-                //GUARDADMOS LA RESPUESTA Y AVANZAMOS
-                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<RespuestaSer>(nameof(RespuestaSer.GrabarRespAvanzar), dicDatos);
-            }
-            return RedirectToAction("BandejaEntrada", "Solicitud");
+            dicDatos.Add(ProcesoGralDao.PARAM_RESP_GENERAL, incompVM.respGeneral);
+            long oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
+            return Content("Operacion = " + oResultado);
         }
 
         /*********************************************
@@ -1313,6 +1224,7 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVincompParcial(FrmRespIncompVM incompVM, IFormFile docResolucion)
         {
             DocContenidoMdl docContenidoMdl = null;
+            ViewBag.perClave = Constantes.Perfil.PRUT;
 
             //////if (docResolucion != null)
             //////{
@@ -1359,9 +1271,11 @@ namespace SFP.SIT.WEB.Controllers
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             ViewBag.controlName = "Respuesta";
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.AMPLIACION_PLAZO;
+            
             FrmRespAmpPlazoVM ampPlazoVM = new FrmRespAmpPlazoVM();
-
-
+            
             ampPlazoVM.solclave = solclave;
             ampPlazoVM.proclave = proclave;
             ampPlazoVM.nodclave = nodclave;
@@ -1459,6 +1373,8 @@ namespace SFP.SIT.WEB.Controllers
         public IActionResult PVria(Int64 solclave, int proclave, Int64 nodclave, int araclave, Int64 repclave, Int64 solFecTics, int Oper)            
         {
             FrmRespAclaracionVM aclaracionVM = new FrmRespAclaracionVM();
+            ViewBag.perClave = Constantes.Perfil.PRUT;
+            ViewBag.rtpClave = Constantes.Respuesta.RIA_AREA;
 
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
             //FALKT ACOLOCAR EN TODS QUIN ES EL USUARIO ACTUAL........ DE LA RESPUESTA
@@ -1473,6 +1389,8 @@ namespace SFP.SIT.WEB.Controllers
 
             aclaracionVM.respRespuesta = new SIT_RESP_RESPUESTA();
             aclaracionVM.respGeneral = new SIT_RESP_GRAL();
+
+
             if (repclave > 0)
             {
                 aclaracionVM.respRespuesta.repclave = repclave;
@@ -1490,6 +1408,7 @@ namespace SFP.SIT.WEB.Controllers
                     aclaracionVM.respDoc.docclave = docAux.docclave;
                     aclaracionVM.respDoc.docnombre = docAux.docnombre;
                 }
+                aclaracionVM.araclave = Constantes.Respuesta.RIA_AREA;
             }            
             else
             {                
@@ -1507,61 +1426,21 @@ namespace SFP.SIT.WEB.Controllers
             {
                 aclaracionVM.respDoc = DocumentoConvertir(docResolucion, aclaracionVM.respRespuesta.repoficio);
             }
-            
-            aclaracionVM.respRespuesta.rtpclave = Constantes.Respuesta.ACLARACION;
-            aclaracionVM.respRespuesta.repedofec = DateTime.Now;
-            aclaracionVM.respRespuesta.megclave = 0;
-            aclaracionVM.respGeneral.repclave = aclaracionVM.respRespuesta.repclave;
+            aclaracionVM.respRespuesta.rtpclave = Constantes.Respuesta.RIA_AREA;
+            Dictionary<string, object> dicDatos = dicGlobalResponder(aclaracionVM.nodclave, Constantes.RespuestaEstado.PROPUESTA, aclaracionVM.respRespuesta,
+                (int)aclaracionVM.respRespuesta.rtpclave, aclaracionVM.solfecsolticks, aclaracionVM.Oper, ProcesoGralDao.PARAM_RESP_GENERAL);
 
-            SIT_RED_NODORESP oNodoResp = new SIT_RED_NODORESP();
-            oNodoResp.nodclave = aclaracionVM.nodclave;
-            oNodoResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
-
-            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, aclaracionVM.nodclave);
-            dicDatos.Add(ProcesoGralDao.PARAM_FECHA, new DateTime(aclaracionVM.solfecsol));
-
-            // DATOS DE LA RESPUESTA..
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_RESPUESTA, aclaracionVM.respRespuesta);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_GENERAL, aclaracionVM.respGeneral);
-            dicDatos.Add(ProcesoGralDao.PARAM_RED_NODORESP, oNodoResp);
-            dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
-            dicDatos.Add(ProcesoGralDao.PARAM_RESP_ESTADO, Constantes.RespuestaEstado.PROPUESTA);
-            dicDatos.Add(ProcesoGralDao.PARAM_OPERACION, aclaracionVM.Oper);
             dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, aclaracionVM.respDoc);
-            dicDatos.Add(ProcesoGralDao.PARAM_ENTIDAD, ProcesoGralDao.PARAM_RESP_GENERAL);
-            dicDatos.Add(ProcesoGralDao.PARAM_RUTA_ARCHIVOS, _app.ContentRootPath + "\\" + ConstantesWeb.Carpetas.ARCHIVO);
-
-            long oResultado = 0;
-
-            if (aclaracionVM.avanzar == 0)
-            {
-                // SOLO GUARDAMOS EL ITEM
-                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
-            }
-            else
-            {
-                // AQUI OBTENEMOS LOS DATOS DEL NODO
-                AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
-                afdDataMdl = NodoActualIni(aclaracionVM.solclave, (int)aclaracionVM.respRespuesta.rtpclave, aclaracionVM.nodclave);
-                afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
-                afdDataMdl.oRespRespuesta = aclaracionVM.respRespuesta;
-                afdDataMdl.ID_AreaDestino = afdDataMdl.ID_AreaUT;
-                afdDataMdl.usrClaveDestino = (int)afdDataMdl.AFDseguimientoMdl.usrclave;
-
-                dicDatos.Add(RespuestaSer.PARAM_AFDEDODATADML, afdDataMdl);
-
-                //GUARDADMOS LA RESPUESTA Y AVANZAMOS
-                oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<RespuestaSer>(nameof(RespuestaSer.GrabarRespAvanzar), dicDatos);
-            }
-            return RedirectToAction("BandejaEntrada", "Solicitud");
+            dicDatos.Add(ProcesoGralDao.PARAM_RESP_GENERAL, aclaracionVM.respGeneral);
+            long oResultado = (long)_sitDmlDbSer.operEjecutarTransaccion<ProcesoGralDao>(nameof(ProcesoGralDao.AdmRegistro), dicDatos);
+            return Content("Operacion = " + oResultado);
         }
 
-       
+
         /* ********************************************
                     D O C U M E N T O  S       
         ******************************************** */
-                [HttpGet]
+        [HttpGet]
         public IActionResult Documento(Int32 id)
         {
             _appLog.opdesc = "Documento";

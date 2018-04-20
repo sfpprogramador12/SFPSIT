@@ -60,11 +60,16 @@
 <iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
 
 
-<script>
+<script>     
     function Inicializar() {
-        ckEditorDefinir(410);
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+                
+        ckEditorDefinir(350);
+
         $('#solclave').val(_solclave);
-        FormatoSugerido();
+        //FormatoSugerido();
 
         $('#btnImprimir').click(function () {
             $('#oficio').val($('#txtCkEditor').val());
@@ -85,21 +90,20 @@
     }
 
     function submit() {
-        _Inicio = true;
+        _Inicio = false;
         $("#solfecsolticks").val(_solfecsolticks);
         $("#respRespuesta_rtpclave").val(@Constantes.Respuesta.INCOMPETENCIA_TOTAL_AREA);
-
 
         $("#btnAccion").hide();
         document.RespIncompAreaForm.submit();
     }
 
-    function Grabar() {
-        $('#avanzar').val(1);
-        if (Validar() === true) {
-            submit();
-        }
-    }
+    ////function Grabar() {
+    ////    $('#avanzar').val(1);
+    ////    if (Validar() === true) {
+    ////        submit();
+    ////    }
+    ////}
 
     function GrabarIFrame() {
         $('#avanzar').val(0);

@@ -7,7 +7,7 @@
     FORMA PARA TURNAR
     --------------------------------------------
 *@
-<div id="divResponder" >
+<div id="divResponder">
     <form asp-controller="Respuesta" asp-action="PVturnar" method="post" id="TurnarForm" name="TurnarForm" enctype="multipart/form-data">
         <input type="hidden" id="turnarFolio" name="turnarFolio" />
         <input type="hidden" id="turnarAreas" name="turnarAreas" />
@@ -29,61 +29,63 @@
         </div>
 
     </form>
-
     <div id="divGridTurnar" style="float:left; margin: 5px 5px 0px 5px; width: 100%; height: 50vh;"></div>
 </div>
+<iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
+
+<script>
+    var _instruccion;
+
+    function Inicializar() {
+        InicializarTurnar("55vh", "960px", "410px");
+        _Inicio = true;
+        _perclave = @ViewBag.perClave;
+        _rtpClave = @ViewBag.rtpClave;
+
+    }
+
+    function submit() {
+        _Inicio = false;
+        ////$("#btnAccion").hide();
+        ////$("#solclave").val(_solclave);
+        ////$("#proclave").val(_proclave);
+        ////$("#nodclave").val(_nodclave);
+        ////$("#araclave").val(_araclave);
+        ////$("#solfecsolticks").val(_solfecsolticks);
 
 
-    <script>
-        var _instruccion;
+        $('#turnarFolio').val(_solclave);
+        $('#turnarAreas').val(JSON.stringify(w2ui.gridTurnar.records));
+        $('#turnarClaNodo').val(_nodclave);
+        $('#turnarTipoArista').val($('#lstAccion').val());
+        $("#turnarfecsolticks").val(_solfecsolticks);
+        $("#turnarPrc").val(_proclave);
+        
+        document.TurnarForm.submit();
+    }
 
-        function Inicializar() {
-            InicializarTurnar("55vh", "960px", "410px");            
+    ////function Grabar() {
+    ////    if (Validar() === true) {
+    ////        $('#avanzar').val(1);
+    ////        submit();
+    ////    }
+    ////}
+
+    function GrabarIFrame() {
+        if (Validar() === true) {
+            $('#avanzar').val(0);
+            var formaActual = document.TurnarForm;
+            formaActual.target = "iframeAux";
+            submit();
+        }
+    }
+
+    function Validar() {
+        if (w2ui.gridTurnar.total === 0) {
+            w2alert("¡Es necesario que seleccione una área a turnar!");
+            return false;
         }
 
-        function submit() {
-            _Inicio = true;
-            $("#btnAccion").hide();
-            $("#solclave").val(_solclave);
-            $("#proclave").val(_proclave);
-            $("#nodclave").val(_nodclave);
-            $("#araclave").val(_araclave);
-            $("#solfecsolticks").val(_solfecsolticks);
-
-
-            $('#turnarFolio').val(_solclave);
-            $('#turnarAreas').val(JSON.stringify(w2ui.gridTurnar.records));
-            $('#turnarClaNodo').val(_nodclave);
-            $('#turnarTipoArista').val($('#lstAccion').val());
-
-            document.TurnarForm.submit();
-        }
-
-        function Grabar() {
-            if (Validar() === true) {
-                $('#avanzar').val(1);
-                submit();
-            }
-        }
-
-        function GrabarIFrame() {
-            if (Validar() === true) {
-                $('#avanzar').val(0);
-                var formaActual = document.PublicaForm;
-                formaActual.target = "iframeAux";
-                submit();
-            }
-        }
-
-        function Validar()
-        { 
-            if (w2ui.gridTurnar.total === 0) 
-            { 
-                w2alert("¡Es necesario que seleccione una área a turnar!");
-                return false;
-            }
-
-            return true;
-        }
-
-    </script>
+        return true;
+    }
+</script>
