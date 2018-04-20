@@ -74,17 +74,17 @@ namespace SFP.SIT.SERV.Dao.TAB
             Dictionary<string, object> dicParam = (Dictionary<string, object>)oDatos;
 
             String sQuery = " WITH datos_sol AS" +
-                "( SELECT sol.solclave,  KA_SIGLA, tsol.sotdescripcion " +
+                "( SELECT sol.solclave, tsol.sotdescripcion " +
                 " FROM SIT_SOL_SOLICITUD sol, SIT_red_nodo nodo, SIT_adm_areahist area, SIT_SOL_SOLICITUDTIPO tsol " +
                 " WHERE sol.solclave = nodo.solclave " +
-                " and nodo.ka_claarea not in  " + dicParam[PARAM_NO_AREAS] +
-                " AND nodo.ka_claarea = area.ka_claarea and tsol.sotclave = sol.sotclave " +
+                " and nodo.araclave not in  " + dicParam[PARAM_NO_AREAS] +
+                " AND nodo.araclave = area.araclave and tsol.sotclave = sol.sotclave " +
                 " AND sol.solfecsol between to_date(:P0, 'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy') " +
-                " GROUP BY sol.solclave, ka_descripcion, KA_SIGLA, sotdescripcion " +
+                " GROUP BY sol.solclave, sotdescripcion " +
                 " ORDER BY tsol.sotdescripcion, sol.solclave ) " +
-                " SELECT  KA_SIGLA, sotdescripcion, count(*) from datos_sol  " +
-                " GROUP BY KA_SIGLA,sotdescripcion" +
-                " ORDER BY 2,3 DESC ";
+                " SELECT sotdescripcion, count(*) from datos_sol  " +
+                " GROUP BY sotdescripcion";
+                //" ORDER BY 2,3 DESC ";
 
             return convertirHashMap(ConsultaDML(sQuery, dicParam[COL_solfecsol_FECINI], dicParam[COL_solfecsol_FECFIN]),
                 Convert.ToInt32(dicParam[PARAM_ORDEN]));
@@ -98,8 +98,8 @@ namespace SFP.SIT.SERV.Dao.TAB
                 " ( SELECT sol.solclave, usrnombre, tsol.sotdescripcion " +
                 " FROM SIT_SOL_SOLICITUD sol, SIT_red_nodo nodo, SIT_red_arista arista, SIT_adm_usuario usu, SIT_SOL_SOLICITUDTIPO tsol  " +
                 " WHERE nodo.solclave = sol.solclave AND arista.solclave = sol.solclave AND arista.nodorigen = nodo.nodclave  " +
-                " AND arista.usrclave = usu.usrclave and tsol.sotclave = sol.sotclave  " +
-                " AND nodo.ka_claarea not in  " + dicParam[PARAM_NO_AREAS] +
+                " AND tsol.sotclave = sol.sotclave  " +
+                " AND nodo.ARACLAVE not in  " + dicParam[PARAM_NO_AREAS] +
                 " AND sol.solfecsol between to_date(:P0, 'dd/mm/yyyy') and to_date(:P1, 'dd/mm/yyyy')  " +
                 " AND arista.arihito = 1 " +
                 " GROUP BY sol.solclave, usrnombre, tsol.sotdescripcion " +
@@ -117,18 +117,18 @@ namespace SFP.SIT.SERV.Dao.TAB
             Dictionary<string, object> dicParam = (Dictionary<string, object>)oDatos;
 
             //////////// ARREGLAR
-            ////////////String sQuery  = " SELECT rtpdescripcion, tsol.sotdescripcion, count(*)  " +
-            ////////////        " FROM SIT_SOL_SOLICITUD sol, SIT_sol_seguimiento seg, SIT_SOL_SOLICITUDTIPO tsol, SIT_RESP_TIPO tiparis " +
-            ////////////        " WHERE seg.solclave = sol.solclave AND seg.prcclave = sol.prcclave " +
-            ////////////        " AND tsol.sotclave = sol.sotclave  AND seg.rtpclave = tiparis.rtpclave " +
-            ////////////        " AND sol.solfecsol between to_date(:P0,'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy')  " +
-            ////////////        " AND seg.rtpclave <> " + AfdConstantes.RESPUESTA.ERROR +
-            ////////////        " GROUP BY rtpdescripcion, tsol.sotdescripcion  " +
-            ////////////        " ORDER BY  2,3 DESC ";
+            String sQuery  = " SELECT rtpdescripcion, tsol.sotdescripcion, count(*)  " +
+            " FROM SIT_SOL_SOLICITUD sol, SIT_sol_seguimiento seg, SIT_SOL_SOLICITUDTIPO tsol, SIT_RESP_TIPO tiparis " +
+            " WHERE seg.solclave = sol.solclave AND seg.prcclave = sol.prcclave " +
+            " AND tsol.sotclave = sol.sotclave " +
+            " AND sol.solfecsol between to_date(:P0,'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy')  " +
+            //" AND seg.rtpclave <> " + SFP.SIT.AFD.Core.AfdConstantes.RESPUESTA.ERROR +
+            " GROUP BY rtpdescripcion, tsol.sotdescripcion  " +
+            " ORDER BY  2,3 DESC ";
 
-            ////////////return convertirHashMap(ConsultaDML(sQuery, dicParam[COL_solfecsol_FECINI], dicParam[COL_solfecsol_FECFIN]), Convert.ToInt32(dicParam[PARAM_ORDEN]));
+            return convertirHashMap(ConsultaDML(sQuery, dicParam[COL_solfecsol_FECINI], dicParam[COL_solfecsol_FECFIN]), Convert.ToInt32(dicParam[PARAM_ORDEN]));
 
-            return null;
+            //return null;
         }
 
         public Object dmlSelectTableroSolicitudEstado(object oDatos)
@@ -151,15 +151,15 @@ namespace SFP.SIT.SERV.Dao.TAB
         {
             Dictionary<string, object> dicParam = (Dictionary<string, object>)oDatos;
 
-            String sQuery = " SELECT area.ka_descripcion, usu.usrnombre, count(*)  "
+            String sQuery = " SELECT area.ARHDESCRIPCION, usu.usrnombre, count(*)  "
                 + "  FROM SIT_SOL_SOLICITUD sol, SIT_red_arista arista, SIT_adm_usuario usu, SIT_red_nodo nodo, SIT_adm_areahist area "
                 + " where nodo.solclave = sol.solclave"
-                + " and usu.usrclave = arista.usrclave AND nodo.ka_claarea = area.ka_claarea"
+                + " AND nodo.araclave = area.araclave"
                 + " and nodo.nodclave = arista.nodorigen and nodo.solclave = arista.solclave"
-                + " AND nodo.ka_claarea not in  " + dicParam[PARAM_NO_AREAS]
+                + " AND nodo.ARACLAVE not in  " + dicParam[PARAM_NO_AREAS]
                 + " AND sol.solfecsol between to_date(:P0,'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy') "
                 + " AND arista.arihito = 1 "
-                + " GROUP BY  area.ka_descripcion, usu.usrnombre"
+                + " GROUP BY  area.ARHdescripcion, usu.usrnombre"
                 + " ORDER BY 2,3 DESC ";
 
             return convertirHashMap(ConsultaDML(sQuery, dicParam[COL_solfecsol_FECINI], dicParam[COL_solfecsol_FECFIN]), Convert.ToInt32(dicParam[PARAM_ORDEN]));
@@ -173,12 +173,12 @@ namespace SFP.SIT.SERV.Dao.TAB
                 + " FROM SIT_SOL_SOLICITUD sol, SIT_red_nodo nodo, SIT_adm_areahist area, SIT_red_arista arista,  SIT_RESP_TIPO tipoAri "
                 + " where nodo.solclave = sol.solclave "
                 + " and arista.solclave = nodo.solclave and arista.nodorigen= nodo.nodclave "
-                + " AND nodo.ka_claarea = area.ka_claarea  "
+                + " AND nodo.ka_claarea = area.ARACLAVE  "
                 + " AND tipoAri.rtpclave =  arista.rtpclave "
-                + " AND nodo.ka_claarea not in  " + dicParam[PARAM_NO_AREAS]
+                + " AND nodo.ARACLAVE not in  " + dicParam[PARAM_NO_AREAS]
                 + " AND sol.solfecsol between to_date(:P0,'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy')  "
                 + " AND arista.arihito = 1 "
-                + " GROUP BY  area.ka_descripcion, rtpdescripcion "
+                + " GROUP BY  area.ARHDESCRIPCION, rtpdescripcion "
                 + " ORDER BY 1,2 DESC ";
 
             return convertirHashMap(ConsultaDML(sQuery, dicParam[COL_solfecsol_FECINI], dicParam[COL_solfecsol_FECFIN]), Convert.ToInt32(dicParam[PARAM_ORDEN]));
@@ -213,8 +213,8 @@ namespace SFP.SIT.SERV.Dao.TAB
                 + " and arista.solclave = sol.solclave     "
                 + " and arista.nodorigen = nodo.nodclave "
                 + " and tipoAri.rtpclave = arista.rtpclave "
-                + " and usu.usrclave = arista.usrclave "
-                + " AND nodo.ka_claarea > 0 and nodo.ka_claarea <> 7 and arista.rtpclave <> 30 "
+                //+ " and usu.usrclave = arista.usrclave "
+                + " AND nodo.araclave > 0 and nodo.araclave <> 7 and arista.rtpclave <> 30 "
                 + " AND sol.solfecsol between to_date(:P0,'dd/mm/yyyy') and to_date(:P1,'dd/mm/yyyy')   "
                 + " AND arista.arihito = 1 "
                 + " group by usu.usrnombre, rtpdescripcion "
@@ -304,7 +304,16 @@ namespace SFP.SIT.SERV.Dao.TAB
                 if (hmMatriz.ContainsKey(drDato[idxCampo1].ToString()) == false)
                 {
                     hmMatrizAux = new Dictionary<string, int>();
-                    hmMatrizAux.Add(drDato[idxCampo2].ToString(), Convert.ToInt32(drDato[2])); // indice en 2 o 3'
+                    try
+                    {
+                        hmMatrizAux.Add(drDato[idxCampo2].ToString(), Convert.ToInt32(drDato[1])); // indice en 2 o 3'
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        hmMatrizAux.Add(drDato[idxCampo2].ToString(), Convert.ToInt32(drDato[2])); // indice en 2 o 3'
+                    }
+                    
                     hmMatriz.Add(drDato[idxCampo1].ToString(), hmMatrizAux);
                 }
                 else

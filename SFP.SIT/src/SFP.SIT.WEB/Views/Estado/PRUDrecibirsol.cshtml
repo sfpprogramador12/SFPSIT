@@ -20,57 +20,50 @@
     </div>
 </div>
 
-<div id="layoutTopMain" style="height:99%; "> </div>
+<div id="layoutTopMain" style="height:99%;"> </div>
 
 @section Scripts
     {
-        <script>
-        var _PaginaActual;
+    <script>
+    var _PaginaActual;
 
-        _ListaAccion = @Html.Raw(ViewBag.ListaAccion);
+    _ListaAccion = @Html.Raw(ViewBag.ListaAccion);
 
-        $(function () {
-            w2ui['layoutMain'].content('main',
+    $(function () {
+        w2ui['layoutMain'].content('main',
+            {
+                render: function ()
                 {
-                    render: function ()
-                    {
-                        $(this.box).append($('#layoutTopMain').detach());
-                        $('#layoutTopMain').w2layout(GetLayoutTopMain("130px", "70%"));
+                    $(this.box).append($('#layoutTopMain').detach());
+                    $('#layoutTopMain').w2layout(GetLayoutTopMain("130px", "70%"));
 
-                        @*--PANEL TOP -- *@
-                        w2ui['layoutTopMain'].content('top', {
-                            render: function () {
-                                $(this.box).append($('#divMain').detach());
-                                SelectAddElemClearLimite("lstAccion", _ListaAccion, _solfecsol, _FechaAct, 0);
-                            }
-                        });
+                    @*--PANEL TOP -- *@
+                    w2ui['layoutTopMain'].content('top', {
+                        render: function () {
+                            $(this.box).append($('#divMain').detach());
+                            SelectAddElemClearLimite("lstAccion", _ListaAccion, _solfecsol, _FechaAct, 0);
+                        }
+                    });
 
-                        $('#lstAccion').change(function () {
-                            if ($('#lstAccion').val() != null) {
-                                _PaginaActual = _UrlRespuesta + AristaClick(_ListaAccion, parseInt($('#lstAccion').val())) + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave;
+                    $('#lstAccion').change(function () {
+                        if ($('#lstAccion').val() != null) {
+                            _PaginaActual = _UrlRespuesta + AristaClick(_ListaAccion, parseInt($('#lstAccion').val())) + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave;
 
-                                AjaxValidarSesion(_UrlSesionActiva, _UrlInicio);
+                            AjaxValidarSesion(_UrlSesionActiva, _UrlInicio);
 
-                                w2ui['layoutTopMain'].load('main', _PaginaActual, null, function () {
-                                    $("#btnAccion").remove();
-                                    $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ");
-                                    Inicializar();
-                                    $('#btnAccion').click(GrabarIFrame);
-                                    $('#avanzar').val(1);
-                                });
-                            }
-                        });
+                            w2ui['layoutTopMain'].load('main', _PaginaActual, null, function () {
+                                $("#btnAccion").remove();
+                                $('#divMenuAccion').append("<a id='btnAccion' name='btnAccion'> <div class='boton2'><div class='num4'></div></div> </a> ");
+                                Inicializar();
+                                $('#btnAccion').click(Grabar);
+                                $('#avanzar').val(1);
+                            });
+                        }
+                    });
 
-                    }
                 }
-            );
-        });
-
-        function Actualizar(event) {
-            if (_Inicio == false) {
-                Responder();
             }
-        }
-
+        );
+    });
     </script>
 }

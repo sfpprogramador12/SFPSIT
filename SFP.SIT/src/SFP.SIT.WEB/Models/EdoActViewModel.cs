@@ -46,13 +46,10 @@ namespace SFP.SIT.WEB.Models
         
         /* LISTA DE ACCIONES */
         public List<AfdEdoPdoMdl> lstEdoAccion { set; get; }
-        public List<AfdEdoPdoMdl> lstEdoSubAccion { set; get; }
 
         public string listaAccion { set; get; }
-        public string listaSubAccion { set; get; }
-
-        /* CATALOGOS */
-        public String tipoModoEntrega { set; get; }
+    /* CATALOGOS */
+    public String tipoModoEntrega { set; get; }
         
         /* CLASES AUXILIARES */
         public RespNotificarViewModel respNotificarVM { set; get; }

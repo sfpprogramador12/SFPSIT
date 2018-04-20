@@ -107,10 +107,10 @@ namespace SFP.SIT.SERV.Dao.RED
  
  
         /*INICIO*/
-        private DataTable dmlSelectGrid(BasePagMdl baseMdl)
+        public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
             String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + " SELECT AFDCLAVE, AFD_DESCRIPCION, AFD_FECBAJA, AFD_PREFIJO from SIT_RED_AFD "
+                + " SELECT AFDCLAVE, AFDDESCRIPCION, AFDFECBAJA, AFDPREFIJO from SIT_RED_AFD "
                 + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }

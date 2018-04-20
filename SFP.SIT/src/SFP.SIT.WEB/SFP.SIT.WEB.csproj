@@ -15,11 +15,15 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
     <ProjectReference Include="..\..\SFP.SIT.AFD\SFP.SIT.AFD.csproj" />
+    <ProjectReference Include="..\..\SFP.SIT.FLUJO\SFP.SIT.FLUJO.csproj" />
     <ProjectReference Include="..\..\SFP.SIT.SERV\SFP.SIT.SERV.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BundlerMinifier.Core" Version="2.2.306" />
+    <PackageReference Include="ClosedXML" Version="0.91.0" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
@@ -33,6 +37,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Pdfbox" Version="1.1.1" />
     <PackageReference Include="Select.HtmlToPdf" Version="2.4.0.1" />
@@ -56,6 +61,10 @@
 
   <ItemGroup>
     <Folder Include="Logs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
 
 </Project>

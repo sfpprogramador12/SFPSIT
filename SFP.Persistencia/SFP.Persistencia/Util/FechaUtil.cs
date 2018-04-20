@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SFP.Persistencia.Util
 {
-    public static class FechaUtil
+    public class FechaUtil
     {
         public static DateTime Fecha(string dato)
         {

@@ -96,16 +96,10 @@ namespace SFP.SIT.SERV.Dao.SOL
 	 	 }
  
  
-/*INICIO*/             
+/*INICIO*/
+ 
+ 
         public const string PARAM_OMITIR_AREA = "OMITIR_AREA";
-
-        public object dmlUpdMultiple(SIT_SOL_SEGUIMIENTO oDatos)
-        {
-            String sqlQuery = " UPDATE SIT_SOL_SEGUIMIENTO SET segmultiple = 1 WHERE  prcclave = :P0 AND solclave = :P1 ";            
-            return EjecutaDML(sqlQuery, oDatos.prcclave, oDatos.solclave);
-        }
-
-
 
         public DataTable dmlSelectGrid(object oDatos)
         {

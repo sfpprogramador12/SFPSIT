@@ -5,11 +5,3 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Per
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.dll
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.pdb
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.csprojResolveAssemblyReference.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Release\SFP.Persistencia.dll.config
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Release\SFP.Persistencia.dll
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Release\SFP.Persistencia.pdb
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.csprojResolveAssemblyReference.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.csproj.CoreCompileInputs.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.dll
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.pdb
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Release\SFP.Persistencia.csproj.CopyComplete

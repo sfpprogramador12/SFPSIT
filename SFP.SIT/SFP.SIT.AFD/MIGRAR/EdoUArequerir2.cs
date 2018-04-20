@@ -27,7 +27,7 @@ namespace SFP.SIT.AFD.MIGRAR
             _nodoDao.dmlEditar(_afdEdoDataMdl.AFDnodoActMdl);
 
             // BUSCAR EL NODO ANTERIOR DE CT por FOLIO - CAPA - AREA
-            SIT_RED_NODO nodoCT = ExisteNodo(_afdEdoDataMdl.solClave, Constantes.NodoEstado.INDEFINIDO, _afdEdoDataMdl.ID_AreaCT, _afdEdoDataMdl.ID_Capa);
+            SIT_RED_NODO nodoCT = ExisteNodo(_afdEdoDataMdl.solClave, Constantes.NodoEstado.CT_SESION, _afdEdoDataMdl.ID_AreaCT, _afdEdoDataMdl.ID_Capa);
 
             /* CREAR ARISTA NODO_ACTUAL UA --> CT  */
             int[] aiDias = _calcularPlazoNeg.obtenerDiasNaturalesLaborales(_afdEdoDataMdl.AFDnodoActMdl.nodfeccreacion, _afdEdoDataMdl.FechaRecepcion);

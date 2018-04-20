@@ -27,7 +27,11 @@ namespace SFP.SIT.SERV.Model.ADM
 	 	 public SIT_ADM_USUARIO () {} 
  
 	 	 public SIT_ADM_USUARIO (
+<<<<<<< HEAD
            string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
+=======
+	 	  string usractivo, string usrauxcorreo, DateTime usrfecmod, string usrdesignacion, string usrtitulo, DateTime usrbloquearfin, int usrintentos, string usrextension, string usrcorreo, string usrcontraseña, DateTime usrfecbaja, string usrpuesto, string usrmaterno, string usrpaterno, string usrnombre, int usrclave
+>>>>>>> parent of 1d90231... Se agregan los cambios de Mak
 	 	 	 )
 	 	 {
 	 	 	 this.usractivo = usractivo;

@@ -23,8 +23,8 @@ using SFP.SIT.SERV.Model.RED;
 using System.Data;
 using SFP.SIT.SERV.Dao.RESP;
 using SFP.SIT.SERV.Model.DOC;
+using SFP.Persistencia.Model;
 using SFP.SIT.SERV.Model.RESP;
-using SFP.SIT.SERV.Model._Consultas;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,23 +42,63 @@ namespace SFP.SIT.WEB.Controllers
         }
 
 
-        private string DelimitarPlazo(AfdEdoPdoMdl edoAccionMdl, DateTime solFecha, ref CalcularPlazoNeg calcularPlazoNeg)
-        {           
-            DateTime dtFechaLimite = calcularPlazoNeg.ObtenerFechaFinal(solFecha, edoAccionMdl.plazo);
-            //dtFechaLimite.ToString("yyyy/MM/dd");
-            return "2018/12/31";
+        /*********************************************
+               FUNCIONES GENERALES PARA LOS NODOS
+        ******************************************** */
+        public AfdEdoDataMdl NodoActualIni(Int64 folio, Int32 tipoArista, Int64 nodo)
+        {
+            AfdEdoDataMdl afdDataMdl = new AfdEdoDataMdl();
+
+            afdDataMdl.solClave = folio;
+            afdDataMdl.ID_AreaInai = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.INAI);
+            afdDataMdl.ID_AreaUT = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+
+            afdDataMdl.usrClaveOrigen = _iUsuario;
+            afdDataMdl.FechaRecepcion = DateTime.Now;
+            afdDataMdl.rtpclave = tipoArista;
+            afdDataMdl.dicDiaNoLaboral = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>;
+            afdDataMdl.lstProcesoPlazos = _memCacheSIT.ObtenerDato(CacheWebSIT.LST_SOL_PROCESOPLAZOS) as List<SIT_SOL_PROCESOPLAZOS>;
+            afdDataMdl.SharePointCxn = _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl;
+
+            // BUSCAR DATOS PARA PROCESAR LA ACCION
+            afdDataMdl.AFDnodoActMdl = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
+
+            afdDataMdl.ID_EstadoActual = (int)afdDataMdl.AFDnodoActMdl.nedclave;
+            afdDataMdl.AFDseguimientoMdl = _solServ.ObtenerSeguimiento(afdDataMdl.solClave, (int)afdDataMdl.AFDnodoActMdl.prcclave);
+            afdDataMdl.solicitud = _solServ.ObtenerSolicitudID(afdDataMdl.solClave);
+            afdDataMdl.ID_ClaAfd = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.FLUJO);
+            afdDataMdl.ID_Capa = afdDataMdl.AFDnodoActMdl.nodcapa;
+            return afdDataMdl;
         }
 
         public EdoActViewModel ObtenerDatosGral(long nodo, bool bSolicitante, int iPrc, int iArea, int iPerfil)
         {
             EdoActViewModel edoActVM = new EdoActViewModel();
             DateTime dteFecAclaracion = new DateTime();
+            CalcularPlazoNeg calcularPlazoNeg = new CalcularPlazoNeg(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>);
+
+            SIT_SOL_SOLICITUD solSolicitud = new SIT_SOL_SOLICITUD();
+            SIT_RED_NODO redNodo = new SIT_RED_NODO();
+
+            try
+            {
+                redNodo = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
+
+                solSolicitud = _sitDmlDbSer.operEjecutar<SIT_SOL_SOLICITUDDao>(nameof(SIT_SOL_SOLICITUDDao.dmlSelectID),
+                    new SIT_SOL_SOLICITUD { solclave = (long)redNodo.solclave }) as SIT_SOL_SOLICITUD;
+            }
+            catch (Exception e)
+            {
+                solSolicitud.solfecrec = new DateTime();
+                solSolicitud.solclave = 0;
+                solSolicitud.sotclave = 0;
+                solSolicitud.solfecrec = new DateTime();
+                redNodo = new SIT_RED_NODO();
+                redNodo.araclave = 0;
+                redNodo.nedclave = 1;
+            }
             
 
-            SIT_RED_NODO redNodo = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodo) as SIT_RED_NODO;
-            CalcularPlazoNeg calcularPlazoNeg = new CalcularPlazoNeg(_memCacheSIT.ObtenerDato(CacheWebSIT.DIC_DIA_NO_LABORAL) as Dictionary<Int64, char>);
-            SIT_SOL_SOLICITUD solSolicitud = _sitDmlDbSer.operEjecutar<SIT_SOL_SOLICITUDDao>(nameof(SIT_SOL_SOLICITUDDao.dmlSelectID),
-                new SIT_SOL_SOLICITUD { solclave = (long)redNodo.solclave }) as SIT_SOL_SOLICITUD;
 
             edoActVM.folio = solSolicitud.solclave;
             edoActVM.solFecIni = solSolicitud.solfecrec.ToString("dd/MM/yyyy");
@@ -109,14 +149,15 @@ namespace SFP.SIT.WEB.Controllers
             edoActVM.turnarAreasInternas = JsonTransform.NO_RECORDS;
 
             foreach (AfdEdoPdoMdl edoAccionMdl in lstEdoAccion)
-            {
+            {                
                 if (edoAccionMdl.plazo > 0)
                 {
-                    edoAccionMdl.fecLimite = DelimitarPlazo(edoAccionMdl, solSolicitud.solfecrec, ref calcularPlazoNeg);
+                    DateTime dtFechaLimite = calcularPlazoNeg.ObtenerFechaFinal(solSolicitud.solfecrec, edoAccionMdl.plazo);
+                    dtFechaLimite = dtFechaLimite.AddMonths(-1);
+                    //edoAccionMdl.fecLimite = dtFechaLimite.ToString("yyyy/MM/dd");
+                    edoAccionMdl.fecLimite = "2018/12/31";
                 }
-
-
-                if (edoAccionMdl.id == Constantes.Respuesta.ASIGNAR)
+                else if (edoAccionMdl.id == Constantes.Respuesta.ASIGNAR)
                 {
                     Dictionary<string, object> dicParam = new Dictionary<string, object>();
                     dicParam.Add(Constantes.Parametro.FECHA, DateTime.Now);
@@ -133,7 +174,7 @@ namespace SFP.SIT.WEB.Controllers
                     dicParam.Add(Constantes.Parametro.FECHA, DateTime.Now);
                     dicParam.Add(DButil.SIT_ADM_AREAHIST_COL.ARHREPORTA, iArea);
 
-                    if (iPerfil == Constantes.Perfil.UA)
+                    if (iPerfil == Constantes.Perfil.UA )
                     {
                         edoActVM.turnarAreasInternas = JsonTransform.convertJson(_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectAreasActualReporta), dicParam));
                         if (edoActVM.turnarAreasInternas == JsonTransform.NO_RECORDS)
@@ -144,38 +185,13 @@ namespace SFP.SIT.WEB.Controllers
                         edoActVM.turnarArea = JsonTransform.convertJson(_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectAreasActual), DateTime.Now));
                         if (edoActVM.turnarArea == JsonTransform.NO_RECORDS)
                             edoQuitarTurnar = edoAccionMdl;
-                    }
+                    }                    
                 }
 
                 else if (edoAccionMdl.id == Constantes.Respuesta.AMPLIACION_PLAZO)
                 {
                     if (segAclMdl != null)
                         edoQuitarAmpliacion = edoAccionMdl;
-                }
-
-                else if (edoAccionMdl.id == Constantes.Respuesta.RESPUESTA_MULTIPLE)
-                {
-                    edoActVM.lstEdoSubAccion = new List<AfdEdoPdoMdl>();
-                    List<SIT_RESP_TIPO> lstResptipo = _sitDmlDbSer.operEjecutar<SIT_RESP_TIPODao>(nameof(SIT_RESP_TIPODao.dmlSelectRespTipoLst), 6) as List<SIT_RESP_TIPO>;
-                    for (int iIdxResp = 0; iIdxResp < lstResptipo.Count; iIdxResp++)
-                    {
-                        AfdEdoPdoMdl edoSubAccionMdl = new AfdEdoPdoMdl
-                        {
-                            id = lstResptipo[iIdxResp].rtpclave,
-                            plazo = lstResptipo[iIdxResp].rtpplazo,
-                            fecLimite = "",
-                            forma = lstResptipo[iIdxResp].rtpforma,
-                            nivel = lstResptipo[iIdxResp].rtptipo,
-                            formato = lstResptipo[iIdxResp].rtpformato,
-                            text = lstResptipo[iIdxResp].rtpdescripcion
-                        };
-
-                        if (lstResptipo[iIdxResp].rtpplazo > 0)
-                        {
-                            edoSubAccionMdl.fecLimite = DelimitarPlazo(edoSubAccionMdl, solSolicitud.solfecrec, ref calcularPlazoNeg);
-                        }
-                        edoActVM.lstEdoSubAccion.Add(edoSubAccionMdl);
-                    }
                 }
             }
 
@@ -194,8 +210,6 @@ namespace SFP.SIT.WEB.Controllers
             });
             edoActVM.lstEdoAccion = lstEdoAccion;
             edoActVM.listaAccion = JsonTransform.convertJson(lstEdoAccion);
-            edoActVM.listaSubAccion = JsonTransform.convertJson(edoActVM.lstEdoSubAccion);
-                
 
             edoActVM.controlName = "Flujo" + _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO).ToString();
             edoActVM.tipoPrcActual = iPrc;
@@ -281,92 +295,19 @@ namespace SFP.SIT.WEB.Controllers
         }
 
         [HttpGet]
-        public IActionResult PRUDrevisarRespSol(int iPrc, Int64 lNodo, int iArea, int iPerfil, int iUsr)
+        public IActionResult PRUDrevisarResp(int iPrc, Int64 lNodo, int iArea, int iPerfil, int iUsr)
         {
             EdoActViewModel edoActVM = ObtenerDatosGral(lNodo, true, iPrc, iArea, iPerfil);
             edoActVM.nodoView = "PRUDrevisarResp";
 
             ViewBag.DatosGrals = edoActVM;
-            
-            List<NodoRespDetalle> lstUsrResp = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespNodoAnterior), lNodo) as List<NodoRespDetalle>;
-            ViewBag.DatosRespDetalle = JsonTransform.convertJson(lstUsrResp);
-
-            // genero el json
-            // locarog a la a fomra
-            // selecicono y trae los datos..
 
             return View();
         }
-
-
-        [HttpPost]
-        public IActionResult PRUDAceptarRespSol(int repclave, Int64 nodClave)
-        {
-            SIT_RED_NODORESP nodoResp = new SIT_RED_NODORESP();
-            nodoResp.nodclave = nodClave;
-            nodoResp.repclave = repclave;
-            nodoResp.sdoclave = Constantes.RespuestaEstado.ACEPTADA;
-
-            String sDatos = _sitDmlDbSer.operEjecutar<SIT_RED_NODORESPDao>(nameof(SIT_RED_NODORESPDao.dmlEditar), nodoResp).ToString();
-            return Content(sDatos);
-        }
-
-
-        [HttpPost]
-        public IActionResult PRUDCorregirRespSol(Int64 solclaveCorregir, Int64 repclaveCorregir, Int64 nodClaveCorregir, string mensaje, Int64 nodOriClaveCorregir)
-        {
-            // Obtener los datos del origen... nodOriClaveCorregir
-            SIT_RED_NODO oRedNodoOrigen = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), nodOriClaveCorregir) as SIT_RED_NODO;
-
-
-            AfdEdoDataMdl afdDataMdl = NodoActualIni(solclaveCorregir, Constantes.Respuesta.ASIGNAR, nodClaveCorregir, (int) oRedNodoOrigen.usrclave, _iUsuario, _iUsuario, Constantes.Perfil.UA);
-            afdDataMdl.ID_AreaDestino = (int) oRedNodoOrigen.araclave;
-            afdDataMdl.rtpclave = Constantes.Respuesta.CORREGIR;
-
-            //////////afdDataMdl.ID_EstadoActual
-
-
-            // QEU AREA ES LE DESTINO_ VERIFICAR..
-            // afdDataMdl.ID_AreaDestino = 
-
-            SIT_RED_NODORESP nodoResp = new SIT_RED_NODORESP();
-            nodoResp.nodclave = nodClaveCorregir;
-            nodoResp.repclave = repclaveCorregir;
-            nodoResp.sdoclave = Constantes.RespuestaEstado.CORREGIR;
-            afdDataMdl.dicAuxRespuesta.Add(ProcesoGralDao.PARAM_RED_NODORESP, nodoResp);
-
-
-            Dictionary<SIT_RESP_RESPUESTA, SIT_RESP_DETALLE> dicRespDetalle = new Dictionary<SIT_RESP_RESPUESTA, SIT_RESP_DETALLE>();
-
-            SIT_RESP_RESPUESTA oRespuesta = new SIT_RESP_RESPUESTA
-            {
-                repcantidad = 0,
-                megclave = 0,
-                docclave = null,
-                repoficio = null,
-                repedofec = DateTime.Now,
-                repclave = 0,
-                rtpclave = Constantes.RespuestaEstado.CORREGIR
-            };
-            
-
-            SIT_RESP_DETALLE oRespDetalle = new SIT_RESP_DETALLE
-            {
-                detclave = "CORREGIR",
-                repclave = 0,
-                docclave = null,
-                detdescripcion = mensaje
-            };
-            dicRespDetalle.Add(oRespuesta, oRespDetalle);
-            afdDataMdl.dicAuxRespuesta.Add(ProcesoGralDao.PARAM_DIC_RESP_DETALLE, dicRespDetalle);
-            string oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
-            return Content("Agui debo de corregir");
-        }
-
-            
         /* ********************************************
                     UNIDAD ADMINISTRATIVA         
         ******************************************** */
+
         [HttpGet]
         public IActionResult UAanalizarSol(int iPrc, Int64 lNodo, int iArea, int iPerfil)
         {
@@ -377,15 +318,40 @@ namespace SFP.SIT.WEB.Controllers
             _appLog.opdesc = "UAanalizar";
             _appLog.data = "  ";
 
+            // Tengo multiples respuesta en la UA analizar...                        
+            SIT_RED_NODO redNodo = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), lNodo) as SIT_RED_NODO;
+            
 
-            ViewBag.ListaAccion = edoActVM.listaAccion;
-            ViewBag.ListaSubAccion = edoActVM.listaSubAccion;
+            List<AfdEdoPdoMdl> lstNvoAccion = new List<AfdEdoPdoMdl>();
+            for (int iIdxAccion= 0; iIdxAccion < edoActVM.lstEdoAccion.Count; iIdxAccion++)
+            {
+                if (edoActVM.lstEdoAccion[iIdxAccion].id == Constantes.Respuesta.RESPUESTA_MULTIPLE)
+                {
+                    //NECESITO CLACULAR LA FEHCA LIMITE                            
+                
+                    List<SIT_RESP_TIPO> lstResptipo = _sitDmlDbSer.operEjecutar<SIT_RESP_TIPODao>(nameof(SIT_RESP_TIPODao.dmlSelectRespTipo), 6) as List<SIT_RESP_TIPO>;
+                    for (int iIdxResp = 0; iIdxResp < lstResptipo.Count; iIdxResp++)
+                    {
+                        lstNvoAccion.Add( new AfdEdoPdoMdl { id = lstResptipo[iIdxResp].rtpclave, plazo = lstResptipo[iIdxResp].rtpplazo,
+                         fecLimite = "2018/12/31", forma = lstResptipo[iIdxResp].rtpforma, nivel = lstResptipo[iIdxResp].rtptipo, formato = lstResptipo[iIdxResp].rtpformato,
+                            text = lstResptipo[iIdxResp].rtpdescripcion} );
+                    }
+                }
+                else
+                {
+                    lstNvoAccion.Add(edoActVM.lstEdoAccion[iIdxAccion]);
+                }
+            }
+
+            ViewBag.ListaAccion = JsonTransform.convertJson(lstNvoAccion);
+        
+
             ViewBag.Nodo = lNodo;
             ViewBag.controlName = "Estado";
 
+            List<NodoRespuestaMdl> lstRespuesta = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespuestaNodo), lNodo) as List<NodoRespuestaMdl>;
+            ViewBag.GridResp = JsonTransform.convertJson(lstRespuesta);
 
-            //List<NodoRespuestaMdl> lstRespuesta = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespuestaNodo), lNodo) as List<NodoRespuestaMdl>;
-            //ViewBag.GridResp = JsonTransform.convertJson(lstRespuesta);
 
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
             dicParam.Add(DButil.SIT_RED_NODO_COL.NODCLAVE, lNodo);
@@ -398,28 +364,90 @@ namespace SFP.SIT.WEB.Controllers
             return View();
         }
 
-
-        /* ********************************************
-            FUNCION GENERICA PARA CONTINUAR
-        ******************************************** */
-
-
         [HttpPost]
-        public IActionResult Responder(long solclaveR, int proclaveR, long nodclaveR, int araclaveR, int perclaveR, int rtpclaveR)
-        {                    
-            SIT_RED_NODORESP nodResp = new SIT_RED_NODORESP();
-            nodResp.nodclave = nodclaveR;
-            nodResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
-                                                                                                                     
-            AfdEdoDataMdl afdDataMdl = NodoActualIni(solclaveR, rtpclaveR, nodclaveR, _iUsuario, _iUsuario, _iUsuario, perclaveR);             
-            List<SIT_RESP_RESPUESTA> dmlSelectRespEdo = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespEdo), nodResp) as List<SIT_RESP_RESPUESTA>;
-            afdDataMdl.rtpclave = rtpclaveR;
+        public IActionResult UAanalizarResponder(long solclave, int proclave, long nodclave, int araclave, int perclave)
+        {
+            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
+            //// DATOS GENERALES A AGRUPAR....
+            dicDatos.Add(ProcesoGralDao.PARAM_NODCLAVE, nodclave);
+            dicDatos.Add(ProcesoGralDao.PARAM_SHAPOINTMDL, _memCacheSIT.ObtenerDato(CacheWebSIT.APP_SHAREPOINT_CONFIG) as CfgSharePointMdl);
 
+
+
+            SIT_RED_NODORESP nodResp = new SIT_RED_NODORESP();
+            nodResp.nodclave = nodclave;
+            nodResp.sdoclave = Constantes.RespuestaEstado.PROPUESTA;
+
+
+            AfdEdoDataMdl afdDataMdl = NodoActualIni(solclave, Constantes.Respuesta.ASIGNAR, nodclave);
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            afdDataMdl.dicAuxRespuesta = dicDatos;
+
+            List<SIT_RESP_RESPUESTA> dmlSelectRespEdo = _sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespEdo), nodResp) as List<SIT_RESP_RESPUESTA>;
+            // siempre tiene que haber uan respueta para avanzar...
+            // Buscar tipos de repsuesta
+            // * Solo permite TURNAR, Ampliacion de plazo y Respuesta Multiple..
+            if (dmlSelectRespEdo[0].rtpclave == Constantes.Respuesta.TURNAR)
+                afdDataMdl.rtpclave = Constantes.Respuesta.TURNAR;
+            else if (dmlSelectRespEdo[0].rtpclave == Constantes.Respuesta.RIA_AREA)
+                afdDataMdl.rtpclave = Constantes.Respuesta.RIA_AREA;
+            else
+                afdDataMdl.rtpclave = Constantes.Respuesta.RESPUESTA_MULTIPLE;
+
+            //BUSCAR QUIEN ES EL USUARIO QUE ESTA EN EL EESTADO
+            afdDataMdl.usrClaveDestino = _iUsuario;
+            afdDataMdl.usrClaveOrigen = _iUsuario;
+            afdDataMdl.usrClaveAusencia = _iUsuario;  // Aqui cambiar de acuerdo a la página WEB
+            afdDataMdl.ID_PerfilDestino = Constantes.Perfil.PRUT;
+
+            afdDataMdl.ID_AreaUT = (int)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+            afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
             string oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl).ToString();
 
             return RedirectToAction("BandejaEntrada", "Solicitud");
         }
 
+
+        [HttpPost]
+        public IActionResult CtrlSiguienteEstado(Int64 solclave, Int32 proclave, Int64 nodclave, Int32 araclave, Int32 tipoArista)
+        {
+
+            ////AfdEdoDataMdl afdDataMdl = NodoActualIni(solclave, tipoArista, nodclave);
+
+            //////////////////////////////afdDataMdl.AFDresolucionMdl = new SIT_ARISTA_RESOLUCION( megclave: Constantes.ModoEntrada.NO_ESPECIFICADO, ariclave: Constantes.General.ID_PENDIENTE, rsl_art7: lstArt7, rsl_tam_cant_dir: "", rsl_ubicacion: "", nfoclave: tipoInfo);
+
+            ////afdDataMdl.Observacion = respuesta.Replace("\"", "\\\"");
+
+            ////afdDataMdl.lstDocContenidoMdl = DocumentoGestionar(Oficio, ref ArchivoResolucion);
+            ////afdDataMdl.ID_AreaDestino = (int)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+            ////afdDataMdl.usrClaveDestino = (int)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.USR_TRANSPARENCIA);
+            ////afdDataMdl.ID_AreaInai = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.INAI);
+            ////afdDataMdl.ID_AreaUT = (Int32)_memCacheSIT.ObtenerDato(Constantes.CfgClavesRegistro.UT);
+
+            ////// TODAS LAS RESPUESTAS VAN AL PERFIL DEL AREA DE TRANSPARENCIA.....                           
+            ////if (tipoArista == AfdConstantes.RESPUESTA.NEGAR_AMPLIACION)
+            ////{
+            ////    List<SIT_RED_ARISTA> lstAristaMdl = _solServ.ObtenerAristasIDnodoDestino(folio, nodo);
+            ////    SIT_RED_NODO nodoAnterior = _sitDmlDbSer.operEjecutar<SIT_RED_NODODao>(nameof(SIT_RED_NODODao.dmlSelectNodoID), lstAristaMdl[0].nodorigen) as SIT_RED_NODO;
+            ////}
+
+            ////List<SIT_ADM_USUARIO> lstUsuarios = _sitDmlDbSer.operEjecutar<SIT_ADM_USUARIODao>(nameof(SIT_ADM_USUARIODao.dmlSelectUsuarioComite), null) as List<SIT_ADM_USUARIO>;
+            ////if (lstUsuarios != null)
+            ////{
+            ////    afdDataMdl.usrClaveDestino = lstUsuarios[0].usrclave;
+            ////}
+            ////// COLOCAMOS A LAPEROSNA QUE TIEN U N PËRFIL DE COMITE DE TRNASPARENCIA
+            ////afdDataMdl.dicAfdFlujo = _memCacheSIT.ObtenerDato(CacheWebSIT.DIC_AFD_FLUJO) as Dictionary<Int32, AfdNodoFlujo>;
+            ////object oResultado = _sitDmlDbSer.operEjecutarTransaccion<AfdServicio>(nameof(AfdServicio.Accion), afdDataMdl);
+
+            ////_appLog.opdesc = "PVrespSimple - AfdServicio.OPE_ACCION";
+            ////_appLog.data = afdDataMdl.Datos();
+
+
+            ////Console.WriteLine(iValor);
+            ////return RedirectToAction("BandejaEntrada", "Solicitud");
+            return null;
+        }
 
         [HttpPost]
         public string UAanalizarBorrar(Int64 nodo, Int32 recid)
@@ -481,14 +509,7 @@ namespace SFP.SIT.WEB.Controllers
             }        
             return newTable;
         }
-        //dmlSelectRespuestaTranspuesta
 
-        [HttpPost]
-        public IActionResult BuscarRespuesta(int repClaveD)
-        {
-            string sRes  = JsonTransform.convertJson(_sitDmlDbSer.operEjecutar<ConsultaDao>(nameof(ConsultaDao.dmlSelectRespuestaTranspuesta), repClaveD));            
-
-            return Content(sRes);
-        }
     }
+
 }

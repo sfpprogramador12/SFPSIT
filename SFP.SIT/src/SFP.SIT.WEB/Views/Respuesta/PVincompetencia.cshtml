@@ -60,11 +60,6 @@
 
 <script>
     function Inicializar() {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
-
         ckEditorDefinir(_EditorHeight);
         $('#solclave').val(_solclave);
         FormatoSugerido();
@@ -88,19 +83,19 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         $("#solfecsolticks").val(_solfecsolticks);
 
         $("#btnAccion").hide();
         document.RespIncompForm.submit();
     }
 
-    ////function Grabar() {
-    ////    $('#avanzar').val(1);
-    ////    if (Validar() === true) {
-    ////        submit();
-    ////    }
-    ////}
+    function Grabar() {
+        $('#avanzar').val(1);
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
     function GrabarIFrame() {
         $('#avanzar').val(0);

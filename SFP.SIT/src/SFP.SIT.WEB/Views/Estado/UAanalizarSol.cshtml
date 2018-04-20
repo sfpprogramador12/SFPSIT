@@ -10,12 +10,8 @@
             <a id="aDoc" asp-controller="Estado" asp-action="Documento" asp-route-id="@ViewBag.Archivo" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px; ">Archivo Anexo</a>
         }
     </div>
-    <div id="divInstr" style="background-color:white; height:110px; width:99%; overflow:auto; margin-top:5px; margin-left:5px; display:inline-block"></div>
-
-    <div id="tab-example">
-        <div id="tabs" style="width: 100%; height: 29px;"></div>
-        <div id="Datos" style="width: 100%; height: 200px;"></div>
-    </div>
+    <div id="divInstr" style="background-color:white; height:140px; width:99%; overflow:auto; margin-top:5px; margin-left:5px; display:inline-block"></div>
+    <div id="divGridUArespuesta" style="width:99%; height:440px; margin-top:15px;margin-left:5px;"></div>
 
     <form id="frmBorrar" asp-controller="Estado" asp-action="UAanalizarBorrar" method="post" accept-charset="UTF-8">
         @Html.AntiForgeryToken()
@@ -24,24 +20,36 @@
         <input type="hidden" id="nodClave" name="nodClave">
     </form>
 
+
+    <form id="frmResponder" asp-controller="Estado" asp-action="UAanalizarResponder" method="post" accept-charset="UTF-8">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="solclave" name="solclave">
+        <input type="hidden" id="proclave" name="proclave">
+        <input type="hidden" id="nodclave" name="nodclave">
+        <input type="hidden" id="araclave" name="araclave">
+        <input type="hidden" id="perclave" name="perclave">
+
+
+    </form>
+
 </div>
 
 <!-- FORMA MODAL-->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+<div id="myModal" class="modal fade" role="dialog"  >    
+    <div class="modal-dialog modal-lg" >
         <!-- Modal content-->
         <div class="modal-content" style="background-color:whitesmoke;">
-            <div class="modal-header">
+            <div class="modal-header" >
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div id="divTopLista" class="w2ui-span10" style="padding-left:10px; margin-bottom:2px;">
                     <div id="divTopListaTiulo" style="float:left; font-family:'Roboto', sans-serif; font-size:14px; font-weight:bold; color:#666;"></div>
-                    <div id="divlstAccion" style="float:left; margin-left:20px; "><select id="lstAccion" style="float:left;"> </select> </div>
+                    <div id="divlstAccion"  style="float:left; margin-left:20px; "><select id="lstAccion" style="float:left;"> </select> </div>
                 </div>
             </div>
-            <div id="divBody" class="modal-body">
-                <div id="divResMultiple" style="overflow: auto; height:580px; "> </div>
+            <div id="divBody" class="modal-body" >
+                <div id="divResMultiple" style="overflow: auto; height:580px; "> </div> 
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer">                
                 <button id="btnAnalizarCerrar" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <button id="btnAnalizarGrabar" name="btnAnalizarGrabar" type="button" class="btn btn-default">Grabar</button>
             </div>
@@ -49,214 +57,310 @@
     </div>
 </div>
 
+
 @section Scripts
 {
-    <script>
-        var _Instr = "@Html.Raw( ViewBag.Instruccion)";
+<script>
+    var _Instr = "@Html.Raw( ViewBag.Instruccion)";
+    var _RegistroGrid = {};
+    var _FormaBorrar = null;
+    var _RespActual = 0;
+    var _ResultadoOper = 0;
+    var _Inicio = false;
 
-        var _FormaBorrar = null;
-        var _ResultadoOper = 0;
-        
+    _ListaAccion = @Html.Raw(ViewBag.ListaAccion);
 
-        _ListaAccion = @Html.Raw(ViewBag.ListaAccion);
-        var _ListaSubAccion = @Html.Raw(ViewBag.ListaSubAccion);
+    var layoutTopMainResp = {
+        name: 'layoutTopMainResp',
+        panels: [
+            { type: 'top', size: "45px", resizable: false, style: pstyle },
+            { type: 'main', size: "80%", resizable: false, style: pstyle }
+        ]
+    };
 
-        var config = {
-            tabs: {
-                name: 'tabs',
-                tabs: [
-                    { id: 'tab1', caption: 'Revisar Respuesta(s) de UA(s)' }
-                ],
-                onClick: function (event) {
-                    $('#tab-example .tab').hide();
-                    $('#tab-example #' + event.target).show();
+    var layoutAnalizar = {
+        name: 'layoutAnalizar',
+        panels: [
+            { type: 'top', size: "100px", resizable: false, style: pstyle },
+            { type: 'main', size: "80%", resizable: false, style: pstyle }
+        ]
+    };
 
-                    $('#btnResponder').remove();
-                    $('#divMenuAccion').append("<a id='btnResponder' name='btnResponder' data-toggle='tooltip' title='Responder solicitud' class='btn btn-success btn-lg btn-block btn-circle col-xs-12 glyphicon glyphicon-cog' style='font-size: 25px;  float:right; width:40px; height:40px;' > </a> ")
+    function Responder()
+    {
+        $("#solclave").val(_solclave);
+        $("#proclave").val(_proclave);
+        $("#nodclave").val(_nodclave);
+        $("#araclave").val(_araclave);
 
-                    var TabID = 0;
-                    for (var iIdx = 0; iIdx < _ListaAccion.records.length; iIdx++) {
-                        _rtpClave = _ListaAccion.records[iIdx].id;
+        document.getElementById("frmResponder").submit();
+    }
 
-                        if (event.target == ("tab-" + _rtpClave)) {
+    $(document).ready(function () {
+        $('#divMenuAccion').append("<a id='btnResponder' name='btnResponder' data-toggle='tooltip' title='Responder solicitud' class='btn btn-success btn-lg btn-block btn-circle col-xs-12 glyphicon glyphicon-cog' style='font-size: 25px;  float:right; width:40px; height:40px;' onclick='return Responder();'> </a> ")
+        $('#btnResponder').hide();
 
-                            $("#rtpclave").val(_rtpClave);
+        w2ui['layoutMain'].content('main', {
+            render: function () {
+                $(this.box).append($('#divMensaje').detach());
 
-                            var urlForma = _UrlRespuesta + _ListaAccion.records[iIdx].forma + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave + "&Oper=1";
-                            $("#Datos").empty();
-                            $("#Datos").load(urlForma, function () {
-                                Inicializar();
-
-                                // multiple
-                                if (event.target != 'tab-22') {
-                                    document.getElementById("btnResponder").addEventListener('click', GrabarIFrame);
-                                }
-                                else {
-                                    if (w2ui.gridUArespuesta.records.length == 0) {
-                                        $('#btnResponder').hide();
-                                    }
-                                    document.getElementById("btnResponder").addEventListener('click', function () { w2alert("Hol amak") });
-                                    // solo avanza
-                                }
-                            });
-                       
-                        }
-                    }
+                /* DATOS DEL GRID */
+                if (w2ui['gridUArespuesta'] === undefined) {
+                    $("#divGridUArespuesta").w2grid(gridUArespuesta);
                 }
-            }
-        }
-
-        function CrearTabs() {
-            var oTabs = [];
-            for (var iIdx = 0; iIdx < _ListaAccion.records.length; iIdx++) {
-                oTabs.push({ id: 'tab-' + _ListaAccion.records[iIdx].id, caption: _ListaAccion.records[iIdx].text, class: "tab" });
-            }
-            config.tabs.tabs = oTabs;
-            $('#tabs').w2tabs(config.tabs);
-        }
-
-        $(document).ready(function () {
-            w2ui['layoutMain'].content('main', {
-                render: function () {
-                    $(this.box).append($('#divMensaje').detach());
-                    $("#divInstr").text(_Instr);
-                    CrearTabs();
+                else {
+                    w2ui['gridUArespuesta'].destroy();
+                    $("#divGridUArespuesta").w2grid(gridUArespuesta);
                 }
-            });
 
-            $('#myModal').on('hidden.bs.modal', function (e) {
-                window.location.reload();
-            })
+                $("#divInstr").text(_Instr);
+
+                $().w2layout(layoutTopMainResp);
+                $("#tb_gridUArespuesta_toolbar_item_w2ui-reload").hide();
+                $("#tb_gridUArespuesta_toolbar_item_w2ui-column-on-off").hide();
+                $("#tb_gridUArespuesta_toolbar_item_w2ui-search").hide();
+
+                for (var iIdx = 0; iIdx < _GridResp.records.length; iIdx++) {
+                    w2ui.gridUArespuesta.add([{
+                        recid: iIdx, rtpclave: _GridResp.records[iIdx].rtpclave,
+                        repclave: _GridResp.records[iIdx].repclave, rtpdescripcion: _GridResp.records[iIdx].rtpdescripcion, docfolio: _GridResp.records[iIdx].docfolio,
+                        docclave: _GridResp.records[iIdx].docclave, repcantidad: _GridResp.records[iIdx].repcantidad,
+                        megdescripcion: _GridResp.records[iIdx].megdescripcion, datdescripcion: _GridResp.records[iIdx].datdescripcion,
+                        rtpforma: _GridResp.records[iIdx].rtpforma, dattitulo: _GridResp.records[iIdx].dattitulo
+                    }]);
+                }
+                Continuar();
+            }
         });
 
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            window.location.reload();
+        })        
+    });
 
-        function Actualizar(event) {            
-            if (_Inicio == false)
-            {
-                //Si es multiple actualizamos GRID 
-                if (_rtpClave == 22)
-                {
-                    _Inicio = false;
-                    $('#myModal').modal('toggle');
-                    window.location.reload();                    
-                }
-                else
-                { 
-                    Responder(); 
-                }
-            }
+    function Continuar() {
+        if (w2ui.gridUArespuesta.records.length > 0) {
+            $('#btnResponder').show();
+        } else {
+            $('#btnResponder').hide();
         }
+    }
+
+    function Actualizar(event) {
+        if (_Inicio !== false) {
+            _Inicio = false;
+            $('#myModal').modal('toggle');
+            window.location.reload();
+        }
+    }
 
     /* ------------------------------------
             AQUI VIENE EL GRID
     --------------------------------------- */
-        function ActualizarGrid(data)
-        {
-            if (data === '1') {
-                w2ui.gridUArespuesta.delete(true);
-                Continuar();
-            }
+
+    var _GridResp = @Html.Raw( ViewBag.GridResp);
+                
+    function ActualizarGrid(data)
+    {
+        if (data === '1') {
+            w2ui.gridUArespuesta.delete(true);
+            Continuar();
         }
+    }
 
-
-        function GuardarRespOnclick(event) {
-            event.done(function () {
-                if (Grabar() == true)
-                    w2popup.close()
-                else
-                    w2alert("El registro no fue almacenado");
-            });
-        }
-
-        function SelectAddElemReserva(nombre, elementos) {
-            // Primero borramos contenido
-            $('#' + nombre)
-                .find('option')
-                .remove()
-                .end();
-
-            $('#' + nombre).append($('<option>', {
-                value: 0,
-                text: " -- Seleccionar --",
-                ///disabled: "disabled",
-                selected: "selected"
-            }));
-
-            for (var iIdx = 0; iIdx < elementos.records.length; iIdx++) {
-                // ESTADO 3 ES  UNA PROPUESTA o NEGADO.,..
-                if (elementos.records[iIdx].sdoClaveActual == 3) {
-                    $('#' + nombre).append($('<option>', {
-                        value: elementos.records[iIdx].repclave,
-                        text: elementos.records[iIdx].rsvexpediente,
-                        disabled: "disabled"
-                    }));
-                } else {
-                    $('#' + nombre).append($('<option>', {
-                        value: elementos.records[iIdx].repclave,
-                        text: elementos.records[iIdx].rsvexpediente
-                    }));
-                }
-            }
-        }
-
-        function ValorMaxGrid( sNombreGrid ) {
-            var iMaxActual = 0;
-            var iRecIdActual = 0;
-
-            for (var iIdx = 0; iIdx < w2ui[sNombreGrid].records.length; iIdx++)
+    var gridUArespuesta = {
+        name: 'gridUArespuesta',
+        method: 'GET', // need this to avoid 412 error on Safari
+        show: {
+            lineNumbers: true,
+            toolbar: true
+        },
+        columns: [
+            { field: 'rtpdescripcion', caption: 'Tipo de respuesta', size: '250px', sortable: true },
+            { field: 'dattitulo', caption: 'Número de oficio', size: '130px', sortable: true },
             {
-                iRecIdActual = w2ui[sNombreGrid].records[iIdx].recid;
-                if (iRecIdActual > iMaxActual)
-                {
-                    iMaxActual = iRecIdActual;
+                field: 'docclave', caption: 'Doc', size: '60px', sortable: true,
+                render: function (registro) {
+                    if (registro.docclave !== 0)
+                    {
+                        datosHTML = '<a class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px" href=Documento?id=' + registro.docclave + '></a>';
+                    }
+                    else
+                        datosHTML = "";
+                    return datosHTML;
                 }
-            }
-            return iMaxActual + 1;
-        }
-
-        function FormItemGrid()
+            },
+            { field: 'repcantidad', caption: 'Cantidad', size: '80px', sortable: true },
+            { field: 'megdescripcion', caption: 'Modo de entrega', size: '190px' },
+            { field: 'datdescripcion', caption: 'Descripción respecto a la respuesta', size: '450px' }
+        ],
+        toolbar:
         {
-            var archivoSel = document.getElementById("docTipoDato").files[0];
-            var iMaxRecID = ValorMaxGrid('gridConfidencial');
+            items: oToolBarItems,
+            onClick: function (event)
+            {
+                AjaxValidarSesion(_UrlSesionActiva, _UrlInicio);
+                $("#divResMultiple").html("");
 
-            if (archivoSel != undefined) {
-                if (archivoSel.size > 5242880) {
-                    w2alert("El tamaño del archivo es mayor a 5MB");
-                    return;
+                var iOpc = 0;
+                if (event.target === "cmdAgregar")
+                {
+                    event.onComplete = function () {
+                        $("#divTopListaTiulo").html("Seleccionar una respuesta :");
+                        $("#divlstAccion").show();
+                        $("#myModal").modal();
+
+                        SelectAddElemClearLimite("lstAccion", _ListaAccion, _solfecsol, _FechaAct);
+
+                        $('#lstAccion').change(function () {
+                            if ( $('#lstAccion').val() != null ) {
+                                _PaginaActual = _UrlRespuesta + AristaClick(_ListaAccion, parseInt($('#lstAccion').val())) + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave + "&araclave=" + _araclave + "&araclave=" + "&solFecTics=" + _solfecsolticks + "&Oper=1";
+                                $("#divResMultiple").load(_PaginaActual, function () {
+                                Inicializar();
+                                document.getElementById("btnAnalizarGrabar").onclick = function () { GrabarIFrame() };
+                                });
+                            }
+                        });
+                    }
                 }
+                else if (event.target === "cmdEditar")
+                {
+                    var iIdx = parseInt(w2ui.gridUArespuesta.getSelection()[0]);
+                    $("#divlstAccion").hide();
+                    $("#divTopListaTiulo").html("Editar " + w2ui.gridUArespuesta.records[iIdx].rtpdescripcion);
+                    $("#myModal").modal();
 
-                w2ui['gridConfidencial'].add([{
-                    recid: iMaxRecID, repclave: $("#resRespuesta_repclave").val(),
-                    detclave: $("#txtClave").val(), detdescripcion: $("#txtDescripcion").val(), docclave: 0,
-                    docTemp: archivoSel.name
-                }]);
-                validatedFiles.push(archivoSel);
-            } else {
-                w2ui['gridConfidencial'].add([{
-                    recid: iMaxRecID, repclave: $("#resRespuesta_repclave").val(),
-                    detclave: $("#txtClave").val(), detdescripcion: $("#txtDescripcion").val(), docclave: 0
-                }]);
+                    var urlForma = _UrlRespuesta + w2ui.gridUArespuesta.records[iIdx].rtpforma + "?solclave=" + _solclave + "&proclave=" + _proclave + "&nodclave=" + _nodclave + "&repclave=" + w2ui.gridUArespuesta.records[iIdx].repclave + "&araclave=" + _araclave + "&solfecsol=" + _solfecsolticks + "&Oper=2";
+
+                    $("#divResMultiple").load(urlForma, function () {            
+                        Inicializar();
+                        document.getElementById("btnAnalizarGrabar").onclick = function () { GrabarIFrame() };
+                    });
+                }
+                else if (event.target === "cmdBorrar")
+                {
+                    var sel = w2ui.gridUArespuesta.getSelection();
+                    if (sel.length == 1)
+                    {
+                        var registro = $.extend(true, {}, w2ui.gridUArespuesta.get(sel[0]));
+                    }
+                    w2confirm('¿Esta usted seguro de borrar este registro ? <br/> <br/>' + registro.datdescripcion, function btn(answer)
+                    {
+                        if (answer == "Yes") {
+                            $('#repclave').val(registro.repclave);
+                            $('#rtpclave').val(registro.rtpclave);
+                            $('#nodClave').val(_nodclave);
+                            _FormaBorrar = $('#frmBorrar').serialize();
+                            var urlForma = _UrlRespuesta + "PVborrar";
+                            AjaxPostForm(urlForma, _FormaBorrar, ActualizarGrid, _UrlInicio);
+                        }
+                    });
+                }
             }
-            Ocultar();
         }
+    }
 
-        function Mensaje() {
-            getBase64(validatedFiles[0]);
+    function GuardarRespOnclick(event) {
+        event.done(function () {
+            if (Grabar() == true)
+                w2popup.close()
+            else
+                w2alert("El registro no fue almacenado");
+        });
+    }
+
+    function SelectAddElemReserva(nombre, elementos) {
+        // Primero borramos contenido
+        $('#' + nombre)
+            .find('option')
+            .remove()
+            .end();
+
+
+        $('#' + nombre).append($('<option>', {
+            value: 0,
+            text: " -- Seleccionar --",
+            ///disabled: "disabled",
+            selected: "selected"
+        }));
+
+
+        for (var iIdx = 0; iIdx < elementos.records.length; iIdx++) {
+            // ESTADO 3 ES  UNA PROPUESTA o NEGADO.,..
+            if (elementos.records[iIdx].sdoClaveActual == 3) {
+                $('#' + nombre).append($('<option>', {
+                    value: elementos.records[iIdx].repclave,
+                    text: elementos.records[iIdx].rsvexpediente,
+                    disabled: "disabled"
+                }));
+            } else {
+                $('#' + nombre).append($('<option>', {
+                    value: elementos.records[iIdx].repclave,
+                    text: elementos.records[iIdx].rsvexpediente
+                }));
+            }
         }
+    }
 
-        function getBase64(file) {
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                var ventana = window.open("#", "_blank");
-                ventana.document.write('<html><title>Visualizar documento</title><body style="margin-top:0px; margin-left:0px;margin-right:0px;margin-bottom:0px;">');
-                ventana.document.write('<iframe type="application/pdf" height="100%" width="100%" src="' + reader.result + '"> </iframe>');
-                ventana.document.write('</body></html>');
-            };
-            reader.onerror = function (error) {
-                w2alert("error");
-            };
+    function ValorMaxGrid( sNombreGrid ) {
+        var iMaxActual = 0;
+        var iRecIdActual = 0;
+
+        for (var iIdx = 0; iIdx < w2ui[sNombreGrid].records.length; iIdx++) 
+        {
+            iRecIdActual = w2ui[sNombreGrid].records[iIdx].recid;
+            if (iRecIdActual > iMaxActual)
+            { 
+                iMaxActual = iRecIdActual;
+            }                
         }
+        return iMaxActual + 1;
+    }
 
-    </script>
+    function FormItemGrid()
+    { 
+        var archivoSel = document.getElementById("docTipoDato").files[0];
+        var iMaxRecID = ValorMaxGrid('gridConfidencial');
+
+        if (archivoSel != undefined) {
+            if (archivoSel.size > 5242880) {
+                w2alert("El tamaño del archivo es mayor a 5MB");
+                return;
+            }            
+
+            w2ui['gridConfidencial'].add([{
+                recid: iMaxRecID, repclave: $("#resRespuesta_repclave").val(),
+                detclave: $("#txtClave").val(), detdescripcion: $("#txtDescripcion").val(), docclave: 0,
+                docTemp: archivoSel.name
+            }]);
+            validatedFiles.push(archivoSel);
+        } else { 
+            w2ui['gridConfidencial'].add([{
+                recid: iMaxRecID, repclave: $("#resRespuesta_repclave").val(),
+                detclave: $("#txtClave").val(), detdescripcion: $("#txtDescripcion").val(), docclave: 0
+            }]);
+        }               
+        Ocultar();
+    }
+
+    function Mensaje() {            
+        getBase64(validatedFiles[0]);       
+    }
+
+    function getBase64(file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {            
+            var ventana = window.open("#", "_blank");
+            ventana.document.write('<html><title>Visualizar documento</title><body style="margin-top:0px; margin-left:0px;margin-right:0px;margin-bottom:0px;">');
+            ventana.document.write('<iframe type="application/pdf" height="100%" width="100%" src="' + reader.result + '"> </iframe>');
+            ventana.document.write('</body></html>');
+        };
+        reader.onerror = function (error) {
+            w2alert("error");
+        };
+    }
+
+
+</script>
 }

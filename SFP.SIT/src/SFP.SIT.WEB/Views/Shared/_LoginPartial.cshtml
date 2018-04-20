@@ -1,54 +1,71 @@
 ﻿@using SFP.SIT.WEB.Util
 @using Microsoft.AspNetCore.Http;
 
-@*
-    using SFP.SIT.WEB.Models
-    inject SignInManager<ApplicationUser> SignInManager
-    inject UserManager<ApplicationUser> UserManager
-    asp-route-code="@User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value"
-*@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <!--
-             <li>
+<form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value <span class="caret"></span></a>
+            <ul class="dropdown-menu" id="UlOpciones">
+                <li><a asp-controller="Account" asp-action="ResetPassword" title="Manage">Cambiar Contraseña</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Perfiles</li>
+            </ul>
+        </li>
 
-                <a asp-controller="Account" asp-action="ResetPassword" title="Manage">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value</a>
-            </li>
-            -->
 
+        <li style="display:none;">
+            <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">
+                @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CBOPERFILAREA).Value)
+            </select>
+        </li>
 
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">@User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a asp-controller="Account" asp-action="ResetPassword" title="Manage">Cambiar Contraseña</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li class="dropdown-header">Perfiles</li>
+        <li>
+            <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario" target="_blank"></a>
+        </li>
 
-                    <li><a asp-controller="Account" asp-action="ImpersonateUser" asp-route-userId="1285">Luz María Martines </a></li>
+        <li>
+            
+            <a asp-controller="Chat" asp-action="Index" class="glyphicon glyphicon-envelope btn-lg" data-toggle="tooltip" title="Chat" target="_blank"></a>
+            <div id="newMess" style="
+                display:none; width: 34px; height: 17px; font-size: 9px; color:  white; background-color:  red; border: 1px solid white; padding: 3px; position: relative; margin: -20px 0px 0px -9px;
+            ">Nuevo</div>
+            <script>
+                var mensajes = @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.USUARIOACTIVO).Value) ;
+                var jsonmensajes = JSON.parse(mensajes);
+                var NotificacionId = 0;
+                //console.log(jsonmensajes);
+                for (var i = 0; i < jsonmensajes.messages.length; i++){
+                    if (jsonmensajes.messages[i].stat == "n" & jsonmensajes.messages[i].to == @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value)) {
+                        document.getElementById("newMess").style.display = "block";
+                        NotificacionId = jsonmensajes.messages[i].from ;
+                    }
+                }
+            </script>
+        </li>
 
-                </ul>
-            </li>
+        <li>
+            <a asp-controller="Account" asp-action="LogOff" class="glyphicon glyphicon-log-in btn-lg" data-toggle="tooltip" title="Salir" style="margin-right:20px;"> </a>
+        </li>
+    </ul>
 
-            <li>
-                @*
-                    <select id="cboUsuario" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="CambiarUsuario();">
-                        <option>@ViewBag.Nombre</option> 22622575
-                    </select>
-                *@
+    @if (@Html.Raw(User.FindFirst(ConstantesWeb.Usuario.SHAREDUSERS).Value) != null)
+    {
+        <script>
+            var usuariosCS =  @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.SHAREDUSERS).Value) ;
+            var base = @User.FindFirst(ConstantesWeb.Usuario.USUARIOBASE).Value;
+            var d1 = document.getElementById('UlOpciones');
+            d1.insertAdjacentHTML('beforeend', "<li><a href=\"/Account/ImpersonateUser?userId=" + base + "&userBase=" + base + " \" ><strong>Usuario Principal</strong></a></li>");
 
-                <select id="cboPerfil" style="margin-top:15px; background-color: #333; border-width:0; color: lightgray; " onchange="Buscar();">
-                    @Html.Raw(User.FindFirst(ConstantesWeb.Usuario.CBOPERFILAREA).Value)
-                </select>
-            </li>
-            <li>
-                <a asp-controller="Home" asp-action="Manual" class="glyphicon glyphicon-book btn-lg" data-toggle="tooltip" title="Manual del usuario" target="_blank"></a>
-            </li>
-            <li>
-                <a asp-controller="Account" asp-action="LogOff" class="glyphicon glyphicon-log-in btn-lg" data-toggle="tooltip" title="Salir" style="margin-right:20px;"> </a>
-            </li>
-        </ul>
-    </form>
+            for (var u = 0; u < usuariosCS.records.length;  u++) {
+                console.log(usuariosCS.records[u]);
+                var d1 = document.getElementById('UlOpciones');
+                d1.insertAdjacentHTML('beforeend', " <li><a href=\"/Account/ImpersonateUser?userId=" + usuariosCS.records[u].id + "&userBase=" + base+" \" >"    + usuariosCS.records[u].text + "</a></li>");
+
+            }
+        </script>
+    }
+</form>
 }

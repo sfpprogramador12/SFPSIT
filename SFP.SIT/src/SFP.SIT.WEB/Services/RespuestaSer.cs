@@ -3,13 +3,10 @@ using SFP.Persistencia.Model;
 using SFP.SIT.AFD.Core;
 using SFP.SIT.AFD.Model;
 using SFP.SIT.SERV.Dao;
-using SFP.SIT.SERV.Dao.RESP;
 using SFP.SIT.SERV.Model.DOC;
 using SFP.SIT.SERV.Model.RESP;
-using SFP.SIT.WEB.Util;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,24 +21,22 @@ namespace SFP.SIT.WEB.Services
         {
         }
 
-        //ESTA FUNCINON DESAPARECE ??????
-        //Lo agergo aquoi para establecer una transaccion 
         public long GrabarRespAvanzar(Dictionary<string, object> dicDatos)
         {
             ProcesoGralDao prcGralDao = new ProcesoGralDao( _cn, _transaction, _sDataAdapter);
             AfdServicio afdServ  = new AfdServicio(_cn, _transaction, _sDataAdapter);
 
-            long lrepClave = prcGralDao.InsertarRegistro(dicDatos);
-            if (lrepClave > 0)
-            {
-                object oResultado = afdServ.Accion(dicDatos[PARAM_AFDEDODATADML] as AfdEdoDataMdl);
-            }
+            ////long lrepClave = prcGralDao.GrabarRespuesta((Int64)dicDatos[ProcesoGralDao.PARAM_NODCLAVE], dicDatos[ProcesoGralDao.PARAM_RESP_RESPUESTA] as SIT_RESP_RESPUESTA,
+            ////        dicDatos[ProcesoGralDao.PARAM_DICRESPDOC] as Dictionary<int, Tuple<SIT_RESP_DATOS, DocContenidoMdl>>, dicDatos[ProcesoGralDao.PARAM_SHAPOINTMDL] as CfgSharePointMdl,
+            ////        (DateTime)dicDatos[ProcesoGralDao.PARAM_FECHA], (int)dicDatos[ProcesoGralDao.PARAM_OPERACION], (int)dicDatos[ProcesoGralDao.PARAM_RESP_ESTADO]);
 
-            return lrepClave;
+            ////if (lrepClave > 0)
+            ////{
+            ////    object oResultado = afdServ.Accion(dicDatos[PARAM_AFDEDODATADML] as AfdEdoDataMdl);
+            ////}
+
+            ////return lrepClave;
+            return 0;
         }
-
-
-
-
     }
 }

@@ -26,9 +26,39 @@ using SFP.Persistencia.Util;
 using SFP.SIT.SERV.Dao.RED;
 using SFP.SIT.SERV.Dao.RESP;
 using SFP.SIT.AFD.Model;
+using SFP.SIT.FLUJO;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
+using SFP.SIT.SERV.Model.ADM;
 
 namespace SFP.SIT.WEB.Controllers
 {
+    /*PASAR A OTROS ARCHIVOS*/
+    public class NodeDataArray
+    {
+        public int id { get; set; }
+        public string loc { get; set; }
+        public string text { get; set; }
+        public string fecha { get; set; }
+        public string Perfil { get; set; }
+    }
+
+    public class LinkDataArray
+    {
+        public int from { get; set; }
+        public int to { get; set; }
+        public List<double> points { get; set; }
+        public string text { get; set; }
+    }
+
+    public class RootObject
+    {
+        public string @class { get; set; }
+        public string nodeKeyProperty { get; set; }
+        public List<NodeDataArray> nodeDataArray { get; set; }
+        public List<LinkDataArray> linkDataArray { get; set; }
+    }
+
     public class SolicitudController : SitBaseCtlr
     {
         SolicitudSer _solServ;
@@ -48,6 +78,8 @@ namespace SFP.SIT.WEB.Controllers
             ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
 
             return View();
+            //return View("BandejaEntrada", "_WebmastLayout");
+
         }
 
         [HttpPost]
@@ -57,10 +89,10 @@ namespace SFP.SIT.WEB.Controllers
             if (datosSolVM.mvc == ConstantesWeb.FLUJO.AMPLIACION)
             {
                 // ASGINAMOS EL ESTADO INICIAL 
-                datosSolVM.estado =Constantes.NodoEstado.UT_RECIBIR_SOLICITUD;
+                datosSolVM.estado =Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
 
                 // BUSCAR EL NODO DE INICIAL DE LA UNIDAD DE TRANSPARENCIA PARA GENERAR UNA AMPLIACION
-                SIT_RED_NODO redNodo = _solServ.ObtenerNodoFolioEdoPrc(datosSolVM.folio, Constantes.NodoEstado.UT_RECIBIR_SOLICITUD, datosSolVM.prcID);
+                SIT_RED_NODO redNodo = _solServ.ObtenerNodoFolioEdoPrc(datosSolVM.folio, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR, datosSolVM.prcID);
                 datosSolVM.clanodo = redNodo.nodclave;
             }
 
@@ -221,6 +253,93 @@ namespace SFP.SIT.WEB.Controllers
             return View(solBuscar);
         }
 
+
+
+
+        /////* ********************************************
+        ////       EDITOR DEFLUJO
+        ////******************************************** */
+        [HttpGet]
+        public IActionResult FlujoEditor()
+        {
+            ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+            
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult FlujoEditor(string JSONFlujo)
+        {
+            FlujoEditor fe = new FLUJO.FlujoEditor();
+
+            JObject json = JObject.Parse(JSONFlujo);
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            RootObject rt = jss.Deserialize<RootObject>(JSONFlujo);
+
+            for (int i =0; i<rt.nodeDataArray.Capacity; i++)
+            {
+                fe.createViews(rt.nodeDataArray[i].text);
+            }
+            //fe.createClasses("Edonew.cshtml"); 
+            
+            return View();     
+        }
+
+
+        /////* ********************************************
+        ////       EDITOR DEFLUJO de HISTORIAL DE AREAS
+        ////******************************************** */
+        [HttpGet]
+        public IActionResult AreasHistorial()
+        {
+            ViewBag.Usuario = @User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value;
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            DateTime date = Convert.ToDateTime("01/01/2018");
+            date = date.Date;
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date));
+            string sRes = _catViewMdl.lstAreaHist.ToString();
+            ViewBag.Areas = sRes;
+            return View();
+        }
+
+
+        [HttpPost]
+        public string FlujoAreas(string fechaF)
+        {
+            string sRes = "";
+            fechaF = fechaF.Replace('-', '/');
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            DateTime date = Convert.ToDateTime(fechaF);
+            date = date.Date;
+
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectComboFecActual), date));
+            sRes = _catViewMdl.lstAreaHist.ToString();
+            return sRes;
         
+        }
+
+
+        [HttpPost]
+        public string FlujoAreasTraerHijos(string fechaF, string id)
+        {
+            string sRes = "";
+            fechaF = fechaF.Replace('-', '/');
+            AreaHistorialViewModel _catViewMdl = new AreaHistorialViewModel();
+            DateTime date = Convert.ToDateTime(fechaF);
+            date = date.Date;
+            string dataP = date.ToString("d") + "|" + id; 
+            _catViewMdl.lstAreaHist = JsonTransform.convertJson((List<SIT_ADM_AREAHIST>)_sitDmlDbSer.operEjecutar<SIT_ADM_AREAHISTDao>(nameof(SIT_ADM_AREAHISTDao.dmlSelectAreaHijos), dataP));
+            sRes = _catViewMdl.lstAreaHist.ToString();
+            return sRes;
+
+        }
+
+        [HttpGet]
+        public string ARHGetParent(string id) {
+            return "[{'text' : 'Root', 'id' : '1', 'children' : true}]";
+        }
+
     }
 }

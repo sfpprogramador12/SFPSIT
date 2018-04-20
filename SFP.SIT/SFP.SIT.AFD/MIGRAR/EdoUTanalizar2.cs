@@ -55,13 +55,13 @@ namespace SFP.SIT.AFD.MIGRAR
                 dicParam.Add(DButil.SIT_RED_NODO_COL.SOLCLAVE, _afdEdoDataMdl.solClave);
 
                 if (_afdEdoDataMdl.solicitud.prcclave == Constantes.ProcesoTipo.SOLICITUD)
-                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_RECIBIR_SOLICITUD);                    
+                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR);                    
                 else if ( _afdEdoDataMdl.solicitud.prcclave == Constantes.ProcesoTipo.ACLARACION )
                     // VERIFICAR EL PROCESO
-                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_RECIBIR_SOLICITUD);                    
+                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR);                    
                 else
                     // VERIFICAR EL PROCESO
-                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_RECIBIR_SOLICITUD); // MAS ADELANTE REVISAR EL SEGUNDO RECURSO DE REVISION
+                    dicParam.Add(DButil.SIT_RED_NODOESTADO_COL.NEDCLAVE, Constantes.NodoEstado.UT_SOLICITUD_RECIBIR); // MAS ADELANTE REVISAR EL SEGUNDO RECURSO DE REVISION
 
 
                 dicParam.Add(DButil.SIT_SOL_SEGUIMIENTO_COL.PRCCLAVE, _afdEdoDataMdl.solicitud.prcclave);

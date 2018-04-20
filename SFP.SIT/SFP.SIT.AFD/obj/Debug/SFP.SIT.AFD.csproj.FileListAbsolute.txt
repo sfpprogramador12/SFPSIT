@@ -59,5 +59,3 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.c
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CoreCompileInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.dll
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.pdb
-C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete
-C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\SFP.SIT.AFD\obj\Debug\SFP.SIT.AFD.csproj.CopyComplete

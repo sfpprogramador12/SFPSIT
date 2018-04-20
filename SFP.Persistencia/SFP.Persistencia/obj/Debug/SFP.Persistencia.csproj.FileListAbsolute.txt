@@ -10,14 +10,14 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Per
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.pdb
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\bin\Debug\Oracle.ManagedDataAccess.dll
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csprojResolveAssemblyReference.cache
+C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csproj.CoreCompileInputs.cache
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.dll
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.pdb
-C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csproj.CoreCompileInputs.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.dll.config
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.dll
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.pdb
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csprojResolveAssemblyReference.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csproj.CoreCompileInputs.cache
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csproj.CopyComplete
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.dll
-C:\MAKDIHEL\VS2017\Projects\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\bin\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csproj.CoreCompileInputs.cache
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.dll
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.pdb
+C:\Users\programador12\Documents\SIT\SFP.Persistencia\SFP.Persistencia\obj\Debug\SFP.Persistencia.csprojResolveAssemblyReference.cache

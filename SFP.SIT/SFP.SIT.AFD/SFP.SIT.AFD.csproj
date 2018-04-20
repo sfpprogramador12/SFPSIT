@@ -87,7 +87,6 @@
     <Compile Include="WF2\EdoPRUDrecibirSol2.cs" />
     <Compile Include="WF2\EdoUAanalizarSol2.cs" />
     <Compile Include="WF2\EdoUTrecibirSol2.cs" />
-    <Compile Include="WF2\EdoPRUDrevisarRespSol2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SFP.Persistencia\SFP.Persistencia\SFP.Persistencia.csproj">

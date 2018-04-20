@@ -17,7 +17,6 @@
         <input type="hidden" asp-for="avanzar" />
 
         <input type="hidden" asp-for="respRespuesta.repclave" />
-        <input type="hidden" asp-for="respRespuesta.rtpclave" />
         <input type="hidden" asp-for="respRespuesta.docclave" />
         <input type="hidden" asp-for="respGeneral.gracontenido" />
 
@@ -38,12 +37,12 @@
             </div>
             <div id="divDocContenido">
                 @if (Model.respRespuesta.docclave > 0)
-            {
-                <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.respRespuesta.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
-                    @Html.Raw(Model.respDoc.docnombre)
-                </a>
-                <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.respGeneral.repclave, '', @Model.respRespuesta.docclave)" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
-        }
+                {
+                    <a id="aDoc" asp-controller="Respuesta" asp-action="Documento" asp-route-id="@Model.respRespuesta.docclave" class="glyphicon glyphicon glyphicon-list-alt btn-lg" data-toggle="tooltip" title="Ver documento anexo" target="_blank" style="margin-left:15px">
+                        @Html.Raw(Model.respDoc.docnombre)
+                    </a>
+                    <a id="aQuitarDoc" onclick="RemoverOnclick(@Model.respGeneral.repclave, '', @Model.respRespuesta.docclave)" class="glyphicon glyphicon-remove-sign red" style="margin-top:10px;  font-size: 20px; color:red"></a>
+                }
             </div>
         </div>
 
@@ -62,10 +61,6 @@
 
 <script>
     function Inicializar() {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
         ckEditorDefinir(_EditorHeight);
         $('#solclave').val(_solclave);
         FormatoSugerido();
@@ -89,19 +84,19 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         $("#solfecsolticks").val(_solfecsolticks);
         $("#btnAccion").hide();
         document.AclaracionForm.submit();
     }
 
 
-    ////function Grabar() {
-    ////    $('#avanzar').val(1);
-    ////    if (Validar() === true) {
-    ////        submit();
-    ////    }
-    ////}
+    function Grabar() {
+        $('#avanzar').val(1);
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
     function GrabarIFrame() {
         $('#avanzar').val(0);

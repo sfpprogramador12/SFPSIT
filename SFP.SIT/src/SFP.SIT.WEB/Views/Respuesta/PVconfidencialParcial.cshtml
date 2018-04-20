@@ -125,11 +125,6 @@
 
     function Inicializar()
     {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
-
         $('#solclave').val(_solclave);
         Ocultar();
 
@@ -239,17 +234,17 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         document.getElementById("nodclave").value = _nodclave;
         document.getElementById("solfecsolticks").value = _solfecsolticks;
         document.ConfidencialForm.submit();
     }
 
-    ////function Grabar() {
-    ////    if (Validar() === true) {
-    ////        submit();
-    ////    }
-    ////}
+    function Grabar() {
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
     function GrabarIFrame() {
         if (Validar() === true) {

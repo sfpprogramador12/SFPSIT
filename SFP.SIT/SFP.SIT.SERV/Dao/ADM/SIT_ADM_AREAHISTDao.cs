@@ -97,17 +97,25 @@ namespace SFP.SIT.SERV.Dao.ADM
  
         /*INICIO*/
 
-        public List<ComboMdl> dmlSelectComboFecActual(DateTime dtFecha)
+        public List<SIT_ADM_AREAHIST> dmlSelectComboFecActual(DateTime dtFecha)
         {
-            String sqlQuery = " Select araClave as ID, arhDESCRIPCION as DESCRIP FROM SIT_adm_areahist where :P0 " +
-                " between arhFecIni AND arhFecFin ORDER BY arhDESCRIPCION";
-            return CrearListaMDL<ComboMdl>(ConsultaDML(sqlQuery, dtFecha));
+            String sqlQuery = "Select * "+
+                " FROM SIT_adm_areahist where '"+dtFecha.ToString("d")+"' between arhFecIni AND arhFecFin ORDER BY anlClave ";
+            return CrearListaMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, dtFecha.ToString("d") ) as DataTable);
+        }
+
+
+        public List<SIT_ADM_AREAHIST> dmlSelectAreaHijos(string data)
+        {
+            String sqlQuery = "Select * " +
+                " FROM SIT_adm_areahist where arhreporta = "+ data.Split('|')[1]+" and '" + data.Split('|')[0] + "' between arhFecIni AND arhFecFin ORDER BY anlClave ";
+            return CrearListaMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, data.Split('|')[0]) as DataTable);
         }
 
         public SIT_ADM_AREAHIST dmlSelectAreaActual(int araClave)
         {            
             String sqlQuery = " Select * FROM SIT_adm_areahist where araclave = :P0  " +
-                "and :P1 between arhFecIni AND arhFecFin ORDER BY arhDESCRIPCION";
+                " and :P1 between arhFecIni AND arhFecFin ORDER BY arhDESCRIPCION";
 
             return CrearMDL<SIT_ADM_AREAHIST>(ConsultaDML(sqlQuery, araClave, DateTime.Now));
                 
@@ -148,9 +156,8 @@ namespace SFP.SIT.SERV.Dao.ADM
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + "SELECT FROM  "
-                + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                "SELECT * FROM  SIT_ADM_AREAHIST ) a ) SELECT* from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

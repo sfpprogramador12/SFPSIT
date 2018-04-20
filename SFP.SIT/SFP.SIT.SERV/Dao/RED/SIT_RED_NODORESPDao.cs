@@ -94,51 +94,43 @@ namespace SFP.SIT.SERV.Dao.RED
 	 	 	 	 return 0;
  
 	 	 }
-
-
+ 
+ 
         /*INICIO*/
-        public List<SIT_RED_NODORESP> dmlSelectObtenerRespNodo(Int64 iNodo, int iSdoClave)
+        public List<SIT_RED_NODORESP> dmlSelectRespNodo(Int64 iNodo)
         {
-            String sSQL = " SELECT * "
-                + " FROM SIT_RED_NODORESP "
-                + " WHERE nodClave = :P0 AND sdoclave = :P1";
+            String sSQL = " SELECT RNR.NODCLAVE, RNR.REPCLAVE, RNR.sdoclave " 
+                + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR "
+                + " WHERE RNR.nodClave = :P0 "
+                + " AND RNR.REPCLAVE = RR.REPCLAVE "
+                + " AND RTPCLAVE <> " + Constantes.Respuesta.AMPLIACION_PLAZO;
 
-            return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo, iSdoClave) as DataTable);
+            return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo) as DataTable);
         }
 
-        public SIT_RED_NODORESP dmlSelectRespUnica(Int64 iNodo)
+        public List<SIT_RED_NODORESP> dmlSelectRespNodoAmpPlazo(Int64 iNodo)
         {
-            List<SIT_RED_NODORESP> lstNodoResp = dmlSelectObtenerRespNodo(iNodo, Constantes.RespuestaEstado.PROPUESTA);
+            String sSQL = " SELECT RNR.NODCLAVE, RNR.REPCLAVE, RNR.sdoclave "
+                + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR "
+                + " WHERE RNR.nodClave = :P0 "
+                + " AND RNR.REPCLAVE = RR.REPCLAVE "
+                + " AND RTPCLAVE = " + Constantes.Respuesta.AMPLIACION_PLAZO ;
 
-            if (lstNodoResp.Count > 0)
-                return lstNodoResp[0];
-            else
-                return null;
+            return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo) as DataTable);
         }
 
-        ////public List<SIT_RED_NODORESP> dmlSelectRespNodo(Int64 iNodo, int iRtpClave)
-        ////{
-        ////    String sSQL = " SELECT RNR.NODCLAVE, RNR.REPCLAVE, RNR.sdoclave "
-        ////        + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR "
-        ////        + " WHERE RNR.nodClave = :P0 "
-        ////        + " AND RNR.REPCLAVE = RR.REPCLAVE "
-        ////        + " AND RTPCLAVE = :P1";
+        public List<SIT_RED_NODORESP> dmlSelectRespNodoTurnar(Int64 iNodo, int iUsrClave)
+        {
+            String sSQL = " SELECT RNR.NODCLAVE, RNR.REPCLAVE, RNR.sdoclave "
+                + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR, SIT_RESP_TURNAR TU"
+                + " WHERE RNR.nodClave = :P0 "
+                + " AND RNR.REPCLAVE = RR.REPCLAVE "
+                + " AND RTPCLAVE = " + Constantes.Respuesta.TURNAR 
+                + " AND TU.REPCLAVE = RNR.REPCLAVE"
+                + " AND USRclave = " + iUsrClave;
 
-        ////    return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo) as DataTable);
-        ////}
-
-        //public List<SIT_RED_NODORESP> dmlSelectRespNodoTurnar(Int64 iNodo, int iUsrClave)
-        //{
-        //    String sSQL = " SELECT RNR.NODCLAVE, RNR.REPCLAVE, RNR.sdoclave "
-        //        + " FROM SIT_RED_NODORESP RNR, SIT_RESP_RESPUESTA RR, SIT_RESP_TURNAR TU"
-        //        + " WHERE RNR.nodClave = :P0 "
-        //        + " AND RNR.REPCLAVE = RR.REPCLAVE "
-        //        + " AND RTPCLAVE = " + Constantes.Respuesta.TURNAR 
-        //        + " AND TU.REPCLAVE = RNR.REPCLAVE"
-        //        + " AND USRclave = " + iUsrClave;
-
-        //    return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo) as DataTable);
-        //}
+            return CrearListaMDL<SIT_RED_NODORESP>(ConsultaDML(sSQL, iNodo) as DataTable);
+        }
 
 
         public List<SIT_RED_NODORESP> dmlSelectRespNodoRepClave(Int64 iResp)
@@ -160,7 +152,7 @@ namespace SFP.SIT.SERV.Dao.RED
                 return false;
 
         }
-       
+
         /*FIN*/
  
 	 }

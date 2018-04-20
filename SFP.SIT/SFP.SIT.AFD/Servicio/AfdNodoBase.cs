@@ -8,7 +8,6 @@ using SFP.SIT.SERV.Dao.RESP;
 using SFP.SIT.SERV.Dao.SOL;
 using SFP.SIT.SERV.Model.DOC;
 using SFP.SIT.SERV.Model.RED;
-using SFP.SIT.SERV.Model.RESP;
 using SFP.SIT.SERV.Model.SOL;
 using SFP.SIT.SERV.Negocio;
 using SFP.SIT.SERV.Util;
@@ -22,9 +21,7 @@ namespace SFP.SIT.AFD.Servicio
     public class AfdNodoBase : BaseDao
     {
         public const string PARAM_AFD_EDO_DATA_MDL = "afdEdoDataMdl";
-        public const int OPE_RESPUESTA_IGUAL = 1;
-        public const int OPE_RESPUESTA_DIFERENTE = 2;
-
+        public const int OPE_ACCION = 211;
 
         /* ESTRUCTURA DE DATOS */
         // TINE VALOR CUANDO SE EJECUTA EN LA CLASE DERIVADA
@@ -40,8 +37,6 @@ namespace SFP.SIT.AFD.Servicio
        
         protected SIT_DOC_DOCUMENTODao _docDocumentoDao;
 
-        /* Para amdinistrar las respuestas */
-        protected ProcesoGralDao _prcGralDao;
 
         /* CLASE PAR ALA ADMINSITRACIÓN DE DOCUMENTOS*/
         protected AdmDocContNeg _admDocNeg;
@@ -60,13 +55,10 @@ namespace SFP.SIT.AFD.Servicio
             _segDao = new SIT_SOL_SEGUIMIENTODao(_cn, _transaction, _sDataAdapter);
 
             // RESPUESTA
-            _redNodoRespDao = new SIT_RED_NODORESPDao(_cn, _transaction, _sDataAdapter);            
-            _respRespDao = new SIT_RESP_RESPUESTADao(_cn, _transaction, _sDataAdapter);
-
+            _redNodoRespDao = new SIT_RED_NODORESPDao(_cn, _transaction, _sDataAdapter);
+            ////////////_respRespDao = new SIT_RESP_RESPUESTADao(_cn, _transaction, _sDataAdapter);
             ////////////_respRespDatosDao = new SIT_RESP_DATOSDao(_cn, _transaction, _sDataAdapter);
             ////////////_docDocumentoDao = new SIT_DOC_DOCUMENTODao(_cn, _transaction, _sDataAdapter);
-
-            _prcGralDao = new ProcesoGralDao(_cn, _transaction, _sDataAdapter);
         }
 
         //////////public Object Accion(Object oDatos)
@@ -85,9 +77,6 @@ namespace SFP.SIT.AFD.Servicio
         {
             try
             {
-                SIT_RED_NODO nodoActual = null;
-
-
                 _afdEdoDataMdl.AFDnodoOrigen =  _afdEdoDataMdl.AFDnodoActMdl;
 
                 if (bAvanzar == true)
@@ -101,32 +90,22 @@ namespace SFP.SIT.AFD.Servicio
                 if (_calcularPlazoNeg == null)
                     _calcularPlazoNeg = new CalcularPlazoNeg(_afdEdoDataMdl.dicDiaNoLaboral);
 
-                if (_afdEdoDataMdl.AFDnodoOrigen.nodregresar > 0)
-                {
-                    nodoActual = _nodoDao.dmlSelectNodoID(_afdEdoDataMdl.AFDnodoOrigen.nodregresar);
-                    nodoActual.nodatendido = AfdConstantes.NODO.EN_PROCESO;
-                    _nodoDao.dmlUpdateNodoAtendido(nodoActual);
-                }
-                else
-                {
-                    nodoActual = new SIT_RED_NODO
-                    {
-                        prcclave = _afdEdoDataMdl.AFDseguimientoMdl.prcclave,
-                        solclave = _afdEdoDataMdl.solClave,
-                        araclave = _afdEdoDataMdl.ID_AreaDestino,
-                        nodcapa = _afdEdoDataMdl.ID_Capa,
-                        nodatendido = AfdConstantes.NODO.EN_PROCESO,
-                        nedclave = _afdEdoDataMdl.ID_EstadoActual,
-                        nodfeccreacion = _afdEdoDataMdl.FechaRecepcion,
-                        nodclave = Constantes.General.ID_PENDIENTE,
-                        usrclave = _afdEdoDataMdl.usrClaveDestino,
-                        perclave = _afdEdoDataMdl.ID_PerfilDestino
-                    };
-                    _nodoDao.dmlAgregar(nodoActual);
-                    nodoActual.nodclave = _nodoDao.iSecuencia;
-                }
                 // CREAR NODO ACTUAL             
-
+                SIT_RED_NODO nodoActual = new SIT_RED_NODO
+                {
+                    prcclave = _afdEdoDataMdl.AFDseguimientoMdl.prcclave,
+                    solclave = _afdEdoDataMdl.solClave,
+                    araclave = _afdEdoDataMdl.ID_AreaDestino,
+                    nodcapa = _afdEdoDataMdl.ID_Capa,
+                    nodatendido = AfdConstantes.NODO.EN_PROCESO,
+                    nedclave = _afdEdoDataMdl.ID_EstadoActual,
+                    nodfeccreacion = _afdEdoDataMdl.FechaRecepcion,
+                    nodclave = Constantes.General.ID_PENDIENTE,
+                    usrclave = _afdEdoDataMdl.usrClaveDestino,
+                    perclave = _afdEdoDataMdl.ID_PerfilDestino
+                };
+                _nodoDao.dmlAgregar(nodoActual);
+                nodoActual.nodclave = _nodoDao.iSecuencia;
 
                 // NODO ACTUAL EL NUEVO CREADO
                 _afdEdoDataMdl.AFDnodoActMdl = nodoActual;
@@ -156,7 +135,7 @@ namespace SFP.SIT.AFD.Servicio
                 _segDao.dmlEditar(_afdEdoDataMdl.AFDseguimientoMdl);
 
                 _afdEdoDataMdl.ID_ClaAristaActual = aristaMdl.ariclave;
-                ////////RespMoverSigNodo(_afdEdoDataMdl.AFDnodoOrigen.nodclave, _afdEdoDataMdl.AFDnodoActMdl.nodclave);
+                RespMoverSigNodo(_afdEdoDataMdl.AFDnodoOrigen.nodclave, _afdEdoDataMdl.AFDnodoActMdl.nodclave);
             }
             catch (Exception ex)
             {
@@ -167,30 +146,210 @@ namespace SFP.SIT.AFD.Servicio
             return true;            
         }
 
-        protected Boolean RespMoverSigNodo(Int64 iNodoOrigen, Int64 iNodoDestino, int iRespEdoAct, int iRespEdoNvo )
+
+        protected Boolean RespMoverSigNodo( Int64 iNodoOrigen, Int64 iNodoDestino )
         {
             try
             {
-                List<SIT_RED_NODORESP> lstResp = new List<SIT_RED_NODORESP>();
-                lstResp = _redNodoRespDao.dmlSelectObtenerRespNodo(iNodoOrigen, Constantes.RespuestaEstado.PROPUESTA);
-                foreach (SIT_RED_NODORESP nodoRedAnt in lstResp)
-                {
-                    SIT_RED_NODORESP nodoRespAct = new SIT_RED_NODORESP
-                    { nodclave = iNodoDestino, repclave = nodoRedAnt.repclave, sdoclave = iRespEdoNvo };
-                    _redNodoRespDao.dmlAgregar(nodoRespAct);
-                    nodoRedAnt.sdoclave = iRespEdoAct;
-                    _redNodoRespDao.dmlEditar(nodoRedAnt);
-                }
-            }
+                SIT_RED_NODORESP nodoRespAct = null;
 
+                List<SIT_RED_NODORESP> lstResp = new List<SIT_RED_NODORESP>();
+
+
+                //SI ES AMPLIACIÓN DE PLAZO NO APLICAR ESTA OPCION..
+                if (_afdEdoDataMdl.rtpclave == Constantes.Respuesta.AMPLIACION_PLAZO)
+                {
+                    lstResp = _redNodoRespDao.dmlSelectRespNodoAmpPlazo(iNodoOrigen);
+
+                    foreach (SIT_RED_NODORESP nodoRedAnt in lstResp)
+                    {
+                        if (nodoRedAnt.sdoclave == Constantes.RespuestaEstado.PROPUESTA)
+                        {
+                            nodoRespAct = new SIT_RED_NODORESP
+                            { nodclave = iNodoDestino, repclave = nodoRedAnt.repclave, sdoclave = Constantes.RespuestaEstado.ANALIZAR };
+                        }
+
+                        if (nodoRespAct != null)
+                        {
+                            _redNodoRespDao.dmlAgregar(nodoRespAct);
+                            nodoRespAct = null;
+                        }
+                    }
+                }
+                else if (_afdEdoDataMdl.rtpclave == Constantes.Respuesta.TURNAR)
+                {
+                    lstResp = _redNodoRespDao.dmlSelectRespNodoTurnar(iNodoOrigen,(int) _afdEdoDataMdl.AFDnodoActMdl.usrclave);
+                    foreach (SIT_RED_NODORESP nodoRedAnt in lstResp)
+                    {
+                        if (nodoRedAnt.sdoclave == Constantes.RespuestaEstado.PROPUESTA)
+                        {
+                            nodoRespAct = new SIT_RED_NODORESP
+                            { nodclave = iNodoDestino, repclave = nodoRedAnt.repclave, sdoclave = Constantes.RespuestaEstado.ANALIZAR };
+                        }
+
+                        if (nodoRespAct != null)
+                        {
+                            _redNodoRespDao.dmlAgregar(nodoRespAct);
+                            nodoRespAct = null;
+                        }
+                    }
+
+                }
+                else
+                {
+                    lstResp = _redNodoRespDao.dmlSelectRespNodo(iNodoOrigen);
+                    foreach (SIT_RED_NODORESP nodoRedAnt in lstResp)
+                    {
+                        if (nodoRedAnt.sdoclave == Constantes.RespuestaEstado.TURNAR)
+                        {
+                            nodoRespAct = new SIT_RED_NODORESP
+                            { nodclave = iNodoDestino, repclave = nodoRedAnt.repclave, sdoclave = Constantes.RespuestaEstado.TURNADO };
+                        }
+                        else if (nodoRedAnt.sdoclave == Constantes.RespuestaEstado.PROPUESTA)
+                        {
+                            nodoRespAct = new SIT_RED_NODORESP
+                            { nodclave = iNodoDestino, repclave = nodoRedAnt.repclave, sdoclave = Constantes.RespuestaEstado.ANALIZAR };
+                        }
+
+                        if (nodoRespAct != null)
+                        {
+                            _redNodoRespDao.dmlAgregar(nodoRespAct);
+                            nodoRespAct = null;
+                        }
+                    }
+                }
+
+
+                
+            }
             catch (Exception exp)
             {
-                throw new Exception("Error al mover las respuestas " + exp.Message);
+                throw new Exception("Error al mover las respuestas " + exp.Message );
             }
             return true;
         }
+        
+        //////protected bool AccionCrearNodoAristaSeg()
+        //////{
+        //////    try
+        //////    {
+        //////        if (_calcularPlazoNeg == null)
+        //////            _calcularPlazoNeg = new CalcularPlazoNeg(_afdEdoDataMdl.dicDiaNoLaboral);
 
+        //////        // CREAR NODO ACTUAL             
+        //////        SIT_RED_NODO nodoActual = new SIT_RED_NODO
+        //////        {
+        //////            prcclave = _afdEdoDataMdl.AFDseguimientoMdl.prcclave,
+        //////            solclave = _afdEdoDataMdl.ID_folio,
+        //////            araclave = _afdEdoDataMdl.ID_AreaDestino,
+        //////            nodcapa = _afdEdoDataMdl.ID_Capa,
+        //////            nodatendido = AfdConstantes.NODO.EN_PROCESO,
+        //////            nedclave = _afdEdoDataMdl.ID_EstadoActual,
+        //////            nodfeccreacion = _afdEdoDataMdl.FechaRecepcion,                    
+        //////            nodclave = Constantes.General.ID_PENDIENTE,
+        //////            usrclave = _afdEdoDataMdl.usrClaveDestino
+        //////        };
+        //////        _nodoDao.dmlAgregar(nodoActual);
+        //////        nodoActual.nodclave = _nodoDao.iSecuencia;
 
+        //////        // NODO ACTUAL EL NUEVO CREADO
+        //////        _afdEdoDataMdl.AFDnodoActMdl = nodoActual;
+
+        //////        /* CREAR ARISTA NODO_ANTERIOR --> NODO_NUEVO  */
+        //////        int[] aiDias = _calcularPlazoNeg.obtenerDiasNaturalesLaborales(nodoAnterior.nodfeccreacion, nodoActual.nodfeccreacion);
+
+        //////        SIT_RED_ARISTA aristaMdl = new SIT_RED_ARISTA {
+        //////            ariclave = Constantes.General.ID_PENDIENTE,
+        //////            nodorigen = nodoAnterior.nodclave,
+        //////            noddestino = nodoActual.nodclave,
+        //////            arifecenvio = nodoAnterior.nodfeccreacion,
+        //////            aridiasnat = aiDias[CalcularPlazoNeg.DIAS_NATURALES],
+        //////            aridiaslab = aiDias[CalcularPlazoNeg.DIAS_LABORALES],
+        //////            arihito = _afdEdoDataMdl.ID_Hito,
+        //////            arimensaje = _afdEdoDataMdl.Observacion,
+        //////            rsbclave = };
+
+        //////        _redAristaDao.dmlAgregar(aristaMdl);
+        //////        aristaMdl.ariclave = _redAristaDao.iSecuencia;
+
+        //////        /* ACTUALIZAR EL SEGUIMIENTO */
+        //////        _afdEdoDataMdl.AFDseguimientoMdl = _calcularPlazoNeg.CalcularSeguimiento(_afdEdoDataMdl.solicitud.sotclave, nodoActual.nodfeccreacion,
+        //////            _afdEdoDataMdl.lstProcesoPlazos, _afdEdoDataMdl.AFDseguimientoMdl);
+        //////        _segDao.dmlEditar(_afdEdoDataMdl.AFDseguimientoMdl);
+
+        //////        GrabarDocumentos(aristaMdl.ariclave);
+
+        //////        _afdEdoDataMdl.ID_ClaAristaActual = aristaMdl.ariclave;
+        //////    }
+        //////    catch (Exception ex)
+        //////    {
+        //////        _sMsjError = ex.ToString();
+        //////        throw new Exception("Error en el método AccionCrearNodoAristaSeg " + ex.ToString());
+        //////    }
+        //////    return true;
+        //////}
+
+        //////protected bool GrabarDocumentos(Int64 iNodo)
+        //////{
+        //////    int iDocId = 0;
+
+        //////    SIT_DOC_DOCUMENTODao docDao;
+
+        //////    AdmDocContNeg admDocNeg;
+
+        //////    if (_afdEdoDataMdl.lstDocContenidoMdl == null)
+        //////        return true; 
+
+        //////    // SIEMPRE TENER A LA SOLICITUD
+        //////    if (_afdEdoDataMdl.lstDocContenidoMdl.Count > 0)
+        //////    {
+        //////        docDao = new SIT_DOC_DOCUMENTODao(_cn, _transaction, _sDataAdapter);
+
+        //////        admDocNeg = new AdmDocContNeg(_afdEdoDataMdl.SharePointCxn, _afdEdoDataMdl.solicitud.solfecsol);
+
+        //////        try
+        //////        {
+        //////            foreach (DocContenidoMdl docContMdl in _afdEdoDataMdl.lstDocContenidoMdl)
+        //////            {
+        //////                if (docContMdl != null)
+        //////                {
+        //////                    if (docContMdl.docnombre != " ")
+        //////                    {
+        //////                        Dictionary<string, object> dicParam = new Dictionary<string, object>();
+        //////                        dicParam.Add(DButil.SIT_DOC_DOCUMENTO_COL.DOCNOMBRE, docContMdl.docnombre);
+        //////                        dicParam.Add(DButil.SIT_DOC_DOCUMENTO_COL.DOCMD5, docContMdl.docmd5);
+        //////                        iDocId = (int)docDao.dmlSelectDocNombreMD5(dicParam);
+        //////                    }
+        //////                    else
+        //////                        iDocId = 0;
+
+        //////                    // VERIFICAR QUE NO EXISTA EL DOCUMENTO
+        //////                    if (iDocId == 0)
+        //////                    {
+        //////                        if (docContMdl.docnombre != " " && docContMdl.doc_contenido != null)
+        //////                            docContMdl.docruta = admDocNeg.Grabar(docContMdl);
+
+        //////                        docDao.dmlAgregar(docContMdl);
+        //////                        iDocId = docDao.iSecuencia;
+        //////                    }
+        //////                    else
+        //////                    {
+        //////                        // REEMPLAZAR
+        //////                        docDao.dmlEditar(docContMdl);
+        //////                    }
+        //////                    ////////SIT_DOC_ARISTA docAriMdl = new SIT_DOC_ARISTA( solclave: _afdEdoDataMdl.ID_folio, docclave: iDocId, ariclave: iClaArista);
+        //////                    ////////docAristaDao.dmlAgregar(docAriMdl);
+        //////                }
+        //////            }
+        //////        }
+        //////        catch (Exception ex)
+        //////        {
+        //////            _sMsjError = ex.ToString();
+        //////            throw new Exception("Error al grabar al grabar un documento " + ex.ToString());
+        //////        }
+        //////    }
+        //////    return true;
+        //////}
 
 
         protected bool GrabarDocSol(Int64 isolClave)
@@ -217,6 +376,11 @@ namespace SFP.SIT.AFD.Servicio
                         {
                             if (docContMdl.docnombre != " ")
                             {
+                                //Dictionary<string, object> dicParam = new Dictionary<string, object>();
+                                //dicParam.Add(DButil.SIT_DOC_DOCUMENTO_COL.DOCNOMBRE, docContMdl.docnombre);
+                                //dicParam.Add(DButil.SIT_DOC_DOCUMENTO_COL.DOCMD5, docContMdl.docmd5);
+                                //iDocId = (int)docDao.dmlSelectDocNombreMD5(dicParam);
+
                                 docContMdl.docmd5 = admDocNeg.ObtenerMD5(docContMdl);
                                 iDocId = (int)docDao.dmlSelectDocNombreMD5(docContMdl.docmd5);
                             }
@@ -252,6 +416,8 @@ namespace SFP.SIT.AFD.Servicio
             return true;
         }
 
+
+
         protected SIT_RED_NODO ExisteNodo(long lFolio, int iNodoEstado, int iUsuario, int iCapa)
         {
             SIT_RED_NODO oNodoBuscar = new SIT_RED_NODO();
@@ -265,134 +431,35 @@ namespace SFP.SIT.AFD.Servicio
             return _nodoDao.dmlSelectNodoExiste(oNodoBuscar);
         }
 
-        protected Object Turnar(AfdEdoDataMdl afdDataMdl, long nodRegresar)
+        protected Object Turnar(AfdEdoDataMdl afdDataMdl)
         {
-            object oResultado = null;            
+            object oResultado = null;
+
+            
             Int32 iTipoAristaIni = afdDataMdl.rtpclave;
-
+            
             SIT_RED_NODO nodoInicial = _nodoDao.dmlSelectNodoID(afdDataMdl.AFDnodoActMdl.nodclave);
+            List<Tuple<int, string, int>> lstPersonasTurnar = _afdEdoDataMdl.dicAuxRespuesta[ProcesoGralDao.PARAM_LISTA_TURNAR] as List<Tuple<int, string, int>>;
 
-            SIT_RESP_TURNARDao turnarDao = new SIT_RESP_TURNARDao(_cn, _transaction, _sDataAdapter);
-            List<SIT_RESP_TURNAR> lstTurnar = turnarDao.dmlSelectTurnarResp(afdDataMdl.repClave);
-            foreach (SIT_RESP_TURNAR usrTurnar in lstTurnar)
-            {
+            //foreach (Tuple<int, string, int> areaTurnar in afdDataMdl.lstPersonasTurnar)
+            foreach (Tuple<int, string, int> areaTurnar in lstPersonasTurnar )
+            {                
                 afdDataMdl.ID_EstadoActual = (int)nodoInicial.nedclave;
                 afdDataMdl.AFDnodoActMdl = nodoInicial;
                 afdDataMdl.rtpclave = iTipoAristaIni;
-                afdDataMdl.usrClaveDestino = usrTurnar.usrclave;
-                afdDataMdl.Observacion = usrTurnar.turinstruccion;
-                afdDataMdl.ID_AreaDestino = usrTurnar.araclave;
+                afdDataMdl.usrClaveDestino = areaTurnar.Item1;
+                afdDataMdl.Observacion = areaTurnar.Item2;
+                ////afdDataMdl.ID_AreaDestPerfil = areaTurnar.;
+                afdDataMdl.ID_AreaDestino = areaTurnar.Item3;                
                 afdDataMdl.ID_Capa = nodoInicial.nodcapa;
+
+
                 oResultado = AccionBase(true);
-
-                afdDataMdl.AFDnodoActMdl.nodregresar = nodRegresar;
-                _nodoDao.dmlUpdateNodoRegresar(afdDataMdl.AFDnodoActMdl);
-
-                // sera uno especial para el aerea que estos turnando
-                RespMoverSigNodo(nodoInicial.nodclave, _afdEdoDataMdl.AFDnodoActMdl.nodclave, Constantes.RespuestaEstado.TURNADO, Constantes.RespuestaEstado.ANALIZAR);
+                ///oResultado = NodoEjecutarProceso(ref afdDataMdl);
             }
 
-            if (lstTurnar.Count > 1)
-            {
-                _segDao.dmlUpdMultiple( afdDataMdl.AFDseguimientoMdl);
-            }
-            
-
-            //List<Tuple<int, string, int>> lstPersonasTurnar = _afdEdoDataMdl.dicAuxRespuesta[ProcesoGralDao.PARAM_LISTA_TURNAR] as List<Tuple<int, string, int>>;
-            //foreach (Tuple<int, string, int> areaTurnar in lstPersonasTurnar )
-            //{                
-            //    afdDataMdl.ID_EstadoActual = (int)nodoInicial.nedclave;
-            //    afdDataMdl.AFDnodoActMdl = nodoInicial;
-            //    afdDataMdl.rtpclave = iTipoAristaIni;
-            //    afdDataMdl.usrClaveDestino = areaTurnar.Item1;
-            //    afdDataMdl.Observacion = areaTurnar.Item2;
-            //    afdDataMdl.ID_AreaDestino = areaTurnar.Item3;                
-            //    afdDataMdl.ID_Capa = nodoInicial.nodcapa;
-            //    oResultado = AccionBase(true);
-                
-            //    afdDataMdl.AFDnodoActMdl.nodregresar = nodRegresar;
-            //    _nodoDao.dmlUpdateNodoRegresar(afdDataMdl.AFDnodoActMdl);
-
-            //    RespMoverSigNodo(nodoInicial.nodclave, _afdEdoDataMdl.AFDnodoActMdl.nodclave, Constantes.RespuestaEstado.TURNADO, Constantes.RespuestaEstado.ANALIZAR);
-            //}        
             return oResultado;
         }
-
-
-        protected int BorrarRepuestas(long nodClave, int rtpClave, int tipo)
-        {
-            int iBorrar = 0;
-            List<SIT_RESP_RESPUESTA> lstResp;
-
-
-            if (tipo == OPE_RESPUESTA_IGUAL)
-            {
-                lstResp = _respRespDao.dmlSelectRespNodoRtpIgual(_afdEdoDataMdl.AFDnodoActMdl.nodclave, _afdEdoDataMdl.rtpclave,
-                    Constantes.RespuestaEstado.PROPUESTA) as List<SIT_RESP_RESPUESTA>;
-            }
-            else
-            {
-                lstResp = _respRespDao.dmlSelectRespNodoRtpDif(_afdEdoDataMdl.AFDnodoActMdl.nodclave, _afdEdoDataMdl.rtpclave,
-                    Constantes.RespuestaEstado.PROPUESTA) as List<SIT_RESP_RESPUESTA>;
-            }
-
-            Dictionary<string, object> dicDatos = new Dictionary<string, object>();
-            dicDatos.Add(DButil.SIT_RED_NODORESP_COL.NODCLAVE, _afdEdoDataMdl.AFDnodoActMdl.nodclave);
-            dicDatos.Add(DButil.SIT_RESP_RESPUESTA_COL.REPCLAVE, 0);
-            dicDatos.Add(DButil.SIT_RESP_RESPUESTA_COL.RTPCLAVE, 0);
-
-
-            foreach (SIT_RESP_RESPUESTA Nodoresp in lstResp)
-            {
-                dicDatos[DButil.SIT_RESP_RESPUESTA_COL.REPCLAVE] = Nodoresp.repclave;
-                dicDatos[DButil.SIT_RESP_RESPUESTA_COL.RTPCLAVE] = Nodoresp.rtpclave;
-
-                _prcGralDao.BorrarRespuesta(dicDatos);
-            }
-
-            return iBorrar;
-        }
-
-
-        protected int ResponderSol()
-        {
-            SIT_RED_NODORESP oNodoResp = _redNodoRespDao.dmlSelectRespUnica(_afdEdoDataMdl.AFDnodoActMdl.nodclave);
-
-            _afdEdoDataMdl.ID_Hito = Constantes.RespuestaHito.NO;
-            _afdEdoDataMdl.ID_AreaDestino = _afdEdoDataMdl.ID_AreaInai;
-            AccionBase(true);
-
-            //RespMoverSigNodo(Int64 iNodoOrigen, Int64 iNodoDestino, int iRespEdoAct, int iRespEdoNvo)
-
-            // ACTUALIZAMOS LOS DATOS DEL SEGUIMIENTO
-            _afdEdoDataMdl.AFDseguimientoMdl.segfecfin = _afdEdoDataMdl.AFDnodoActMdl.nodfeccreacion;
-            _afdEdoDataMdl.AFDseguimientoMdl.segultimonodo = _afdEdoDataMdl.AFDnodoActMdl.nodclave;
-            _afdEdoDataMdl.AFDseguimientoMdl.segedoproceso = AfdConstantes.PROCESO_ESTADO.TERMINADO;
-            _afdEdoDataMdl.AFDseguimientoMdl.usrclave = _afdEdoDataMdl.usrClaveOrigen;
-
-            // SE ACTUALZIA LA ARISTA DE RESPUESTA...
-            _afdEdoDataMdl.AFDseguimientoMdl.repclave = oNodoResp.repclave;
-            _segDao.dmlEditar(_afdEdoDataMdl.AFDseguimientoMdl);
-
-            // FINALIZAMOS EL NODOD CREADO CON LA RESPUESTA
-            _afdEdoDataMdl.AFDnodoActMdl.nodatendido = AfdConstantes.NODO.FINALIZADO;
-            return _nodoDao.dmlEditar(_afdEdoDataMdl.AFDnodoActMdl);
-        }
-
-
-        protected int Asignar()
-        {
-            Int64 iNodoOrigen = _afdEdoDataMdl.AFDnodoActMdl.nodclave;
-            _afdEdoDataMdl.ID_Hito = Constantes.RespuestaHito.NO;
-
-            // ACTUALIZAMOS QUE PERSONA LE VA A DAR SEGUIMIENTO
-            _afdEdoDataMdl.AFDseguimientoMdl.usrclave = _afdEdoDataMdl.usrClaveDestino;
-            _afdEdoDataMdl.ID_AreaDestino = _afdEdoDataMdl.ID_AreaUT;
-            AccionBase(true);
-
-            RespMoverSigNodo(iNodoOrigen, _afdEdoDataMdl.AFDnodoActMdl.nodclave, Constantes.RespuestaEstado.TURNADO, Constantes.RespuestaEstado.ANALIZAR);
-            return 1;
-        }
-
     }
 }
+

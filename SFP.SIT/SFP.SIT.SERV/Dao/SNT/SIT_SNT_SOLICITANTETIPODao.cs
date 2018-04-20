@@ -105,11 +105,8 @@ namespace SFP.SIT.SERV.Dao.SNT
         /*INICIO*/
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " SELECT TSL_CLATIPOSOLTE, TSL_DESCRIPCION  "
-               + " from SIT_SNT_SOLICITANTETIPO "
-                + " order by TSL_CLATIPOSOLTE "
-            + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "WITH Resultado AS(select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from(" +
+                "SELECT * from SIT_SNT_SOLICITANTETIPO order by TSLclave) a) SELECT * from Resultado WHERE recid between :P0 and :P1  ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
 

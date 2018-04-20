@@ -51,7 +51,7 @@ namespace SFP.SIT.AFD.MIGRAR
 
             // CREAR NODO UT-RECIBIR_SOLICITUD
             SIT_RED_NODO nodoUT = new SIT_RED_NODO { prcclave= Constantes.ProcesoTipo.ACLARACION, solclave= _afdEdoDataMdl.solClave, araclave= _afdEdoDataMdl.ID_AreaUT,
-                nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.EN_PROCESO, nodclave= Constantes.NodoEstado.INDEFINIDO,
+                nodcapa= _afdEdoDataMdl.ID_Capa, nodatendido= AfdConstantes.NODO.EN_PROCESO, nodclave= Constantes.NodoEstado.UT_REQ_RIA,
                 nodfeccreacion= _afdEdoDataMdl.FechaRecepcion, nedclave= Constantes.General.ID_PENDIENTE,
                 usrclave = _afdEdoDataMdl.usrClaveDestino};
 

@@ -18,11 +18,9 @@ namespace SFP.SIT.SERV.Model.RED
 	 	 public int nodatendido  { set; get; } 
 	 	 public int? nedclave  { set; get; } 
 	 	 public DateTime nodfeccreacion  { set; get; } 
-	 	 public Int64 nodclave  { set; get; }
-
-        public Int64 nodregresar { set; get; }
-
-        public SIT_RED_NODO () {} 
+	 	 public Int64 nodclave  { set; get; } 
+ 
+	 	 public SIT_RED_NODO () {} 
  
 	 	 public SIT_RED_NODO (
 	 	  int? perclave, DateTime nodfeclectura, int nodusrausencia, int? usrclave, int? prcclave, Int64? solclave, int? araclave, int nodcapa, int nodatendido, int? nedclave, DateTime nodfeccreacion, Int64 nodclave

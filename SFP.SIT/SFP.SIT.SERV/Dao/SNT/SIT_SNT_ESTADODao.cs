@@ -106,12 +106,10 @@ namespace SFP.SIT.SERV.Dao.SNT
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                            + " SELECT KE_CLAEST, EDO.KPA_CLAPAI, KPA_DESCRIPCION, KE_DESCRIPCION,  edofecbaja  "
-            + " FROM SIT_SNT_ESTADO EDO, SIT_SNT_PAIS PAIS "
-            + " WHERE EDO.KPA_CLAPAI = PAIS.KPA_CLAPAI "
-            + " ORDER BY KPA_CLAPAI, KE_CLAEST "
-            + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "   WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                "SELECT EDO.edoclave, PAIS.paiclave, EDO.edodescripcion, PAIS.paidescripcion,  EDO.edofecbaja" +
+                " FROM SIT_SNT_ESTADO EDO, SIT_SNT_PAIS PAIS" +
+                " WHERE EDO.PAICLAVE = PAIS.paiclave ORDER BY PAIS.paiclave, EDO.edoclave ) a ) SELECT * from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
         /*FIN*/

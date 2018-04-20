@@ -62,14 +62,9 @@
 
 <script>
     function Inicializar() {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
-
         ckEditorDefinir(410);
         $('#solclave').val(_solclave);
-        //FormatoSugerido();
+        FormatoSugerido();
 
         $('#btnImprimir').click(function () {
             $('#oficio').val($('#txtCkEditor').val());
@@ -90,7 +85,7 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         $("#solfecsolticks").val(_solfecsolticks);
         $("#respRespuesta_rtpclave").val(@Constantes.Respuesta.INCOMPETENCIA_PARCIAL_AREA);
 
@@ -99,12 +94,12 @@
         document.RespIncompAreaForm.submit();
     }
 
-    ////function Grabar() {
-    ////    $('#avanzar').val(1);
-    ////    if (Validar() === true) {
-    ////        submit();
-    ////    }
-    ////}
+    function Grabar() {
+        $('#avanzar').val(1);
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
     function GrabarIFrame() {
         $('#avanzar').val(0);

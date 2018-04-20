@@ -167,8 +167,8 @@ namespace SFP.SIT.WEB.Controllers
                     afdDataMdl.solicitud = _sitDmlDbSer.operEjecutar<SIT_SOL_SOLICITUDDao>(nameof(SIT_SOL_SOLICITUDDao.dmlSelectID),  dicParamSol) as SIT_SOL_SOLICITUD;
                     // VALORES FIJOS PARA TODOS LOS VALORES DE LA IMPORTACIÓN
                     afdDataMdl.rtpclave = Constantes.Respuesta.RECEPCION_INFO_ADICIONAL;
-                    afdDataMdl.ID_EstadoSiguiente = dicAfdFlujo[Constantes.NodoEstado.INAI_RESPUESTA].dicAccionEstado[Constantes.Respuesta.TURNAR];
-                    afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.INAI_RESPUESTA;
+                    afdDataMdl.ID_EstadoSiguiente = dicAfdFlujo[Constantes.NodoEstado.INAI_RESPUESTA_FINAL].dicAccionEstado[Constantes.Respuesta.TURNAR];
+                    afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.INAI_RESPUESTA_FINAL;
                     afdDataMdl.ID_Capa = Constantes.Capa.NIVEL_CERO;
                     afdDataMdl.solClave = regAclaracion.solclave;
                     afdDataMdl.Observacion = regAclaracion.descripcion;
@@ -225,7 +225,7 @@ namespace SFP.SIT.WEB.Controllers
                     afdDataMdl.FechaRecepcion = DateTime.Now;
                     afdDataMdl.rtpclave = Constantes.Respuesta.ENVIAR;
                     afdDataMdl.ID_PerfilDestino = Constantes.Perfil.UT; 
-                    afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.INAI_SOLICITUD;
+                    afdDataMdl.ID_EstadoActual = Constantes.NodoEstado.INAI_CREAR_SOLICITUD;
                     afdDataMdl.ID_Capa = Constantes.Capa.NIVEL_CERO;
                     afdDataMdl.AFDnodoActMdl = null;
                     if (regArchivoSol.Error == 0)

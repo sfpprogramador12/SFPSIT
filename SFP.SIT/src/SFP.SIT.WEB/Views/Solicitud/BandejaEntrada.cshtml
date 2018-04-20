@@ -1,5 +1,7 @@
 ﻿@using SFP.SIT.SERV.Util
-@{    }
+
+@{
+}
 
 <style>
     i.custom {
@@ -60,7 +62,7 @@
             var CONSULTA_ACTUAL = "ACT";
             var CONSULTA_SEGUIMIENTO = "SEG";
 
-            var _EdoRecibirSolUT = @SFP.SIT.SERV.Util.Constantes.NodoEstado.UT_RECIBIR_SOLICITUD;
+            var _EdoRecibirSolUT = @SFP.SIT.SERV.Util.Constantes.NodoEstado.UT_SOLICITUD_RECIBIR;
             var _TipoProcesoSol = @SFP.SIT.SERV.Util.Constantes.ProcesoTipo.SOLICITUD;
 
             var _solclave = 0;
@@ -357,6 +359,11 @@
                             if (record.PRCCLAVE == _TipoProcesoSol && record.CARAC4 === 1 && record.CARAC5 != 1)
                                 $('#btnAmpliacion').show();
                         }
+
+                        if ($("#cboPerfil").val() == "P3") {
+                            $("#btnSolicitudEditar").css("display", "block");
+                        }
+
 
                         w2ui['gridSolBuscar'].set(record.recid, { nodfeclectura:"LEIDO"});
                         AjaxPostForm('Solicitante', $('#frmBandejaEntrada').serialize(), SolDatosAdicionales, _UrlInicio);

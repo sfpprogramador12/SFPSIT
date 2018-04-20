@@ -99,9 +99,9 @@ namespace SFP.SIT.SERV.Dao.ADM
 
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + " SELECT * FROM SIT_ADM_PERFILCLASES "
-                + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                "SELECT C.CLADESCRIPCION, P.PERDESCRIPCION FROM SIT_ADM_PERFILCLASES PC, SIT_ADM_CLASES C, SIT_ADM_PERFIL P " +
+                "WHERE P.PERCLAVE = PC.PERCLAVE AND C.CLACLAVE = PC.CLACLAVE ) a ) SELECT* from Resultado WHERE recid between :P0 and :P1 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
         /*FIN*/

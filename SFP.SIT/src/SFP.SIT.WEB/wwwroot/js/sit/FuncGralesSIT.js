@@ -57,6 +57,31 @@ function SelectAddElemClear(nombre, elementos, mensaje) {
     $.each(elementos, function (i, item) {
         $('#' + nombre).append($('<option>', {
             value: item.id,
+            text: item.DESCRIP
+        }));
+    });
+}
+
+function SelectAddElemClearText(nombre, elementos, mensaje) {
+    // Primero borramos contenido
+    $('#' + nombre)
+        .find('option')
+        .remove()
+        .end();
+
+    if (mensaje === true) {
+        $('#' + nombre).append($('<option>', {
+            value: 0,
+            text: " -- seleccionar --",
+            disabled: "disabled",
+            selected: "selected"
+        }));
+    }
+
+
+    $.each(elementos, function (i, item) {
+        $('#' + nombre).append($('<option>', {
+            value: item.id,
             text: item.text
         }));
     });
@@ -291,10 +316,6 @@ function PaginacionAct(Registros, RegTotal) {
 
 function FormatoSugerido() {
     var sFormato;
-
-    if (_ListaAccion.records == undefined)
-        return;
-
     for (var i = 0; i < _ListaAccion.records.length; i++) {
         if (_ListaAccion.records[i].id === $('#lstAccion').val()) {
             sFormato = _ListaAccion.records[i].formato;

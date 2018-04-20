@@ -58,7 +58,7 @@ namespace SFP.SIT.AFD.MIGRAR
                 araclave = _afdEdoDataMdl.ID_AreaInai, nodcapa = _afdEdoDataMdl.ID_Capa,
                 nodatendido = AfdConstantes.NODO.FINALIZADO, nodclave = _afdEdoDataMdl.ID_EstadoActual,
                 nodfeccreacion = _afdEdoDataMdl.solicitud.solfecsol,
-                nedclave = Constantes.NodoEstado.INAI_SOLICITUD,
+                nedclave = Constantes.NodoEstado.INAI_CREAR_SOLICITUD,
                 usrclave = _afdEdoDataMdl.usrClaveDestino
             };
 

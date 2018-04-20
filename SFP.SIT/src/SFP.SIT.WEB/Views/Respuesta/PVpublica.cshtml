@@ -83,12 +83,6 @@
     
     function Inicializar()
     {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
-
-
         ckEditorDefinir(_EditorHeight);
         $('#solclave').val(_solclave);
         FormatoSugerido();
@@ -116,7 +110,7 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         $('#nodclave').val(_nodclave);
         $('#solfecsolticks').val(_solfecsolticks);
         $('#respGeneral_gracontenido').val(CKEDITOR.instances.txtCkEditor.getData());
@@ -124,11 +118,11 @@
     }
 
 
-    ////function Grabar() {
-    ////    if (Validar() === true) {
-    ////        submit();
-    ////    }
-    ////}
+    function Grabar() {
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
     function GrabarIFrame() {
         if (Validar() === true) {

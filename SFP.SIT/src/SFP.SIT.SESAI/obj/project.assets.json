@@ -4904,14 +4904,14 @@
       ]
     },
     "Microsoft.DotNet.PlatformAbstractions/1.1.2": {
-      "sha512": "R1BV4p6dJQHjqPSiU3Kb8otyC0pVbk3HWVMx8yi4zQ/eZyQRQ6vli1Ron2GwXVK7+g0RELs2chy+v+v8gTAnmw==",
+      "sha512": "z4CSzQKBFokkmcJgeEGC0n6RNpxHs6/kMpzFPwIh0U6zQN4/wZqK4r96IU9e7yRMTm3kFah9k4LEn3/Ecz6/5A==",
       "type": "package",
       "path": "microsoft.dotnet.platformabstractions/1.1.2",
       "files": [
-        "Microsoft.DotNet.PlatformAbstractions.1.1.2.nupkg.sha512",
-        "Microsoft.DotNet.PlatformAbstractions.nuspec",
         "lib/net451/Microsoft.DotNet.PlatformAbstractions.dll",
-        "lib/netstandard1.3/Microsoft.DotNet.PlatformAbstractions.dll"
+        "lib/netstandard1.3/Microsoft.DotNet.PlatformAbstractions.dll",
+        "microsoft.dotnet.platformabstractions.1.1.2.nupkg.sha512",
+        "microsoft.dotnet.platformabstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.Caching.Abstractions/1.1.2": {
@@ -5033,15 +5033,15 @@
       ]
     },
     "Microsoft.Extensions.DependencyModel/1.1.2": {
-      "sha512": "v/Y38U1tsdr8s5SLpTzbiwsugSFV+JNtm2lGb0agKDt/IwmWFbAqOR/rLr/ER1u4X5cHRv/J2dU6acUzYA0MFQ==",
+      "sha512": "k1dsqK0Xy3jqCr4+1rzKdA94ki3AmYDQm3kExtyJR2SgJyF1vcDPuDhsYw0S0OhffDTlA2RF2B6EaiFIuP6QaQ==",
       "type": "package",
       "path": "microsoft.extensions.dependencymodel/1.1.2",
       "files": [
-        "Microsoft.Extensions.DependencyModel.1.1.2.nupkg.sha512",
-        "Microsoft.Extensions.DependencyModel.nuspec",
         "lib/net451/Microsoft.Extensions.DependencyModel.dll",
         "lib/netstandard1.3/Microsoft.Extensions.DependencyModel.dll",
-        "lib/netstandard1.6/Microsoft.Extensions.DependencyModel.dll"
+        "lib/netstandard1.6/Microsoft.Extensions.DependencyModel.dll",
+        "microsoft.extensions.dependencymodel.1.1.2.nupkg.sha512",
+        "microsoft.extensions.dependencymodel.nuspec"
       ]
     },
     "Microsoft.Extensions.FileProviders.Abstractions/1.1.1": {
@@ -8694,25 +8694,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mlaudino\\.nuget\\packages\\": {},
+    "C:\\Users\\programador12\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.SESAI\\SFP.SIT.SESAI.csproj",
+      "projectUniqueName": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.SESAI\\SFP.SIT.SESAI.csproj",
       "projectName": "SFP.SIT.SESAI",
-      "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.SESAI\\SFP.SIT.SESAI.csproj",
-      "packagesPath": "C:\\Users\\mlaudino\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\src\\SFP.SIT.SESAI\\obj\\",
+      "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.SESAI\\SFP.SIT.SESAI.csproj",
+      "packagesPath": "C:\\Users\\programador12\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\src\\SFP.SIT.SESAI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\mlaudino\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\programador12\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
@@ -8726,8 +8729,8 @@
       "frameworks": {
         "net47": {
           "projectReferences": {
-            "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
-              "projectPath": "C:\\Users\\mlaudino\\Documents\\Visual Studio 2015\\Projects\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
+            "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj": {
+              "projectPath": "C:\\Users\\programador12\\Documents\\SIT\\SFP.SIT\\SFP.SIT.SERV\\SFP.SIT.SERV.csproj"
             }
           }
         }

@@ -24,6 +24,9 @@ namespace SFP.SIT.AFD.Core
             public const int INTERNO = 0;
             public const int EXTERNO = 1;
         }
+
+
+
         public static class MULTIPLE
         {
             public const int NO = 0;

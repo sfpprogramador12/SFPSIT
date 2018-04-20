@@ -116,12 +116,9 @@ namespace SFP.SIT.SERV.Dao.ADM
         }
         public DataTable dmlSelectGrid(BasePagMdl baseMdl)
         {
-            String sqlQuery = " WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( "
-                + "SELECT KA_CLAAREA,  KA_DESCRIPCION, KA_CLAVE, KA_SIGLA, KA_REPORTA, KA_ORDEN, KA_NIVEL,  AREA.KTA_CLATIPO_AREA, KTA_DESCRIPCION, KP_CLAPERFIL "
-                + " from SIT_ADM_KAREA AREA, SIT_ADM_KTIPO_AREA TAREA "
-                + " WHERE AREA.KTA_CLATIPO_AREA = TAREA.KTA_CLATIPO_AREA "
-                + " order by KA_CLAAREA"
-                + " ) a ) SELECT * from Resultado  WHERE recid  between :P0 and :P1 ";
+            String sqlQuery = "  WITH Resultado AS( select COUNT(*) OVER() RESULT_COUNT, rownum recid, a.* from ( " +
+                "SELECT * from SIT_ADM_AREA AREA, SIT_ADM_AREATIPO TAREA " +
+                "WHERE AREA.ARACLAVE = TAREA.ATPCLAVE order by ARACLAVE ) a ) SELECT* from Resultado WHERE recid between 1 and 100 ";
             return (DataTable)ConsultaDML(sqlQuery, baseMdl.LimInf, baseMdl.LimSup);
         }
         /*FIN*/

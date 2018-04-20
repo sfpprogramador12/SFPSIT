@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 
 namespace SFP.Persistencia.Servicio
 {
     public class DmlDbSer : BaseFunc
     {
-        private BaseDbMdl _objDbModel { set; get; }
+        private BaseDbMdl _objDbModel;
 
         public DmlDbSer(BaseDbMdl objDbMode) : base (null, null, null)
         {
@@ -38,9 +39,9 @@ namespace SFP.Persistencia.Servicio
             catch (Exception e)
             {
                 if (oEntidad != null)
-                    MsjError = ((BaseFunc)oEntidad).MsjError;
+                    _sMsjError = ((BaseFunc)oEntidad).MsjError;
                 else
-                    MsjError = e.Message;
+                    _sMsjError = e.Message;
             }
             finally
             {
@@ -54,6 +55,7 @@ namespace SFP.Persistencia.Servicio
         {
             Object oEntidad = null;
             Object oResultado = null;
+
             Type tyObjeto = Type.GetType(sClase);
 
             if (tyObjeto != null)
@@ -67,15 +69,24 @@ namespace SFP.Persistencia.Servicio
                         connection.Open();
 
                         oEntidad = Activator.CreateInstance(tyObjeto, connection, null, _objDbModel.objDbDataAdapter);
+
                         if (objParam == null)
+                        {
                             oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, null);
+                        }
                         else
-                            oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });                        
+                        {
+                            MethodInfo method = tyObjeto.GetMethod(sMetodo);
+                            object[] obj = new object[1];
+                            obj.SetValue(objParam, 0);
+                            oResultado = method.Invoke(oEntidad, obj);
+                            //oResultado = oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    MsjError = ((BaseFunc)oEntidad).MsjError;
+                    _sMsjError = ((BaseFunc)oEntidad).MsjError;
                     Console.Write(e.Message);
                 }
                 finally
@@ -115,16 +126,16 @@ namespace SFP.Persistencia.Servicio
                         else
                         {
                             // HUbo un error lógico o existia un try catch que lo resolvio..
-                            MsjError = bfEntidad.MsjError;
+                            _sMsjError = bfEntidad.MsjError;
                             transaction.Rollback();
                         }
                     }
                     catch (Exception e)
                     {
                         if (bfEntidad.MsjError != null)
-                            MsjError = bfEntidad.MsjError;
+                            _sMsjError = bfEntidad.MsjError;
                         else
-                            MsjError = e.Message;
+                            _sMsjError = e.Message;
 
                         oResultado = null;
                         transaction.Rollback();
@@ -133,8 +144,9 @@ namespace SFP.Persistencia.Servicio
                 }
             }
             catch (Exception e)
-            {                
-                Console.WriteLine("Error al conextarse a la Base de Datos  : " + e.ToString());
+            {
+                _sMsjError = "Error al conextarse a la Base de Datos";
+                Console.WriteLine("Error en la conexión  : " + e.ToString());
             }
             finally
             {
@@ -154,64 +166,55 @@ namespace SFP.Persistencia.Servicio
 
             Type tyObjeto = Type.GetType(sClase);
 
-            if (tyObjeto == null)
+            if (tyObjeto != null)
             {
-                return null;
-            }
-
-            try
-            {
-                using (connection = ObtenerObjeto<DbConnection>(_objDbModel.objDbConnection))
+                try
                 {
-                    connection.ConnectionString = _objDbModel.connectionString;
-                    connection.Open();
-                    transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-                    try
+                    using (connection = ObtenerObjeto<DbConnection>(_objDbModel.objDbConnection))
                     {
-                        oEntidad = Activator.CreateInstance(tyObjeto, connection, null, _objDbModel.objDbDataAdapter);
-                        if (objParam == null)
+                        connection.ConnectionString = _objDbModel.connectionString;
+                        connection.Open();
+                        transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+                        try
                         {
-                            bfEntidad = (BaseFunc)oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, null);
-                        }
-                        else
-                        {
-                            bfEntidad = (BaseFunc)oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });
-                        }
+                            oEntidad = Activator.CreateInstance(tyObjeto, connection, null, _objDbModel.objDbDataAdapter);
+                            if (objParam == null)
+                                bfEntidad = (BaseFunc) oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, null);
+                            else
+                                bfEntidad = (BaseFunc)oEntidad.GetType().GetMethod(sMetodo).Invoke(oEntidad, new[] { objParam });                            
 
-                        if (bfEntidad.MsjError == "" || bfEntidad.MsjError == null)
-                        {
-                            transaction.Commit();
-                        }                            
-                        else
-                        {
-                            MsjError = bfEntidad.MsjError;
-                            transaction.Rollback();
-                        }
-                    }
+                            if (bfEntidad.MsjError == "" || bfEntidad.MsjError == null)
+                                transaction.Commit();
+                            else
+                            {
+                               _sMsjError = bfEntidad.MsjError;
+                                transaction.Rollback();
+                                }
+                            }
                     catch (Exception e)
-                    {
-                        if (bfEntidad.MsjError != null)
-                            MsjError = bfEntidad.MsjError;
-                        else
-                            MsjError = e.Message;
+                        {
+                            if (bfEntidad.MsjError != null)
+                                _sMsjError = bfEntidad.MsjError;
+                            else
+                                _sMsjError = e.Message;
 
-                        oResultado = null;
-                        transaction.Rollback();
-                        Console.WriteLine("Operación cancelada : " + e.ToString());
+                            oResultado = null;
+                            transaction.Rollback();
+                            Console.WriteLine("Operación cancelada : " + e.ToString());
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    _sMsjError = "Error al conextarse a la Base de Datos";
+                    Console.WriteLine("Error en la conexión  : " + e.ToString());
+                }
+                finally
+                {
+                    if (connection != null)
+                        connection.Close();
+                }
             }
-            catch (Exception e)
-            {
-                MsjError = "Error al conextarse a la Base de Datos";
-                Console.WriteLine("Error en la conexión  : " + e.ToString());
-            }
-            finally
-            {
-                if (connection != null)
-                    connection.Close();
-            }
-
             return oResultado;
         }
     }

@@ -60,14 +60,9 @@
 <iframe name="iframeAux" onload="Actualizar(event)" style="display:none;"></iframe>
 
 <script>
-
     function Inicializar() {
-        _Inicio = true;
-        _perclave = @ViewBag.perClave;
-        _rtpClave = @ViewBag.rtpClave;
-
         ckEditorDefinir(_EditorHeight);
-        //FormatoSugerido();
+        FormatoSugerido();
 
         $('#btnImprimir').click(function () {
             $('#oficio').val($('#txtCkEditor').val());
@@ -87,26 +82,24 @@
     }
 
     function submit() {
-        _Inicio = false;
+        _Inicio = true;
         $("#solclave").val(_solclave);
         $("#proclave").val(_proclave);
         $("#nodclave").val(_nodclave);
         $("#araclave").val(_araclave);
         $("#solfecsol").val(_solfecsolticks);
 
-
-
         $("#btnAccion").hide();
         document.AmpPlazoForm.submit();
     }
 
 
-    //function Grabar() {
-    //    $('#avanzar').val(1);
-    //    if (Validar() === true) {
-    //        submit();
-    //    }
-    //}
+    function Grabar() {
+        $('#avanzar').val(1);
+        if (Validar() === true) {
+            submit();
+        }
+    }
 
 
     function GrabarIFrame() {
