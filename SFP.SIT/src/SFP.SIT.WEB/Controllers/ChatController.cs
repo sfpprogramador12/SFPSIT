@@ -48,7 +48,7 @@ namespace SFP.SIT.WEB.Controllers
 
             Dictionary<string, object> dicParam = new Dictionary<string, object>();
             dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, currentUserId);
-            List<UsuarioViewModel> UsersConnected = (List<UsuarioViewModel>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
+            List<UsuarioViewModel> UsersConnected = (List<UsuarioViewModel>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuarios), dicParam);
 
             ViewBag.ConnectedUsers = JsonTransform.convertJson(UsersConnected as List<UsuarioViewModel>);
             ViewBag.YourId = currentUserId;

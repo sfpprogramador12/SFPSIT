@@ -277,8 +277,6 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESA
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfo.cs
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.pdb
-C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe.config
-C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CopyComplete
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.deps.json
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SESAI.exe
@@ -412,9 +410,12 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\S
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.SIT.SERV.dll.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.pdb
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\bin\Debug\net47\SFP.Persistencia.dll.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csprojResolveAssemblyReference.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CoreCompileInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfoInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.AssemblyInfo.cs
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.pdb
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.exe.config
+C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.SESAI\obj\Debug\net47\SFP.SIT.SESAI.csproj.CopyComplete
