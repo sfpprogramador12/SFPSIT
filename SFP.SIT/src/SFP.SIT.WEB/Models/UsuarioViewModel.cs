@@ -6,8 +6,10 @@ namespace SFP.SIT.WEB.Models
     public class UsuarioViewModel
     {
         public SIT_ADM_USUARIO AdmUsuMdl { get; set; }
-        public string UsuarioNombre {
-            get {
+        public string UsuarioNombre
+        {
+            get
+            {
                 if (AdmUsuMdl == null)
                     return "";
                 else
@@ -20,6 +22,9 @@ namespace SFP.SIT.WEB.Models
         public List<SIT_ADM_MODULO> lstModulo { get; set; }
         public string sCboPerfilArea { get; set; }
         public Dictionary<int, string> usuarioBase { get; set; }
-        public Dictionary<int, string> usuariosCompartidos{ get; set; }
+        public Dictionary<int, string> usuariosCompartidos { get; set; }
+        public string UsuarioActivo { get; set; }
+        public string SharedUsers { get; set; }
+        
     }
 }

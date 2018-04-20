@@ -116,7 +116,10 @@ namespace SFP.SIT.WEB.Controllers
                         new Claim(ConstantesWeb.Usuario.PERFILES,JsonTransform.Serializar(usrMdl.lstPerfil)),
                         new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(usrMdl.lstModulo)),
                         new Claim(ConstantesWeb.Usuario.CORREO, usrMdl.AdmUsuMdl.usrcorreo ),
-                        new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea )
+                        new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea ),
+                        new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(usrMdl.UsuarioActivo) ),
+                        new Claim(ConstantesWeb.Usuario.USUARIOBASE, JsonTransform.Serializar(usrMdl.usuarioBase) ),
+                        new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.Serializar(usrMdl.SharedUsers) )
                     };
 
                     /* Traer usuarios que comparte y guardarlos en el context*/

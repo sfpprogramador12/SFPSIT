@@ -540,3 +540,6 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP
 C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.exe.config
 C:\Users\Maklau\Documents\Visual Studio 2017\Projects\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.csproj.CopyComplete
 C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\obj\Debug\net47\SFP.SIT.WEB.csproj.CopyComplete
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.pdb
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe.config

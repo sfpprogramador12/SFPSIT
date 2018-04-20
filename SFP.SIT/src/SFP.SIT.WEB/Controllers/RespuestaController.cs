@@ -152,7 +152,7 @@ namespace SFP.SIT.WEB.Controllers
                 resRespuesta.repoficio = "S/N";
 
                 Dictionary<string, object> dicDatos = dicGlobalResponder(turnarClaNodo, Constantes.RespuestaEstado.PROPUESTA, resRespuesta,
-                    Constantes.Respuesta.TURNAR, turnarfecsolticks, PersistenciaConst.OPERACION.INSERTAR, ProcesoGralDao.PARAM_RESP_TURNAR);
+                    Constantes.Respuesta.TURNAR, turnarfecsolticks, PersistenciaConst.Operacion.INSERTAR, ProcesoGralDao.PARAM_RESP_TURNAR);
 
                 // DATOS DE LA RESPUESTA..
                 dicDatos.Add(ProcesoGralDao.PARAM_DOC_CONTENIDO, DocResp);

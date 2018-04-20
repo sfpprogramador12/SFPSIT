@@ -15,6 +15,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
     <ProjectReference Include="..\..\SFP.SIT.AFD\SFP.SIT.AFD.csproj" />
+    <ProjectReference Include="..\..\SFP.SIT.FLUJO\SFP.SIT.FLUJO.csproj" />
     <ProjectReference Include="..\..\SFP.SIT.SERV\SFP.SIT.SERV.csproj" />
   </ItemGroup>
 

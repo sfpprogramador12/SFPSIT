@@ -32,7 +32,7 @@ namespace SFP.SIT.WEB.Services
             SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
             SIT_ADM_USUARIO admUsrMdl = admUsuDao.dmlSelectValidarCorreo(dicParam) as SIT_ADM_USUARIO;
             if (admUsrMdl != null)
-            {                                
+            {
                 UsrMdl.AdmUsuMdl = admUsrMdl;
                 dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, admUsrMdl.usrclave);
                 UsrMdl.lstAreas = new SIT_ADM_USUARIOAREADao(_cn, _transaction, _sDataAdapter).dmlUsuarioArea(dicParam) as List<SIT_ADM_AREAHIST>;
@@ -109,9 +109,52 @@ namespace SFP.SIT.WEB.Services
             return UsrMdl;
         }
 
+
+        public List<UsuarioViewModel> EncontrarUsuarios(Dictionary<string, object> dicParam)
+        {
+            UsuarioViewModel UsrMdl = new UsuarioViewModel();
+            SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
+            List<SIT_ADM_USUARIO> admUsrMdl = admUsuDao.dmlSelectEncontrarUsuariosActivos(dicParam) as List<SIT_ADM_USUARIO>;
+            List<UsuarioViewModel> respuesta = new List<UsuarioViewModel>();
+            if (admUsrMdl != null)
+            {
+                foreach (SIT_ADM_USUARIO admPerfil in admUsrMdl)
+                {
+                    respuesta.Add(new UsuarioViewModel()
+                    {
+                        AdmUsuMdl = admPerfil
+                    });
+                }
+
+            }
+            return respuesta;
+        }
+
+        /*encuentra los mensajes salientes y entrantes de un usuario*/
+        public UsuarioViewModel MensajesUsuario(Dictionary<string, object> dicParam)
+        {
+            UsuarioViewModel UsrMdl = new UsuarioViewModel();
+            SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
+            SIT_ADM_USUARIO admUsrMdl = admUsuDao.dmlSelectUsuarioConversations(dicParam) as SIT_ADM_USUARIO;
+            UsuarioViewModel respuesta = new UsuarioViewModel();
+            if (admUsrMdl != null)
+            {
+                respuesta = (new UsuarioViewModel()
+                {
+                    AdmUsuMdl = admUsrMdl
+                });
+            }
+            return respuesta;
+        }
+
         public Object CambiarContraseña(SIT_ADM_USUARIO admUsr)
-        {            
-            return  (int )new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdContraseña(admUsr) ; 
+        {
+            return (int)new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdContraseña(admUsr);
+        }
+
+        public Object UpdateConversation(SIT_ADM_USUARIO admUsr)
+        {
+            return (int)new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlUpdConversation(admUsr);
         }
 
         /*
@@ -120,15 +163,22 @@ namespace SFP.SIT.WEB.Services
         public Dictionary<int, string> GetUsuariosCompartidos(string userClave)
         {
             Dictionary<int, string> users = new Dictionary<int, string>();
+            try
+            {
+                foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave))
+                {
+                    users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + " " + actual.usrmaterno);
+                }
+            }
+            catch (Exception e)
+            {
 
-            foreach (SIT_ADM_USUARIO actual in new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter).dmlGetSharedUsers(userClave)) {
-                users.Add(actual.usrclave, actual.usrnombre + " " + actual.usrpaterno + "" + actual.usrmaterno);
             }
 
             return users;
         }
 
-        
+
 
         public Object OlvidarContraseña(Object oDatos)
         {
@@ -141,7 +191,7 @@ namespace SFP.SIT.WEB.Services
             String sMensaje = null;
             AdmCorreoNeg admCorreo = null;
             CfgCorreoMdl oCfgCorreo = null;
-           
+
             SIT_ADM_USUARIODao admUsuDao = new SIT_ADM_USUARIODao(_cn, _transaction, _sDataAdapter);
             SIT_ADM_USUARIO admUsuMdl = admUsuDao.dmlSelectExisteUsr(dicParamIn[DButil.SIT_ADM_USUARIO_COL.USRCORREO].ToString()) as SIT_ADM_USUARIO;
 
