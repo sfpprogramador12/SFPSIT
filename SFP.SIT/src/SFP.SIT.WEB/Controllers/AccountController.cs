@@ -191,7 +191,8 @@ namespace SFP.SIT.WEB.Controllers
                 new Claim(ConstantesWeb.Usuario.CORREO, impersonatedUser.AdmUsuMdl.usrcorreo ),
                 new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, impersonatedUser.sCboPerfilArea ),
                 new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(impersonatedUser.usuariosCompartidos) ),
-                new Claim(ConstantesWeb.Usuario.USUARIOBASE, userBase)
+                new Claim(ConstantesWeb.Usuario.USUARIOBASE, userBase),
+                new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(impersonatedUser.AdmUsuMdl.usractivo) )
             };
 
             ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));

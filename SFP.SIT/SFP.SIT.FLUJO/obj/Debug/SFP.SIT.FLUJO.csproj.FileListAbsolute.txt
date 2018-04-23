@@ -11,7 +11,6 @@ C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.Persist
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.SERV.pdb
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\bin\Debug\SFP.SIT.SERV.dll.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.FLUJO.csprojResolveAssemblyReference.cache
-C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.exe.config
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.FLUJO.csproj.CoreCompileInputs.cache
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.exe
 C:\Users\programador12\Documents\SIT\SFP.SIT\SFP.SIT.FLUJO\obj\Debug\SFP.SIT.WINPRC.pdb

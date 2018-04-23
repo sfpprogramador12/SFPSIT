@@ -543,3 +543,11 @@ C:\Users\mlaudino\Documents\Visual Studio 2015\Projects\SFP.SIT\src\SFP.SIT.WEB\
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.pdb
 C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\SFP.SIT.WINPRC.exe.config
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\ClosedXML.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\DocumentFormat.OpenXml.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\ExcelNumberFormat.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\FastMember.Signed.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\System.IO.Packaging.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\Microsoft.Office.Interop.Excel.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\EPPlus.dll
+C:\Users\programador12\Documents\SIT\SFP.SIT\src\SFP.SIT.WEB\bin\Debug\net47\OfficeOpenXml.Extends.dll

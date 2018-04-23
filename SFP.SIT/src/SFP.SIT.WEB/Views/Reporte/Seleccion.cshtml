@@ -11,28 +11,51 @@
         <div class="w2ui-field">
             <label>Tipo de Reporte:</label>
             <div>
-                <input name="Tipo_Reporte" type="text" size="150" />
+                <input name="Tipo_Reporte" type="text" size="120" />
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Estado Actual:</label>
+            <div>
+                <select id="EstadoActual" name="EstadoActual" style="float: left; width:400px;"></select>
             </div>
         </div>
         <div class="w2ui-field">
             <label>Tipo de proceso:</label>
-            <div>                
-                <select id="TipoProceso" name="TipoProceso" style="float: left;width:800px;"> </select>
+            <div>
+                <select id="TipoProceso" name="TipoProceso" style="float: left;width:400px;"> </select>
             </div>
         </div>
         <div class="w2ui-field">
             <label>Áreas:</label>
             <div>
-                <select id="Area" name="Area" style="float: left;width:800px;"> </select>
+                <select id="Area" name="Area" style="float: left;width:400px;"> </select>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Acción Realizada:</label>
+            <div>
+                <select id="AccionRealizada" name="AccionRealizada" style="float: left;width:400px;"> </select>
             </div>
         </div>
         <div class="w2ui-field">
             <label>Tipo de Solicitud:</label>
-            <div><select id="TipoSolicitud" name="TipoSolicitud" style="float: left;width:300px;"> </select></div>
+            <div>
+                <select id="TipoSolicitud" name="TipoSolicitud" style="float: left;width:400px;">
+                    
+                </select>
+            </div>
         </div>
         <div class="w2ui-field">
             <label>Tipo de Respuesta:</label>
-                <div><select id="TipoArista" name="TipoArista" style="float: left;width:800px;"> </select>
+            <div>
+                <select id="TipoArista" name="TipoArista" style="float: left;width:800px;"> </select>
+            </div>
+        </div>
+        <div class="w2ui-field">
+            <label>Tipo Determinación:</label>
+            <div>
+                <select id="TipoDeterminacion" name="TipoDeterminacion" style="float: left;width:400px;"> </select>
             </div>
         </div>
         <div class="w2ui-field">
@@ -55,6 +78,12 @@
                 <input name="Semaforo" type="text" size="10" />
             </div>
         </div>
+        <div class="w2ui-field">
+            <label>Formato de Salida:</label>
+            <div>
+                <select id="Formato" name="Formato" style="float: left;width:400px;"> </select>
+            </div>
+        </div>
     </div>
     <div class="w2ui-buttons">
         <button class="btn" name="reset">Limpiar valores</button>
@@ -66,17 +95,84 @@
 @section Scripts
 {
     <script type="text/javascript">
+
+        function SelectAddElemClear(nombre, elementos, mensaje) {
+            // Primero borramos contenido
+            $('#' + nombre)
+                .find('option')
+                .remove()
+                .end();
+
+            if (mensaje === true) {
+                $('#' + nombre).append($('<option>', {
+                    value: 0,
+                    text: " -- seleccionar --",
+                    disabled: "disabled",
+                    selected: "selected"
+                }));
+            }
+
+
+            $.each(elementos, function (i, item) {
+                $('#' + nombre).append($('<option>', {
+                    value: item.id,
+                    text: item.DESCRIP
+                }));
+            });
+        }
+
+        function SelectAddElemClearText(nombre, elementos, mensaje) {
+            // Primero borramos contenido
+            $('#' + nombre)
+                .find('option')
+                .remove()
+                .end();
+
+            if (mensaje === true) {
+                $('#' + nombre).append($('<option>', {
+                    value: 0,
+                    text: " -- seleccionar --",
+                    disabled: "disabled",
+                    selected: "selected"
+                }));
+            }
+
+
+            $.each(elementos, function (i, item) {
+                $('#' + nombre).append($('<option>', {
+                    value: item.id,
+                    text: item.text
+                }));
+            });
+        }
+
+
         var _Areas = @Html.Raw(ViewBag.areas);
         var _TipoSolicitud = @Html.Raw(ViewBag.SolicitudTipo);
         var _TipoResp = @Html.Raw(ViewBag.tipoArista);
         var _TipoProceso = @Html.Raw(ViewBag.ProcesoTipo);
 
+        var _EstadoActual =      {records:[{ id: '0', text: 'En proceso' }, { id: '1', text: 'Concluído' } ]};
+        var _AccionRealizada =   {records:[{ id: '0', text: 'Turnar' }, { id: '1', text: 'Notificación de Prórroga' }]};
+        var _TipoDeterminacion = {records:[{ id: '0', text: 'Confirma' }, { id: '1', text: 'Modifica' }, { id: '2', text: 'Revoca' }]};
+        var _Formato =           {records:[{ id: '0', text: 'PDF' }, { id: '1', text: 'Excel' }]};
+        
+
         $(function () {
 
             SelectAddElemClear("TipoSolicitud", _TipoSolicitud.records, true);
+            //Subtipos de Solicitud
+            $('#TipoSolicitud').append($('<optgroup label="DATOS PERSONALES"><option value="ACCESO">ACCESO</option><option value="RECTIFICACIÓN">RECTIFICACIÓN</option><option value="OPOSICIÓN">OPOSICIÓN</option><option value="CANCELACIÓN">CANCELACIÓN</option></optgroup>'));
+
             SelectAddElemClear("Area", _Areas.records, true);
             SelectAddElemClear("TipoProceso", _TipoProceso.records, true);
-            SelectAddElemClear("TipoArista", _TipoResp.records, true);
+            SelectAddElemClearText("TipoArista", _TipoResp.records, true);
+            SelectAddElemClearText("EstadoActual", _EstadoActual.records, true);
+            SelectAddElemClearText("AccionRealizada", _AccionRealizada.records, true);
+            SelectAddElemClearText("TipoDeterminacion", _TipoDeterminacion.records, true);
+            SelectAddElemClearText("Formato", _Formato.records, true);
+
+
 
             $('#formReporte').w2form({
                             name   : 'formReporte',
@@ -84,8 +180,8 @@
                 fields : [
                     { field: 'Tipo_Reporte', type: 'list', required: true,
                         options: { items: [
-                                { id: '1', text:'Solicitudes Acceso a la Información Recibidas en la SFP'},
-                                { id: '2',  text:'Solicitudes de Acceso a la Información en las que la Unidad de Enlace determinó la Incompetencia de la SFP'},
+                                { id: '1',  text:'Solicitudes Acceso a la Información Recibidas en la SFP'},
+                                { id: '2',  text:'Solicitudes de Acceso a la Información en las que la Unidad de Transparencia determinó la Incompetencia de la SFP'},
                                 { id: '3',  text:'Solicitudes de Acceso a la Información en las que la U.A. de la SFP determinaron la Incompetencia para atenderlas'},
                                 { id: '4',  text:'Solicitudes de Acceso a la Información que fueron atendidas proporcionando Información Pública'},
                                 { id: '5',  text:'Resoluciones emitidas por ampliación del periodo de respuesta de las solicitudes'},
@@ -93,14 +189,20 @@
                                 { id: '7',  text:'Resoluciones emitidas por la puesta a disposición de información con datos confidenciales a testar (versión pública)'},
                                 { id: '8',  text:'Resoluciones emitidas por la reserva  de la información requerida por el peticionario'},
                                 { id: '9',  text:'Resoluciones emitidas con respuesta mixta (inexistencia y/o versión pública y/o reserva y/o información pública) del periodo de respuesta de las solicitudes'},
-                                { id: '10', text:'Resoluciones emitidas por  cumplimiento a las determinaciones del IFAI en los recursos de Revisión'},
+                                { id: '10', text:'Resoluciones emitidas por  cumplimiento a las determinaciones del INAI en los recursos de Revisión'},
                                 { id: '11', text:'Promedio de días en la atención de Solicitudes de Acceso a la Información'},
-                                { id: '12', text:'Recursos de Revisión que fueron desechados por el IFAI'},
-                                { id: '13', text:'Recursos de Revisión que fueron sobreseídos por el IFAI'},
+                                { id: '12', text:'Recursos de Revisión que fueron desechados por el INAI'},
+                                { id: '13', text:'Recursos de Revisión que fueron sobreseídos por el INAI'},
                                 { id: '14', text:'Recursos de Revisión que modificaron la respuesta brindada por la SFP'},
                                 { id: '15', text:'Recursos de Revisión que revocaron la respuesta brindada por la SFP'},
-                                { id: '16', text:'Recursos de Revisión que confirmaron la respuesta brindada por la SFP'} ]}},
-                    { field: 'Semaforo', type: 'list', options: { items: [ { id: '1', text:'Rojo'}, { id: '2', text:'Amarillo'},{ id: '1', text:'Verde'}]} }
+                                { id: '16', text:'Recursos de Revisión que confirmaron la respuesta brindada por la SFP' }]
+                        }
+                    },
+                    {
+                        field: 'Semaforo', type: 'list',
+                            options: { items: [{ id: '1', text: 'Rojo' }, { id: '2', text: 'Amarillo' }, { id: '1', text: 'Verde' }] }
+                    }   
+              
                 ],
                 actions: {
                     reset: function () {
@@ -108,6 +210,12 @@
                         $('#Area').val("");
                         $('#TipoProceso').val("");
                         $('#TipoArista').val("");
+                        
+                        $("3EstadoActual").val("");
+                        $("#AccionRealizada").val("");
+                        $("#TipoDeterminacion").val("");
+                        $("#Formato").val("");
+
 
                         $('#Folio1').val("");
                         $('#Folio2').val("");
@@ -119,14 +227,18 @@
                             w2alert("Es necesario definir un reporte");
                             return;
                         }
-                        if ( this.record.Tipo_Reporte === undefined){
+                        if ( this.record.Tipo_Reporte === undefined ){
                             w2alert("Es necesario definir un reprote");
+                            return;
+                        }
+                        if ($("#Formato").val() === null) {
+                            w2alert("Es necesario seleccionar el formato del reprote");
                             return;
                         }
 
 
                         var objStatus, objUA, objTipoSol, objTipoResp, objFol, objPer1, objPer2, objSemaforo;
-                        var iStatus, iUA, iTipoSol, iTipoResp;
+                        var iStatus, iUA, iTipoSol, iTipoResp, formatoFile, iSemaforo;
 
                         objStatus   = this.record.Status_sol;
                         objUA       = this.record.UA;
@@ -134,8 +246,10 @@
                         objTipoResp = this.record.Tipo_Respuesta;
                         objFol      = this.record.Folio;
                         objPer1     = this.record.Periodo1;
-                        objPer2     = this.record.Periodo2;
+                        objPer2 = this.record.Periodo2;
                         objSemaforo = this.record.Semaforo;
+                        formatoFile = $("#Formato").val();
+                        console.log("SEMA: ");
 
                         if ( objPer1 !== undefined && objPer2 !== undefined){
                             if (jsStringtoDate(objPer1) > jsStringtoDate(objPer2)) {
@@ -151,8 +265,11 @@
                         objUA       === undefined ? iUA = 0         : iUA       = objUA.id;
                         objTipoSol  === undefined ? iTipoSol = 0    : iTipoSol  = objTipoSol.id;
                         objTipoResp === undefined ? iTipoResp = 0   : iTipoResp = objTipoResp.id;
-
-                        var href = urlConsulta(this.record.Tipo_Reporte.id, iStatus, iUA, iTipoSol, iTipoResp, objFol, objPer1, objPer2, objSemaforo);
+                        objSemaforo === undefined ? iSemaforo = 0   : iSemaforo = objSemaforo.id;
+    
+                        //if (formatoFile == "pdf")
+                        var href = urlConsulta(this.record.Tipo_Reporte.id, iStatus, iUA, iTipoSol, iTipoResp, objFol, objPer1, objPer2, iSemaforo, formatoFile);
+                        console.log("Gnerando Repsiorte: " + href);
                         window.open(href, '_blank');
                     }
                     }
@@ -172,12 +289,12 @@
                 return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
-        function urlConsulta(pIdReporte, iStatus, iUA, iTipoSol, iTipoResp, objFol,objPer1,objPer2, objSemaforo )
+        function urlConsulta(pIdReporte, iStatus, iUA, iTipoSol, iTipoResp, objFol, objPer1, objPer2, objSemaforo, formatoFile )
         {
             var url = "@Html.Raw(@Url.Action("CrearReporte", "Reporte", new {
                         REP = "param1",   STATUS = "param2",  AREA = "param3", TIPSOL = "param4",
                         TIPRES = "param5", FOLIO = "param6",  FECSOLINI = "param7",FECSOLFIN = "param8",
-                        SEMAFORO = "param9"
+                        SEMAFORO = "param9", FORMATO = "param10"
                         }))";
 
         url = url.replace("param1", pIdReporte);
@@ -189,6 +306,7 @@
         url = url.replace("param7", objPer1);
         url = url.replace("param8", objPer2);
         url = url.replace("param9", objSemaforo);
+        url = url.replace("param10", formatoFile);
 
         return url;
     }
