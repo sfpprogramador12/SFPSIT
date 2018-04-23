@@ -136,27 +136,40 @@
 
             $().w2grid(GetGridCat());
             $().w2grid(GetGridCatArea());
+            $().w2grid(GetGridCatAreaGestion());
+            $().w2grid(GetGridCatAreaHistorico());
+            $().w2grid(GetGridCatAreaNivel());
+            $().w2grid(GetGridCatAreaOrganizacion());
+            $().w2grid(GetGridCatAreaTipo());
+            $().w2grid(GetGridClase());
             $().w2grid(GetGridCatConfig());
             $().w2grid(GetGridCatDiaLab());
             $().w2grid(GetGridCatDocArista());
             $().w2grid(GetGridCatModulo());
             $().w2grid(GetGridCatPerfil());            
             $().w2grid(GetGridCatPerfilMod());
+            $().w2grid(GetGridCatPerfilNod());
+            $().w2grid(GetGridCatPerfilClase());
             $().w2grid(GetGridCatTipoArea());                        
             $().w2grid(GetGridCatUsuario());
-            $().w2grid(GetGridCatUsuArea());            
+            $().w2grid(GetGridCatUsuArea()); 
+            $().w2grid(GetGridCatUsuPerfil()); 
             $().w2grid(GetGridCatTipoDoc());
             $().w2grid(GetGridCatDoc());
             $().w2grid(GetGridCatAfd());
             $().w2grid(GetGridCatAfdFlujo());
             $().w2grid(GetGridCatArista());
             $().w2grid(GetGridCatAristaComite());
+            $().w2grid(GetGridCatAristaComiteRubro());
             $().w2grid(GetGridCatAristaRes());
             $().w2grid(GetGridCatAristaRev());
+            $().w2grid(GetGridCatAristaRecRev());
             $().w2grid(GetGridCatAristaSubCla());
+            $().w2grid(GetGridCatAristaTipoInfo());
             $().w2grid(GetGridCatComiteRubro());
             $().w2grid(GetGridCatNodo());
             $().w2grid(GetGridCatNodoEstado());
+            $().w2grid(GetGridCatEstado());
             $().w2grid(GetGridCatTipoArista());
             $().w2grid(GetGridCatTipoInfo());
             $().w2grid(GetGridCatEntFed());
@@ -165,6 +178,7 @@
             $().w2grid(GetGridCatPais());
             $().w2grid(GetGridCatTipoSnt());
             $().w2grid(GetGridCatSolicitante());
+            $().w2grid(GetGridCatSolicitanteTipo());
             $().w2grid(GetGridCatProceso());
             $().w2grid(GetGridCatProcesoPlazos());
             $().w2grid(GetGridCatMedioEntrada());
@@ -184,54 +198,101 @@
 
         function gridActualizar (sEntidad, registros )
         {
+            console.log("grid: " + sEntidad );
+
             var  sObjGrid = "";
             var  sObjForma = "";
 
-            if (sEntidad == 'Área') {
+            if (sEntidad == 'Áreas') {
                 sObjGrid = 'gridCatArea';
                 sObjForma = 'formArea';
 
-            } else if (sEntidad == 'Catalogo') {
+            } else if (sEntidad == 'Áreas gestión') {
+                sObjGrid = 'gridCatAreaGestion';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Historico') {
+                sObjGrid = 'gridCatAreaHistorico';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas nivel ') {
+                sObjGrid = 'gridCatAreaNivel';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Organización') {
+                sObjGrid = 'gridCatAreaOrganizacion';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Áreas Tipo') {
+                sObjGrid = 'gridCatAreaTipo';
+                sObjForma = 'formCat';
+            }
+            else if (sEntidad == 'Catalogo') {
                 sObjGrid = 'gridCat';
                 sObjForma = 'formCat';
 
-            } else if (sEntidad == 'Configuración') {
+            } else if (sEntidad == 'Clases') {
+                sObjGrid = 'gridClase';
+                sObjForma = 'formCat';
+
+            }
+            else if (sEntidad == 'Configuración') {
                 sObjGrid = 'gridCatConfig';
                 sObjForma = 'formConfig';
-
-            } else if (sEntidad == 'Días laborales') {
+            }/*
+            else if (sEntidad == 'Estado') {
+                sObjGrid = 'gridCatEstado';
+                sObjForma = 'formConfig';
+            }*/
+            else if (sEntidad == 'Día no laboral') {
                 sObjGrid = 'gridCatDiaLab';
                 sObjForma = 'formDiaLab';
 
-            } else if (sEntidad == 'Módulos') {
+            } else if (sEntidad == 'Módulo') {
                 sObjGrid = 'gridCatModulo';
                 sObjForma = 'formModulo';
 
-            } else if (sEntidad == 'Pérfiles') {
+            } else if (sEntidad == 'Perfil') {
                 sObjGrid = 'gridCatPerfil';
                 sObjForma = 'formPerfil';
 
-            } else if (sEntidad == 'Perfil-Módulo') {
+            } else if (sEntidad == 'Perfil clases') {
+                sObjGrid = 'gridCatPerfilClase';
+                sObjForma = 'formPerfil';
+
+            }
+            else if (sEntidad == 'Perfil módulo') {
                 sObjGrid = 'gridCatPerfilMod';
                 sObjForma = 'formPerfilMod';
 
-            } else if (sEntidad == 'Tipo de área') {
+            } else if (sEntidad == 'Perfil nodo') {
+                sObjGrid = 'gridCatPerfilNod';
+                sObjForma = 'formPerfilMod';
+
+            }
+            else if (sEntidad == 'Tipo de área') {
                 sObjGrid = 'gridCatTipoArea';
                 sObjForma = 'formTipoArea';
 
-            } else if (sEntidad == 'Usuario') {
+            } else if (sEntidad == 'Usuario ') {
                 sObjGrid = 'gridCatUsuario';
                 sObjForma = 'formUsuario';
 
-            } else if (sEntidad == 'Usuario-Área') {
+            } else if (sEntidad == 'Usuario área') {
                 sObjGrid = 'gridCatUsuArea';
                 sObjForma = 'formUsuArea';
 
-            } else if (sEntidad == 'Doc-Arista') {
+            }
+            else if (sEntidad == 'Usuario perfil') {
+                sObjGrid = 'gridCatUsuPerfil';
+                sObjForma = 'formUsuArea';
+
+            }
+            else if (sEntidad == 'Doc-Arista') {
                 sObjGrid = 'gridCatDocArista';
                 sObjForma = 'formDocArista';
 
-            } else if (sEntidad == 'Tipo documento') {
+            } else if (sEntidad == 'Documento Extension') {
                 sObjGrid = 'gridCatTipoDoc';
                 sObjForma = 'formTipoDoc';
 
@@ -243,7 +304,7 @@
                 sObjGrid = 'gridCatAfd';
                 sObjForma = 'formAfd';
 
-            } else if (sEntidad == 'AFD_flujo') {
+            } else if (sEntidad == 'AFD flujo') {
                 sObjGrid = 'gridCatAfdFlujo';
                 sObjForma = 'formAfdFlujo';
 
@@ -251,11 +312,33 @@
                 sObjGrid = 'gridCatArista';
                 sObjForma = 'formArista';
 
-            } else if (sEntidad == 'Arista comite') {
+            } else if (sEntidad == 'Red arista') {
+                sObjGrid = 'gridCatArista';
+                sObjForma = 'formArista';
+
+            }
+            else if (sEntidad == 'Red nodo') {
+                sObjGrid = 'gridCatNodo';
+                sObjForma = 'formNodo';
+
+            }
+            else if (sEntidad == 'Red nodo estado') {
+                sObjGrid = 'gridCatNodoEstado';
+                sObjForma = 'formNodo';
+            }
+
+            else if (sEntidad == 'Arista comite') {
                 sObjGrid = 'gridCatAristaComite';
                 sObjForma = 'formAristaComite';
 
-            } else if (sEntidad == 'Arista resolución') {
+            }
+        
+            else if (sEntidad == 'Arista comite rubro') {
+            sObjGrid = 'gridCatAristaComiteRubro';
+            sObjForma = 'formAristaComite';
+
+            }
+            else if (sEntidad == 'Arista resolución') {
                 sObjGrid = 'gridCatAristaRes';
                 sObjForma = 'formAristaRes';
 
@@ -263,7 +346,17 @@
                 sObjGrid = 'gridCatAristaRev';
                 sObjForma = 'formAristaRev';
 
-            } else if (sEntidad == 'Arista subclasificar') {
+            } else if (sEntidad == 'Arista recurso revisión') {
+                sObjGrid = 'gridCatAristaRecRev';
+                sObjForma = 'formAristaRev';
+
+            }
+            else if (sEntidad == 'Arista tipo información') {
+                sObjGrid = 'gridCatAristaTipoInfo';
+                sObjForma = 'formAristaRev';
+
+            }
+            else if (sEntidad == 'Arista subclasificar') {
                 sObjGrid = 'gridCatAristaSubCla';
                 sObjForma = 'formAristaSubCla';
 
@@ -275,7 +368,7 @@
                 sObjGrid = 'gridCatNodoEstado';
                 sObjForma = 'formNodoEstado';
 
-            } else if (sEntidad == 'Tipo arista') {
+            } else if (sEntidad == 'Arista tipo') {
                 sObjGrid = 'gridCatTipoArista';
                 sObjForma = 'formTipoArista';
 
@@ -287,7 +380,7 @@
                 sObjGrid = 'gridCatNodo';
                 sObjForma = 'formNodo';
 
-            } else if (sEntidad == 'Entidad Federativa') {
+            } else if (sEntidad == 'Estado') {
                 sObjGrid = 'gridCatEntFed';
                 sObjForma = 'formEntFed';
 
@@ -295,7 +388,7 @@
                 sObjGrid = 'gridCatMunicipio';
                 sObjForma = 'formMunicipio';
 
-            } else if (sEntidad == 'Ocupacion') {
+            } else if (sEntidad == 'Ocupación') {
                 sObjGrid = 'gridCatOcupacion';
                 sObjForma = 'formOcupacion';
 
@@ -307,11 +400,16 @@
                 sObjGrid = 'gridCatTipoSnt';
                 sObjForma = 'formTipoSnt';
 
-            } else if (sEntidad == 'Solicitantes') {
+            } else if (sEntidad == 'Solicitante') {
                 sObjGrid = 'gridCatSolicitante';
                 sObjForma = 'formSolicitante';
 
-            } else if (sEntidad == 'Proceso') {
+            } else if (sEntidad == 'Solicitante tipo') {
+                sObjGrid = 'gridCatSolicitanteTipo';
+                sObjForma = 'formSolicitante';
+
+            }
+            else if (sEntidad == 'Proceso solicitud') {
                 sObjGrid = 'gridCatProceso';
                 sObjForma = 'formProceso';
 
@@ -319,11 +417,11 @@
                 sObjGrid = 'gridCatProcesoPlazos';
                 sObjForma = 'formProcesoPlazos';
 
-            } else if (sEntidad == 'Medio de entrada') {
+            } else if (sEntidad == 'Medio entrada') {
                 sObjGrid = 'gridCatMedioEntrada';
                 sObjForma = 'formMedioEntrada';
 
-            } else if (sEntidad == 'Modo de entrega') {
+            } else if (sEntidad == 'Medio entrega') {
                 sObjGrid = 'gridCatModoEntrega';
                 sObjForma = 'formModoEntrega';
 
@@ -347,6 +445,8 @@
                 sObjGrid = 'gridCatSolicitud';
                 sObjForma = 'formSolicitud';
             }
+           
+            console.log("selected: " + sObjGrid);
 
             AjustarPantalla('divDatos', 0.72, 0.76);
             

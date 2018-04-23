@@ -23,7 +23,7 @@ using System.Linq;
 namespace SFP.SIT.WEB.Controllers
 {
     public class AccountController : Controller
-    {        
+    {
         protected readonly DmlDbSer _sitDmlDbSer;
         protected readonly IHttpContextAccessor _httpContextAccessor;
         protected readonly ILogger _loggerAud;
@@ -32,14 +32,14 @@ namespace SFP.SIT.WEB.Controllers
 
         private LogViewModel _appLog;
 
-        public AccountController( ICacheWebSIT memCache, IHttpContextAccessor httpContextAccessor, 
+        public AccountController(ICacheWebSIT memCache, IHttpContextAccessor httpContextAccessor,
             ILogger<AccountController> logger, IHostingEnvironment app)
         {
             _memCache = memCache;
             _httpContextAccessor = httpContextAccessor;
             _app = app;
 
-            _sitDmlDbSer = new DmlDbSer( _memCache.ObtenerDato(CacheWebSIT.APP_BD_CONFIG) as BaseDbMdl );
+            _sitDmlDbSer = new DmlDbSer(_memCache.ObtenerDato(CacheWebSIT.APP_BD_CONFIG) as BaseDbMdl);
 
             _loggerAud = logger;
             _appLog = new LogViewModel();
@@ -62,11 +62,11 @@ namespace SFP.SIT.WEB.Controllers
                 _appLog.usuario = User.FindFirst(ConstantesWeb.Usuario.NOMBRE).Value;
                 _loggerAud.LogInformation(_appLog.ToString());
                 return RedirectToAction("Plazos", "Informacion");
-            }                
+            }
             else
-            {                
+            {
                 _appLog.opdesc = ConstantesWeb.LogMensajes.USUARIO_SESSION_EXPIRO;
-                _loggerAud.LogInformation(_appLog.ToString());                
+                _loggerAud.LogInformation(_appLog.ToString());
                 return View(new LoginViewModel());
             }
         }
@@ -85,10 +85,10 @@ namespace SFP.SIT.WEB.Controllers
 
                 dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCORREO, model.Email);
                 dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCONTRASEÑA, model.Password);
-                dicParam.Add(SIT_ADM_USUARIOAREADao.PARAM_FECHA, DateTime.Now );
+                dicParam.Add(SIT_ADM_USUARIOAREADao.PARAM_FECHA, DateTime.Now);
                 dicParam.Add(SeguridadSer.PARAM_IP, Request.HttpContext.Connection.RemoteIpAddress.ToString());
 
-                UsuarioViewModel usrMdl = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.ValidarUsuario), dicParam );
+                UsuarioViewModel usrMdl = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.ValidarUsuario), dicParam);
                 model.Password = "";
                 _appLog.data = JsonTransform.convertJson(model).ToString();
 
@@ -107,6 +107,13 @@ namespace SFP.SIT.WEB.Controllers
                     // EL USAURIO EXISTE..
                     _appLog.usuario = usrMdl.UsuarioNombre;
 
+                    /* Traer usuarios que comparte y guardarlos en el context*/
+                    usrMdl.usuarioBase = new Dictionary<int, string>() {
+                            { usrMdl.AdmUsuMdl.usrclave, usrMdl.UsuarioNombre }
+                        };
+
+                    usrMdl.usuariosCompartidos = (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), usrMdl.AdmUsuMdl.usrclave.ToString());
+
                     List<Claim> userClaims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, Convert.ToString(usrMdl.AdmUsuMdl.usrclave)),
@@ -116,19 +123,11 @@ namespace SFP.SIT.WEB.Controllers
                         new Claim(ConstantesWeb.Usuario.PERFILES,JsonTransform.Serializar(usrMdl.lstPerfil)),
                         new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(usrMdl.lstModulo)),
                         new Claim(ConstantesWeb.Usuario.CORREO, usrMdl.AdmUsuMdl.usrcorreo ),
+                        new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(usrMdl.usuariosCompartidos) ),
+                        new Claim(ConstantesWeb.Usuario.USUARIOBASE, Convert.ToString(usrMdl.AdmUsuMdl.usrclave) ),
                         new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, usrMdl.sCboPerfilArea ),
-                        new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(usrMdl.UsuarioActivo) ),
-                        new Claim(ConstantesWeb.Usuario.USUARIOBASE, JsonTransform.Serializar(usrMdl.usuarioBase) ),
-                        new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.Serializar(usrMdl.SharedUsers) )
+                        new Claim(ConstantesWeb.Usuario.USUARIOACTIVO, JsonTransform.Serializar(usrMdl.AdmUsuMdl.usractivo) ),
                     };
-
-                    /* Traer usuarios que comparte y guardarlos en el context*/
-                    usrMdl.usuarioBase = new Dictionary<int, string>() {
-                            { usrMdl.AdmUsuMdl.usrclave, usrMdl.UsuarioNombre }
-                        };
-                    usrMdl.usuariosCompartidos =  (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), usrMdl.AdmUsuMdl.usrclave.ToString());
-                    HttpContext.SetDataToSession<UsuarioViewModel>("User", usrMdl);
-                    
 
                     ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
                     await HttpContext.Authentication.SignInAsync("SitCookieMiddlewareInstance", principal,
@@ -143,7 +142,7 @@ namespace SFP.SIT.WEB.Controllers
                     _appLog.opdesc = "AutentificarSer.OPE_VALIDAR_USUARIO -" + ConstantesWeb.LogMensajes.USUARIO_AUTENTIFICADO;
                     return RedirectToAction("Plazos", "Informacion");
                 }
-            }         
+            }
             _loggerAud.LogInformation(_appLog.ToString());
             return View(model);
         }
@@ -151,11 +150,11 @@ namespace SFP.SIT.WEB.Controllers
         [HttpGet]
         //[ValidateAntiForgeryToken]
         // <-- Solo administradores pueden acceder a esta parte
-        public async Task<IActionResult> ImpersonateUser(String userId)
+        public async Task<IActionResult> ImpersonateUser(String userId, String userBase)
         {
             var identity = (System.Security.Claims.ClaimsIdentity)HttpContext.User.Identity;
             string currentUserId = identity.Name.ToString();
-            
+
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
@@ -168,7 +167,17 @@ namespace SFP.SIT.WEB.Controllers
             dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCLAVE, userId);
             dicParam.Add(SIT_ADM_USUARIOAREADao.PARAM_FECHA, DateTime.Now);
             dicParam.Add(SeguridadSer.PARAM_IP, Request.HttpContext.Connection.RemoteIpAddress.ToString());
-            UsuarioViewModel impersonatedUser  = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
+            UsuarioViewModel impersonatedUser = (UsuarioViewModel)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.EncontrarUsuario), dicParam);
+
+            // EL USAURIO EXISTE..
+            _appLog.usuario = impersonatedUser.UsuarioNombre;
+
+            /* Traer usuarios que comparte y guardarlos en el context*/
+            impersonatedUser.usuarioBase = new Dictionary<int, string>() {
+                            { impersonatedUser.AdmUsuMdl.usrclave, impersonatedUser.UsuarioNombre }
+                        };
+
+            impersonatedUser.usuariosCompartidos = (Dictionary<int, string>)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.GetUsuariosCompartidos), userBase.ToString());
 
 
             List<Claim> userClaims = new List<Claim>
@@ -181,8 +190,8 @@ namespace SFP.SIT.WEB.Controllers
                 new Claim(ConstantesWeb.Usuario.MODULOS,JsonTransform.Serializar(impersonatedUser.lstModulo)),
                 new Claim(ConstantesWeb.Usuario.CORREO, impersonatedUser.AdmUsuMdl.usrcorreo ),
                 new Claim(ConstantesWeb.Usuario.CBOPERFILAREA, impersonatedUser.sCboPerfilArea ),
-                new Claim(ConstantesWeb.Usuario.USUARIOBASE, currentUserId)
-                        
+                new Claim(ConstantesWeb.Usuario.SHAREDUSERS, JsonTransform.convertJsonDicToTable(impersonatedUser.usuariosCompartidos) ),
+                new Claim(ConstantesWeb.Usuario.USUARIOBASE, userBase)
             };
 
             ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
@@ -198,7 +207,7 @@ namespace SFP.SIT.WEB.Controllers
             _appLog.opdesc = "AutentificarSer.OPE_VALIDAR_USUARIO -" + ConstantesWeb.LogMensajes.USUARIO_AUTENTIFICADO;
             return RedirectToAction("Plazos", "Informacion");
 
-           
+
         }
 
         [HttpGet]
@@ -255,13 +264,13 @@ namespace SFP.SIT.WEB.Controllers
 
 
         // GET: /Account/ResetPassword
-        [HttpGet]        
+        [HttpGet]
         // public IActionResult ResetPassword(string code = null)
         // return code == null ? View("Error") : View();
-        public IActionResult ResetPassword ()
+        public IActionResult ResetPassword()
         {
             UsuContraseñaViewModel usuCtrVM = new UsuContraseñaViewModel();
-            usuCtrVM.correo =  User.FindFirst(ConstantesWeb.Usuario.CORREO).Value;
+            usuCtrVM.correo = User.FindFirst(ConstantesWeb.Usuario.CORREO).Value;
             return View(usuCtrVM);
         }
 
@@ -282,7 +291,7 @@ namespace SFP.SIT.WEB.Controllers
                 usuCtrVM.correo = User.FindFirst(ConstantesWeb.Usuario.CORREO).Value;
                 return View(usuCtrVM);
             }
-                
+
             usrMdl.usrcontraseña = contraseña;
             usrMdl.usrclave = Convert.ToInt32(User.FindFirst(ConstantesWeb.Usuario.CLAVE).Value);
             int ires = (int)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.CambiarContraseña), usrMdl);
@@ -388,7 +397,7 @@ namespace SFP.SIT.WEB.Controllers
             ////////}
         }
 
- 
+
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
@@ -422,7 +431,7 @@ namespace SFP.SIT.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                string sArchivoPath = _app.ContentRootPath + "\\" + ConstantesWeb.Carpetas.PLANTILLAS  + "\\OlvidarContraseña.html";
+                string sArchivoPath = _app.ContentRootPath + "\\" + ConstantesWeb.Carpetas.PLANTILLAS + "\\OlvidarContraseña.html";
                 string sMensaje = "";
 
                 if (System.IO.File.Exists(sArchivoPath))
@@ -430,14 +439,14 @@ namespace SFP.SIT.WEB.Controllers
                 else
                     sMensaje = "<html><head><meta http-equiv = 'Content- ype' content = 'text/html; charset=utf-8'></head><body><div><p>Estimado usuario</p><br/><p>Su contraseña ha sido modificada,</p><p>Favor de utilizar la siquiente cadena de caracteres como su nueva contraseña: | contraseña |</p><br/><p> Atentamente </p><p>Sistema de Transparencia de la SPF </p></div></body></html> ";
 
-                Dictionary < string, object> dicParam = new Dictionary<string, object>();
+                Dictionary<string, object> dicParam = new Dictionary<string, object>();
                 dicParam.Add(DButil.SIT_ADM_USUARIO_COL.USRCORREO, oUsuCtrVM.correo);
                 dicParam.Add(SeguridadSer.PARAM_ARCHIVO_MENSAJE, sMensaje);
                 dicParam.Add(SeguridadSer.PARAM_CFGCORREO, _memCache.ObtenerDato(CacheWebSIT.APP_CORREO_CONFIG) as CfgCorreoMdl);
-                
-                Boolean sRes = (Boolean )_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.OlvidarContraseña), dicParam);                
+
+                Boolean sRes = (Boolean)_sitDmlDbSer.operEjecutar<SeguridadSer>(nameof(SeguridadSer.OlvidarContraseña), dicParam);
                 if (sRes == true)
-                    return View("ForgotPasswordConfirmation");               
+                    return View("ForgotPasswordConfirmation");
                 else
                     return View(oUsuCtrVM);
             }
@@ -454,7 +463,7 @@ namespace SFP.SIT.WEB.Controllers
         {
             return View();
         }
-  
+
 
         //
         // GET: /Account/SendCode
@@ -472,7 +481,7 @@ namespace SFP.SIT.WEB.Controllers
             ////////return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
             return null;
         }
-   
+
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))

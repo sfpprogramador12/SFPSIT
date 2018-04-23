@@ -172,8 +172,8 @@ namespace SFP.Persistencia
         private void ReemplazarPrimero(ref StringBuilder sbOrigen, string sBuscar, string sReemplazar)
         {
             String sOriBuscar = sbOrigen.ToString();
-            
-            int iPosicion = string.CompareOrdinal(sOriBuscar, sBuscar);
+
+            int iPosicion = sOriBuscar.IndexOf(sBuscar, StringComparison.InvariantCulture); 
 
             if (iPosicion > -1)
                 sbOrigen.Replace(sBuscar, sReemplazar, iPosicion, sBuscar.Length);
