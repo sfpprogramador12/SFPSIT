@@ -30,6 +30,7 @@ using SFP.SIT.FLUJO;
 using Newtonsoft.Json.Linq;
 //using System.Web.Script.Serialization;
 using SFP.SIT.SERV.Model.ADM;
+using Newtonsoft.Json;
 
 namespace SFP.SIT.WEB.Controllers
 {
@@ -340,6 +341,16 @@ namespace SFP.SIT.WEB.Controllers
             sRes = _catViewMdl.lstAreaHist.ToString();
             return sRes;
 
+        }
+
+        [HttpPost]
+        public string FlujoAreasGuardarCambios(string JsonData)
+        {
+            JObject json  = JObject.Parse(JsonData);
+            //string first = json.fir;
+
+            AreaVM areasToSave = JsonConvert.DeserializeObject<AreaVM>(JsonData);
+            return "0";
         }
 
         [HttpGet]

@@ -334,7 +334,7 @@
                         w2ui['gridInfo3'].clear();
                         w2ui['gridInfo3'].add({recid: 0, titulo:'Tip. Solic.', valor:record.sotdescripcion});
                         w2ui['gridInfo3'].add({recid: 1, titulo:'For. Entrega', valor:record.megdescripcion});
-                        w2ui['gridInfo3'].add({recid: 2, titulo:'Rub. Tématico', valor:record.KRT_RUBRO});
+                        //w2ui['gridInfo3'].add({recid: 2, titulo:'Rub. Tématico', valor:record.KRT_RUBRO});
 
                         // MOSTRAMOS LAS ACCIONES DEL SUBMENU
                         $('#btnResponder').hide();
@@ -356,6 +356,10 @@
                         {
                             if (record.PRCCLAVE == _TipoProcesoSol && record.CARAC4 === 1 && record.CARAC5 != 1)
                                 $('#btnAmpliacion').show();
+                        }
+
+                        if ($("#cboPerfil").val() == "P3") {
+                            $("#btnSolicitudEditar").css("display", "block");
                         }
 
                         w2ui['gridSolBuscar'].set(record.recid, { nodfeclectura:"LEIDO"});
